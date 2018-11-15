@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { ConfigurationSectionComponent } from '../sections/Configuration/configuration-section-component'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule } from 'web-console-ui-kit'
+import { WebConsoleUIKitGridsterProviderModule, WebConsoleUIKitNgxChartsProviderModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 
 const appRoutes: Routes = [
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     WebConsoleCoreModule,
     WebConsoleUIKitCoreModule,
     WebConsoleUIKitDataModule,
+    WebConsoleUIKitKendoProviderModule,
     ConfigurationServiceModule
   ],
   providers: [ 

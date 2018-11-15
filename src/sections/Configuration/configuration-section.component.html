@@ -1,1 +1,9 @@
 <wc-dashboard-header [title]="'Configuration'"></wc-dashboard-header>
+
+<div class="row spread">
+    <div>
+        <label>Service</label>
+        <kendo-combobox [data]="servicesList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService"></kendo-combobox>
+    </div>
+
+</div>
