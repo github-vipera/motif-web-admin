@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { ConfigurationSectionComponent } from '../sections/Configuration/configuration-section-component'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule } from 'web-console-ui-kit'
+import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     GridModule,
     WebConsoleCoreModule,
     WebConsoleUIKitCoreModule,
-    WebConsoleUIKitDataModule
+    WebConsoleUIKitDataModule,
+    ConfigurationServiceModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
