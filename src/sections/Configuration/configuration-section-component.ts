@@ -4,9 +4,7 @@ import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { SettingsService } from '@wa-motif-open-api/configuration-service'
 
 export interface MotifService {
-    id:string;
     name:string;
-    description:string;
 }
 
 export interface MotifServicesList extends Array<MotifService> {
@@ -23,7 +21,7 @@ export interface MotifServicesList extends Array<MotifService> {
 export class ConfigurationSectionComponent implements OnInit {
 
     servicesList:MotifServicesList = []; //the list of available services
-    selectedService:MotifService; //the combobox selection
+    _selectedService:MotifService; //the combobox selection
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.info("Configuration Section" ,"Opening...");
@@ -31,24 +29,40 @@ export class ConfigurationSectionComponent implements OnInit {
     
     ngOnInit() {
         this.logger.debug("Configuration Section" ,"Initializing...");
-
+        //Reload the list of available configurable services
         this.refreshServiceList();
     }
 
+    /**
+     * Reload the list of availbale configurable services
+     */
     public refreshServiceList():void {
         this.logger.debug("Configuration Section" ,"refreshServiceList called.");
         this.settingsService.getServices().subscribe((response)=>{
+            this.servicesList = response;
             this.logger.debug("Configuration Section" ,"refreshServiceList done: ", response);
         }, (error)=>{
+            this.servicesList = [];
             this.logger.error("Configuration Section" ,"refreshServiceList error: ", error);
         });
+    }
 
-        this.servicesList = [
-            { "id": "123456", "name":"pippo", "description" : "pippo desc"},
-            { "id": "123457", "name":"pluto", "description" : "pluto desc"}
-        ];
+    /**
+     * Reload the list of parameters for a given service
+     * @param service 
+     */
+    private reloadConfigurationParams(service:MotifService){
+        //TODO!!
     }
     
-
+    @Input()
+    public set selectedService(service:MotifService){
+        this._selectedService = service;
+        if (this._selectedService){
+            this.reloadConfigurationParams(this._selectedService);
+        } else {
+            //TODO!!
+        }
+    }
 
 }
