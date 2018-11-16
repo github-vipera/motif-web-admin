@@ -11,7 +11,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
-import { ConfigurationSectionComponent } from '../sections/Configuration/configuration-section-component'
+import { ConfigurationSectionComponent } from './sections/Configuration/configuration-section-component'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule } from 'web-console-ui-kit'
 import { WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
