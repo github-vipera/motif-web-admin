@@ -23,7 +23,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              {
+                "input": "node_modules/@progress/kendo-theme-default/scss/all.scss"
+              },
+              "src/styles.css",
+              "src/assets/wc-uikit-kendo.css",
+              "src/assets/wc-uikit-toast.css",
+              "src/assets/wc-uikit-dashboard.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

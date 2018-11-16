@@ -47,8 +47,7 @@ const appRoutes: Routes = [
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
     { provide: WC_OAUTH_BASE_PATH, useValue: environment.OAUTH_BAS_PATH },
-    WebAdminModulesProvider,
-    WebConsoleUIKitKendoProviderModule
+    WebAdminModulesProvider
   ],
   bootstrap: [AppComponent],
   entryComponents: [

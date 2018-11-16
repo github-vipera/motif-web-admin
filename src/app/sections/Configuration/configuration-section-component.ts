@@ -22,7 +22,7 @@ export class ConfigurationSectionComponent implements OnInit {
 
     servicesList:MotifServicesList = []; //the list of available services
     _selectedService:MotifService; //the combobox selection
-
+    
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.info("Configuration Section" ,"Opening...");
     } 
