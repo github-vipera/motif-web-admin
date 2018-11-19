@@ -22,7 +22,8 @@ export class ConfigurationSectionComponent implements OnInit {
 
     servicesList:MotifServicesList = []; //the list of available services
     _selectedService:MotifService; //the combobox selection
-    
+    gridData = [];
+
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.info("Configuration Section" ,"Opening...");
     } 
@@ -55,6 +56,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
         this.settingsService.getSettings(service.name).subscribe((data)=>{
             this.logger.debug("Configuration Section" ,"reloadConfigurationParams done: ", data);
+            this.gridData = data;
         }, (error)=>{
             this.logger.error("Configuration Section" ,"reloadConfigurationParams error: ", error);
         });
