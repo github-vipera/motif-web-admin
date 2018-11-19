@@ -52,7 +52,12 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param service 
      */
     private reloadConfigurationParams(service:MotifService){
-        //TODO!!
+        this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
+        this.settingsService.getSettings(service.name).subscribe((data)=>{
+            this.logger.debug("Configuration Section" ,"reloadConfigurationParams done: ", data);
+        }, (error)=>{
+            this.logger.error("Configuration Section" ,"reloadConfigurationParams error: ", error);
+        });
     }
     
     @Input()
