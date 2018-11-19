@@ -111,4 +111,10 @@ kendo-popup {
 
 .k-button {
     font-size: 11px;
+    background: #525f69;
+    color: white;
+}
+
+.k-toolbar {
+    background: transparent;
 }

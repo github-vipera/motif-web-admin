@@ -12,22 +12,6 @@ module.exports = function (config) {
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
-    proxies: {
-      "/rest": {
-        "target": "http://ec2-34-209-90-152.us-west-2.compute.amazonaws.com:8080/",
-        "secure": false,
-        'changeOrigin': true
-      },
-      "/oauth": {
-        "target": "http://ec2-34-209-90-152.us-west-2.compute.amazonaws.com:8080/",
-        "secure": false,
-        'changeOrigin': true
-      },
-      '/api': {
-        'target': 'http://localhost:8080/api',
-        'changeOrigin': true
-      }
-    },
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },

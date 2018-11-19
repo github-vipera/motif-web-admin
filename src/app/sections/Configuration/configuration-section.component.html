@@ -1,17 +1,22 @@
 <wc-dashboard-header [title]="'Configuration'"></wc-dashboard-header>
 
 <div class="row spread">
-    <div class="flex-toolbar" style="display:flex;">
-        <div>
+    <div class="flex-toolbar" style="display:flex;align-items: center;">
+
+        <div style="margin-right:10px;width:60%;max-width: 400px;">
             <label>Service</label>
-            <kendo-combobox [data]="servicesList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService"></kendo-combobox>
-            </div>
-    <kendo-buttongroup>
+            <kendo-combobox [data]="servicesList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
+        </div>
+        
+        <div>
+            <label>&nbsp;</label>
+            <kendo-buttongroup>
                 <button kendoButton [toggleable]="false" [icon]="'save'">Save</button>
                 <button kendoButton [toggleable]="false" [icon]="'refresh'">Refresh</button>
                 <button kendoButton [toggleable]="false" [icon]="'arrow-down'">Export</button>
                 <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'">Add Property</button>
             </kendo-buttongroup>
+        </div>
     </div>
 
 </div>
