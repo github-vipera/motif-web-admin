@@ -23,8 +23,15 @@
 
 <div>
         <kendo-grid [data]="gridData" [height]="410" [loading]="loading"  (cellClick)="editClick($event)" (dblclick)="doubleClickFunction()"> 
-                <kendo-grid-column field="name" title="Name" width="360">
+
+                <kendo-grid-column
+                    field="name" title="Name" width="360">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <label class="k-icon grid-cell-dirty grid-cell-dirty-{{dataItem.dirty}}"></label>
+                            {{dataItem.name}}
+                        </ng-template>
                 </kendo-grid-column>
+
                 <kendo-grid-column field="value" title="Value" >
                 </kendo-grid-column>
                 <kendo-grid-column field="type" title="Type" width="150">

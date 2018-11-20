@@ -4,6 +4,7 @@ export class ConfigurationRow {
     public Dynamic:boolean = false;
     public Crypted:boolean = false;
     public Value: any;
+    public dirty: boolean = false;
 }
 
 export interface MotifService {
