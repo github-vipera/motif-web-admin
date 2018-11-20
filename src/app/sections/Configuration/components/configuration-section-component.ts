@@ -20,7 +20,7 @@ export class ConfigurationSectionComponent implements OnInit {
     _selectedRowData:ConfigurationRow;
     gridData = [];
     loading:boolean = false;
-    opened:boolean = false;
+    editDataItem:ConfigurationRow;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -91,7 +91,7 @@ export class ConfigurationSectionComponent implements OnInit {
     public doubleClickFunction(){
         this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
         this._selectedRowData.dirty = true;
-        this.opened = true;
+        this.editDataItem = this._selectedRowData;
         //TODO!!
     }
 

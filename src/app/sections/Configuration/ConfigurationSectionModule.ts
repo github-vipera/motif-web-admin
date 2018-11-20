@@ -6,8 +6,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
-
-//import { ConfigurationSectionEditFormComponent } from './editor-form.component'
+import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
 
 @NgModule({
     imports: [
@@ -17,7 +16,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
         ConfigurationSectionComponent
     ],
     declarations: [
-        ConfigurationSectionComponent
+        ConfigurationSectionComponent, ConfigurationSectionEditFormComponent
     ],
     exports: [ ConfigurationSectionComponent ]
   })
