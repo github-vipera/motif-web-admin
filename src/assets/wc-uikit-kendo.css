@@ -127,3 +127,37 @@ kendo-popup {
 .k-input {
     color: white;
 }
+
+/**
+
+.k-content, .k-window, .k-spreadsheet-filter-menu .k-spreadsheet-value-treeview-wrapper, .k-flatcolorpicker, .k-editor, .k-scheduler-agendaview tr.k-state-hover .k-scheduler-datecolumn, .k-scheduler-agendaview tr:hover .k-scheduler-datecolumn, .k-scheduler-agendaview tr:hover .k-scheduler-groupcolumn, .k-notification {
+    background-color: red;
+}
+
+.kendo-dialog > .k-content {
+    background-color: #323c40;
+}
+**/
+
+.k-dialog-titlebar {
+    color: #ffffff;
+    background-color: #67696b;
+    border: none;
+    border-bottom: solid 1px black;
+}
+
+.k-content.k-window-content.k-dialog-content {
+    background-color: #323c40;
+}
+
+.k-window-title {
+    font-size: 16px;
+}
+
+.k-dialog-wrapper .k-dialog {
+    border: solid 1px #000000a8;
+}
+
+.k-dialog-buttongroup .k-button {
+    padding: 0px;
+ }

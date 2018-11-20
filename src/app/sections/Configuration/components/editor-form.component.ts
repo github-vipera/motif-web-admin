@@ -8,7 +8,7 @@ import { ConfigurationRow } from '../data/model'
       'input[type=text] { width: 100%; }'
     ],
     template: `
-        <kendo-dialog *ngIf="active" (close)="closeForm()" [minWidth]="430"  [height]="400">
+        <kendo-dialog *ngIf="active" (close)="closeForm()" [minWidth]="431"  [height]="400">
           <kendo-dialog-titlebar>
             {{ isNew ? 'Add new Property' : 'Edit Property' }}
           </kendo-dialog-titlebar>
