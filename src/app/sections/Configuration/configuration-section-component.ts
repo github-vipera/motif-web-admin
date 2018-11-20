@@ -23,9 +23,10 @@ export class ConfigurationSectionComponent implements OnInit {
     servicesList:MotifServicesList = []; //the list of available services
     _selectedService:MotifService; //the combobox selection
     gridData = [];
+    loading:boolean = false;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
-        this.logger.info("Configuration Section" ,"Opening...");
+        this.logger.debug("Configuration Section" ,"Opening...");
     } 
     
     ngOnInit() {
@@ -54,21 +55,27 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     private reloadConfigurationParams(service:MotifService){
         this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
+        this.loading = true;
         this.settingsService.getSettings(service.name).subscribe((data)=>{
             this.logger.debug("Configuration Section" ,"reloadConfigurationParams done: ", data);
             this.gridData = data;
+            this.loading = false;
         }, (error)=>{
             this.logger.error("Configuration Section" ,"reloadConfigurationParams error: ", error);
+            this.loading = false;
         });
     }
     
+    /**
+     * User selection from Combobox
+     */
     @Input()
     public set selectedService(service:MotifService){
         this._selectedService = service;
         if (this._selectedService){
             this.reloadConfigurationParams(this._selectedService);
         } else {
-            //TODO!!
+            this.gridData = [];
         }
     }
 
