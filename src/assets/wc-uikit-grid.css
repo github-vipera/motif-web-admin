@@ -1,0 +1,12 @@
+.grid-cell-checkbox {
+    left: 50%;
+    transform: translate(-50%, 0px);
+}
+
+.grid-cell-checkbox-true:before {
+    content: "\e118"; 
+}
+
+.grid-cell-checkbox-true:false {
+    content: "\e121";
+}

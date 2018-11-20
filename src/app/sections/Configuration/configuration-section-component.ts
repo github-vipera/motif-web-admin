@@ -2,13 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { SettingsService } from '@wa-motif-open-api/configuration-service'
-
-export interface MotifService {
-    name:string;
-}
-
-export interface MotifServicesList extends Array<MotifService> {
-}
+import { MotifService, MotifServicesList, ConfigurationRow } from './data/model'
 
 @Component({
     selector: 'wa-configuration-section',
@@ -22,6 +16,8 @@ export class ConfigurationSectionComponent implements OnInit {
 
     servicesList:MotifServicesList = []; //the list of available services
     _selectedService:MotifService; //the combobox selection
+    _selectedRowIndex:number = -1;
+    _selectedRowData:ConfigurationRow;
     gridData = [];
     loading:boolean = false;
 
@@ -77,6 +73,23 @@ export class ConfigurationSectionComponent implements OnInit {
         } else {
             this.gridData = [];
         }
+    }
+
+    /**
+     * User selection on click
+     * @param param0 
+     */
+    public editClick({ dataItem, rowIndex, columnIndex }: any): void {
+        this._selectedRowData = dataItem;
+        this._selectedRowIndex = rowIndex;
+    }
+
+    /**
+     * Trigger the Edit Row
+     */
+    public doubleClickFunction(){
+        this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
+        //TODO!!
     }
 
 }
