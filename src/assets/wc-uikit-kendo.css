@@ -161,3 +161,15 @@ kendo-popup {
 .k-dialog-buttongroup .k-button {
     padding: 0px;
  }
+
+ .k-textbox, .k-textbox, .k-textarea, .k-textarea, .k-input.k-textbox, .k-input.k-textbox {
+    background-color: #535454;
+    color: white;
+}
+
+ .k-textbox:focus, .k-textbox.k-state-focus, .k-textarea:focus, .k-textarea.k-state-focus, .k-input.k-textbox:focus, .k-input.k-textbox.k-state-focus {
+    color: white;
+    background-color: #67696b;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
