@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
-import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
+import { NGXLogger} from 'web-console-core'
 import { SettingsService } from '@wa-motif-open-api/configuration-service'
-import { MotifService, MotifServicesList, ConfigurationRow } from './data/model'
+import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 
 @Component({
     selector: 'wa-configuration-section',
@@ -20,6 +20,7 @@ export class ConfigurationSectionComponent implements OnInit {
     _selectedRowData:ConfigurationRow;
     gridData = [];
     loading:boolean = false;
+    opened:boolean = false;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -90,6 +91,7 @@ export class ConfigurationSectionComponent implements OnInit {
     public doubleClickFunction(){
         this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
         this._selectedRowData.dirty = true;
+        this.opened = true;
         //TODO!!
     }
 

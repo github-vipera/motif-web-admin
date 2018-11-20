@@ -7,14 +7,12 @@ import { WebConsoleComponent, AuthGuard, WebConsoleCoreModule } from 'web-consol
 import { WebConsoleLoginComponent } from 'web-console-login'
 import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
-import { ConfigurationSectionComponent } from './sections/Configuration/configuration-section-component'
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule } from 'web-console-ui-kit'
-import { WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
-import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
+
+// Motif Web Admin Modules
+import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -24,8 +22,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ConfigurationSectionComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,  
@@ -37,12 +34,8 @@ const appRoutes: Routes = [
     WebAdminModulesProvider, 
     ToolBarModule, 
     BrowserAnimationsModule, 
-    GridModule,
     WebConsoleCoreModule,
-    WebConsoleUIKitCoreModule,
-    WebConsoleUIKitDataModule,
-    WebConsoleUIKitKendoProviderModule,
-    ConfigurationServiceModule
+    ConfigurationSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
@@ -51,7 +44,6 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    ConfigurationSectionComponent
   ]
 })
 export class AppModule { 
