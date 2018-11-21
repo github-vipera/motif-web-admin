@@ -5,6 +5,7 @@ import { SettingsService, ConfigurationsService } from '@wa-motif-open-api/confi
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import * as FileSaver from 'file-saver'
 
 @Component({
     selector: 'wa-configuration-section',
@@ -22,7 +23,7 @@ export class ConfigurationSectionComponent implements OnInit {
     public loading:boolean = false;
     public editDataItem:ConfigurationRow;
     public refreshCaption:string = "Refresh";
-    
+
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
     @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
 
@@ -30,7 +31,7 @@ export class ConfigurationSectionComponent implements OnInit {
     public isNewProperty : boolean = false;
     public canSave:boolean = false;
     public canRefresh:boolean = false;
-    public canExport:boolean = false;
+    public canExport:boolean = true;
     public canAddProperty:boolean = false;
 
     //internal
@@ -99,7 +100,7 @@ export class ConfigurationSectionComponent implements OnInit {
         if (service){
             this.setOptions(true, true, true, true);
         } else {
-            this.setOptions(false, false, false, false);
+            this.setOptions(false, false, true, false);
         }
     }
 
@@ -157,7 +158,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.gridData[this._selectedRowIndex] = this._selectedRowData;
         this.editDataItem = undefined;
         this.setDirty(true);
-        this.setOptions(true, true, false, true);
+        this.setOptions(true, true, true, true);
     }   
 
     /**
@@ -181,7 +182,7 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onRefreshClicked():void {
         if (this._dirty){
-            this.confirmationDialog.open("Warning",
+            this.confirmationDialog.open("Pending Changes",
                 "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
                 { "action" : "refresh" });
         } else {
@@ -200,8 +201,20 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onExportClicked(): void {
+        this.exportConfigurationFile();
+    }
+
+    /**
+     * Export current configuration
+     */
+    private exportConfigurationFile() : void {
         this.configurationService.downloadXml().subscribe((data)=>{
             this.logger.debug("Configuration Section" ,"Export done:", data);
+
+            let fileName = "motif_configuration_" + new Date().getTime() +".xml";
+            FileSaver.saveAs(data, fileName);   
+            this.logger.debug("Configuration Section" ,"Configuration saved: ", fileName);
+
         }, (error)=>{
             this.logger.error("Configuration Section" ,"Export error:", error);
         });
