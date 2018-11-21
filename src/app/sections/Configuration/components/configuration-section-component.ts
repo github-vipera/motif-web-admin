@@ -15,23 +15,29 @@ import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
     iconName: "ico-configuration" 
   })
 export class ConfigurationSectionComponent implements OnInit {
- 
-    servicesList:MotifServicesList = []; //the list of available services
-    _selectedService:MotifService; //the combobox selection
-    _selectedRowIndex:number = -1;
-    _selectedRowData:ConfigurationRow;
-    gridData = [];
-    loading:boolean = false;
-    editDataItem:ConfigurationRow;
-    _dirty:boolean = false;
+    
+    // Data binding
+    public servicesList:MotifServicesList = []; //the list of available services
+    public gridData = [];
+    public loading:boolean = false;
+    public editDataItem:ConfigurationRow;
+    public refreshCaption:string = "Refresh";
+    
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
     @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
-    refreshCaption:string = "Refresh";
-    isNewProperty : boolean = false;
-    canSave:boolean = false;
-    canRefresh:boolean = false;
-    canExport:boolean = false;
-    canAddProperty:boolean = false;
+
+    //Buttons
+    public isNewProperty : boolean = false;
+    public canSave:boolean = false;
+    public canRefresh:boolean = false;
+    public canExport:boolean = false;
+    public canAddProperty:boolean = false;
+
+    //internal
+    private _dirty:boolean = false;
+    private _selectedService:MotifService; //the combobox selection
+    private _selectedRowIndex:number = -1;
+    private _selectedRowData:ConfigurationRow;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -78,6 +84,7 @@ export class ConfigurationSectionComponent implements OnInit {
         }
         this.selectRow(undefined,-1);
         this.setDirty(false);
+        this.setOptions(true, true, true, true);
     }
     
     /**
@@ -148,6 +155,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.gridData[this._selectedRowIndex] = this._selectedRowData;
         this.editDataItem = undefined;
         this.setDirty(true);
+        this.setOptions(true, true, false, true);
     }   
 
     /**
