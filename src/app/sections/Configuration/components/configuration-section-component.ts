@@ -58,15 +58,21 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     private reloadConfigurationParamsForService(service:MotifService){
         this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
-        this.loading = true;
-        this.settingsService.getSettings(service.name).subscribe((data)=>{
-            this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
-            this.gridData = data;
-            this.loading = false;
-        }, (error)=>{
-            this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
-            this.loading = false;
-        });
+        if (service){
+            this.loading = true;
+            this.settingsService.getSettings(service.name).subscribe((data)=>{
+                this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
+                this.gridData = data;
+                this.loading = false;
+            }, (error)=>{
+                this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
+                this.loading = false;
+            });
+        } else {
+            this.gridData = [];
+        }
+        this.selectRow(undefined,-1);
+        this.setDirty(false);
     }
     
     /**
@@ -78,13 +84,11 @@ export class ConfigurationSectionComponent implements OnInit {
         this.reloadConfigurationParams();
     }
 
+    /**
+     * Reload current configuration for the current selected service
+     */
     private reloadConfigurationParams():void {
-        if (this._selectedService){
-            this.reloadConfigurationParamsForService(this._selectedService);
-        } else {
-            this.gridData = [];
-        }
-        this.setDirty(false);
+        this.reloadConfigurationParamsForService(this._selectedService);
     }
 
     /**
@@ -92,6 +96,15 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param param0 
      */
     public editClick({ dataItem, rowIndex, columnIndex }: any): void {
+        this.selectRow(dataItem,  rowIndex);
+    }
+
+    /**
+     * Set the current selection
+     * @param dataItem 
+     * @param rowIndex 
+     */
+    private selectRow(dataItem, rowIndex):void {
         this._selectedRowData = dataItem;
         this._selectedRowIndex = rowIndex;
     }
@@ -126,6 +139,10 @@ export class ConfigurationSectionComponent implements OnInit {
         this.setDirty(true);
     }   
 
+    /**
+     * Set the dirty flag that indicates that some changes are made on current dataset
+     * @param dirty 
+     */
     private setDirty(dirty:boolean):void{
         if (dirty){
             this._dirty = true;
@@ -151,14 +168,23 @@ export class ConfigurationSectionComponent implements OnInit {
         }
     }
 
+    /**
+     * Button event
+     */
     onSaveClicked():void {
         alert("onSaveClicked!");
     }
 
+    /**
+     * Button event
+     */
     onExportClicked(): void{
         alert("onExportClicked!");
     }
 
+    /**
+     * Button event
+     */
     onAddPropertyClicked(): void{
         alert("onAddPropertyClicked!");
     }
