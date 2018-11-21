@@ -13,10 +13,10 @@
         <div>
             <label>&nbsp;</label>
             <kendo-buttongroup>
-                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()">Save</button>
-                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">{{refreshCaption}}</button>
-                <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onExportClicked()">Export</button>
-                <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()">Add Property</button>
+                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!canSave">Save</button>
+                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">{{refreshCaption}}</button>
+                <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onExportClicked()" [disabled]="!canExport">Export</button>
+                <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty">Add Property</button>
             </kendo-buttongroup>
         </div>
     </div>
@@ -57,7 +57,7 @@
 
             </kendo-grid>
 
-            <configuration-section-edit-form [model]="editDataItem" (cancel)="onEditCancel()" (save)="onEditCommit($event)"></configuration-section-edit-form>
+            <configuration-section-edit-form [model]="editDataItem" (cancel)="onEditCancel()" (save)="onEditCommit($event)" [isNew]="isNewProperty"></configuration-section-edit-form>
 
 
 </div>

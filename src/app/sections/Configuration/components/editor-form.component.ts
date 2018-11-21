@@ -72,6 +72,7 @@ import { ConfigurationRow } from '../data/model'
 })
 export class ConfigurationSectionEditFormComponent {
     public active = false;
+    
     public editForm: FormGroup = new FormGroup({
         'name': new FormControl('', Validators.required),
         'type': new FormControl('', Validators.required),

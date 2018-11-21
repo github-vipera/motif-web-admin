@@ -27,6 +27,11 @@ export class ConfigurationSectionComponent implements OnInit {
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
     @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
     refreshCaption:string = "Refresh";
+    isNewProperty : boolean = false;
+    canSave:boolean = false;
+    canRefresh:boolean = false;
+    canExport:boolean = false;
+    canAddProperty:boolean = false;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -82,6 +87,11 @@ export class ConfigurationSectionComponent implements OnInit {
     public set selectedService(service:MotifService){
         this._selectedService = service;
         this.reloadConfigurationParams();
+        if (service){
+            this.setOptions(true, true, true, true);
+        } else {
+            this.setOptions(false, false, false, false);
+        }
     }
 
     /**
@@ -115,6 +125,7 @@ export class ConfigurationSectionComponent implements OnInit {
     public doubleClickFunction(){
         this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
         //Open the editor
+        this.isNewProperty = false;
         this.editDataItem = this._selectedRowData;
     }
 
@@ -186,7 +197,11 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onAddPropertyClicked(): void{
-        alert("onAddPropertyClicked!");
+        //alert("onAddPropertyClicked!");
+        //Open the editor
+        let newDataItem = new ConfigurationRow();
+        this.isNewProperty = true;
+        this.editDataItem = newDataItem;
     }
 
     /**
@@ -207,6 +222,20 @@ export class ConfigurationSectionComponent implements OnInit {
         if (userData && userData.action==="refresh"){
             this.reloadConfigurationParams();
         }
+    }
+
+    /**
+     * Enable or disable buttons
+     * @param canSave 
+     * @param canRefresh 
+     * @param canExport 
+     * @param canAddProperty 
+     */
+    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddProperty:boolean) : void {
+        this.canSave = canSave;
+        this.canRefresh = canRefresh;
+        this.canExport = canExport;
+        this.canAddProperty = canAddProperty;
     }
 
 }
