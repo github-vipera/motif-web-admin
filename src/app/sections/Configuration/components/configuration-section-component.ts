@@ -4,6 +4,7 @@ import { NGXLogger} from 'web-console-core'
 import { SettingsService } from '@wa-motif-open-api/configuration-service'
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 @Component({
     selector: 'wa-configuration-section',
@@ -24,6 +25,8 @@ export class ConfigurationSectionComponent implements OnInit {
     editDataItem:ConfigurationRow;
     _dirty:boolean = false;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
+    @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
+    refreshCaption:string = "Refresh";
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -81,6 +84,7 @@ export class ConfigurationSectionComponent implements OnInit {
         } else {
             this.gridData = [];
         }
+        this.setDirty(false);
     }
 
     /**
@@ -119,7 +123,19 @@ export class ConfigurationSectionComponent implements OnInit {
         this._selectedRowData.dirty = true;
         this.gridData[this._selectedRowIndex] = this._selectedRowData;
         this.editDataItem = undefined;
-        this._dirty = true;
+        this.setDirty(true);
+    }   
+
+    private setDirty(dirty:boolean):void{
+        if (dirty){
+            this._dirty = true;
+            this.servicesComboBox.disabled = true;
+            this.refreshCaption = "Revert Changes";
+        } else {
+            this._dirty = false;
+            this.servicesComboBox.disabled = false;
+            this.refreshCaption = "Refresh";
+        }
     }
 
     /**
