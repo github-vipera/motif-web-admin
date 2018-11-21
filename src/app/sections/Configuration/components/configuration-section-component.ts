@@ -136,10 +136,7 @@ export class ConfigurationSectionComponent implements OnInit {
     }
 
     onSaveClicked():void {
-        this.logger.debug("Configuration Section" ,"onSaveClicked");
-        this.confirmationDialog.open("Warning",
-            "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
-            { "action" : "refresh" });
+        alert("onSaveClicked!");
     }
 
     onExportClicked(): void{
@@ -169,5 +166,5 @@ export class ConfigurationSectionComponent implements OnInit {
             this.reloadConfigurationParams();
         }
     }
-    
+
 }
