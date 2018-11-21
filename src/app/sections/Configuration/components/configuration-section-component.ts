@@ -150,10 +150,18 @@ export class ConfigurationSectionComponent implements OnInit {
         alert("onAddPropertyClicked!");
     }
 
+    /**
+     * Event emitted by the confirmation dialog
+     * @param userData 
+     */
     onConfirmationCancel(userData):void {
         this.logger.debug("Configuration Section" ,"onConfirmationCancel for:", userData);
     }
 
+    /**
+     * Event emitted by the confirmation dialog
+     * @param userData 
+     */
     onConfirmationOK(userData):void {
         this.logger.debug("Configuration Section" ,"onConfirmationOK for:", userData);
 
@@ -161,4 +169,5 @@ export class ConfigurationSectionComponent implements OnInit {
             this.reloadConfigurationParams();
         }
     }
+    
 }
