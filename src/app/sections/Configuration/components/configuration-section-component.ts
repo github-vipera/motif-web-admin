@@ -129,6 +129,22 @@ export class ConfigurationSectionComponent implements OnInit {
         this._selectedRowIndex = rowIndex;
     }
 
+        /**
+     * Export current configuration
+     */
+    private exportConfigurationFile() : void {
+        this.configurationService.downloadXml().subscribe((data)=>{
+            this.logger.debug("Configuration Section" ,"Export done:", data);
+
+            let fileName = "motif_configuration_" + new Date().getTime() +".xml";
+            FileSaver.saveAs(data, fileName);   
+            this.logger.debug("Configuration Section" ,"Configuration saved: ", fileName);
+
+        }, (error)=>{
+            this.logger.error("Configuration Section" ,"Export error:", error);
+        });
+    }
+
     /**
      * Trigger the Edit Row
      */
@@ -205,19 +221,10 @@ export class ConfigurationSectionComponent implements OnInit {
     }
 
     /**
-     * Export current configuration
+     * Button event
      */
-    private exportConfigurationFile() : void {
-        this.configurationService.downloadXml().subscribe((data)=>{
-            this.logger.debug("Configuration Section" ,"Export done:", data);
-
-            let fileName = "motif_configuration_" + new Date().getTime() +".xml";
-            FileSaver.saveAs(data, fileName);   
-            this.logger.debug("Configuration Section" ,"Configuration saved: ", fileName);
-
-        }, (error)=>{
-            this.logger.error("Configuration Section" ,"Export error:", error);
-        });
+    onImportClicked():void {
+        //TODO!!
     }
 
     /**
