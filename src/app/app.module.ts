@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     { provide: WC_OAUTH_BASE_PATH, useValue: environment.OAUTH_BAS_PATH },
     WebAdminModulesProvider
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [ AppComponent ],
   entryComponents: [
   ]
 })

@@ -1,5 +1,7 @@
 <wc-dashboard-header [title]="'Configuration'"></wc-dashboard-header>
 
+<wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
+
 <div class="row spread">
     <div class="flex-toolbar" style="display:flex;align-items: center;">
 
@@ -11,10 +13,10 @@
         <div>
             <label>&nbsp;</label>
             <kendo-buttongroup>
-                <button kendoButton [toggleable]="false" [icon]="'save'">Save</button>
-                <button kendoButton [toggleable]="false" [icon]="'refresh'">Refresh</button>
-                <button kendoButton [toggleable]="false" [icon]="'arrow-down'">Export</button>
-                <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'">Add Property</button>
+                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()">Save</button>
+                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">Refresh</button>
+                <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onExportClicked()">Export</button>
+                <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()">Add Property</button>
             </kendo-buttongroup>
         </div>
     </div>

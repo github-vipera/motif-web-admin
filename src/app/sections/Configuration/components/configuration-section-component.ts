@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { SettingsService } from '@wa-motif-open-api/configuration-service'
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
+import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 
 @Component({
     selector: 'wa-configuration-section',
@@ -13,7 +14,7 @@ import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model
     iconName: "ico-configuration" 
   })
 export class ConfigurationSectionComponent implements OnInit {
-
+ 
     servicesList:MotifServicesList = []; //the list of available services
     _selectedService:MotifService; //the combobox selection
     _selectedRowIndex:number = -1;
@@ -21,6 +22,8 @@ export class ConfigurationSectionComponent implements OnInit {
     gridData = [];
     loading:boolean = false;
     editDataItem:ConfigurationRow;
+    _dirty:boolean = false;
+    @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
 
     constructor(private logger: NGXLogger, private settingsService:SettingsService){
         this.logger.debug("Configuration Section" ,"Opening...");
@@ -50,15 +53,15 @@ export class ConfigurationSectionComponent implements OnInit {
      * Reload the list of parameters for a given service
      * @param service 
      */
-    private reloadConfigurationParams(service:MotifService){
+    private reloadConfigurationParamsForService(service:MotifService){
         this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
         this.loading = true;
         this.settingsService.getSettings(service.name).subscribe((data)=>{
-            this.logger.debug("Configuration Section" ,"reloadConfigurationParams done: ", data);
+            this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
             this.gridData = data;
             this.loading = false;
         }, (error)=>{
-            this.logger.error("Configuration Section" ,"reloadConfigurationParams error: ", error);
+            this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
             this.loading = false;
         });
     }
@@ -69,8 +72,12 @@ export class ConfigurationSectionComponent implements OnInit {
     @Input()
     public set selectedService(service:MotifService){
         this._selectedService = service;
+        this.reloadConfigurationParams();
+    }
+
+    private reloadConfigurationParams():void {
         if (this._selectedService){
-            this.reloadConfigurationParams(this._selectedService);
+            this.reloadConfigurationParamsForService(this._selectedService);
         } else {
             this.gridData = [];
         }
@@ -112,6 +119,46 @@ export class ConfigurationSectionComponent implements OnInit {
         this._selectedRowData.dirty = true;
         this.gridData[this._selectedRowIndex] = this._selectedRowData;
         this.editDataItem = undefined;
+        this._dirty = true;
     }
 
+    /**
+     * Button event
+     */
+    onRefreshClicked():void {
+        if (this._dirty){
+            this.confirmationDialog.open("Warning",
+                "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
+                { "action" : "refresh" });
+        } else {
+            this.reloadConfigurationParams();
+        }
+    }
+
+    onSaveClicked():void {
+        this.logger.debug("Configuration Section" ,"onSaveClicked");
+        this.confirmationDialog.open("Warning",
+            "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
+            { "action" : "refresh" });
+    }
+
+    onExportClicked(): void{
+        alert("onExportClicked!");
+    }
+
+    onAddPropertyClicked(): void{
+        alert("onAddPropertyClicked!");
+    }
+
+    onConfirmationCancel(userData):void {
+        this.logger.debug("Configuration Section" ,"onConfirmationCancel for:", userData);
+    }
+
+    onConfirmationOK(userData):void {
+        this.logger.debug("Configuration Section" ,"onConfirmationOK for:", userData);
+
+        if (userData && userData.action==="refresh"){
+            this.reloadConfigurationParams();
+        }
+    }
 }

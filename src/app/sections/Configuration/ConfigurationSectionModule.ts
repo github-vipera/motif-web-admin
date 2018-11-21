@@ -7,6 +7,7 @@ import { ConfigurationSectionComponent } from './components/configuration-sectio
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
+import { ConfirmationDialogComponent } from '../../components/ConfirmationDialog/confirmation-dialog-component'
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import { ConfigurationSectionEditFormComponent } from './components/editor-form.
         ConfigurationSectionComponent
     ],
     declarations: [
-        ConfigurationSectionComponent, ConfigurationSectionEditFormComponent
+        ConfigurationSectionComponent, ConfigurationSectionEditFormComponent, ConfirmationDialogComponent
     ],
     exports: [ ConfigurationSectionComponent ]
   })
