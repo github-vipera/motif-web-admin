@@ -90,9 +90,14 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     public doubleClickFunction(){
         this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
-        this._selectedRowData.dirty = true;
+        //this._selectedRowData.dirty = true;
         this.editDataItem = this._selectedRowData;
         //TODO!!
+    }
+
+    onEditCancel():void {
+        this.logger.debug("Configuration Section" ,"On Edit Cancelled");
+        this.editDataItem = undefined;
     }
 
 }

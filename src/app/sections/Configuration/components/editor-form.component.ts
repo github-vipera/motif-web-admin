@@ -15,21 +15,21 @@ import { ConfigurationRow } from '../data/model'
             
             <form novalidate [formGroup]="editForm">
                 <div class="wc-form-group">
-                    <label for="Name" class="control-label">Name</label>
-                    <input type="text" class="k-textbox" formControlName="Name" />
+                    <label for="name" class="control-label">Name</label>
+                    <input type="text" class="k-textbox" formControlName="name" />
                     <div
                         class="k-tooltip k-tooltip-validation wc-form-group-tooltip"
-                        [hidden]="editForm.controls.Name.valid || editForm.controls.Name.pristine">
+                        [hidden]="editForm.controls.name.valid || editForm.controls.name.pristine">
                         Property Name is required
                     </div>
                 </div>
 
                 <div class="wc-form-group">
-                    <label for="Type" class="control-label">Type</label>
-                    <input type="text" class="k-textbox" formControlName="Type" />
+                    <label for="type" class="control-label">Type</label>
+                    <input type="text" class="k-textbox" formControlName="type" />
                     <div
                         class="k-tooltip k-tooltip-validation wc-form-group-tooltip"
-                        [hidden]="editForm.controls.Type.valid || editForm.controls.Type.pristine">
+                        [hidden]="editForm.controls.type.valid || editForm.controls.type.pristine">
                         Type is required
                     </div>
                 </div>
@@ -38,22 +38,22 @@ import { ConfigurationRow } from '../data/model'
                     <label>
                         Dynamic
                     </label>
-                    <input type="checkbox" formControlName="Dynamic" />
+                    <input type="checkbox" formControlName="dynamic" />
                     </div>
 
                 <div class="wc-form-group">
                     <label>
                         Crypted
                     </label>
-                    <input type="checkbox" formControlName="Crypted" />
+                    <input type="checkbox" formControlName="crypted" />
                     </div>
 
                 <div class="wc-form-group">
-                    <label for="Value" class="control-label">Value</label>
-                    <input type="text" class="k-textbox" formControlName="Value" />
+                    <label for="value" class="control-label">Value</label>
+                    <input type="text" class="k-textbox" formControlName="value" />
                     <div
                         class="k-tooltip k-tooltip-validation"
-                        [hidden]="editForm.controls.Value.valid || editForm.controls.Value.pristine">
+                        [hidden]="editForm.controls.value.valid || editForm.controls.value.pristine">
                         Type is required
                     </div>
                 </div>
@@ -73,11 +73,11 @@ import { ConfigurationRow } from '../data/model'
 export class ConfigurationSectionEditFormComponent {
     public active = false;
     public editForm: FormGroup = new FormGroup({
-        'Name': new FormControl('', Validators.required),
-        'Type': new FormControl('', Validators.required),
-        'Dynamic': new FormControl(false),
-        'Crypted': new FormControl(false),
-        'Value': new FormControl()
+        'name': new FormControl('', Validators.required),
+        'type': new FormControl('', Validators.required),
+        'dynamic': new FormControl(false),
+        'crypted': new FormControl(false),
+        'value': new FormControl()
     });
 
     @Input() public isNew = false;
@@ -103,6 +103,7 @@ export class ConfigurationSectionEditFormComponent {
 
     private closeForm(): void {
         this.active = false;
+        this.model = undefined;
         this.cancel.emit();
     }
 }
