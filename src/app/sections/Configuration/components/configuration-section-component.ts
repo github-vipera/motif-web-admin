@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
-import { SettingsService } from '@wa-motif-open-api/configuration-service'
+import { SettingsService, ConfigurationsService } from '@wa-motif-open-api/configuration-service'
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
@@ -39,7 +39,9 @@ export class ConfigurationSectionComponent implements OnInit {
     private _selectedRowIndex:number = -1;
     private _selectedRowData:ConfigurationRow;
 
-    constructor(private logger: NGXLogger, private settingsService:SettingsService){
+    constructor(private logger: NGXLogger, 
+        private settingsService:SettingsService,
+        private configurationService:ConfigurationsService){
         this.logger.debug("Configuration Section" ,"Opening...");
     } 
     
@@ -197,8 +199,12 @@ export class ConfigurationSectionComponent implements OnInit {
     /**
      * Button event
      */
-    onExportClicked(): void{
-        alert("onExportClicked!");
+    onExportClicked(): void {
+        this.configurationService.downloadXml().subscribe((data)=>{
+            this.logger.debug("Configuration Section" ,"Export done:", data);
+        }, (error)=>{
+            this.logger.error("Configuration Section" ,"Export error:", error);
+        });
     }
 
     /**
