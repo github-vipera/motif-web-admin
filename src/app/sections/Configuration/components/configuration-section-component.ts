@@ -90,13 +90,27 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     public doubleClickFunction(){
         this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
-        //this._selectedRowData.dirty = true;
+        //Open the editor
         this.editDataItem = this._selectedRowData;
-        //TODO!!
     }
 
+    /**
+     * Event emitted by the editor form
+     */
     onEditCancel():void {
         this.logger.debug("Configuration Section" ,"On Edit Cancelled");
+        this.editDataItem = undefined;
+    }
+
+    /**
+     * Event emitted by the editor form
+     * @param configurationRow  the new value
+     */
+    onEditCommit(configurationRow:ConfigurationRow):void {
+        this.logger.debug("Configuration Section" ,"On Edit Committed for ", configurationRow);
+        this._selectedRowData = configurationRow;
+        this._selectedRowData.dirty = true;
+        this.gridData[this._selectedRowIndex] = this._selectedRowData;
         this.editDataItem = undefined;
     }
 
