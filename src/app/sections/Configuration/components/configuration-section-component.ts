@@ -116,7 +116,7 @@ export class ConfigurationSectionComponent implements OnInit {
                 this.loading = false;
             });
         } else {
-            this.editService.read([] , this._editServiceConfig);
+            this.editService.read([], this._editServiceConfig);
         }
         this.setOptions(true, true, true, true);
     }

@@ -45,13 +45,16 @@ export class EditService extends BehaviorSubject<any[]> {
     public read(data:any, configuration:EditServiceConfiguration) {
         this.configuration = configuration;
 
+        /*
         if (this.data.length) {
             return super.next(this.data);
         }
-
+        */
+       
         this.data = data;
         this.originalData = cloneData(data);
         super.next(data);
+        return super.next(this.data);
     }
 
     public create(item: any): void {
@@ -144,7 +147,7 @@ export class EditService extends BehaviorSubject<any[]> {
         Object.assign(target, source);
     }
 
-    private reset() {
+    public reset() {
         this.data = [];
         this.deletedItems = [];
         this.updatedItems = [];
