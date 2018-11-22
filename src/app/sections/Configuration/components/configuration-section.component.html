@@ -30,8 +30,8 @@
 
 </div>
 
-<div>
-        <kendo-grid #datagrid [data]="view | async" [height]="410" 
+<div class="row">
+        <kendo-grid #datagrid [data]="view | async" 
                 [loading]="loading"  
                 (cellClick)="cellClickHandler($event)"
                 (cellClose)="cellCloseHandler($event)"
