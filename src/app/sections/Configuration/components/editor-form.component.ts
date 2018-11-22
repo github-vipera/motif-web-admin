@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { ConfigurationRow } from '../data/model'
+import { ConfigurationRow, DataType } from '../data/model'
+
+interface DataType {
+    name:string;
+    value:string;
+}
+
 
 @Component({
     selector: 'configuration-section-edit-form',
@@ -26,12 +32,7 @@ import { ConfigurationRow } from '../data/model'
 
                 <div class="wc-form-group">
                     <label for="type" class="control-label">Type</label>
-                    <input type="text" class="k-textbox" formControlName="type" />
-                    <div
-                        class="k-tooltip k-tooltip-validation wc-form-group-tooltip"
-                        [hidden]="editForm.controls.type.valid || editForm.controls.type.pristine">
-                        Type is required
-                    </div>
+                    <kendo-combobox formControlName="type" [data]="dataTypes" [textField]="'name'" [valueField]="'value'"  [valuePrimitive]="true" required></kendo-combobox>
                 </div>
 
                 <div class="wc-form-group">
@@ -61,8 +62,6 @@ import { ConfigurationRow } from '../data/model'
 
             </form>
 
-            
-
             <kendo-dialog-actions>
                 <button class="k-button" (click)="onCancel($event)">Cancel</button>
                 <button class="k-button k-primary" [disabled]="!editForm.valid" (click)="onSave($event)">Save</button>
@@ -72,14 +71,22 @@ import { ConfigurationRow } from '../data/model'
 })
 export class ConfigurationSectionEditFormComponent {
     public active = false;
-    
+
     public editForm: FormGroup = new FormGroup({
         'name': new FormControl('', Validators.required),
-        'type': new FormControl('', Validators.required),
+        'type': new FormControl({name:"", value:""}),
         'dynamic': new FormControl(false),
         'crypted': new FormControl(false),
         'value': new FormControl()
     });
+
+    @Input() public dataTypes = [ 
+            {name:"java.lang.String", value:"java.lang.String"},
+            {name:"java.lang.Double", value:"java.lang.Double"},
+            {name:"java.lang.Integer", value:"java.lang.Integer"}
+            {name:"java.lang.Long", value:"java.lang.Long"},
+            {name:"java.lang.Boolean",value:"java.lang.Boolean"},
+            {name:"Password", value:"password"}];
 
     @Input() public isNew = false;
 
@@ -91,7 +98,11 @@ export class ConfigurationSectionEditFormComponent {
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() save: EventEmitter<ConfigurationRow> = new EventEmitter();
 
+    selectedDataType:DataType;
+
     public onSave(e): void {
+        console.log(">>> form value:", this.editForm.controls["type"].value);
+        console.log(">>> form value:", this.editForm.value);
         e.preventDefault();
         this.save.emit(this.editForm.value);
         this.active = false;
