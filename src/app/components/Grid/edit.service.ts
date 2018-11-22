@@ -55,6 +55,7 @@ export class EditService extends BehaviorSubject<any[]> {
     }
 
     public create(item: any): void {
+        item[this.configuration.dirtyField]= "true";
         this.createdItems.push(item);
         this.data.unshift(item);
 
