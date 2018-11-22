@@ -45,7 +45,7 @@
     "rxjs-compat": "^6.3.3",
     "web-console-core": "0.0.17",
     "web-console-login": "0.0.2",
-    "web-console-ui-kit": "^0.1.3",
+    "web-console-ui-kit": "^0.1.4",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

@@ -15,6 +15,8 @@ import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 import { Observable } from 'rxjs/Observable';
 import { WCToasterService } from 'web-console-ui-kit'
 
+const LOG_TAG = "Configuration Section";
+
 @Component({
     selector: 'wa-configuration-section',
     styleUrls: [ './configuration-section.component.scss' ],
@@ -328,7 +330,8 @@ export class ConfigurationSectionComponent implements OnInit {
      * Triggered by the grid delete button
      * @param dataItem 
      */
-    onDeleteOKPressed(dataItem:any):void {
+    onDeleteOKPressed(dataItem:ConfigurationRow):void {
+        this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", dataItem);
         this.toaster.info("Not yet implemented", "Attention Please", {
           positionClass: 'toast-top-center'
         });
