@@ -5,6 +5,7 @@ export class ConfigurationRow {
     public crypted:boolean = false;
     public value: any;
     public dirty: boolean = false;
+    public isNew: boolean = false;
 }
 
 export interface MotifService {

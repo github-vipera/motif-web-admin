@@ -25,7 +25,8 @@ const cloneData = (data: any[]) => data.map(item => Object.assign({}, item));
 
 export interface EditServiceConfiguration {
     idField:string,
-    dirtyField:string
+    dirtyField:string,
+    isNewField:string
 }
 
 @Injectable()
@@ -71,7 +72,6 @@ export class EditService extends BehaviorSubject<any[]> {
                 this.updatedItems.push(item);
             }
         } else {
-            console.log(">>>>> update is new");
             const index = this.createdItems.indexOf(item);
             this.createdItems.splice(index, 1, item);
             console.log(">>>>> update is new index=", index);
@@ -99,7 +99,7 @@ export class EditService extends BehaviorSubject<any[]> {
     }
 
     public isNew(item: any): boolean {
-        return !item[this.configuration.idField];
+        return item[this.configuration.isNewField];
     }
 
     public hasChanges(): boolean {

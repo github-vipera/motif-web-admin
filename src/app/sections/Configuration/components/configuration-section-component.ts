@@ -50,7 +50,7 @@ export class ConfigurationSectionComponent implements OnInit {
 
     //internal
     private _selectedService:MotifService; //the combobox selection
-    private editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty"};
+    private editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
     
     constructor(private logger: NGXLogger, 
         private settingsService:SettingsService,
@@ -238,7 +238,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.exportConfigurationFile();
     }
 
-    /**
+    /**     
      * Button event
      */
     onImportClicked():void {
@@ -251,7 +251,9 @@ export class ConfigurationSectionComponent implements OnInit {
     onAddPropertyClicked(): void {
         //display new item dialog
         this.propertyEditorDialog.isNew = true;
-        this.editDataItem = new ConfigurationRow();
+        let newConfigurationRow = new ConfigurationRow();
+        newConfigurationRow.isNew = true;
+        this.editDataItem = newConfigurationRow;
     }
 
     /**
@@ -283,7 +285,7 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onEditCommit(newConfigurationRow:ConfigurationRow):void {
         this.logger.debug("Configuration Section" ,"onEditCommit new row:", newConfigurationRow);
-
+        this.editService.create(newConfigurationRow);
     }
 
     /**
