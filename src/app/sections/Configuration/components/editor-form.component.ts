@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { ConfigurationRow, DataType } from '../data/model'
+import { ConfigurationRow } from '../data/model'
 
 interface DataType {
     name:string;
@@ -83,7 +83,7 @@ export class ConfigurationSectionEditFormComponent {
     @Input() public dataTypes = [ 
             {name:"java.lang.String", value:"java.lang.String"},
             {name:"java.lang.Double", value:"java.lang.Double"},
-            {name:"java.lang.Integer", value:"java.lang.Integer"}
+            {name:"java.lang.Integer", value:"java.lang.Integer"},
             {name:"java.lang.Long", value:"java.lang.Long"},
             {name:"java.lang.Boolean",value:"java.lang.Boolean"},
             {name:"Password", value:"password"}];

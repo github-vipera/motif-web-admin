@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { SettingsService, ConfigurationsService } from '@wa-motif-open-api/configuration-service'
@@ -12,6 +12,7 @@ import { State, process } from '@progress/kendo-data-query';
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'wa-configuration-section',
