@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 import { Observable } from 'rxjs/Observable';
+import { WCToasterService } from 'web-console-ui-kit'
 
 @Component({
     selector: 'wa-configuration-section',
@@ -57,7 +58,8 @@ export class ConfigurationSectionComponent implements OnInit {
         private settingsService:SettingsService,
         private configurationService:ConfigurationsService,
         public editService: EditService,
-        private formBuilder: FormBuilder){
+        private formBuilder: FormBuilder,
+        private toaster: WCToasterService){
         this.logger.debug("Configuration Section" ,"Opening...");
     } 
     
@@ -193,6 +195,10 @@ export class ConfigurationSectionComponent implements OnInit {
             FileSaver.saveAs(data, fileName);   
             this.logger.debug("Configuration Section" ,"Configuration saved: ", fileName);
 
+            this.toaster.info("Export Done", "Configuration Export", {
+                positionClass: 'toast-top-center'
+              });
+      
         }, (error)=>{
             this.logger.error("Configuration Section" ,"Export error:", error);
         });
@@ -224,8 +230,10 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onSaveClicked():void {
         this.logger.debug("Configuration Section" ,"Save clicked");
-        alert("Not yet implemented.");
-    }
+        this.toaster.info("Not yet implemented", "Attention Please", {
+            positionClass: 'toast-top-center'
+          });
+      }
 
     /**
      * Button Event
@@ -253,8 +261,10 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onImportClicked():void {
         this.logger.debug("Configuration Section" ,"Import clicked");
-        alert("Not yet implemented.");
-        //TODO!!
+        this.toaster.info("Not yet implemented", "Attention Please", {
+            positionClass: 'toast-top-center'
+          });
+          //TODO!!
     }
 
     /**
@@ -314,4 +324,14 @@ export class ConfigurationSectionComponent implements OnInit {
         this.canAddProperty = canAddProperty;
     }
 
+    /**
+     * Triggered by the grid delete button
+     * @param dataItem 
+     */
+    onDeleteOKPressed(dataItem:any):void {
+        this.toaster.info("Not yet implemented", "Attention Please", {
+          positionClass: 'toast-top-center'
+        });
+      }
+    
 }
