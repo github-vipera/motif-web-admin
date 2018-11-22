@@ -6,6 +6,12 @@ import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as FileSaver from 'file-saver'
+import { EditService, EditServiceConfiguration } from '../../../components/Grid/edit.service';
+import { GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
+import { State, process } from '@progress/kendo-data-query';
+import { map } from 'rxjs/operators/map';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 
 @Component({
     selector: 'wa-configuration-section',
@@ -17,32 +23,40 @@ import * as FileSaver from 'file-saver'
   })
 export class ConfigurationSectionComponent implements OnInit {
     
+    public view: Observable<GridDataResult>;
+    public gridState: State = {
+        sort: [],
+        skip: 0,
+        take: 10
+    };
+    public changes: any = {};
+
+
     // Data binding
     public servicesList:MotifServicesList = []; //the list of available services
-    public gridData = [];
     public loading:boolean = false;
     public editDataItem:ConfigurationRow;
-    public refreshCaption:string = "Refresh";
 
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
     @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
+    @ViewChild('datagrid') grid: GridComponent;
+    @ViewChild('newPropertyDialog') propertyEditorDialog : ConfigurationSectionEditFormComponent;
 
     //Buttons
-    public isNewProperty : boolean = false;
     public canSave:boolean = false;
     public canRefresh:boolean = false;
     public canExport:boolean = true;
     public canAddProperty:boolean = false;
 
     //internal
-    private _dirty:boolean = false;
     private _selectedService:MotifService; //the combobox selection
-    private _selectedRowIndex:number = -1;
-    private _selectedRowData:ConfigurationRow;
-
+    private editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty"};
+    
     constructor(private logger: NGXLogger, 
         private settingsService:SettingsService,
-        private configurationService:ConfigurationsService){
+        private configurationService:ConfigurationsService,
+        public editService: EditService,
+        private formBuilder: FormBuilder){
         this.logger.debug("Configuration Section" ,"Opening...");
     } 
     
@@ -50,6 +64,14 @@ export class ConfigurationSectionComponent implements OnInit {
         this.logger.debug("Configuration Section" ,"Initializing...");
         //Reload the list of available configurable services
         this.refreshServiceList();
+
+        this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+    }
+
+    public onStateChange(state: State) {
+        this.gridState = state;
+        this.logger.debug("Configuration Section" ,"onStateChange: ", state);
+        //this.editService.read();
     }
 
     /**
@@ -76,17 +98,16 @@ export class ConfigurationSectionComponent implements OnInit {
             this.loading = true;
             this.settingsService.getSettings(service.name).subscribe((data)=>{
                 this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
-                this.gridData = data;
+                this.editService.cancelChanges();
+                this.editService.read(data, this.editServiceConfig);
                 this.loading = false;
             }, (error)=>{
                 this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
             });
         } else {
-            this.gridData = [];
+            this.editService.read([] , this.editServiceConfig);
         }
-        this.selectRow(undefined,-1);
-        this.setDirty(false);
         this.setOptions(true, true, true, true);
     }
     
@@ -113,23 +134,47 @@ export class ConfigurationSectionComponent implements OnInit {
 
     /**
      * User selection on click
+     * triggered by the grid
      * @param param0 
      */
-    public editClick({ dataItem, rowIndex, columnIndex }: any): void {
-        this.selectRow(dataItem,  rowIndex);
+    public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }): void {
+        if (!isEdited) {
+            sender.editCell(rowIndex, columnIndex, this.createFormGroupForEdit(dataItem));
+        }
     }
 
     /**
-     * Set the current selection
-     * @param dataItem 
-     * @param rowIndex 
+     * triggered by the grid
      */
-    private selectRow(dataItem, rowIndex):void {
-        this._selectedRowData = dataItem;
-        this._selectedRowIndex = rowIndex;
+    public cellCloseHandler(args: any) {
+        const { formGroup, dataItem } = args;
+        if (!formGroup.valid) {
+             // prevent closing the edited cell if there are invalid values.
+            args.preventDefault();
+        } else if (formGroup.dirty) {
+            this.editService.assignValues(dataItem, formGroup.value);
+            this.editService.update(dataItem);
+        }
     }
 
-        /**
+    public createFormGroupForEdit(dataItem: ConfigurationRow): FormGroup {
+        this.logger.debug("Configuration Section" ,"createFormGroupForEdit:", dataItem.value);
+        return this.formBuilder.group({
+            'value': dataItem.value
+        });
+    }
+
+    public createFormGroupForNew(dataItem: ConfigurationRow): FormGroup {
+        return this.formBuilder.group({
+            'name': dataItem.name,
+            'value': dataItem.value,
+            'type': dataItem.type,
+            'dynamic': dataItem.dynamic,
+            'crypted': dataItem.crypted
+        });
+    }
+
+    /**
      * Export current configuration
      */
     private exportConfigurationFile() : void {
@@ -146,16 +191,6 @@ export class ConfigurationSectionComponent implements OnInit {
     }
 
     /**
-     * Trigger the Edit Row
-     */
-    public doubleClickFunction(){
-        this.logger.debug("Configuration Section" ,"Double click on ", this._selectedRowData);
-        //Open the editor
-        this.isNewProperty = false;
-        this.editDataItem = this._selectedRowData;
-    }
-
-    /**
      * Event emitted by the editor form
      */
     onEditCancel():void {
@@ -164,40 +199,10 @@ export class ConfigurationSectionComponent implements OnInit {
     }
 
     /**
-     * Event emitted by the editor form
-     * @param configurationRow  the new value
-     */
-    onEditCommit(configurationRow:ConfigurationRow):void {
-        this.logger.debug("Configuration Section" ,"On Edit Committed for ", configurationRow);
-        this._selectedRowData = configurationRow;
-        this._selectedRowData.dirty = true;
-        this.gridData[this._selectedRowIndex] = this._selectedRowData;
-        this.editDataItem = undefined;
-        this.setDirty(true);
-        this.setOptions(true, true, true, true);
-    }   
-
-    /**
-     * Set the dirty flag that indicates that some changes are made on current dataset
-     * @param dirty 
-     */
-    private setDirty(dirty:boolean):void{
-        if (dirty){
-            this._dirty = true;
-            this.servicesComboBox.disabled = true;
-            this.refreshCaption = "Revert Changes";
-        } else {
-            this._dirty = false;
-            this.servicesComboBox.disabled = false;
-            this.refreshCaption = "Refresh";
-        }
-    }
-
-    /**
      * Button event
      */
     onRefreshClicked():void {
-        if (this._dirty){
+        if (this.editService.hasChanges()){
             this.confirmationDialog.open("Pending Changes",
                 "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
                 { "action" : "refresh" });
@@ -211,6 +216,19 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onSaveClicked():void {
         alert("onSaveClicked!");
+    }
+
+    /**
+     * Button Event
+     */
+    onDiscardClicked():void {
+        if (this.editService.hasChanges()){
+            this.confirmationDialog.open("Pending Changes",
+                "Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?",
+                { "action" : "discardChanges" });
+        } else {
+            this.reloadConfigurationParams();
+        }
     }
 
     /**
@@ -230,12 +248,10 @@ export class ConfigurationSectionComponent implements OnInit {
     /**
      * Button event
      */
-    onAddPropertyClicked(): void{
-        //alert("onAddPropertyClicked!");
-        //Open the editor
-        let newDataItem = new ConfigurationRow();
-        this.isNewProperty = true;
-        this.editDataItem = newDataItem;
+    onAddPropertyClicked(): void {
+        //display new item dialog
+        this.propertyEditorDialog.isNew = true;
+        this.editDataItem = new ConfigurationRow();
     }
 
     /**
@@ -255,7 +271,19 @@ export class ConfigurationSectionComponent implements OnInit {
 
         if (userData && userData.action==="refresh"){
             this.reloadConfigurationParams();
+        } 
+        if (userData && userData.action==="discardChanges"){
+            this.editService.cancelChanges();
         }
+    }
+
+    /**
+     * Triggered by the new Property Editor Dialog
+     * @param event 
+     */
+    onEditCommit(newConfigurationRow:ConfigurationRow):void {
+        this.logger.debug("Configuration Section" ,"onEditCommit new row:", newConfigurationRow);
+
     }
 
     /**

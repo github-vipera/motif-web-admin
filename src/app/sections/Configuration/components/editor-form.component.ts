@@ -16,7 +16,7 @@ interface DataType {
     template: `
         <kendo-dialog *ngIf="active" (close)="closeForm()" [minWidth]="431"  [height]="400">
           <kendo-dialog-titlebar>
-            {{ isNew ? 'Add new Property' : 'Edit Property' }}
+            {{ isNew ? 'Add New Property' : 'Edit Property' }}
           </kendo-dialog-titlebar>
             
             <form novalidate [formGroup]="editForm">
@@ -88,7 +88,7 @@ export class ConfigurationSectionEditFormComponent {
             {name:"java.lang.Boolean",value:"java.lang.Boolean"},
             {name:"Password", value:"password"}];
 
-    @Input() public isNew = false;
+    @Input() public isNew = true;
 
     @Input() public set model(configurationRow: ConfigurationRow) {
         this.editForm.reset(configurationRow);

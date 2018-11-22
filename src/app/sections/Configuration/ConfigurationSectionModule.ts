@@ -8,6 +8,8 @@ import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
 import { ConfirmationDialogComponent } from '../../components/ConfirmationDialog/confirmation-dialog-component'
+import { EditService } from '../../components/Grid/edit.service';
+
 
 @NgModule({
     imports: [
@@ -19,7 +21,8 @@ import { ConfirmationDialogComponent } from '../../components/ConfirmationDialog
     declarations: [
         ConfigurationSectionComponent, ConfigurationSectionEditFormComponent, ConfirmationDialogComponent
     ],
-    exports: [ ConfigurationSectionComponent ]
+    exports: [ ConfigurationSectionComponent ],
+    providers: [EditService]
   })
   export class ConfigurationSectionModule { }
   

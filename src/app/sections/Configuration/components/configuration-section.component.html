@@ -13,11 +13,12 @@
         <div>
             <label>&nbsp;</label>
             <kendo-buttongroup look="flat">
-                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!canSave">Save</button>
-                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">{{refreshCaption}}</button>
+                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
+                <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()" [disabled]="!editService.hasChanges()">Discard Changes</button>
                 <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty">Add Property</button>
             </kendo-buttongroup>
             <kendo-buttongroup look="flat">
+                    <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">Refresh</button>
                     <button kendoButton [toggleable]="false" [icon]="'arrow-up'" (click)="onExportClicked()" [disabled]="!canExport">Export</button>
                     <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onImportClicked()">Import</button>
                 </kendo-buttongroup>
@@ -27,7 +28,13 @@
 </div>
 
 <div>
-        <kendo-grid [data]="gridData" [height]="410" [loading]="loading"  (cellClick)="editClick($event)" (dblclick)="doubleClickFunction()"> 
+        <kendo-grid #datagrid [data]="view | async" [height]="410" 
+                [loading]="loading"  
+                (cellClick)="cellClickHandler($event)"
+                (cellClose)="cellCloseHandler($event)"
+                (dataStateChange)="onStateChange($event)"
+                (cellClose)="cellCloseHandler($event)"
+                [navigable]="true"> 
 
                 <kendo-grid-column
                     field="name" title="Name" width="360">
@@ -60,7 +67,7 @@
 
             </kendo-grid>
 
-            <configuration-section-edit-form [model]="editDataItem" (cancel)="onEditCancel()" (save)="onEditCommit($event)" [isNew]="isNewProperty"></configuration-section-edit-form>
+            <configuration-section-edit-form #newPropertyDialog [model]="editDataItem" (cancel)="onEditCancel()" (save)="onEditCommit($event)"></configuration-section-edit-form>
 
 
 </div>

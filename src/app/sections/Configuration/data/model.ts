@@ -1,9 +1,9 @@
 export class ConfigurationRow {
-    public Name: string;
-    public Type: string = 'java.lang.String';
-    public Dynamic:boolean = false;
-    public Crypted:boolean = false;
-    public Value: any;
+    public name: string;
+    public type: string = 'java.lang.String';
+    public dynamic:boolean = false;
+    public crypted:boolean = false;
+    public value: any;
     public dirty: boolean = false;
 }
 
