@@ -332,9 +332,12 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onDeleteOKPressed(dataItem:ConfigurationRow):void {
         this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", dataItem);
+        this.editService.remove(dataItem);
+        /*
         this.toaster.info("Not yet implemented", "Attention Please", {
           positionClass: 'toast-top-center'
         });
+        */
       }
     
 }
