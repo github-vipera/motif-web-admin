@@ -50,7 +50,7 @@ export class ConfigurationSectionComponent implements OnInit {
 
     //internal
     private _selectedService:MotifService; //the combobox selection
-    private editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
+    private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
     
     constructor(private logger: NGXLogger, 
         private settingsService:SettingsService,
@@ -60,6 +60,9 @@ export class ConfigurationSectionComponent implements OnInit {
         this.logger.debug("Configuration Section" ,"Opening...");
     } 
     
+    /**
+     * Angular ngOnInit
+     */
     ngOnInit() {
         this.logger.debug("Configuration Section" ,"Initializing...");
         //Reload the list of available configurable services
@@ -68,6 +71,10 @@ export class ConfigurationSectionComponent implements OnInit {
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
     }
 
+    /**
+     * Triggered by the grid component
+     * @param state 
+     */
     public onStateChange(state: State) {
         this.gridState = state;
         this.logger.debug("Configuration Section" ,"onStateChange: ", state);
@@ -99,14 +106,14 @@ export class ConfigurationSectionComponent implements OnInit {
             this.settingsService.getSettings(service.name).subscribe((data)=>{
                 this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
                 this.editService.cancelChanges();
-                this.editService.read(data, this.editServiceConfig);
+                this.editService.read(data, this._editServiceConfig);
                 this.loading = false;
             }, (error)=>{
                 this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
             });
         } else {
-            this.editService.read([] , this.editServiceConfig);
+            this.editService.read([] , this._editServiceConfig);
         }
         this.setOptions(true, true, true, true);
     }
@@ -215,7 +222,8 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onSaveClicked():void {
-        alert("onSaveClicked!");
+        this.logger.debug("Configuration Section" ,"Save clicked");
+        alert("Not yet implemented.");
     }
 
     /**
@@ -235,6 +243,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onExportClicked(): void {
+        this.logger.debug("Configuration Section" ,"Export clicked");
         this.exportConfigurationFile();
     }
 
@@ -242,6 +251,8 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onImportClicked():void {
+        this.logger.debug("Configuration Section" ,"Import clicked");
+        alert("Not yet implemented.");
         //TODO!!
     }
 
