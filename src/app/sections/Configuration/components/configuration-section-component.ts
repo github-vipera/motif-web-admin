@@ -146,8 +146,8 @@ export class ConfigurationSectionComponent implements OnInit {
     /**
      * Reload current configuration for the current selected service
      */
-    private reloadConfigurationParams():void {
-        this.reloadConfigurationParamsForService(this._selectedService);
+    private reloadConfigurationParams(){
+        return this.reloadConfigurationParamsForService(this._selectedService);
     }
 
     /**
@@ -244,6 +244,7 @@ export class ConfigurationSectionComponent implements OnInit {
     onSaveClicked():void {
         this.logger.debug("Configuration Section" ,"Save clicked");
         this.saveAllChanges().subscribe((responses)=>{
+            this.reloadConfigurationParams();
             this.logger.debug("Configuration Section" ,"Settings saved successfully: ", responses);
             this.toaster.info("Settings saved successfully.", "Settings Update", {
                 positionClass: 'toast-top-center'
