@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ConfigurationRow } from '../data/model'
+import { WCPropertyEditorModel, WCPropertyEditorComponent, WCPropertyEditorItem, WCPropertyEditorItemType } from 'web-console-ui-kit'
 
 interface DataType {
     name:string;
@@ -11,15 +12,16 @@ interface DataType {
 @Component({
     selector: 'configuration-section-edit-form',
     styles: [
-      'input[type=text] { width: 100%; }'
+      'input[type=text] { width: 100%; }',
+      '.inspector > div > label { width: 10% !important;background-color: red; }'
     ],
     template: `
         <kendo-dialog *ngIf="active" (close)="closeForm()" [minWidth]="431"  [height]="400">
           <kendo-dialog-titlebar>
             {{ isNew ? 'Add New Property' : 'Edit Property' }}
           </kendo-dialog-titlebar>
-            
-            <form novalidate [formGroup]="editForm">
+
+            <form novalidate [formGroup]="editForm" class="wc-property-editor">
                 <div class="wc-form-group">
                     <label for="name" class="control-label">Name</label>
                     <input type="text" class="k-textbox" formControlName="name" />
@@ -39,14 +41,16 @@ interface DataType {
                     <label>
                         Dynamic
                     </label>
-                    <input type="checkbox" formControlName="dynamic" />
+                    <wc-switch-control formControlName="dynamic"></wc-switch-control>
+                    <!--input type="checkbox" formControlName="dynamic" /-->
                     </div>
 
                 <div class="wc-form-group">
                     <label>
                         Crypted
                     </label>
-                    <input type="checkbox" formControlName="crypted" />
+                    <wc-switch-control formControlName="crypted"></wc-switch-control>
+                    <!--input type="checkbox" formControlName="crypted" /-->
                     </div>
 
                 <div class="wc-form-group">
@@ -61,7 +65,7 @@ interface DataType {
 
 
             </form>
-
+            
             <kendo-dialog-actions>
                 <button class="k-button" (click)="onCancel($event)">Cancel</button>
                 <button class="k-button k-primary" [disabled]="!editForm.valid" (click)="onSave($event)">Save</button>
@@ -71,6 +75,42 @@ interface DataType {
 })
 export class ConfigurationSectionEditFormComponent {
     public active = false;
+
+    public propertyModel:WCPropertyEditorModel = {
+        items: [
+          {
+            name: "Name",
+            field: "name",
+            type: WCPropertyEditorItemType.String,
+            value: "Vipera platform secure"
+          },
+          {
+            name: "Type",
+            field: "type",
+            type: WCPropertyEditorItemType.List,
+            value: "BMW",
+            listValues: ["java.lang.String", "java.lang.Double", "java.lang.Integer", "java.lang.Long", "java.lang.Boolean", "password"]
+          },
+          {
+            name: "Dynamic",
+            field: "dynamic",
+            type: WCPropertyEditorItemType.Boolean,
+            value: true
+          },
+          {
+            name: "Crypted",
+            field: "crypted",
+            type: WCPropertyEditorItemType.Boolean,
+            value: true
+          },
+          {
+            name: "Value",
+            field: "value",
+            type: WCPropertyEditorItemType.String,
+            value: ""
+          }
+        ]
+      }
 
     public editForm: FormGroup = new FormGroup({
         'name': new FormControl('', Validators.required),

@@ -9,7 +9,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
 import { ConfirmationDialogComponent } from '../../components/ConfirmationDialog/confirmation-dialog-component'
 import { EditService } from '../../components/Grid/edit.service';
-
+import { WCSwitchControl } from 'web-console-ui-kit'
 
 @NgModule({
     imports: [
