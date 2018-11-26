@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
-import { SettingsService, ConfigurationsService } from '@wa-motif-open-api/configuration-service'
+import { SettingsService, ConfigurationsService, SettingUpdate, SettingCreate } from '@wa-motif-open-api/configuration-service'
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
@@ -12,8 +12,9 @@ import { State, process } from '@progress/kendo-data-query';
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
-import { Observable } from 'rxjs/Observable';
 import { WCToasterService } from 'web-console-ui-kit'
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs/observable/forkJoin'
 
 const LOG_TAG = "Configuration Section";
 
@@ -138,6 +139,10 @@ export class ConfigurationSectionComponent implements OnInit {
         }
     }
 
+    public get selectedService():MotifService {
+        return this._selectedService;
+    }
+
     /**
      * Reload current configuration for the current selected service
      */
@@ -170,6 +175,9 @@ export class ConfigurationSectionComponent implements OnInit {
         }
     }
 
+    /**
+     * Prepare edit form for inline editing
+     */
     public createFormGroupForEdit(dataItem: ConfigurationRow): FormGroup {
         this.logger.debug("Configuration Section" ,"createFormGroupForEdit:", dataItem.value);
         return this.formBuilder.group({
@@ -177,6 +185,7 @@ export class ConfigurationSectionComponent implements OnInit {
         });
     }
 
+    /* Inline edit -> disabled
     public createFormGroupForNew(dataItem: ConfigurationRow): FormGroup {
         return this.formBuilder.group({
             'name': dataItem.name,
@@ -186,6 +195,7 @@ export class ConfigurationSectionComponent implements OnInit {
             'crypted': dataItem.crypted
         });
     }
+    */
 
     /**
      * Export current configuration
@@ -233,10 +243,67 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onSaveClicked():void {
         this.logger.debug("Configuration Section" ,"Save clicked");
-        this.toaster.info("Not yet implemented", "Attention Please", {
-            positionClass: 'toast-top-center'
-          });
-      }
+        this.saveAllChanges().subscribe((responses)=>{
+            this.logger.debug("Configuration Section" ,"Settings saved successfully: ", responses);
+            this.toaster.info("Settings saved successfully.", "Settings Update", {
+                positionClass: 'toast-top-center'
+              });
+        }, (error)=>{
+            this.logger.debug("Configuration Section" ,"Error saving settings: ", error);
+            this.toaster.info("Error saving settings: " +  error, "Settings Update Error", {
+                positionClass: 'toast-top-center'
+            });
+        });
+        }
+
+    private saveAllChanges():Observable<any[]> {
+        this.logger.debug("Configuration Section" ,"Saving all changes...");
+
+        let itemsToAdd = this.editService.createdItems;
+        let itemsToUpdate = this.editService.updatedItems;
+        let itemsToRemove = this.editService.deletedItems;
+        
+        let responses = [];
+
+        let i = 0;  
+
+        //Add new
+        for (i=0;i<itemsToAdd.length;i++){
+            let settingCreate : SettingCreate = {
+                name : itemsToAdd[i].name,
+                crypted : itemsToAdd[i].crypted,
+                dynamic : itemsToAdd[i].dynamic,
+                type : itemsToAdd[i].type,
+                value : itemsToAdd[i].value
+            };
+            let response = this.settingsService.createSetting(this.selectedService.name, settingCreate);
+            responses.push(response);
+        }
+
+        //Update existing
+        for (i=0;i<itemsToUpdate.length;i++){
+            let settingName = itemsToUpdate[i].name;
+            let settingUpdate : SettingUpdate = {
+                crypted : itemsToUpdate[i].crypted,
+                dynamic : itemsToUpdate[i].dynamic,
+                type : itemsToUpdate[i].type,
+                value : itemsToUpdate[i].value
+            };
+            let response = this.settingsService.updateSetting(this.selectedService.name, settingName, settingUpdate);
+            responses.push(response);
+        }
+
+        //Delete existing
+        for (i=0;i<itemsToRemove.length;i++){
+            let settingName = itemsToRemove[i].name;
+            let response = this.settingsService.deleteSetting(this.selectedService.name,settingName);
+            responses.push(response);
+        }
+        
+        this.logger.debug("Configuration Section" ,"Waiting for all changes commit.");
+        return forkJoin(responses);
+    }
+
 
     /**
      * Button Event
