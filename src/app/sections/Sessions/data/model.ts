@@ -1,5 +1,5 @@
 export class SessionRow {
-    public clientIP: string;
+    public clientIp: string;
     public user: string;
     public secure:boolean = false;
     public shared:boolean = false;
