@@ -32,10 +32,11 @@
 
 <div class="row">
         <kendo-grid #datagrid [data]="gridData" 
+            style="height: 100%"
             [columnMenu]="true"
             [resizable]="true" 
-            [reorderable]="true" 
-            [navigable]="true"
+            [reorderable]="false" 
+            [navigable]="false"
             [sort]="sort"
             (sortChange)="sortChange($event)"
             [sortable]="sortOptions"

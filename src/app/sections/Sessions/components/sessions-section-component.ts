@@ -17,8 +17,8 @@ const LOG_TAG = "[SessionsSection]";
     templateUrl: './sessions-section.component.html'
   })
   @PluginView("Sessions",{
-    iconName: "ico-configuration" 
-  })
+    iconName: "ico-users" 
+})
 export class SessionsSectionComponent implements OnInit {
 
     private _data:any = [];
