@@ -2,7 +2,7 @@
 
 <wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
 
-<input type="file" id="avatar" name="avatar"  (input)="onUploadFileSelected($event)" #xmlFileImport>
+<input type="file" id="avatar" name="avatar"  accept="application/xml" (input)="onUploadFileSelected($event)" #xmlFileImport>
 <!--
 <div class="row spread">
         <div class="form-group">

@@ -422,6 +422,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.configurationService.uploadXml(blob, false).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import xml done:", data);
             this.showInfo("Configuration Upload", "Upload configuration done successfully."):
+            this.reloadConfigurationParams();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import xml configuration error:", error);
             this.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details):
