@@ -15,7 +15,6 @@ import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 import { WCToasterService } from 'web-console-ui-kit'
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin'
-import { UploadComponent } from '@progress/kendo-angular-upload';
 
 const LOG_TAG = "[ConfigurationSection]";
 
@@ -418,14 +417,14 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param blob 
      */
     uploadConfiguration(blob):void {
-        this.showInfo("Configuration Upload", "Uploading configuration..."):
+        this.showInfo("Configuration Upload", "Uploading configuration...");
         this.configurationService.uploadXml(blob, false).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import xml done:", data);
-            this.showInfo("Configuration Upload", "Upload configuration done successfully."):
+            this.showInfo("Configuration Upload", "Upload configuration done successfully.");
             this.reloadConfigurationParams();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import xml configuration error:", error);
-            this.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details):
+            this.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details);
         });
     }
 
