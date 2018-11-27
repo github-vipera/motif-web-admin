@@ -9,11 +9,17 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
 import { ConfirmationDialogComponent } from '../../components/ConfirmationDialog/confirmation-dialog-component'
 import { EditService } from '../../components/Grid/edit.service';
-import { WCSwitchControl } from 'web-console-ui-kit'
+//import { WCSwitchControl } from 'web-console-ui-kit'
 
 @NgModule({
     imports: [
-        DialogModule, ConfigurationServiceModule, GridModule, LoggerModule, WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule
+        DialogModule, 
+        ConfigurationServiceModule, 
+        GridModule, 
+        LoggerModule, 
+        WebConsoleUIKitCoreModule, 
+        WebConsoleUIKitDataModule, 
+        WebConsoleUIKitKendoProviderModule
     ],
     entryComponents:[
         ConfigurationSectionComponent
@@ -22,7 +28,10 @@ import { WCSwitchControl } from 'web-console-ui-kit'
         ConfigurationSectionComponent, ConfigurationSectionEditFormComponent, ConfirmationDialogComponent
     ],
     exports: [ ConfigurationSectionComponent ],
-    providers: [EditService]
+    providers: [ 
+        EditService
+    ]
+    
   })
   export class ConfigurationSectionModule { }
   
