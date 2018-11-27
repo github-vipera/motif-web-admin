@@ -13,6 +13,7 @@ import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 
 // Motif Web Admin Modules
 import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
+import { SessionsSectionModule } from './sections/Sessions/SessionsSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
     ToolBarModule, 
     BrowserAnimationsModule, 
     WebConsoleCoreModule,
-    ConfigurationSectionModule
+    ConfigurationSectionModule,
+    SessionsSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 

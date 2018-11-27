@@ -38,6 +38,7 @@
     "@progress/kendo-theme-default": "^2.60.0",
     "@types/file-saver": "^2.0.0",
     "@wa-motif-open-api/configuration-service": "0.0.1",
+    "@wa-motif-open-api/security-service": "0.0.1",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.0",
     "install": "^0.12.2",
