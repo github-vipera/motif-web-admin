@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
-import { SettingsService, ConfigurationsService } from '@wa-motif-open-api/configuration-service'
+import { SettingsService, ConfigurationsService, SettingUpdate, SettingCreate } from '@wa-motif-open-api/configuration-service'
 import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model'
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
@@ -12,10 +12,11 @@ import { State, process } from '@progress/kendo-data-query';
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
-import { Observable } from 'rxjs/Observable';
 import { WCToasterService } from 'web-console-ui-kit'
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs/observable/forkJoin'
 
-const LOG_TAG = "Configuration Section";
+const LOG_TAG = "[ConfigurationSection]";
 
 @Component({
     selector: 'wa-configuration-section',
@@ -45,6 +46,7 @@ export class ConfigurationSectionComponent implements OnInit {
     @ViewChild(ComboBoxComponent) servicesComboBox: ComboBoxComponent;
     @ViewChild('datagrid') grid: GridComponent;
     @ViewChild('newPropertyDialog') propertyEditorDialog : ConfigurationSectionEditFormComponent;
+    @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;
 
     //Buttons
     public canSave:boolean = false;
@@ -57,20 +59,22 @@ export class ConfigurationSectionComponent implements OnInit {
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
     public mySwitchModel : boolean = true;
 
+
     constructor(private logger: NGXLogger, 
         private settingsService:SettingsService,
         private configurationService:ConfigurationsService,
         public editService: EditService,
         private formBuilder: FormBuilder,
-        private toaster: WCToasterService){
-        this.logger.debug("Configuration Section" ,"Opening...");
+        private toaster: WCToasterService,
+        private renderer:Renderer){
+        this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug("Configuration Section" ,"Initializing...");
+        this.logger.debug(LOG_TAG ,"Initializing...");
         //Reload the list of available configurable services
         this.refreshServiceList();
 
@@ -83,7 +87,7 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     public onStateChange(state: State) {
         this.gridState = state;
-        this.logger.debug("Configuration Section" ,"onStateChange: ", state);
+        this.logger.debug(LOG_TAG ,"onStateChange: ", state);
         //this.editService.read();
     }
 
@@ -91,13 +95,13 @@ export class ConfigurationSectionComponent implements OnInit {
      * Reload the list of availbale configurable services
      */
     public refreshServiceList():void {
-        this.logger.debug("Configuration Section" ,"refreshServiceList called.");
+        this.logger.debug(LOG_TAG ,"refreshServiceList called.");
         this.settingsService.getServices().subscribe((response)=>{
             this.servicesList = response;
-            this.logger.debug("Configuration Section" ,"refreshServiceList done: ", response);
+            this.logger.debug(LOG_TAG ,"refreshServiceList done: ", response);
         }, (error)=>{
             this.servicesList = [];
-            this.logger.error("Configuration Section" ,"refreshServiceList error: ", error);
+            this.logger.error(LOG_TAG ,"refreshServiceList error: ", error);
         });
     }
 
@@ -106,16 +110,16 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param service 
      */
     private reloadConfigurationParamsForService(service:MotifService){
-        this.logger.debug("Configuration Section", "Reloading paramters for service:", service);
+        this.logger.debug(LOG_TAG, "Reloading paramters for service:", service);
         if (service){
             this.loading = true;
             this.settingsService.getSettings(service.name).subscribe((data)=>{
-                this.logger.debug("Configuration Section" ,"reloadConfigurationParamsForService done: ", data);
+                this.logger.debug(LOG_TAG ,"reloadConfigurationParamsForService done: ", data);
                 this.editService.cancelChanges();
                 this.editService.read(data, this._editServiceConfig);
                 this.loading = false;
             }, (error)=>{
-                this.logger.error("Configuration Section" ,"reloadConfigurationParamsForService error: ", error);
+                this.logger.error(LOG_TAG ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
             });
         } else {
@@ -138,11 +142,15 @@ export class ConfigurationSectionComponent implements OnInit {
         }
     }
 
+    public get selectedService():MotifService {
+        return this._selectedService;
+    }
+
     /**
      * Reload current configuration for the current selected service
      */
-    private reloadConfigurationParams():void {
-        this.reloadConfigurationParamsForService(this._selectedService);
+    private reloadConfigurationParams(){
+        return this.reloadConfigurationParamsForService(this._selectedService);
     }
 
     /**
@@ -170,20 +178,13 @@ export class ConfigurationSectionComponent implements OnInit {
         }
     }
 
+    /**
+     * Prepare edit form for inline editing
+     */
     public createFormGroupForEdit(dataItem: ConfigurationRow): FormGroup {
-        this.logger.debug("Configuration Section" ,"createFormGroupForEdit:", dataItem.value);
+        this.logger.debug(LOG_TAG,"createFormGroupForEdit:", dataItem.value);
         return this.formBuilder.group({
             'value': dataItem.value
-        });
-    }
-
-    public createFormGroupForNew(dataItem: ConfigurationRow): FormGroup {
-        return this.formBuilder.group({
-            'name': dataItem.name,
-            'value': dataItem.value,
-            'type': dataItem.type,
-            'dynamic': dataItem.dynamic,
-            'crypted': dataItem.crypted
         });
     }
 
@@ -192,18 +193,16 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     private exportConfigurationFile() : void {
         this.configurationService.downloadXml().subscribe((data)=>{
-            this.logger.debug("Configuration Section" ,"Export done:", data);
+            this.logger.debug(LOG_TAG ,"Export done:", data);
 
             let fileName = "motif_configuration_" + new Date().getTime() +".xml";
             FileSaver.saveAs(data, fileName);   
-            this.logger.debug("Configuration Section" ,"Configuration saved: ", fileName);
+            this.logger.debug(LOG_TAG ,"Configuration saved: ", fileName);
 
-            this.toaster.info("Export Done", "Configuration Export", {
-                positionClass: 'toast-top-center'
-              });
+            this.showInfo("Export Done", "Configuration Export");
       
         }, (error)=>{
-            this.logger.error("Configuration Section" ,"Export error:", error);
+            this.logger.error(LOG_TAG ,"Export error:", error);
         });
     }
 
@@ -211,7 +210,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * Event emitted by the editor form
      */
     onEditCancel():void {
-        this.logger.debug("Configuration Section" ,"On Edit Cancelled");
+        this.logger.debug(LOG_TAG ,"On Edit Cancelled");
         this.editDataItem = undefined;
     }
 
@@ -232,11 +231,68 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onSaveClicked():void {
-        this.logger.debug("Configuration Section" ,"Save clicked");
-        this.toaster.info("Not yet implemented", "Attention Please", {
-            positionClass: 'toast-top-center'
-          });
-      }
+        this.logger.debug(LOG_TAG ,"Save clicked");
+        this.saveAllChanges().subscribe((responses)=>{
+            this.reloadConfigurationParams();
+            this.logger.debug(LOG_TAG,"Settings saved successfully: ", responses);
+            this.showInfo("Settings saved successfully.", "Settings Update");
+        }, (error)=>{
+            this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
+            this.showError("Error saving settings: " +  error, "Settings Update Error");
+        });
+        }
+
+    /**
+     * Save all pending chenges remotely
+     */
+    private saveAllChanges():Observable<any[]> {
+        this.logger.debug(LOG_TAG,"Saving all changes...");
+
+        let itemsToAdd = this.editService.createdItems;
+        let itemsToUpdate = this.editService.updatedItems;
+        let itemsToRemove = this.editService.deletedItems;
+        
+        let responses = [];
+
+        let i = 0;  
+
+        //Add new
+        for (i=0;i<itemsToAdd.length;i++){
+            let settingCreate : SettingCreate = {
+                name : itemsToAdd[i].name,
+                crypted : itemsToAdd[i].crypted,
+                dynamic : itemsToAdd[i].dynamic,
+                type : itemsToAdd[i].type,
+                value : itemsToAdd[i].value
+            };
+            let response = this.settingsService.createSetting(this.selectedService.name, settingCreate);
+            responses.push(response);
+        }
+
+        //Update existing
+        for (i=0;i<itemsToUpdate.length;i++){
+            let settingName = itemsToUpdate[i].name;
+            let settingUpdate : SettingUpdate = {
+                crypted : itemsToUpdate[i].crypted,
+                dynamic : itemsToUpdate[i].dynamic,
+                type : itemsToUpdate[i].type,
+                value : itemsToUpdate[i].value
+            };
+            let response = this.settingsService.updateSetting(this.selectedService.name, settingName, settingUpdate);
+            responses.push(response);
+        }
+
+        //Delete existing
+        for (i=0;i<itemsToRemove.length;i++){
+            let settingName = itemsToRemove[i].name;
+            let response = this.settingsService.deleteSetting(this.selectedService.name,settingName);
+            responses.push(response);
+        }
+        
+        this.logger.debug(LOG_TAG,"Waiting for all changes commit.");
+        return forkJoin(responses);
+    }
+
 
     /**
      * Button Event
@@ -255,7 +311,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onExportClicked(): void {
-        this.logger.debug("Configuration Section" ,"Export clicked");
+        this.logger.debug(LOG_TAG ,"Export clicked");
         this.exportConfigurationFile();
     }
 
@@ -263,11 +319,11 @@ export class ConfigurationSectionComponent implements OnInit {
      * Button event
      */
     onImportClicked():void {
-        this.logger.debug("Configuration Section" ,"Import clicked");
-        this.toaster.info("Not yet implemented", "Attention Please", {
-            positionClass: 'toast-top-center'
-          });
-          //TODO!!
+        this.logger.debug(LOG_TAG ,"Import clicked:", this.xmlFileImportEl);
+        //trigger mouse click
+        let event = new MouseEvent('click', {bubbles: true});
+        this.renderer.invokeElementMethod(
+        this.xmlFileImportEl.nativeElement, 'dispatchEvent', [event]);
     }
 
     /**
@@ -286,7 +342,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param userData 
      */
     onConfirmationCancel(userData):void {
-        this.logger.debug("Configuration Section" ,"onConfirmationCancel for:", userData);
+        this.logger.debug(LOG_TAG ,"onConfirmationCancel for:", userData);
     }
 
     /**
@@ -294,7 +350,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param userData 
      */
     onConfirmationOK(userData):void {
-        this.logger.debug("Configuration Section" ,"onConfirmationOK for:", userData);
+        this.logger.debug(LOG_TAG ,"onConfirmationOK for:", userData);
 
         if (userData && userData.action==="refresh"){
             this.reloadConfigurationParams();
@@ -309,7 +365,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param event 
      */
     onEditCommit(newConfigurationRow:ConfigurationRow):void {
-        this.logger.debug("Configuration Section" ,"onEditCommit new row:", newConfigurationRow);
+        this.logger.debug(LOG_TAG ,"onEditCommit new row:", newConfigurationRow);
         this.editService.create(newConfigurationRow);
     }
 
@@ -334,11 +390,64 @@ export class ConfigurationSectionComponent implements OnInit {
     onDeleteOKPressed(dataItem:ConfigurationRow):void {
         this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", dataItem);
         this.editService.remove(dataItem);
-        /*
-        this.toaster.info("Not yet implemented", "Attention Please", {
-          positionClass: 'toast-top-center'
-        });
-        */
       }
+
     
+    /**
+     * Triggered by the input tag
+     * @param event 
+     */
+    onUploadFileSelected(event):void {
+        let reader = new FileReader();
+        if(event.target.files && event.target.files.length > 0) {
+          let file = event.target.files[0];
+          reader.onloadend = () => {
+              this.uploadConfiguration(reader.result);
+          };
+          reader.onerror = (error) => {
+            this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
+            this.showError("Configuration Upload", "Error reading configuration file: " + error);
+          };
+          reader.readAsText(file);
+        }
+    }
+
+    /**
+     * Upload the blob file to server
+     * @param blob 
+     */
+    uploadConfiguration(blob):void {
+        this.showInfo("Configuration Upload", "Uploading configuration...");
+        this.configurationService.uploadXml(blob, false).subscribe((data)=>{
+            this.logger.info(LOG_TAG ,"Import xml done:", data);
+            this.showInfo("Configuration Upload", "Upload configuration done successfully.");
+            this.reloadConfigurationParams();
+          }, (error)=>{
+            this.logger.error(LOG_TAG,"Import xml configuration error:", error);
+            this.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details);
+        });
+    }
+
+    /**
+     * Show Info Toast
+     * @param title 
+     * @param message 
+     */
+    private showInfo(title:string, message:string):void {
+        this.toaster.info(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
+
+    /**
+     * Show Error Toast
+     * @param title 
+     * @param message 
+     */
+    private showError(title:string, message:string):void {
+        this.toaster.error(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
+
 }

@@ -33,9 +33,9 @@ export interface EditServiceConfiguration {
 export class EditService extends BehaviorSubject<any[]> {
     private data: any[] = [];
     private originalData: any[] = [];
-    private createdItems: any[] = [];
-    private updatedItems: any[] = [];
-    private deletedItems: any[] = [];
+    public createdItems: any[] = [];
+    public updatedItems: any[] = [];
+    public deletedItems: any[] = [];
     private configuration:EditServiceConfiguration;
 
     constructor() {
