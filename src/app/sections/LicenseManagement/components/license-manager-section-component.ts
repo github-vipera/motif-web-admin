@@ -17,7 +17,7 @@ const LOG_TAG = "[LicenseManagerSection]";
 export class LicenseManagerSectionComponent implements OnInit {
 
     private _licenses : LicenseList = [];
-    public loading:boolean;
+    private loading:boolean;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService,
@@ -53,4 +53,7 @@ export class LicenseManagerSectionComponent implements OnInit {
         }))
     }
     
+    private onRefreshClicked():void{
+        this.refreshData();
+    }
 }
