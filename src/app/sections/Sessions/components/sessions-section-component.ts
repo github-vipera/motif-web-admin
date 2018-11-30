@@ -11,6 +11,7 @@ import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-dat
 import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-console-core';
 import { DomainsService, DomainsList, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import * as _ from 'lodash';
 
 
 const LOG_TAG = "[SessionsSection]";

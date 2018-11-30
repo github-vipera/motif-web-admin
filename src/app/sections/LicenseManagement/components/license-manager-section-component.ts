@@ -3,6 +3,7 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
+import * as _ from 'lodash';
 
 const LOG_TAG = "[LicenseManagerSection]";
 

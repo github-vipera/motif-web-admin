@@ -65,6 +65,10 @@
                         </ng-template>
                 </kendo-grid-column>
 
+                <div *kendoGridDetailTemplate="let dataItem">
+                    <wa-license-details [licenseItem]="dataItem"></wa-license-details>
+                </div>
+    
             </kendo-grid>
 
 
