@@ -7,7 +7,7 @@ export class SessionRow {
     public application: string;
     public service: string;
     public channel: string;
-    public lastAccess: string;
+    public lastAccess: Date;
     public lastRequestID: string;
     public expiry: string;
 }

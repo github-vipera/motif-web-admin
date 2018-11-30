@@ -31,16 +31,16 @@
 -->
 
 <div class="row">
-        <kendo-grid #datagrid [data]="gridData" 
-            style="height: 100%"
-            [columnMenu]="true"
-            [resizable]="true" 
-            [reorderable]="false" 
-            [navigable]="false"
-            [sort]="sort"
-            (sortChange)="sortChange($event)"
-            [sortable]="sortOptions"
-            (dataStateChange)="dataStateChange($event)">  
+    <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
+        style="height: 100%" [pageSize]="pageSize" [skip]="skip" [pageable]="{
+        buttonCount: 5,
+        info: true,
+        type: type,
+        pageSizes: true,
+        previousNext: true
+        }" [scrollable]="'none'" (pageChange)="pageChange($event)">
+>
+
 
                 <kendo-grid-column
                     field="clientIp" title="Client IP" width="160">
@@ -81,7 +81,7 @@
                 </kendo-grid-column>
 
                 <kendo-grid-column
-                        field="lastAccess" title="Last Access">
+                        field="lastAccess" title="Last Access" format="{0:dd/MM/yyyy HH:mm:ss}">
                 </kendo-grid-column>
 
                 <kendo-grid-column
