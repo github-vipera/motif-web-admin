@@ -183,4 +183,47 @@ export class SessionsSectionComponent implements OnInit {
         this._selectedApplication = application;
         this.loadData(this._selectedDomain,this._selectedApplication, 1, this.pageSize);
     }
+
+  /**
+   * Reload the list of the current sessions
+   */
+  public refreshData():void{
+    this.logger.debug(LOG_TAG, "refreshData domain=", this._selectedDomain.name, " application=" + this._selectedApplication +" currentPage=", this.currentPage, " pageSize=", this.pageSize);
+    this.loadData(this._selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
+  }
+
+
+    onDeleteOKPressed(dataItem:any):void {
+        this.logger.debug(LOG_TAG, "onDeleteOKPressed dataItem=", dataItem);
+        this.securityService.closeSession(dataItem.id).subscribe((data)=>{
+            this.logger.debug(LOG_TAG, "onDeleteOKPressed OK:", data);
+            this.showInfo("Session Delete", "Session deleted successfully.")
+            this.refreshData();
+        }, (error)=>{
+            this.logger.error(LOG_TAG, "onDeleteOKPressed error:", error);
+            this.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code +"]");
+        });
+    }
+
+   /**
+     * Show Info Toast
+     * @param title 
+     * @param message 
+     */
+    private showInfo(title:string, message:string):void {
+        this.toaster.info(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
+
+    /**
+     * Show Error Toast
+     * @param title 
+     * @param message 
+     */
+    private showError(title:string, message:string):void {
+        this.toaster.error(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
 }
