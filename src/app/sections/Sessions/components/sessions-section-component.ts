@@ -31,7 +31,7 @@ export class SessionsSectionComponent implements OnInit {
     public groups: GroupDescriptor[] = [];
     public gridView: DataResult;
     public type: 'numeric' | 'input' = 'numeric';
-    public pageSize = 3;
+    public pageSize = 15;
     public skip = 0;
     public currentPage = 1;
     public totalPages = 0;
