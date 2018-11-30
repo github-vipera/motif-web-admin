@@ -15,6 +15,7 @@ import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
 import { OAuth2SectionModule } from './sections/OAuth2/OAuth2SectionModule';
 import { SessionsSectionModule } from './sections/Sessions/SessionsSectionModule'
+import { LicenseManagerSectionModule } from './sections/LicenseManagement/LicenseManagerSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     WebConsoleCoreModule,
     ConfigurationSectionModule,
     OAuth2SectionModule,
-    SessionsSectionModule
+    SessionsSectionModule,
+    LicenseManagerSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
