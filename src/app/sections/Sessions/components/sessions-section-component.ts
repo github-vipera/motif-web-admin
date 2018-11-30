@@ -9,6 +9,7 @@ import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-console-core';
+import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
 
 
 const LOG_TAG = "[SessionsSection]";
@@ -38,11 +39,15 @@ export class SessionsSectionComponent implements OnInit {
     public totalRecords = 0;
     public isFieldSortable=false;
       
+    public domainList: DomainsList = [];
+    public _selectedDomain:Domain; //combo box selection
+  
     private _sessionRows : SessionRow[] = [];
 
     constructor(private logger: NGXLogger, 
         private securityService:SecurityService,
         private toaster: WCToasterService,
+        private domainsService:DomainsService,
         private renderer:Renderer){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
@@ -52,15 +57,28 @@ export class SessionsSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
-        this.loadData(1, this.pageSize);
+        this.refreshDomainList();
+        this.loadData(null, 1, this.pageSize);
     }
 
-    private loadData(pageIndex:number, pageSize:number){
-          this.logger.debug(LOG_TAG, "loadData pageIndex=", pageIndex, " pageSize=", pageSize);
+
+    /**
+     * Get the list of the available Domains
+     */
+    public refreshDomainList():void {
+        this.domainsService.getDomains().subscribe(data=>{
+        this.domainList = data;
+        }, error=>{
+        console.error("Error: ", error);
+        });
+    } 
+    
+    private loadData(domain:string, pageIndex:number, pageSize:number){
+          this.logger.debug(LOG_TAG, "loadData domain='" + domain+ "' pageIndex=", pageIndex, " pageSize=", pageSize);
     
           let sort:MotifQuerySort = this.buildQuerySort();
-               
-          this.securityService.getSessions(null, null, null, null, null, null, pageIndex, pageSize, 'response').subscribe((response)=>{
+            
+          this.securityService.getSessions(null, null, domain, null, null, null, pageIndex, pageSize, 'response').subscribe((response)=>{
     
             let results:MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
             
@@ -79,19 +97,6 @@ export class SessionsSectionComponent implements OnInit {
                 total: results.totalRecords
               }
               
-            /*
-            this.refreshTokenList = _.forEach(results.data, function(element) {
-              element.createTime = new Date(element.createTime);
-              element.expiryTime = new Date(element.expiryTime);
-            });
-            this.totalPages = results.totalPages;
-            this.totalRecords = results.totalRecords;
-            this.currentPage = results.pageIndex;
-            this.gridView = {
-              data: this.refreshTokenList,
-              total: results.totalRecords
-            }
-            */
     
           }, error=>{
             this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
@@ -126,4 +131,18 @@ export class SessionsSectionComponent implements OnInit {
         return querySort;
       }
     
+    /**
+     * Set the selcted domain
+     */
+    @Input()
+    public set selectedDomain(domain:Domain){
+        this._selectedDomain = domain;
+        if (this._selectedDomain){
+            this.logger.debug(LOG_TAG, "selectedDomain domain=", this._selectedDomain.name);
+            this.loadData(this._selectedDomain.name, 1, this.pageSize);
+        } else {
+            this.logger.debug(LOG_TAG, "selectedDomain domain=no selection");
+            this.loadData(null, 1, this.pageSize);
+        }
+    }
 }

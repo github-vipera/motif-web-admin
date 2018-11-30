@@ -1,34 +1,27 @@
 <wc-dashboard-header [title]="'Sessions'"></wc-dashboard-header>
 
-<!--
 <div class="row spread">
 
     <div class="flex-toolbar" style="display:flex;align-items: center;">
+
+        <div>
+            <label>Domain</label>
+            <kendo-combobox [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
+        </div>
+
+        <div style="margin-right:10px;width:60%;max-width: 400px;">
+            <label>Application</label>
+            <kendo-combobox  [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
+        </div>
+
        <div style="margin-right:10px;width:60%;max-width: 400px;">
             <label>Service</label>
-            <kendo-combobox [data]="servicesList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
+            <kendo-combobox  [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
         </div>
         
-        <div>
-            <label>&nbsp;</label>
-            <kendo-buttongroup look="flat">
-                <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
-                <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()" [disabled]="!editService.hasChanges()">Discard Changes</button>
-                <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty">Add Property</button>
-            </kendo-buttongroup>
-        </div>
-    </div>
-
-    <div class="flex-cmd">
-        <kendo-buttongroup look="flat">
-            <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">Refresh</button>
-            <button kendoButton [toggleable]="false" [icon]="'arrow-up'" (click)="onExportClicked()" [disabled]="!canExport">Export</button>
-            <button kendoButton kendofileselect tyle="file" [toggleable]="false" [icon]="'arrow-down'" (click)="onImportClicked()">Import</button>
-        </kendo-buttongroup>
     </div>
 
 </div>
--->
 
 <div class="row">
     <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
