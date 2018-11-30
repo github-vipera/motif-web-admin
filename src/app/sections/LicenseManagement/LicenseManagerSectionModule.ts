@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { SecurityServiceModule } from '@wa-motif-open-api/security-service'
+import { LicenseManagementServiceModule } from '@wa-motif-open-api/license-management-service'
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LicenseManagerSectionComponent } from './components/license-manager-section-component'
 import { LoggerModule } from 'web-console-core'
@@ -11,7 +11,7 @@ import { EditService } from '../../components/Grid/edit.service';
 @NgModule({
     imports: [
         DialogModule, 
-        SecurityServiceModule, 
+        LicenseManagementServiceModule, 
         GridModule, 
         LoggerModule, 
         WebConsoleUIKitCoreModule, 

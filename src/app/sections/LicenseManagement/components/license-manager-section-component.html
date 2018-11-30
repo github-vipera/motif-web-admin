@@ -24,41 +24,28 @@
 </div>
 
 <div class="row">
-        <kendo-grid #datagrid [data]="view | async" 
+        <kendo-grid #datagrid [data]="_licenses" 
                 [loading]="loading"  
                 (cellClick)="cellClickHandler($event)"
                 (cellClose)="cellCloseHandler($event)"
                 (dataStateChange)="onStateChange($event)"
                 (cellClose)="cellCloseHandler($event)"
-                [navigable]="true"> 
+                [navigable]="false"> 
 
                 <kendo-grid-column
-                    field="name" title="Name" width="360">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <label class="k-icon grid-cell-dirty grid-cell-dirty-{{dataItem.dirty}}"></label>
-                            {{dataItem.name}}
-                        </ng-template>
-                </kendo-grid-column>
-
-                <kendo-grid-column field="value" title="Value" >
-                </kendo-grid-column>
-                <kendo-grid-column field="type" title="Type" width="150">
+                    field="productName" title="Product Name" >
                 </kendo-grid-column>
 
                 <kendo-grid-column
-                    media="(min-width: 80px)"
-                    title="Dynamic" width="80">
-                    <ng-template kendoGridCellTemplate let-dataItem>
-                        <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.dynamic}}"></label>
-                    </ng-template>
-               </kendo-grid-column>
+                    field="productVersion" title="Product Version" width="360">
+                </kendo-grid-column>
 
-               <kendo-grid-column
-                    media="(min-width: 80px)"
-                    title="Crypted" width="80">
-                    <ng-template kendoGridCellTemplate let-dataItem>
-                        <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.crypted}}"></label>
-                    </ng-template>
+                <kendo-grid-column
+                    field="issueDate" title="Issue Date" width="360" format="{0:dd/MM/yyyy HH:mm:ss}">
+                </kendo-grid-column>
+
+                <kendo-grid-column
+                    field="expiryDate" title="Expiry Date" width="360" format="{0:dd/MM/yyyy HH:mm:ss}">
                 </kendo-grid-column>
 
                 <kendo-grid-column title="" width="150" minResizableWidth="140">
@@ -81,5 +68,15 @@
             </kendo-grid>
 
 
-
+<!--
+"id": 820,
+			"productName": "ViperaOSGI",
+			"productVersion": "2.1",
+			"issueDate": 1530474457803,
+			"expiryDate": 1893527257803,
+			"maxUserNumber": 100,
+			"license": "1iPNsNJNE+YxqW7zkfUVn8/nYWJ3RTD8vj6YwZ+GFJb2Hthhw24l5evGaYV1Pj/50/cjcnNmwOYhEU/1/7O5X8HY9Ebs3n65HWtzf/ZonoY7yAe8bR8xv5u+rAhvdKApJlB4VDmVkt8tDcp2Lf8X4yHkTBlJXdBmsAWu3k2Vses=",
+			"customerName": "Motif_2.1.dev_WEBCONSOLE",
+			"customerEmail": "marco.tormento@vipera.com"
+-->
 </div>
