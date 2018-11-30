@@ -11,7 +11,7 @@
 
         <div style="margin-right:10px;width:60%;max-width: 400px;">
             <label>Application</label>
-            <kendo-combobox  [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
+            <kendo-combobox #applicationsCombo [data]="applicationsList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedApplication" style="width:100%;"></kendo-combobox>
         </div>
 
        <div style="margin-right:10px;width:60%;max-width: 400px;">
@@ -24,7 +24,9 @@
 </div>
 
 <div class="row">
-    <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
+    <kendo-grid [data]="gridView" [columnMenu]="true"
+        [loading]="loading"  
+        [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
         style="height: 100%" [pageSize]="pageSize" [skip]="skip" [pageable]="{
         buttonCount: 5,
         info: true,

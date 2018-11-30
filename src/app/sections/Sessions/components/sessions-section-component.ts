@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
@@ -9,7 +9,8 @@ import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-console-core';
-import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
+import { DomainsService, DomainsList, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 
 const LOG_TAG = "[SessionsSection]";
@@ -25,6 +26,7 @@ const LOG_TAG = "[SessionsSection]";
 export class SessionsSectionComponent implements OnInit {
 
     @ViewChild(GridComponent) _grid : GridComponent;
+    @ViewChild('applicationsCombo') _appComboBox : ComboBoxComponent;
 
     //Grid Options
     public gridConfiguration:WCGridConfiguration;
@@ -41,14 +43,19 @@ export class SessionsSectionComponent implements OnInit {
       
     public domainList: DomainsList = [];
     public _selectedDomain:Domain; //combo box selection
-  
+
+    public applicationsList: ApplicationsList = [];
+    public _selectedApplication:Application; //combo box selection
+
+    public loading : boolean = false;
+
     private _sessionRows : SessionRow[] = [];
 
     constructor(private logger: NGXLogger, 
         private securityService:SecurityService,
         private toaster: WCToasterService,
         private domainsService:DomainsService,
-        private renderer:Renderer){
+        private applicationsService:ApplicationsService){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -58,7 +65,7 @@ export class SessionsSectionComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
         this.refreshDomainList();
-        this.loadData(null, 1, this.pageSize);
+        this.loadData(null, null, 1, this.pageSize);
     }
 
 
@@ -72,13 +79,32 @@ export class SessionsSectionComponent implements OnInit {
         console.error("Error: ", error);
         });
     } 
+
+    public refreshApplicationsList():void {
+        this._appComboBox.value = null;
+        this._selectedApplication = undefined;
+        if (this._selectedDomain){
+            this.applicationsService.getApplications(this._selectedDomain.name).subscribe(data=>{
+                this.applicationsList = data;
+                }, error=>{
+                console.error("Error: ", error);
+                });
+        } else {
+            this.applicationsList = [];
+        }
+    }
     
-    private loadData(domain:string, pageIndex:number, pageSize:number){
-          this.logger.debug(LOG_TAG, "loadData domain='" + domain+ "' pageIndex=", pageIndex, " pageSize=", pageSize);
+    private loadData(domain:Domain , application:Application, pageIndex:number, pageSize:number){
+          this.logger.debug(LOG_TAG, "loadData domain='" + domain+ "' application='"+application+"' pageIndex=", pageIndex, " pageSize=", pageSize);
     
+          this.loading = true;
+
           let sort:MotifQuerySort = this.buildQuerySort();
-            
-          this.securityService.getSessions(null, null, domain, null, null, null, pageIndex, pageSize, 'response').subscribe((response)=>{
+                      
+          let domainName = (domain?domain.name:null);
+          let applicationName = (application?application.name:null);
+          
+          this.securityService.getSessions(null, null, domainName, applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response)=>{
     
             let results:MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
             
@@ -97,9 +123,11 @@ export class SessionsSectionComponent implements OnInit {
                 total: results.totalRecords
               }
               
+              this.loading = false;
     
           }, error=>{
             this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
+            this.loading = false;
           });
       }
     
@@ -108,7 +136,7 @@ export class SessionsSectionComponent implements OnInit {
         this.skip = skip;
         this.pageSize = take;
         let newPageIndex = this.calculatePageIndex(skip, take);
-        this.loadData(newPageIndex, this.pageSize);
+        this.loadData(this._selectedDomain, this._selectedApplication, newPageIndex, this.pageSize);
       }
     
       private calculatePageIndex(skip:number, take:number):number {
@@ -137,12 +165,22 @@ export class SessionsSectionComponent implements OnInit {
     @Input()
     public set selectedDomain(domain:Domain){
         this._selectedDomain = domain;
+        this.refreshApplicationsList();
         if (this._selectedDomain){
             this.logger.debug(LOG_TAG, "selectedDomain domain=", this._selectedDomain.name);
-            this.loadData(this._selectedDomain.name, 1, this.pageSize);
+            this.loadData(this._selectedDomain, this._selectedApplication, 1, this.pageSize);
         } else {
             this.logger.debug(LOG_TAG, "selectedDomain domain=no selection");
-            this.loadData(null, 1, this.pageSize);
+            this.loadData(null, null, 1, this.pageSize);
         }
+    }
+
+     /**
+     * Set the selcted domain
+     */
+    @Input()
+    public set selectedApplication(application:Application){
+        this._selectedApplication = application;
+        this.loadData(this._selectedDomain,this._selectedApplication, 1, this.pageSize);
     }
 }
