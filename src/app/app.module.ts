@@ -16,6 +16,7 @@ import { ConfigurationSectionModule } from './sections/Configuration/Configurati
 import { OAuth2SectionModule } from './sections/OAuth2/OAuth2SectionModule';
 import { SessionsSectionModule } from './sections/Sessions/SessionsSectionModule'
 import { LicenseManagerSectionModule } from './sections/LicenseManagement/LicenseManagerSectionModule'
+import { LogSectionModule } from './sections/Log/LogSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
     ConfigurationSectionModule,
     OAuth2SectionModule,
     SessionsSectionModule,
-    LicenseManagerSectionModule
+    LicenseManagerSectionModule,
+    LogSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 

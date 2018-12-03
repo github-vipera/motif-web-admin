@@ -39,6 +39,7 @@
     "@types/file-saver": "^2.0.0",
     "@wa-motif-open-api/configuration-service": "^0.0.4",
     "@wa-motif-open-api/license-management-service": "0.0.4",
+    "@wa-motif-open-api/log-service": "0.0.4",
     "@wa-motif-open-api/oauth2-service": "^0.0.4",
     "@wa-motif-open-api/platform-service": "^0.0.4",
     "@wa-motif-open-api/security-service": "^0.0.4",
