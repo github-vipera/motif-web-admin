@@ -19,6 +19,13 @@ body {
 }
 */
 
+:host{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+ }
+ 
+
 :host ::ng-deep table .edit>label.btn.user-status-active {
     background-color: green !important;
 }

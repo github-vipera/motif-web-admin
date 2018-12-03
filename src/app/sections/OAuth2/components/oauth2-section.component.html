@@ -8,7 +8,7 @@
 
 </div>
 
-<div class="row">
+<div class="row fill">
 
     <!--
         <div id="user-add" class="editor slidedown AVAST_PAM_signupform">
@@ -34,13 +34,13 @@
 
     <div>
         <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
-            style="height: 100%" [pageSize]="pageSize" [skip]="skip" [pageable]="{
+            [scrollable]="true" [pageSize]="pageSize" [skip]="skip" [pageable]="{
                 buttonCount: 5,
                 info: true,
                 type: type,
                 pageSizes: true,
                 previousNext: true
-                }" [scrollable]="'none'" (pageChange)="pageChange($event)">
+                }" (pageChange)="pageChange($event)">
             <kendo-grid-column field="createTime" title="Created" sortable="isFieldSortable" format="{0:dd/MM/yyyy HH:mm:ss}">
             </kendo-grid-column>
             <kendo-grid-column field="expiryTime" title="Expiry Time" format="{0:dd/MM/yyyy HH:mm:ss}">
