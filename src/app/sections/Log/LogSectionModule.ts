@@ -6,6 +6,7 @@ import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { LogSectionComponent } from './components/log-section-component'
 import { ClipboardModule } from 'ngx-clipboard';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { ClipboardModule } from 'ngx-clipboard';
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
-        ClipboardModule
+        ClipboardModule,
+        DateInputsModule
     ],
     entryComponents:[
         LogSectionComponent

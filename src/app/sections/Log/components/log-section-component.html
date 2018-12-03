@@ -9,21 +9,32 @@
         </div>
         <div>
             <label>ROOT Log Level</label>
-            <select>
-                <option>ERROR</option>
-                <option>DEBUG</option>
-            </select>
+            <kendo-dropdownlist [data]="logLevels" [textField]="'level'" [valueField]="'level'" [(ngModel)]="rootLogLevel" [valuePrimitive]="false"></kendo-dropdownlist>
+        </div>
+        <!--
+        <div> 
+            <label>Data Record Type</label>
+            <kendo-dropdownlist [data]="dataRecordTypes" [(ngModel)]="dataRecordType" [valuePrimitive]="true"></kendo-dropdownlist>
         </div>
         <div>
-            <label>Data Record Type</label>
-            <select>
-                <option>PERFORMANCE</option>
-                <option>DIAGNOSTIC</option>
-            </select>
+            <kendo-daterange>
+                <label>
+                    <span class="label">Start</span>
+                    <kendo-dateinput kendoDateRangeStartInput [(value)]="range.start"></kendo-dateinput>
+                </label>
+                <label>
+                    <span class="label">End</span>
+                    <kendo-dateinput kendoDateRangeEndInput [(value)]="range.end"></kendo-dateinput>
+                </label>
+            </kendo-daterange>            
         </div>
+    -->
     </div>
 
     <div class="flex-cmd">
+        <kendo-buttongroup look="flat">
+            <button kendoButton [toggleable]="false" [icon]="'arrow-right'" (click)="onExportClicked()">Export</button>
+        </kendo-buttongroup>
         <kendo-buttongroup look="flat">
             <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onDownloadClicked()">Download</button>
         </kendo-buttongroup>
@@ -36,6 +47,36 @@
 
 <div class="row fill">
     <div>			
+            <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
+                <div> 
+                    <label>Data Record Type</label>
+                    <kendo-dropdownlist [data]="dataRecordTypes" [(ngModel)]="dataRecordType" [valuePrimitive]="true"></kendo-dropdownlist>
+                </div>
+                <div>
+                    <kendo-daterange style="display:flex;">
+                        <div>
+                            <label>Start</label>
+                            <kendo-dateinput kendoDateRangeStartInput [(value)]="range.start"></kendo-dateinput>
+                        </div>
+                        <div>
+                            <label>End</label>
+                            <kendo-dateinput kendoDateRangeEndInput [(value)]="range.end"></kendo-dateinput>
+                        </div>
+                    </kendo-daterange>            
+                </div>
+
+                <div class="cmd" style="padding-top: 11px;align-items: center;">
+                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Export?</label>
+                    <a (click)="onExportConfirm()">
+                        <svg class="ok" data-id="ok"><use xlink:href="assets/img/icons.svg#ico-ok"></use></svg> 
+                    </a>
+                    <a (click)="onExportCancel()" data-slideup="#user-add">
+                        <svg class="ko" data-id="ko"><use xlink:href="assets/img/icons.svg#ico-ko"></use></svg>
+                    </a>
+                </div>
+
+            </div>
+    
         <label>Log <div class="cmd"><button class="small" data-copy="#output" (click)="onCopyToClipboardClicked()">Copy</button></div></label>
         <textarea class="fill log-pane" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
     </div>
