@@ -1,7 +1,5 @@
 <wc-dashboard-header [title]="'Log'"></wc-dashboard-header>
 
-<div id="pippo">Pippo</div>
-
 <div class="row spread">
 
     <div class="flex-toolbar" style="display:flex;align-items: center;">
@@ -20,105 +18,6 @@
 <div class="row fill">
     <div>			
         <label>Log <div class="cmd"><button class="small" data-copy="#output">Copy</button></div></label>
-        <textarea class="fill pre" spellcheck="false" id="output">2017-03-06 17:06:51 DEBUG HibernatePersistenceService - query=from com.vipera.osgi.core.persistence.entity.AdminUser where domain.name=:a and userId=:b params=2
-2017-03-06 17:06:51 DEBUG SQL - select adminuser0_.`ID` as ID1_1_, adminuser0_.`DOMAINSID` as DOMAINSI7_1_, adminuser0_.`EMAIL` as EMAIL2_1_, adminuser0_.`FIRSTNAME` as FIRSTNAM3_1_, adminuser0_.`LASTNAME` as LASTNAME4_1_, adminuser0_.`STATE` as STATE5_1_, adminuser0_.`USERID` as USERID6_1_ from VIPERA.`ADMINS` adminuser0_ cross join VIPERA.`DOMAINS` domain1_ where adminuser0_.`DOMAINSID`=domain1_.`ID` and domain1_.`NAME`=? and adminuser0_.`USERID`=?
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 0
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.AdminUser#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.AdminUser#-1]
-2017-03-06 17:06:51 DEBUG Loader - Loading entity: [com.vipera.osgi.core.persistence.entity.Domain#-1]
-2017-03-06 17:06:51 DEBUG SQL - select domain0_.`ID` as ID1_11_0_, domain0_.`DESCRIPTION` as DESCRIPT2_11_0_, domain0_.`NAME` as NAME3_11_0_ from VIPERA.`DOMAINS` domain0_ where domain0_.`ID`=?
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 0
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Domain#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Domain#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Domain#-1]
-2017-03-06 17:06:51 DEBUG Loader - Done entity load
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.AdminUser#-1]
-2017-03-06 17:06:51 DEBUG Loader - Loading collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG SQL - select roles0_.`ADMINSID` as ADMINSID1_1_1_, roles0_.`ROLESID` as ROLESID2_2_1_, role1_.`ID` as ID1_34_0_, role1_.`DESCRIPTION` as DESCRIPT2_34_0_, role1_.`NAME` as NAME3_34_0_ from VIPERA.`ADMIN_ROLE` roles0_ inner join VIPERA.`ROLES` role1_ on roles0_.`ROLESID`=role1_.`ID` where roles0_.`ADMINSID`=?
-2017-03-06 17:06:51 DEBUG Loader - Result set contains (possibly empty) collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 0
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Role#-5]
-2017-03-06 17:06:51 DEBUG Loader - Found row of collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 1
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Role#-4]
-2017-03-06 17:06:51 DEBUG Loader - Found row of collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 2
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Role#-3]
-2017-03-06 17:06:51 DEBUG Loader - Found row of collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 3
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Role#-2]
-2017-03-06 17:06:51 DEBUG Loader - Found row of collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 4
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Role#-1]
-2017-03-06 17:06:51 DEBUG Loader - Found row of collection: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Role#-5]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Role#-5]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Role#-4]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Role#-4]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Role#-3]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Role#-3]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Role#-2]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Role#-2]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Role#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Role#-1]
-2017-03-06 17:06:51 DEBUG CollectionLoadContext - 1 collections were found in result set for role: com.vipera.osgi.core.persistence.entity.AdminUser.roles
-2017-03-06 17:06:51 DEBUG CollectionLoadContext - Collection fully initialized: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1]
-2017-03-06 17:06:51 DEBUG CollectionLoadContext - 1 collections initialized for role: com.vipera.osgi.core.persistence.entity.AdminUser.roles
-2017-03-06 17:06:51 DEBUG Loader - Done loading collection
-2017-03-06 17:06:51 DEBUG HibernatePersistenceService - query=from com.vipera.osgi.core.persistence.entity.Credentials where adminUser=:a order by id desc params=1
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Processing flush-time cascades
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Dirty checking collections
-2017-03-06 17:06:51 DEBUG Collections - Collection found: [com.vipera.osgi.core.persistence.entity.AdminUser.credentials#-1], was: [com.vipera.osgi.core.persistence.entity.AdminUser.credentials#-1] (uninitialized)
-2017-03-06 17:06:51 DEBUG Collections - Collection found: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1], was: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1] (initialized)
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Flushed: 0 insertions, 0 updates, 0 deletions to 7 objects
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 2 collections
-2017-03-06 17:06:51 DEBUG EntityPrinter - Listing entities:
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.AdminUser{firstName=null, lastName=null, credentials=, domain=com.vipera.osgi.core.persistence.entity.Domain#-1, roles=[com.vipera.osgi.core.persistence.entity.Role#-5, com.vipera.osgi.core.persistence.entity.Role#-1, com.vipera.osgi.core.persistence.entity.Role#-2, com.vipera.osgi.core.persistence.entity.Role#-4, com.vipera.osgi.core.persistence.entity.Role#-3], id=-1, state=null, userId=admin, email=null}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Domain{name=Default, description=The default domain, id=-1}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=WEBADMIN, description=WebAdmin Role, id=-1}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=TECMAN, description=Technical Manager Role, id=-2}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=BSSMAN, description=Business Manager Role, id=-3}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=LOGMAN, description=Log Manager Role, id=-4}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=SU, description=Super User Role, id=-5}
-2017-03-06 17:06:51 DEBUG SQL - select credential0_.`ID` as ID1_10_, credential0_.`ADMINSID` as ADMINSID7_10_, credential0_.`CREATED` as CREATED2_10_, credential0_.`FAILURES` as FAILURES3_10_, credential0_.`PASSWD` as PASSWD4_10_, credential0_.`PUBKEY` as PUBKEY5_10_, credential0_.`SALT` as SALT6_10_, credential0_.`USERSID` as USERSID8_10_ from VIPERA.`CREDENTIALS` credential0_ where credential0_.`ADMINSID`=? order by credential0_.`ID` desc limit ?
-2017-03-06 17:06:51 DEBUG Loader - Result set row: 0
-2017-03-06 17:06:51 DEBUG Loader - Result row: EntityKey[com.vipera.osgi.core.persistence.entity.Credentials#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Resolving associations for [com.vipera.osgi.core.persistence.entity.Credentials#-1]
-2017-03-06 17:06:51 DEBUG TwoPhaseLoad - Done materializing entity [com.vipera.osgi.core.persistence.entity.Credentials#-1]
-2017-03-06 17:06:51 DEBUG CryptoFactory - Produced MessageDigest instance with "SHA-512" transformation.
-2017-03-06 17:06:51 DEBUG JceCryptoService - Hashing completed using SHA2_512 algorithm.
-2017-03-06 17:06:51 DEBUG HibernateUtil - commitTransaction: Thread[qtp1306974118-54 - /rest/webadminrest/log/set/level,5,Configuration Admin Service]
-2017-03-06 17:06:51 DEBUG AbstractTransactionImpl - committing
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Processing flush-time cascades
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Dirty checking collections
-2017-03-06 17:06:51 DEBUG Collections - Collection found: [com.vipera.osgi.core.persistence.entity.AdminUser.credentials#-1], was: [com.vipera.osgi.core.persistence.entity.AdminUser.credentials#-1] (uninitialized)
-2017-03-06 17:06:51 DEBUG Collections - Collection found: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1], was: [com.vipera.osgi.core.persistence.entity.AdminUser.roles#-1] (initialized)
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Flushed: 0 insertions, 0 updates, 0 deletions to 8 objects
-2017-03-06 17:06:51 DEBUG AbstractFlushingEventListener - Flushed: 0 (re)creations, 0 updates, 0 removals to 2 collections
-2017-03-06 17:06:51 DEBUG EntityPrinter - Listing entities:
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.AdminUser{firstName=null, lastName=null, credentials=, domain=com.vipera.osgi.core.persistence.entity.Domain#-1, roles=[com.vipera.osgi.core.persistence.entity.Role#-5, com.vipera.osgi.core.persistence.entity.Role#-1, com.vipera.osgi.core.persistence.entity.Role#-2, com.vipera.osgi.core.persistence.entity.Role#-4, com.vipera.osgi.core.persistence.entity.Role#-3], id=-1, state=null, userId=admin, email=null}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Domain{name=Default, description=The default domain, id=-1}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=WEBADMIN, description=WebAdmin Role, id=-1}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Credentials{password={SHA2_512}c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec, failures=0, salt=null, adminUser=com.vipera.osgi.core.persistence.entity.AdminUser#-1, created=2000-01-01 00:00:00.0, id=-1, user=null, pubKey=null}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=TECMAN, description=Technical Manager Role, id=-2}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=BSSMAN, description=Business Manager Role, id=-3}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=LOGMAN, description=Log Manager Role, id=-4}
-2017-03-06 17:06:51 DEBUG EntityPrinter - com.vipera.osgi.core.persistence.entity.Role{name=SU, description=Super User Role, id=-5}
-2017-03-06 17:06:51 DEBUG JdbcTransaction - committed JDBC Connection
-2017-03-06 17:06:51 DEBUG LogicalConnectionImpl - Releasing JDBC connection
-2017-03-06 17:06:51 DEBUG LogicalConnectionImpl - Released JDBC connection
-2017-03-06 17:06:51 DEBUG HazelcastCacheService - replication name Oqy3Mw58Em4AJt3Ekw7XjljBKYdAwOd8
-2017-03-06 17:06:51 DEBUG HazelcastCacheService - creating distributed map Oqy3Mw58Em4AJt3Ekw7XjljBKYdAwOd8
-2017-03-06 17:06:51 DEBUG CryptoFactory - Produced MessageDigest instance with "SHA-512" transformation.
-2017-03-06 17:06:51 DEBUG JceCryptoService - Hashing completed using SHA2_512 algorithm.
-2017-03-06 17:06:51 DEBUG ServletHandler - chain=org.ops4j.pax.web.service.spi.model.FilterModel-68-&gt;org.ops4j.pax.web.service.spi.model.ServletModel-67
-2017-03-06 17:06:51 DEBUG ServletHandler - call filter org.ops4j.pax.web.service.spi.model.FilterModel-68
-2017-03-06 17:06:51 DEBUG ServletHandler - call servlet org.ops4j.pax.web.service.spi.model.ServletModel-67
-2017-03-06 17:07:30 WARN  WebAdminPort - HTTP response IO error: EOFException
-2017-03-06 17:09:00 WARN  SqlExceptionHelper - SQL Error: 1062, SQLState: 23000
-2017-03-06 17:09:00 ERROR SqlExceptionHelper - Duplicate entry 'datamon_201703061709' for key 'UQ_SCHEDEXEC'
-2017-03-06 17:10:00 WARN  SqlExceptionHelper - SQL Error: 1054, SQLState: 42S22
-2017-03-06 17:10:00 ERROR SqlExceptionHelper - Unknown column 'ntspayment0_.WARRANTIES' in 'field list'
-2017-03-06 17:10:00 ERROR PaymentService - Unable to list N&amp;TS candidate refunds: com.vipera.osgi.core.persistence.PersistenceException: could not extract ResultSet</textarea>
+        <textarea class="fill" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
     </div>
 </div>
