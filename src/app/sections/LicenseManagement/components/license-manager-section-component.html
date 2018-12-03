@@ -26,10 +26,6 @@
 <div class="row">
         <kendo-grid #datagrid [data]="_licenses" 
                 [loading]="loading"  
-                (cellClick)="cellClickHandler($event)"
-                (cellClose)="cellCloseHandler($event)"
-                (dataStateChange)="onStateChange($event)"
-                (cellClose)="cellCloseHandler($event)"
                 [navigable]="false"> 
 
                 <kendo-grid-column
@@ -59,7 +55,7 @@
                                 [dataItem]="dataItem"
                                 [buttonClass]="''" 
                                 [mainClass]="'wc-table-delete-command'"
-                                (onConfirmation)="onDeleteOKPressed(dataItem)" (onCancel)="onDeleteCancelPressed(dataItem)">
+                                (onConfirmation)="onDeleteOKPressed(dataItem)">
                                     <svg data-id="no"><use xlink:href="assets/img/icons.svg#ico-no"></use></svg>
                                 </wc-grid-editor>
                         </ng-template>

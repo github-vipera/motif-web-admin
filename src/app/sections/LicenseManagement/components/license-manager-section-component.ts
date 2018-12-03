@@ -59,6 +59,17 @@ export class LicenseManagerSectionComponent implements OnInit {
         this.refreshData();
     }
 
+    public onDeleteOKPressed(license:License):void {
+        this.logger.debug(LOG_TAG ,"Revoking license: ", license);
+        this.licenseManager._delete(license.productName, license.productVersion).subscribe((data)=>{
+            this.logger.info(LOG_TAG ,"License revoke success:", data);
+            this.showInfo("Revoke License", "The license has been successfully revoked");
+            this.refreshData();
+          }, (error)=>{
+            this.logger.error(LOG_TAG,"Revoking license error:", error);
+            this.showError("Revoke License", "Revoking license error: " + error.error.Code + "\n" + error.error.Details);
+        });
+    }
 
     /**
      * Show Info Toast
