@@ -4,6 +4,7 @@ import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import { LogService } from '@wa-motif-open-api/log-service'
 import * as _ from 'lodash';
+import { ClipboardService } from 'ngx-clipboard'
 
 const LOG_TAG = "[LogSection]";
 
@@ -25,7 +26,8 @@ export class LogSectionComponent implements OnInit {
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService,
         private logService: LogService,
-        private renderer:Renderer){
+        private renderer:Renderer,
+        private clipboardService: ClipboardService){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -62,14 +64,18 @@ export class LogSectionComponent implements OnInit {
 
     public onRefreshClicked():void {
         this.logService.tailCurrentLog(100).subscribe((logTail:LogTail)=>{
-            this.logger.debug(LOG_TAG ,"tailCurrentLog :", logTail);
-            this.logger.debug(LOG_TAG ,"tailCurrentLog string:", logTail.data);
-            this.tailLines = logTail.data;//.replace(new RegExp('\n', 'g'), "<br />")
+            //this.logger.debug(LOG_TAG ,"tailCurrentLog :", logTail);
+            //this.logger.debug(LOG_TAG ,"tailCurrentLog string:", logTail.data);
+            this.tailLines = logTail.data;
             this.linesCount = logTail.lines;
         }, (error)=>{
             this.logger.error(LOG_TAG ,"tailCurrentLog error:", error);
         });
     }
 
+    public onCopyToClipboardClicked():void {
+        this.clipboardService.copyFromContent(this.tailLines);
+        this.showInfo("Log Tail", "The current displayed log has been copied to the clipboard");
+    }
 
 }

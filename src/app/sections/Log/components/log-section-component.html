@@ -17,7 +17,7 @@
 
 <div class="row fill">
     <div>			
-        <label>Log <div class="cmd"><button class="small" data-copy="#output">Copy</button></div></label>
+        <label>Log <div class="cmd"><button class="small" data-copy="#output" (click)="onCopyToClipboardClicked()">Copy</button></div></label>
         <textarea class="fill" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
     </div>
 </div>

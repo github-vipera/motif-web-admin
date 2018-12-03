@@ -5,6 +5,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { LogSectionComponent } from './components/log-section-component'
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { LogSectionComponent } from './components/log-section-component'
         LoggerModule, 
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
-        WebConsoleUIKitKendoProviderModule
+        WebConsoleUIKitKendoProviderModule,
+        ClipboardModule
     ],
     entryComponents:[
         LogSectionComponent
