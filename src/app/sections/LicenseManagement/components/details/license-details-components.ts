@@ -28,7 +28,7 @@ export class LicenseDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
-  private copyToClipboard():void {
+  public copyToClipboard():void {
     let output = "Product Name=" +this.licenseItem.productName + "\n";
     output += "Version=" +this.licenseItem.productVersion + "\n";
     output += "Customer=" + this.licenseItem.customerName + "\n";

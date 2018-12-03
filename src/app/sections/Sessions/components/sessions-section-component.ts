@@ -206,7 +206,7 @@ export class SessionsSectionComponent implements OnInit {
         });
     }
 
-    private onRefreshClicked():void {
+    public onRefreshClicked():void {
         this.refreshData();
     }
 

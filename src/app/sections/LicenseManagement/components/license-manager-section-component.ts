@@ -18,8 +18,8 @@ const LOG_TAG = "[LicenseManagerSection]";
 })
 export class LicenseManagerSectionComponent implements OnInit {
 
-    private _licenses : LicenseList = [];
-    private loading:boolean;
+    public _licenses : LicenseList = [];
+    public loading:boolean;
     @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;
 
     constructor(private logger: NGXLogger, 
@@ -57,7 +57,7 @@ export class LicenseManagerSectionComponent implements OnInit {
         }))
     }
     
-    private onRefreshClicked():void{
+    public onRefreshClicked():void{
         this.refreshData();
     }
 

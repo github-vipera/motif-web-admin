@@ -57,7 +57,7 @@ export class LogSectionComponent implements OnInit {
         }))
     }
     
-    private onRefreshClicked():void{
+    public onRefreshClicked():void{
         this.refreshData();
     }
 
