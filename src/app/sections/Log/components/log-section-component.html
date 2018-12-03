@@ -4,10 +4,29 @@
 
     <div class="flex-toolbar" style="display:flex;align-items: center;">
         <div>
+            <label>Lines</label>
+            <input type="number" [(ngModel)]="linesCount">
+        </div>
+        <div>
+            <label>ROOT Log Level</label>
+            <select>
+                <option>ERROR</option>
+                <option>DEBUG</option>
+            </select>
+        </div>
+        <div>
+            <label>Data Record Type</label>
+            <select>
+                <option>PERFORMANCE</option>
+                <option>DIAGNOSTIC</option>
+            </select>
         </div>
     </div>
 
     <div class="flex-cmd">
+        <kendo-buttongroup look="flat">
+            <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onDownloadClicked()">Download</button>
+        </kendo-buttongroup>
         <kendo-buttongroup look="flat">
             <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">Refresh</button>
         </kendo-buttongroup>
@@ -18,6 +37,6 @@
 <div class="row fill">
     <div>			
         <label>Log <div class="cmd"><button class="small" data-copy="#output" (click)="onCopyToClipboardClicked()">Copy</button></div></label>
-        <textarea class="fill" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
+        <textarea class="fill log-pane" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
     </div>
 </div>

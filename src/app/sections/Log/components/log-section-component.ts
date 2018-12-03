@@ -19,7 +19,8 @@ const LOG_TAG = "[LogSection]";
 export class LogSectionComponent implements OnInit {
     
     public tailLines:string;
-    public linesCount:number;
+    public linesCount:number = 100;
+    public currentTailLinesCount:number;
 
     @ViewChild('logPane') logPane:ElementRef;
 
@@ -63,11 +64,12 @@ export class LogSectionComponent implements OnInit {
     }
 
     public onRefreshClicked():void {
-        this.logService.tailCurrentLog(100).subscribe((logTail:LogTail)=>{
+        this.logger.debug(LOG_TAG ,"linesCount :", this.linesCount);
+        this.logService.tailCurrentLog(this.linesCount).subscribe((logTail:LogTail)=>{
             //this.logger.debug(LOG_TAG ,"tailCurrentLog :", logTail);
             //this.logger.debug(LOG_TAG ,"tailCurrentLog string:", logTail.data);
             this.tailLines = logTail.data;
-            this.linesCount = logTail.lines;
+            this.currentTailLinesCount = logTail.lines;
         }, (error)=>{
             this.logger.error(LOG_TAG ,"tailCurrentLog error:", error);
         });

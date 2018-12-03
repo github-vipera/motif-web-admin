@@ -495,3 +495,6 @@ gridster .gridster-row {
 	border-bottom: 1px dotted rgba(255, 255, 255, 0.19) !important;
 }
 
+.flex-toolbar > div {
+    padding-right: 12px;
+ }
