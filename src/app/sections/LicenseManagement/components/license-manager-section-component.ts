@@ -4,6 +4,7 @@ import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
 import * as _ from 'lodash';
+import { RowClassArgs } from '@progress/kendo-angular-grid';
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -57,4 +58,29 @@ export class LicenseManagerSectionComponent implements OnInit {
     private onRefreshClicked():void{
         this.refreshData();
     }
+
+
+    /**
+     * Show Info Toast
+     * @param title 
+     * @param message 
+     */
+    private showInfo(title:string, message:string):void {
+        this.toaster.info(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
+
+    /**
+     * Show Error Toast
+     * @param title 
+     * @param message 
+     */
+    private showError(title:string, message:string):void {
+        this.toaster.error(message, title, {
+            positionClass: 'toast-top-center'
+        });
+    }
+
+    
 }

@@ -37,5 +37,30 @@ export class LicenseDetailsComponent implements OnInit {
     output += "Expiry=" + new Date(this.licenseItem.expiryDate) + "\n";
     output += "License Key=" + this.licenseItem.license;
     this.clipboardService.copyFromContent(output);
+    this.showInfo("License Info", "The license information has been copied to the clipboard");
   }
+
+
+      /**
+     * Show Info Toast
+     * @param title 
+     * @param message 
+     */
+    private showInfo(title:string, message:string):void {
+      this.toaster.info(message, title, {
+          positionClass: 'toast-top-center'
+      });
+  }
+
+  /**
+   * Show Error Toast
+   * @param title 
+   * @param message 
+   */
+  private showError(title:string, message:string):void {
+      this.toaster.error(message, title, {
+          positionClass: 'toast-top-center'
+      });
+  }
+
 }

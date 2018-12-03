@@ -18,3 +18,13 @@
 .grid-cell-dirty-true:before {
     content: "\e003";
 }
+
+.k-grid tr:not(.k-state-selected):hover {
+    background: none;
+    color: inherit;
+}
+
+.k-grid tr.k-alt:not(.k-state-selected):hover {
+    background: transparent;
+}
+
