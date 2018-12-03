@@ -5,6 +5,8 @@ import { WCToasterService } from 'web-console-ui-kit'
 import { LogService, LogLevel, LogTail } from '@wa-motif-open-api/log-service'
 import * as _ from 'lodash';
 import { ClipboardService } from 'ngx-clipboard'
+import * as FileSaver from 'file-saver'
+import * as b64toBlob from 'b64-to-blob'
 
 const LOG_TAG = "[LogSection]";
 
@@ -80,8 +82,6 @@ export class LogSectionComponent implements OnInit {
     public onRefreshClicked():void {
         this.logger.debug(LOG_TAG ,"linesCount :", this.linesCount);
         this.logService.tailCurrentLog(this.linesCount).subscribe((logTail:LogTail)=>{
-            //this.logger.debug(LOG_TAG ,"tailCurrentLog :", logTail);
-            //this.logger.debug(LOG_TAG ,"tailCurrentLog string:", logTail.data);
             this.tailLines = logTail.data;
             this.currentTailLinesCount = logTail.lines;
         }, (error)=>{
@@ -121,8 +121,19 @@ export class LogSectionComponent implements OnInit {
     }
 
     public onDownloadClicked():void {
-        this.showInfo("Log Management", "Download not yet implemented.");
-        //TODO!!
+        this.logService.downloadCurrentLog().subscribe((data:Blob)=>{
+            this.logger.debug(LOG_TAG ,"Export done.", data);
+
+            let fileName = "motif_log_" + new Date().getTime() +".zip";
+            FileSaver.saveAs(data, fileName);   
+            this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
+
+            this.showInfo("Log Export", "Log Export done successfully.");
+      
+        }, (error)=>{
+            this.logger.error(LOG_TAG ,"Export error:", error);
+
+        });
     }
 
     public onExportClicked():void {
