@@ -6,7 +6,6 @@ import { LogService, LogLevel, LogTail } from '@wa-motif-open-api/log-service'
 import * as _ from 'lodash';
 import { ClipboardService } from 'ngx-clipboard'
 import * as FileSaver from 'file-saver'
-import * as b64toBlob from 'b64-to-blob'
 
 const LOG_TAG = "[LogSection]";
 
