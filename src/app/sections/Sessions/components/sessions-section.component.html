@@ -28,8 +28,9 @@
 <div class="row">
     <kendo-grid [data]="gridView" [columnMenu]="true"
         [loading]="loading"  
+        [scrollable]="true"
         [resizable]="true" [reorderable]="true" 
-        style="height: 100%" [pageSize]="pageSize" [skip]="skip" [pageable]="{
+        [pageSize]="pageSize" [skip]="skip" [pageable]="{
         buttonCount: 5,
         info: true,
         type: type,
