@@ -7,17 +7,17 @@ import * as _ from 'lodash';
 import { ClipboardService } from 'ngx-clipboard'
 import * as FileSaver from 'file-saver'
 
-const LOG_TAG = "[LogSection]";
+const LOG_TAG = "[AppContentSection]";
 
 @Component({
-    selector: 'wa-log-section',
-    styleUrls: [ './log-section-component.scss' ],
-    templateUrl: './log-section-component.html'
+    selector: 'wa-appcontent-section',
+    styleUrls: [ './appcontent-section-component.scss' ],
+    templateUrl: './appcontent-section-component.html'
   })
-  @PluginView("Log",{
-    iconName: "ico-log" 
+  @PluginView("Application Content",{
+    iconName: "ico-app-content" 
 })
-export class LogSectionComponent implements OnInit {
+export class AppContentSectionComponent implements OnInit {
     
     public tailLines:string;
     public linesCount:number = 100;

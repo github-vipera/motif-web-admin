@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 // Motif Web Admin Modules
 import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
@@ -17,8 +18,7 @@ import { OAuth2SectionModule } from './sections/OAuth2/OAuth2SectionModule';
 import { SessionsSectionModule } from './sections/Sessions/SessionsSectionModule'
 import { LicenseManagerSectionModule } from './sections/LicenseManagement/LicenseManagerSectionModule'
 import { LogSectionModule } from './sections/Log/LogSectionModule'
-import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-
+import {ApplicationContentSectionModule } from './sections/ApplicationContent/ApplicationContentSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -41,12 +41,13 @@ const appRoutes: Routes = [
     ToolBarModule, 
     BrowserAnimationsModule, 
     WebConsoleCoreModule,
+    DateInputsModule,
     ConfigurationSectionModule,
     OAuth2SectionModule,
     SessionsSectionModule,
     LicenseManagerSectionModule,
     LogSectionModule,
-    DateInputsModule
+    ApplicationContentSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
