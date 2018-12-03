@@ -206,6 +206,10 @@ export class SessionsSectionComponent implements OnInit {
         });
     }
 
+    private onRefreshClicked():void {
+        this.refreshData();
+    }
+
    /**
      * Show Info Toast
      * @param title 

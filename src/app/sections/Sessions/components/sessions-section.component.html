@@ -14,6 +14,13 @@
             <kendo-combobox #applicationsCombo [data]="applicationsList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedApplication" style="width:100%;"></kendo-combobox>
         </div>
 
+        
+    </div>
+
+    <div class="flex-cmd">
+        <kendo-buttongroup look="flat">
+            <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">Refresh</button>
+        </kendo-buttongroup>
     </div>
 
 </div>
