@@ -1,8 +1,6 @@
 <wc-dashboard-header [title]="'License Manager'"></wc-dashboard-header>
 
-<!--
-<input type="file" id="xmlFileImport" name="xmlFileImport"  accept="application/xml" (input)="onUploadFileSelected($event)" #xmlFileImport>
--->
+<input type="file" id="xmlFileImport" name="xmlFileImport"  (input)="onUploadFileSelected($event)" #xmlFileImport>
 
 <div class="row spread">
 
@@ -10,7 +8,7 @@
         <div>
             <label>&nbsp;</label>
             <kendo-buttongroup look="flat">
-                <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onSaveClicked()" >Import License</button>
+                <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onImportClicked()" >Import License</button>
             </kendo-buttongroup>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer, ElementRef} from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
@@ -20,10 +20,12 @@ export class LicenseManagerSectionComponent implements OnInit {
 
     private _licenses : LicenseList = [];
     private loading:boolean;
+    @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService,
-        private licenseManager: LicenseService){
+        private licenseManager: LicenseService,
+        private renderer:Renderer){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -93,5 +95,49 @@ export class LicenseManagerSectionComponent implements OnInit {
         });
     }
 
-    
+    /**     
+     * Button event
+     */
+    onImportClicked():void {
+        this.logger.debug(LOG_TAG ,"Import clicked:", this.xmlFileImportEl);
+        //trigger mouse click
+        let event = new MouseEvent('click', {bubbles: true});
+        this.renderer.invokeElementMethod(
+        this.xmlFileImportEl.nativeElement, 'dispatchEvent', [event]);
+    }
+
+    /**
+     * Triggered by the input tag
+     * @param event 
+     */
+    onUploadFileSelected(event):void {
+        let reader = new FileReader();
+        if(event.target.files && event.target.files.length > 0) {
+          let file = event.target.files[0];
+          reader.onloadend = () => {
+              this.uploadLicense(reader.result);
+          };
+          reader.onerror = (error) => {
+            this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
+            this.showError("Configuration Upload", "Error reading configuration file: " + error);
+          };
+          reader.readAsText(file);
+        }
+    }
+
+    /**
+     * Upload the blob file to server
+     * @param blob 
+     */
+    uploadLicense(blob):void {
+        this.showInfo("Configuration Upload", "Uploading configuration...");
+        this.licenseManager.upload(blob).subscribe((data)=>{
+            this.logger.info(LOG_TAG ,"Import license done:", data);
+            this.showInfo("License Upload", "Upload license done successfully.");
+            this.refreshData();
+          }, (error)=>{
+            this.logger.error(LOG_TAG,"Import license error:", error);
+            this.showError("License Upload", "Upload license error: " + error.error.Code + "\n" + error.error.Details);
+        });
+    }
 }
