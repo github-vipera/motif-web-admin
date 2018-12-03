@@ -1,16 +1,19 @@
 <div>
-    <div style="padding-bottom: 10px;">
+    <div class="wa-licman-details-item license-key">
         <label>License Key:</label>
-        <span style="color: #46d046;">{{licenseItem.license}}</span>
+        <span>{{licenseItem.license}}</span>
     </div>
-    <div style="padding-bottom: 10px;">
+    <div class="wa-licman-details-item license-customer">
         <label>Customer:</label>
         <span>{{licenseItem.customerName}}</span>
     </div>
-    <div>
+    <div class="wa-licman-details-item license-email">
         <label>Email:</label>
         <span>{{licenseItem.customerEmail}}</span>
     </div>
 
+    <div>
+        <button kendoButton look="flat" (click)="copyToClipboard()">Copy To Clipboard</button>
+    </div>
     
 </div>
