@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { NGXLogger} from 'web-console-core'
-import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
+import {ToasterUtilsService } from '../../../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -22,12 +22,11 @@ export class ApplicationsTabComponent implements OnInit {
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
     constructor(private logger: NGXLogger, 
-        private toaster: WCToasterService,
         private domainsService:DomainsService,
-        private engineService:EnginesService
+        private engineService:EnginesService,
+        private toasterService:ToasterUtilsService
         ){
         this.logger.debug(LOG_TAG ,"Opening...");
-        
     } 
     
     /**
@@ -38,28 +37,6 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     
-    /**
-     * Show Info Toast
-     * @param title 
-     * @param message 
-     */
-    private showInfo(title:string, message:string):void {
-        this.toaster.info(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
-    /**
-     * Show Error Toast
-     * @param title 
-     * @param message 
-     */
-    private showError(title:string, message:string):void {
-        this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
     public onDomainSelected(domain:Domain){
         if (domain){
             this.loadData(domain);
@@ -92,7 +69,7 @@ export class ApplicationsTabComponent implements OnInit {
             this.loading = false;
         }, (error)=>{
             this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
-            this.showError("Get Applications", "Error getting applications: "+ error.error);
+            this.toasterService.showError("Get Applications", "Error getting applications: "+ error.error);
             this.loading = false;
         });
     }

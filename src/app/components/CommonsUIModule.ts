@@ -5,6 +5,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-component'
+import { ToasterUtilsService } from './UI/toaster-utils-service'
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-c
     ],
     exports: [ DomainSelectorComboBoxComponent ],
     providers: [ 
+        ToasterUtilsService
     ]
     
   })
