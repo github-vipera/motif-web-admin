@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Renderer, ElementRef, Renderer2} from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
-import { WCToasterService } from 'web-console-ui-kit'
 import { LogService, LogLevel, LogTail } from '@wa-motif-open-api/log-service'
 import * as _ from 'lodash';
 import { ClipboardService } from 'ngx-clipboard'
 import * as FileSaver from 'file-saver'
+import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[LogSection]";
 
@@ -32,7 +32,7 @@ export class LogSectionComponent implements OnInit {
     @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
 
     constructor(private logger: NGXLogger, 
-        private toaster: WCToasterService,
+        private toasterService: ToasterUtilsService,
         private logService: LogService,
         private renderer:Renderer2,
         private clipboardService: ClipboardService){
@@ -55,29 +55,6 @@ export class LogSectionComponent implements OnInit {
         this.refreshData();
     }
 
-
-    /**
-     * Show Info Toast
-     * @param title 
-     * @param message 
-     */
-    private showInfo(title:string, message:string):void {
-        this.toaster.info(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
-    /**
-     * Show Error Toast
-     * @param title 
-     * @param message 
-     */
-    private showError(title:string, message:string):void {
-        this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
     public onRefreshClicked():void {
         this.logger.debug(LOG_TAG ,"linesCount :", this.linesCount);
         this.logService.tailCurrentLog(this.linesCount).subscribe((logTail:LogTail)=>{
@@ -90,7 +67,7 @@ export class LogSectionComponent implements OnInit {
 
     public onCopyToClipboardClicked():void {
         this.clipboardService.copyFromContent(this.tailLines);
-        this.showInfo("Log Tail", "The current displayed log has been copied to the clipboard");
+        this.toasterService.showInfo("Log Tail", "The current displayed log has been copied to the clipboard");
     }
 
     public set rootLogLevel(logLevel:LogLevel){
@@ -99,9 +76,9 @@ export class LogSectionComponent implements OnInit {
             this.logger.debug(LOG_TAG ,"Changing ROOT log level :", logLevel);
             this.logService.setRootLogLevel(this._rootLogLevel).subscribe((data)=>{
                 this.logger.debug(LOG_TAG ,"Changed ROOT log level :", data);
-                this.showInfo("Log Management", "The ROOT Log Level has been changed to " + logLevel.level);
+                this.toasterService.showInfo("Log Management", "The ROOT Log Level has been changed to " + logLevel.level);
             }, (error)=>{
-                this.showError("Log Management", "Error chaning ROOT Log Level: " + error.error);
+                this.toasterService.showError("Log Management", "Error chaning ROOT Log Level: " + error.error);
             })
         }
     }
@@ -129,7 +106,7 @@ export class LogSectionComponent implements OnInit {
             FileSaver.saveAs(blob, fileName);   
             this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
 
-            this.showInfo("Log Export", "Log Export done successfully.");
+            this.toasterService.showInfo("Log Export", "Log Export done successfully.");
       
         }, (error)=>{
             this.logger.error(LOG_TAG ,"Export error:", error);

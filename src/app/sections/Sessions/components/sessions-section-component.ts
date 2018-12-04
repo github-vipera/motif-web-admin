@@ -4,7 +4,6 @@ import { NGXLogger } from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
 import { SessionRow } from '../data/model'
 import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
@@ -12,6 +11,7 @@ import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
+import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[SessionsSection]";
 
@@ -51,7 +51,7 @@ export class SessionsSectionComponent implements OnInit {
 
     constructor(private logger: NGXLogger,
         private securityService: SecurityService,
-        private toaster: WCToasterService,
+        private toasterService: ToasterUtilsService,
         private applicationsService: ApplicationsService) {
         this.logger.debug(LOG_TAG, "Opening...");
     }
@@ -176,10 +176,10 @@ export class SessionsSectionComponent implements OnInit {
         this.securityService.closeSession(dataItem.id).subscribe((data) => {
             this.logger.debug(LOG_TAG, "onDeleteOKPressed OK:", data);
             this.refreshData();
-            this.showInfo("Session Delete", "Session deleted successfully.")
+            this.toasterService.showInfo("Session Delete", "Session deleted successfully.")
         }, (error) => {
             this.logger.error(LOG_TAG, "onDeleteOKPressed error:", error);
-            this.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code + "]");
+            this.toasterService.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code + "]");
         });
     }
 
@@ -187,25 +187,5 @@ export class SessionsSectionComponent implements OnInit {
         this.refreshData();
     }
 
-    /**
-      * Show Info Toast
-      * @param title 
-      * @param message 
-      */
-    private showInfo(title: string, message: string): void {
-        this.toaster.info(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
-    /**
-     * Show Error Toast
-     * @param title 
-     * @param message 
-     */
-    private showError(title: string, message: string): void {
-        this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
+  
 }

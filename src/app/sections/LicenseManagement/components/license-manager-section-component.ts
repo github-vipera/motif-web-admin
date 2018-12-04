@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, Renderer, ElementRef} from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
-import { WCToasterService } from 'web-console-ui-kit'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
 import * as _ from 'lodash';
-import { RowClassArgs } from '@progress/kendo-angular-grid';
+import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -23,7 +22,7 @@ export class LicenseManagerSectionComponent implements OnInit {
     @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;
 
     constructor(private logger: NGXLogger, 
-        private toaster: WCToasterService,
+        private toasterService: ToasterUtilsService,
         private licenseManager: LicenseService,
         private renderer:Renderer){
         this.logger.debug(LOG_TAG ,"Opening...");
@@ -65,33 +64,11 @@ export class LicenseManagerSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG ,"Revoking license: ", license);
         this.licenseManager._delete(license.productName, license.productVersion).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"License revoke success:", data);
-            this.showInfo("Revoke License", "The license has been successfully revoked");
+            this.toasterService.showInfo("Revoke License", "The license has been successfully revoked");
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Revoking license error:", error);
-            this.showError("Revoke License", "Revoking license error: " + error.error.Code + "\n" + error.error.Details);
-        });
-    }
-
-    /**
-     * Show Info Toast
-     * @param title 
-     * @param message 
-     */
-    private showInfo(title:string, message:string):void {
-        this.toaster.info(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
-    /**
-     * Show Error Toast
-     * @param title 
-     * @param message 
-     */
-    private showError(title:string, message:string):void {
-        this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
+            this.toasterService.showError("Revoke License", "Revoking license error: " + error.error.Code + "\n" + error.error.Details);
         });
     }
 
@@ -119,7 +96,7 @@ export class LicenseManagerSectionComponent implements OnInit {
           };
           reader.onerror = (error) => {
             this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
-            this.showError("Configuration Upload", "Error reading configuration file: " + error);
+            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + error);
           };
           reader.readAsText(file);
         }
@@ -130,14 +107,14 @@ export class LicenseManagerSectionComponent implements OnInit {
      * @param blob 
      */
     uploadLicense(blob):void {
-        this.showInfo("Configuration Upload", "Uploading configuration...");
+        this.toasterService.showInfo("Configuration Upload", "Uploading configuration...");
         this.licenseManager.upload(blob).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import license done:", data);
-            this.showInfo("License Upload", "Upload license done successfully.");
+            this.toasterService.showInfo("License Upload", "Upload license done successfully.");
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import license error:", error);
-            this.showError("License Upload", "Upload license error: " + error.error.Code + "\n" + error.error.Details);
+            this.toasterService.showError("License Upload", "Upload license error: " + error.error.Code + "\n" + error.error.Details);
         });
     }
 }

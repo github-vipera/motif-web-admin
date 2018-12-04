@@ -12,9 +12,9 @@ import { State, process } from '@progress/kendo-data-query';
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
-import { WCToasterService } from 'web-console-ui-kit'
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin'
+import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[ConfigurationSection]";
 
@@ -65,7 +65,7 @@ export class ConfigurationSectionComponent implements OnInit {
         private configurationService:ConfigurationsService,
         public editService: EditService,
         private formBuilder: FormBuilder,
-        private toaster: WCToasterService,
+        private toasterService: ToasterUtilsService,
         private renderer:Renderer){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
@@ -199,7 +199,7 @@ export class ConfigurationSectionComponent implements OnInit {
             FileSaver.saveAs(data, fileName);   
             this.logger.debug(LOG_TAG ,"Configuration saved: ", fileName);
 
-            this.showInfo("Export Done", "Configuration Export");
+            this.toasterService.showInfo("Export Done", "Configuration Export");
       
         }, (error)=>{
             this.logger.error(LOG_TAG ,"Export error:", error);
@@ -235,10 +235,10 @@ export class ConfigurationSectionComponent implements OnInit {
         this.saveAllChanges().subscribe((responses)=>{
             this.reloadConfigurationParams();
             this.logger.debug(LOG_TAG,"Settings saved successfully: ", responses);
-            this.showInfo("Settings saved successfully.", "Settings Update");
+            this.toasterService.showInfo("Settings saved successfully.", "Settings Update");
         }, (error)=>{
             this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
-            this.showError("Error saving settings: " +  error, "Settings Update Error");
+            this.toasterService.showError("Error saving settings: " +  error, "Settings Update Error");
         });
         }
 
@@ -406,7 +406,7 @@ export class ConfigurationSectionComponent implements OnInit {
           };
           reader.onerror = (error) => {
             this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
-            this.showError("Configuration Upload", "Error reading configuration file: " + error);
+            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + error);
           };
           reader.readAsText(file);
         }
@@ -417,36 +417,14 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param blob 
      */
     uploadConfiguration(blob):void {
-        this.showInfo("Configuration Upload", "Uploading configuration...");
+        this.toasterService.showInfo("Configuration Upload", "Uploading configuration...");
         this.configurationService.uploadXml(blob, false).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import xml done:", data);
-            this.showInfo("Configuration Upload", "Upload configuration done successfully.");
+            this.toasterService.showInfo("Configuration Upload", "Upload configuration done successfully.");
             this.reloadConfigurationParams();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import xml configuration error:", error);
-            this.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details);
-        });
-    }
-
-    /**
-     * Show Info Toast
-     * @param title 
-     * @param message 
-     */
-    private showInfo(title:string, message:string):void {
-        this.toaster.info(message, title, {
-            positionClass: 'toast-top-center'
-        });
-    }
-
-    /**
-     * Show Error Toast
-     * @param title 
-     * @param message 
-     */
-    private showError(title:string, message:string):void {
-        this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
+            this.toasterService.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details);
         });
     }
 

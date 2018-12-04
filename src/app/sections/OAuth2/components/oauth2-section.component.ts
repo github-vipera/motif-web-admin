@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger } from 'web-console-core'
-import { WCGridConfiguration, WCGridColumnType, WCToasterService } from 'web-console-ui-kit'
+import { WCGridConfiguration, WCGridColumnType } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
@@ -11,6 +11,7 @@ import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
 import { Domain } from '@wa-motif-open-api/platform-service'
+import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 
 const LOG_TAG = "[OAuth2Section]";
 const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/domains/{0}/refreshTokens"
@@ -48,7 +49,8 @@ export class OAuth2SectionComponent implements OnInit {
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,
-    private toaster: WCToasterService) {
+    private toasterService:ToasterUtilsService
+    ) {
 
     this.gridConfiguration = {
       columns: [
@@ -164,13 +166,9 @@ export class OAuth2SectionComponent implements OnInit {
 
     this.oauth2Service.revoke(oauthReq).subscribe(value => {
       this.refreshData();
-      this.toaster.info("Refresh token revoked!", "Attention Please", {
-        positionClass: 'toast-top-center'
-      });
+      this.toasterService.showInfo("Attention Please", "Refresh token revoked!");
     }, error => {
-      this.toaster.warning("Refresh token could not be removed.", "Attention Please", {
-        positionClass: 'toast-top-center'
-      });
+      this.toasterService.showAlert("Attention Please", "Refresh token could not be removed.");
     })
   }
 
