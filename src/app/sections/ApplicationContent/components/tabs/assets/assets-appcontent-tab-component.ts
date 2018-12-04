@@ -3,6 +3,7 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = "[AssetsAppContentSection]";
 
@@ -12,7 +13,8 @@ const LOG_TAG = "[AssetsAppContentSection]";
     templateUrl: './assets-appcontent-tab-component.html'
   })
 export class AssetsTabComponent implements OnInit {
-    
+
+    faCoffee = faCoffee;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService){

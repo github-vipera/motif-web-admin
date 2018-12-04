@@ -2,7 +2,6 @@
         <wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
 
         <div class="row spread">
-
             <div class="flex-toolbar" style="display:flex;align-items: center;">
                 <div style="width:250px;">
                      <label>Domain</label>
@@ -14,7 +13,7 @@
                      <kendo-buttongroup look="flat">
                          <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
                          <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()" [disabled]="!editService.hasChanges()">Discard Changes</button>
-                         <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty">Add Mobile Application</button>
+                         <button kendoButton [toggleable]="false" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty"><fa-icon [icon]="faMobileAlt"></fa-icon>Add Mobile Application</button>
                      </kendo-buttongroup>
                  </div>
              </div>

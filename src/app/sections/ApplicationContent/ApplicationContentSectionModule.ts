@@ -11,6 +11,7 @@ import { ApplicationsTabComponent } from './components/tabs/applications/applica
 import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-tab-component'
 import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule'
         ClipboardModule,
         DateInputsModule,
         AppContentServiceModule,
-        CommonsUIModule
+        CommonsUIModule,
+        FontAwesomeModule
     ],
     entryComponents:[
         AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent

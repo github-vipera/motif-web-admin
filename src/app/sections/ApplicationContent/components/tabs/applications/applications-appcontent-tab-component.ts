@@ -14,6 +14,8 @@ import { MobileApplicaton } from '../../../data/model'
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
+import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -24,6 +26,10 @@ const LOG_TAG = "[ApplicationsAppContentSection]";
   })
 export class ApplicationsTabComponent implements OnInit {
     
+    faCoffee = faCoffee;
+    faMobile = faMobile;
+    faMobileAlt = faMobileAlt;
+
     public view: Observable<GridDataResult>;
     public gridState: State = {
         sort: [],
