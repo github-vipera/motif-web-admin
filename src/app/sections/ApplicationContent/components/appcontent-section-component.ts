@@ -12,7 +12,7 @@ const LOG_TAG = "[AppContentSection]";
     templateUrl: './appcontent-section-component.html'
   })
   @PluginView("Application Content",{
-    iconName: "ico-app-content" 
+    iconName: "ico-smartphone" 
 })
 export class AppContentSectionComponent implements OnInit {
     
