@@ -77,7 +77,7 @@
 
             </div>
     
-        <label>Log <div class="cmd"><button class="small small-copy-button" data-copy="#output" (click)="onCopyToClipboardClicked()"><fa-icon [icon]="faCopy"></fa-icon></button></div></label>
+        <label>Log <div class="cmd"><button class="small small-copy-button" data-copy="#output" (click)="onCopyToClipboardClicked()"><fa-icon [icon]="faPaste" style="font-size: 18px;padding-left: 4px;"></fa-icon></button></div></label>
         <textarea class="fill log-pane" spellcheck="false" id="output" #logPane readonly>{{tailLines}}</textarea>
     </div>
 </div>

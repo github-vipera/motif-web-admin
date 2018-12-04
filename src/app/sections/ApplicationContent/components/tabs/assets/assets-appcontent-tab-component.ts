@@ -3,7 +3,7 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = "[AssetsAppContentSection]";
 
@@ -15,6 +15,10 @@ const LOG_TAG = "[AssetsAppContentSection]";
 export class AssetsTabComponent implements OnInit {
 
     faCoffee = faCoffee;
+    faAdjust = faAdjust;
+    faBatteryHalf = faBatteryHalf;
+    faCircleNotch = faCircleNotch;
+    fas = fas;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService){
