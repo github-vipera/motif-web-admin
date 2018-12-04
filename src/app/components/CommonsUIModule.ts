@@ -6,6 +6,7 @@ import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-component'
 import { ToasterUtilsService } from './UI/toaster-utils-service'
+import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component'
 
 @NgModule({
     imports: [
@@ -18,12 +19,12 @@ import { ToasterUtilsService } from './UI/toaster-utils-service'
         WebConsoleUIKitKendoProviderModule
     ],
     entryComponents:[
-        DomainSelectorComboBoxComponent
+        DomainSelectorComboBoxComponent, ConfirmationDialogComponent
     ],
     declarations: [
-        DomainSelectorComboBoxComponent
+        DomainSelectorComboBoxComponent, ConfirmationDialogComponent
     ],
-    exports: [ DomainSelectorComboBoxComponent ],
+    exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent ],
     providers: [ 
         ToasterUtilsService
     ]

@@ -13,6 +13,7 @@ import { State, process } from '@progress/kendo-data-query';
 import { MobileApplicaton } from '../../../data/model'
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -43,6 +44,7 @@ export class ApplicationsTabComponent implements OnInit {
     
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
+    @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
 
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
 
@@ -121,10 +123,6 @@ export class ApplicationsTabComponent implements OnInit {
         }
     }
 
-    public onRefreshClicked():void{
-        this.refreshData();
-    }
-
         /**
      * Enable or disable buttons
      * @param canSave 
@@ -175,6 +173,82 @@ export class ApplicationsTabComponent implements OnInit {
             'latestVersion': mobileApp.latestVersion,
             'forbiddenVersions': mobileApp.forbiddenVersions
         });
+    }
+
+    /**
+     * Button event
+     */
+    onSaveClicked():void {
+        this.logger.debug(LOG_TAG ,"Save clicked");
+        alert("TODO!!");
+        /*
+        this.saveAllChanges().subscribe((responses)=>{
+            this.reloadConfigurationParams();
+            this.logger.debug(LOG_TAG,"Settings saved successfully: ", responses);
+            this.toasterService.showInfo("Settings saved successfully.", "Settings Update");
+        }, (error)=>{
+            this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
+            this.toasterService.showError("Error saving settings: " +  error, "Settings Update Error");
+        });
+        */
+    }
+
+    /**
+     * Button event
+     */
+    public onRefreshClicked():void {
+        if (this.editService.hasChanges()){
+            this.confirmationDialog.open("Pending Changes",
+                "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
+                { "action" : "refresh" });
+        } else {
+            this.refreshData();
+        }
+    }
+
+    /**
+     * Button Event
+     */
+    onDiscardClicked():void {
+        if (this.editService.hasChanges()){
+            this.confirmationDialog.open("Pending Changes",
+                "Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?",
+                { "action" : "discardChanges" });
+        } else {
+            this.refreshData();
+        }
+    }
+
+        /**
+     * Event emitted by the editor form
+     */
+    onEditCancel():void {
+        this.logger.debug(LOG_TAG ,"On Edit Cancelled");
+        this.editDataItem = undefined;
+    }
+
+    /**
+     * Triggered by the new Property Editor Dialog
+     * @param event 
+     */
+    onEditCommit(newMobileApp:MobileApplicaton):void {
+        this.logger.debug(LOG_TAG ,"onEditCommit new row:", newMobileApp);
+        this.editService.create(newMobileApp);
+    }
+
+    /**
+     * Event emitted by the confirmation dialog
+     * @param userData 
+     */
+    onConfirmationOK(userData):void {
+        this.logger.debug(LOG_TAG ,"onConfirmationOK for:", userData);
+
+        if (userData && userData.action==="refresh"){
+            this.refreshData();
+        } 
+        if (userData && userData.action==="discardChanges"){
+            this.editService.cancelChanges();
+        }
     }
 
 }
