@@ -4,7 +4,6 @@ import { NGXLogger} from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
 import { SessionRow } from '../data/model'
 import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { State, process } from '@progress/kendo-data-query';
 import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';

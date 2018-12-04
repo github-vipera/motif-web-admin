@@ -9,6 +9,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ApplicationsTabComponent } from './components/tabs/applications/applications-appcontent-tab-component'
 import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-tab-component'
+import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-t
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
-        DateInputsModule
+        DateInputsModule,
+        AppContentServiceModule
     ],
     entryComponents:[
         AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
