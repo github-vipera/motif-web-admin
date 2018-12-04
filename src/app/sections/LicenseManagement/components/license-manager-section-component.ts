@@ -4,6 +4,7 @@ import { NGXLogger} from 'web-console-core'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
 import * as _ from 'lodash';
 import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
+import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -16,7 +17,10 @@ const LOG_TAG = "[LicenseManagerSection]";
     iconName: "ico-key" 
 })
 export class LicenseManagerSectionComponent implements OnInit {
-
+    
+    faFileImport = faFileImport;
+    faDownload = faDownload;
+    
     public _licenses : LicenseList = [];
     public loading:boolean;
     @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;

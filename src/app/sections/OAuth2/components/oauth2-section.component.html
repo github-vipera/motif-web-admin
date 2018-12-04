@@ -1,11 +1,12 @@
 <wc-dashboard-header [title]="'OAuth2 Management'"></wc-dashboard-header>
 
 <div class="row spread">
-    <div>
-        <label>Domain</label>
-        <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)" (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
+    <div class="flex-toolbar" style="display:flex;align-items: center;">
+        <div style="margin-right:10px;width:60%;max-width: 400px;">
+            <label>Domain</label>
+            <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)" (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
+        </div>
     </div>
-
 </div>
 
 <div class="row fill">

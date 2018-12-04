@@ -33,11 +33,11 @@
 
     <div class="flex-cmd">
         <kendo-buttongroup look="flat">
-            <button kendoButton [toggleable]="false" [icon]="'arrow-right'" (click)="onExportClicked()">Export</button>
+            <button kendoButton [toggleable]="false" (click)="onExportClicked()"><fa-icon [icon]="faExternalLinkSquareAlt"></fa-icon>Export</button>
         </kendo-buttongroup>
         <kendo-buttongroup look="flat">
-            <button kendoButton [toggleable]="false" [icon]="'arrow-down'" (click)="onDownloadClicked()">Download</button>
-        </kendo-buttongroup>
+            <button kendoButton [toggleable]="false" (click)="onDownloadClicked()"><fa-icon [icon]="faDownload"></fa-icon>Download</button>
+        </kendo-buttongroup> 
         <kendo-buttongroup look="flat">
             <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">Refresh</button>
         </kendo-buttongroup>

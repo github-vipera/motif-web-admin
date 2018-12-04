@@ -15,6 +15,7 @@ import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin'
 import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
+import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
 
 const LOG_TAG = "[ConfigurationSection]";
 
@@ -28,6 +29,9 @@ const LOG_TAG = "[ConfigurationSection]";
   })
 export class ConfigurationSectionComponent implements OnInit {
     
+    faFileImport = faFileImport;
+    faDownload = faDownload;
+
     public view: Observable<GridDataResult>;
     public gridState: State = {
         sort: [],

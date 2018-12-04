@@ -9,6 +9,7 @@ import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { EditService } from '../../components/Grid/edit.service';
 import { ClipboardModule } from 'ngx-clipboard';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { ClipboardModule } from 'ngx-clipboard';
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
-        ClipboardModule
+        ClipboardModule,
+        FontAwesomeModule
     ],
     entryComponents:[
         LicenseManagerSectionComponent
