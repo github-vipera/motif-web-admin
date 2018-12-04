@@ -3,11 +3,11 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger } from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
 import { SessionRow } from '../data/model'
-import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
-import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-console-core';
+import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
 import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
@@ -61,7 +61,6 @@ export class SessionsSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG, "Initializing...");
-        //this.loadData(null, null, 1, this.pageSize);
     }
 
 
@@ -99,7 +98,6 @@ export class SessionsSectionComponent implements OnInit {
                 element.lastAccess = new Date(element.lastAccess);
             });
 
-            //this._sessionRows = results.data;
             this.totalPages = results.totalPages;
             this.totalRecords = results.totalRecords;
             this.currentPage = results.pageIndex;
