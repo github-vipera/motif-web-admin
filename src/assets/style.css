@@ -503,3 +503,7 @@ gridster .gridster-row {
     font-size: 1rem;
     color: gray;
 }
+
+.tab-title {
+	padding-left: 4px;
+}
