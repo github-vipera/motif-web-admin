@@ -10,6 +10,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ApplicationsTabComponent } from './components/tabs/applications/applications-appcontent-tab-component'
 import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-tab-component'
 import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
+import { CommonsUIModule } from '../../components/CommonsUIModule'
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
         DateInputsModule,
-        AppContentServiceModule
+        AppContentServiceModule,
+        CommonsUIModule
     ],
     entryComponents:[
         AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
