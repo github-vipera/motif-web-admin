@@ -57,7 +57,6 @@ export class ConfigurationSectionComponent implements OnInit {
     //internal
     private _selectedService:MotifService; //the combobox selection
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
-    public mySwitchModel : boolean = true;
 
 
     constructor(private logger: NGXLogger, 

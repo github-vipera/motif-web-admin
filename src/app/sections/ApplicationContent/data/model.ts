@@ -4,5 +4,7 @@ export interface MobileApplicaton {
     forbiddenVersions : string,
     downloadUrl : string,
     lastAppCheck : Date,
-    name: string
+    name: string,
+    dirty: boolean,
+    isNew: boolean
 }

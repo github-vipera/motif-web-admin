@@ -9,7 +9,7 @@ const LOG_TAG = "[DomainSelectorComboBoxComponent]";
     styles: [
     ],
     template: `
-    <kendo-combobox [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
+    <kendo-combobox style="width:100%;" [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
     `
 })
 export class DomainSelectorComboBoxComponent implements OnInit {

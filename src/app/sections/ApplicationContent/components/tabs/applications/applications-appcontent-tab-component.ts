@@ -1,11 +1,17 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import * as _ from 'lodash';
-import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
+import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
 import {ToasterUtilsService } from '../../../../../components/UI/toaster-utils-service'
+import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
+import { Observable } from 'rxjs/Observable';
+import { GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
+import { State, process } from '@progress/kendo-data-query';
+import { MobileApplicaton } from '../../../data/model'
+import { map } from 'rxjs/operators/map';
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -16,15 +22,34 @@ const LOG_TAG = "[ApplicationsAppContentSection]";
   })
 export class ApplicationsTabComponent implements OnInit {
     
+    public view: Observable<GridDataResult>;
+    public gridState: State = {
+        sort: [],
+        skip: 0,
+        take: 10
+    };
+    public changes: any = {};
+    public editDataItem:MobileApplicaton;
+
     public gridView: DataResult;
     public loading:boolean;
 
+    //Buttons
+    public canSave:boolean = false;
+    public canRefresh:boolean = false;
+    public canExport:boolean = true;
+    public canAddProperty:boolean = false;
+    
+
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
+
+    private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
 
     constructor(private logger: NGXLogger, 
         private domainsService:DomainsService,
         private engineService:EnginesService,
-        private toasterService:ToasterUtilsService
+        private toasterService:ToasterUtilsService,
+        public editService: EditService
         ){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
@@ -34,17 +59,17 @@ export class ApplicationsTabComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
+        this.view = this.editService.pipe(map(data => process(data, this.gridState)));
     }
 
     
     public onDomainSelected(domain:Domain){
         if (domain){
             this.loadData(domain);
+            this.setOptions(true, true, true, true);
         }  else {
-            this.gridView = {
-                data: [],
-                total: 0
-              }
+            this.editService.read([], this._editServiceConfig);
+            this.setOptions(false, false, true, false);
         }
     }
 
@@ -62,16 +87,17 @@ export class ApplicationsTabComponent implements OnInit {
                 }
             });
 
-            this.gridView = {
-                data: data,
-                total: data.length
-              }
+            this.logger.debug(LOG_TAG ,"reloadConfigurationParamsForService done: ", data);
+            this.editService.cancelChanges();
+            this.editService.read(data, this._editServiceConfig);
             this.loading = false;
+
         }, (error)=>{
             this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
             this.toasterService.showError("Get Applications", "Error getting applications: "+ error.error);
             this.loading = false;
         });
+        this.setOptions(true, true, true, true);
     }
 
     public onDeleteOKPressed(mobileApplication:EngineCreate){
@@ -84,11 +110,22 @@ export class ApplicationsTabComponent implements OnInit {
         }
     }
 
-    public canRefresh():boolean {
-        return (this.domainSelector.selectedDomain!=null);
-    }
-
     public onRefreshClicked():void{
         this.refreshData();
     }
+
+        /**
+     * Enable or disable buttons
+     * @param canSave 
+     * @param canRefresh 
+     * @param canExport 
+     * @param canAddProperty 
+     */
+    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddProperty:boolean) : void {
+        this.canSave = canSave;
+        this.canRefresh = canRefresh;
+        this.canExport = canExport;
+        this.canAddProperty = canAddProperty;
+    }
+
 }
