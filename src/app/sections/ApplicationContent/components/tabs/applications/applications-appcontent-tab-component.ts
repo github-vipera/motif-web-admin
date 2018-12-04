@@ -12,6 +12,7 @@ import { GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { MobileApplicaton } from '../../../data/model'
 import { map } from 'rxjs/operators/map';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -49,6 +50,7 @@ export class ApplicationsTabComponent implements OnInit {
         private domainsService:DomainsService,
         private engineService:EnginesService,
         private toasterService:ToasterUtilsService,
+        private formBuilder: FormBuilder,
         public editService: EditService
         ){
         this.logger.debug(LOG_TAG ,"Opening...");
@@ -60,6 +62,15 @@ export class ApplicationsTabComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+    }
+
+    /**
+     * Triggered by the grid component
+     * @param state 
+     */
+    public onStateChange(state: State) {
+        this.gridState = state;
+        this.logger.debug(LOG_TAG ,"onStateChange: ", state);
     }
 
     
@@ -126,6 +137,44 @@ export class ApplicationsTabComponent implements OnInit {
         this.canRefresh = canRefresh;
         this.canExport = canExport;
         this.canAddProperty = canAddProperty;
+    }
+
+    /**
+     * User selection on click
+     * triggered by the grid
+     * @param param0 
+     */
+    public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }): void {
+        if (!isEdited) {
+            sender.editCell(rowIndex, columnIndex, this.createFormGroupForEdit(dataItem));
+        }
+    }
+
+    /**
+     * triggered by the grid
+     */
+    public cellCloseHandler(args: any) {
+        const { formGroup, dataItem } = args;
+        if (!formGroup.valid) {
+             // prevent closing the edited cell if there are invalid values.
+            args.preventDefault();
+        } else if (formGroup.dirty) {
+            this.editService.assignValues(dataItem, formGroup.value);
+            this.editService.update(dataItem);
+        }
+    }
+
+        /**
+     * Prepare edit form for inline editing
+     */
+    public createFormGroupForEdit(mobileApp: MobileApplicaton): FormGroup {
+        this.logger.debug(LOG_TAG,"createFormGroupForEdit:", mobileApp.name);
+        return this.formBuilder.group({
+            'name': mobileApp.name,
+            'downloadUrl': mobileApp.downloadUrl,
+            'latestVersion': mobileApp.latestVersion,
+            'forbiddenVersions': mobileApp.forbiddenVersions
+        });
     }
 
 }

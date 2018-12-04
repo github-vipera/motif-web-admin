@@ -33,7 +33,11 @@
                 <kendo-grid #datagrid [data]="view | async"  [columnMenu]="true"
                     [loading]="loading"  
                     [scrollable]="true"
-                    [resizable]="true" [reorderable]="true">
+                    (cellClick)="cellClickHandler($event)"
+                    (cellClose)="cellCloseHandler($event)"
+                    (dataStateChange)="onStateChange($event)"
+                    (cellClose)="cellCloseHandler($event)"
+                        [resizable]="true" [reorderable]="true">
             >
             
             

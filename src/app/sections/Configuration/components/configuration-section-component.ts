@@ -87,7 +87,6 @@ export class ConfigurationSectionComponent implements OnInit {
     public onStateChange(state: State) {
         this.gridState = state;
         this.logger.debug(LOG_TAG ,"onStateChange: ", state);
-        //this.editService.read();
     }
 
     /**
