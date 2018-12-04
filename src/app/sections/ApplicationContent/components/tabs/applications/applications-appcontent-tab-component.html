@@ -46,17 +46,17 @@
                             </kendo-grid-column>
 
                             <kendo-grid-column
-                                field="lastAppCheck" title="Last App Check" width="160">
+                                field="lastAppCheck" title="Last App Check" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
                             </kendo-grid-column>
 
                             <kendo-grid-column
-                                field="created" title="Created" width="160">
+                                field="created" title="Created" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
                             </kendo-grid-column>
                             
                             <kendo-grid-column title="" width="150" minResizableWidth="100">
                                     <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
                                             <wc-grid-editor 
-                                            [question]="'Delete Application ?'" 
+                                            [question]="'Delete ?'" 
                                             [rowIndex]="rowIndex" 
                                             [columnIndex]="columnIndex" 
                                             [column]="column" 

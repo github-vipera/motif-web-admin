@@ -5,6 +5,7 @@
 
 .grid-cell-checkbox-true:before {
     content: "\e118"; 
+    color: #009900;
 }
 
 .grid-cell-checkbox-true:false {

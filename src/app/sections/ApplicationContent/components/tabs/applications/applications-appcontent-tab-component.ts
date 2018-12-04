@@ -89,6 +89,16 @@ export class ApplicationsTabComponent implements OnInit {
         this.loading = true;
         this.engineService.getEngines(domain.name).subscribe((data)=>{
             this.logger.debug(LOG_TAG, "Engines for domain="+ domain.name+ ": ", data);
+
+            data = _.forEach(data, function(element) {
+                if (element.lastAppCheck){
+                    element.lastAppCheck = new Date(element.lastAppCheck);
+                }
+                if (element.created){
+                    element.created = new Date(element.created);
+                }
+            });
+
             this.gridView = {
                 data: data,
                 total: data.length
@@ -99,6 +109,10 @@ export class ApplicationsTabComponent implements OnInit {
             this.showError("Get Applications", "Error getting applications: "+ error.error);
             this.loading = false;
         });
+    }
+
+    public onDeleteOKPressed(mobileApplication:EngineCreate){
+        alert("TODO!! remove app " + mobileApplication.name)
     }
 
     public refreshData(){
