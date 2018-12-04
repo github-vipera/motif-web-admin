@@ -3,34 +3,12 @@
 <div class="row spread">
     <div>
         <label>Domain</label>
-        <kendo-combobox [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
+        <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)" (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
     </div>
 
 </div>
 
 <div class="row fill">
-
-    <!--
-        <div id="user-add" class="editor slidedown AVAST_PAM_signupform">
-                <input placeholder="UserID">
-            
-                <select>
-                    <option>Storeman</option>
-                </select>
-            
-                <input type="password" placeholder="Password" class="error">
-                <input type="password" placeholder="Confirm password" class="error">
-                
-                <div class="cmd">
-                    <a>
-                        <svg class="ok" data-id="ok"><use xlink:href="img/icons.svg#ico-ok"></use></svg> 
-                    </a>
-                    <a data-slideup="#user-add">
-                        <svg class="ko" data-id="ko"><use xlink:href="img/icons.svg#ico-ko"></use></svg>
-                    </a>
-                </div>
-            </div>
-        -->
 
     <div>
         <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
@@ -70,8 +48,3 @@
     </div>
 
 </div>
-
-<!--
-    <wc-grid [data]="usersList" [configuration]="gridConfiguration">
-    </wc-grid>
--->

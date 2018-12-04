@@ -8,7 +8,7 @@ import { WCToasterService } from 'web-console-ui-kit'
 import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-console-core';
-import { DomainsService, DomainsList, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
+import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
@@ -52,7 +52,6 @@ export class SessionsSectionComponent implements OnInit {
     constructor(private logger: NGXLogger,
         private securityService: SecurityService,
         private toaster: WCToasterService,
-        private domainsService: DomainsService,
         private applicationsService: ApplicationsService) {
         this.logger.debug(LOG_TAG, "Opening...");
     }
