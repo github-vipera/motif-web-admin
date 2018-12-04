@@ -1,10 +1,11 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
 import { DataResult } from '@progress/kendo-data-query';
+import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -16,9 +17,9 @@ const LOG_TAG = "[ApplicationsAppContentSection]";
 export class ApplicationsTabComponent implements OnInit {
     
     public gridView: DataResult;
-    public domainList: DomainsList = [];
-    public _selectedDomain:Domain; //combo box selection
     public loading:boolean;
+
+    @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService,
@@ -34,19 +35,7 @@ export class ApplicationsTabComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
-        this.refreshDomainList();
     }
-
-    /**
-     * Get the list of the available Domains
-     */
-    public refreshDomainList():void {
-        this.domainsService.getDomains().subscribe(data=>{
-        this.domainList = data;
-        }, error=>{
-        console.error("Error: ", error);
-        });
-    } 
 
     
     /**
@@ -71,17 +60,14 @@ export class ApplicationsTabComponent implements OnInit {
         });
     }
 
-        /**
-     * Set the selcted domain
-     */
-    @Input()
-    public set selectedDomain(domain:Domain){
-        this._selectedDomain = domain;
-        if (this._selectedDomain){
-            this.logger.debug(LOG_TAG, "selectedDomain domain=", this._selectedDomain.name);
-            this.loadData(this._selectedDomain);
-        } else {
-            this.logger.debug(LOG_TAG, "selectedDomain domain=no selection");
+    public onDomainSelected(domain:Domain){
+        if (domain){
+            this.loadData(domain);
+        }  else {
+            this.gridView = {
+                data: [],
+                total: 0
+              }
         }
     }
 
@@ -116,13 +102,13 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     public refreshData(){
-        if (this._selectedDomain){
-            this.loadData(this._selectedDomain);
+        if (this.domainSelector.selectedDomain){
+            this.loadData(this.domainSelector.selectedDomain);
         }
     }
 
     public canRefresh():boolean {
-        return (this._selectedDomain!=null);
+        return (this.domainSelector.selectedDomain!=null);
     }
 
     public onRefreshClicked():void{
