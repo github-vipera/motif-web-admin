@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { PluginView } from 'web-console-core'
-import { NGXLogger} from 'web-console-core'
+import { NGXLogger } from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
 import { SessionRow } from '../data/model'
 import { GridDataResult, GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -11,25 +11,26 @@ import { MotifQuerySort, MotifQueryResults, MotifQueryService } from 'web-consol
 import { DomainsService, DomainsList, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
-
+import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
 
 const LOG_TAG = "[SessionsSection]";
 
 @Component({
     selector: 'wa-sessions-section',
-    styleUrls: [ './sessions-section.component.scss' ],
+    styleUrls: ['./sessions-section.component.scss'],
     templateUrl: './sessions-section.component.html'
-  })
-  @PluginView("Sessions",{
-    iconName: "ico-sessions" 
+})
+@PluginView("Sessions", {
+    iconName: "ico-sessions"
 })
 export class SessionsSectionComponent implements OnInit {
 
-    @ViewChild(GridComponent) _grid : GridComponent;
-    @ViewChild('applicationsCombo') _appComboBox : ComboBoxComponent;
+    @ViewChild(GridComponent) _grid: GridComponent;
+    @ViewChild('applicationsCombo') _appComboBox: ComboBoxComponent;
+    @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
     //Grid Options
-    public gridConfiguration:WCGridConfiguration;
+    public gridConfiguration: WCGridConfiguration;
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
     public gridView: DataResult;
@@ -39,81 +40,66 @@ export class SessionsSectionComponent implements OnInit {
     public currentPage = 1;
     public totalPages = 0;
     public totalRecords = 0;
-    public isFieldSortable=false;
-      
-    public domainList: DomainsList = [];
-    public _selectedDomain:Domain; //combo box selection
+    public isFieldSortable = false;
 
     public applicationsList: ApplicationsList = [];
-    public _selectedApplication:Application; //combo box selection
+    public _selectedApplication: Application; //combo box selection
 
-    public loading : boolean = false;
+    public loading: boolean = false;
 
-    private _sessionRows : SessionRow[] = [];
+    private _sessionRows: SessionRow[] = [];
 
-    constructor(private logger: NGXLogger, 
-        private securityService:SecurityService,
+    constructor(private logger: NGXLogger,
+        private securityService: SecurityService,
         private toaster: WCToasterService,
-        private domainsService:DomainsService,
-        private applicationsService:ApplicationsService){
-        this.logger.debug(LOG_TAG ,"Opening...");
-    } 
-    
+        private domainsService: DomainsService,
+        private applicationsService: ApplicationsService) {
+        this.logger.debug(LOG_TAG, "Opening...");
+    }
+
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG ,"Initializing...");
-        this.refreshDomainList();
-        this.loadData(null, null, 1, this.pageSize);
+        this.logger.debug(LOG_TAG, "Initializing...");
+        //this.loadData(null, null, 1, this.pageSize);
     }
 
 
-    /**
-     * Get the list of the available Domains
-     */
-    public refreshDomainList():void {
-        this.domainsService.getDomains().subscribe(data=>{
-        this.domainList = data;
-        }, error=>{
-        console.error("Error: ", error);
-        });
-    } 
-
-    public refreshApplicationsList():void {
+    public refreshApplicationsList(): void {
         this._appComboBox.value = null;
         this._selectedApplication = undefined;
-        if (this._selectedDomain){
-            this.applicationsService.getApplications(this._selectedDomain.name).subscribe(data=>{
+        if (this.domainSelector.selectedDomain) {
+            this.applicationsService.getApplications(this.domainSelector.selectedDomain.name).subscribe(data => {
                 this.applicationsList = data;
-                }, error=>{
+            }, error => {
                 console.error("Error: ", error);
-                });
+            });
         } else {
             this.applicationsList = [];
         }
     }
-    
-    private loadData(domain:Domain , application:Application, pageIndex:number, pageSize:number){
-          this.logger.debug(LOG_TAG, "loadData domain='" + domain+ "' application='"+application+"' pageIndex=", pageIndex, " pageSize=", pageSize);
-    
-          this.loading = true;
 
-          let sort:MotifQuerySort = this.buildQuerySort();
-                      
-          let domainName = (domain?domain.name:null);
-          let applicationName = (application?application.name:null);
-          
-          this.securityService.getSessions(null, null, domainName, applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response)=>{
-    
-            let results:MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
-            
-            this.logger.debug(LOG_TAG ,"Query results:", results);
+    private loadData(domain: Domain, application: Application, pageIndex: number, pageSize: number) {
+        this.logger.debug(LOG_TAG, "loadData domain='" + domain + "' application='" + application + "' pageIndex=", pageIndex, " pageSize=", pageSize);
 
-            this._sessionRows = _.forEach(results.data, function(element) {
+        this.loading = true;
+
+        let sort: MotifQuerySort = this.buildQuerySort();
+
+        let domainName = (domain ? domain.name : null);
+        let applicationName = (application ? application.name : null);
+
+        this.securityService.getSessions(null, null, domainName, applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response) => {
+
+            let results: MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
+
+            this.logger.debug(LOG_TAG, "Query results:", results);
+
+            this._sessionRows = _.forEach(results.data, function (element) {
                 element.lastAccess = new Date(element.lastAccess);
-              });
-  
+            });
+
             //this._sessionRows = results.data;
             this.totalPages = results.totalPages;
             this.totalRecords = results.totalRecords;
@@ -121,100 +107,95 @@ export class SessionsSectionComponent implements OnInit {
             this.gridView = {
                 data: this._sessionRows,
                 total: results.totalRecords
-              }
-              
-              this.loading = false;
-    
-          }, error=>{
+            }
+
+            this.loading = false;
+
+        }, error => {
             this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
             this.loading = false;
-          });
-      }
-    
-      public pageChange({ skip, take }: PageChangeEvent): void {
+        });
+    }
+
+    public pageChange({ skip, take }: PageChangeEvent): void {
         this.logger.debug(LOG_TAG, "pageChange skip=", skip, " take=", take);
         this.skip = skip;
         this.pageSize = take;
         let newPageIndex = this.calculatePageIndex(skip, take);
-        this.loadData(this._selectedDomain, this._selectedApplication, newPageIndex, this.pageSize);
-      }
-    
-      private calculatePageIndex(skip:number, take:number):number {
-        return (skip/take)+1;
-      }
-    
-      private buildQuerySort():MotifQuerySort {
+        this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, newPageIndex, this.pageSize);
+    }
+
+    private calculatePageIndex(skip: number, take: number): number {
+        return (skip / take) + 1;
+    }
+
+    private buildQuerySort(): MotifQuerySort {
         this.logger.debug(LOG_TAG, "buildQuerySort: ", this.sort);
         let querySort = new MotifQuerySort();
-        if (this.sort){
-          for (let i=0;i<this.sort.length;i++){
-            let sortInfo = this.sort[i];
-            if (sortInfo.dir && sortInfo.dir === "asc"){
-              querySort.orderAscendingBy(sortInfo.field);
-            } else if (sortInfo.dir && sortInfo.dir === "desc"){
-              querySort.orderDescendingBy(sortInfo.field);
+        if (this.sort) {
+            for (let i = 0; i < this.sort.length; i++) {
+                let sortInfo = this.sort[i];
+                if (sortInfo.dir && sortInfo.dir === "asc") {
+                    querySort.orderAscendingBy(sortInfo.field);
+                } else if (sortInfo.dir && sortInfo.dir === "desc") {
+                    querySort.orderDescendingBy(sortInfo.field);
+                }
             }
-          }
         }
         return querySort;
-      }
-    
+    }
+
+
     /**
-     * Set the selcted domain
-     */
+    * Set the selcted application
+    */
     @Input()
-    public set selectedDomain(domain:Domain){
-        this._selectedDomain = domain;
+    public set selectedApplication(application: Application) {
+        this._selectedApplication = application;
+        this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, 1, this.pageSize);
+    }
+
+    /**
+     * Reload the list of the current sessions
+     */
+    public refreshData(): void {
+        this.logger.debug(LOG_TAG, "refreshData domain=", this.domainSelector.selectedDomain, " application=" + this._selectedApplication + " currentPage=", this.currentPage, " pageSize=", this.pageSize);
+        this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
+    }
+
+    public onDomainSelected(domain: Domain) {
         this.refreshApplicationsList();
-        if (this._selectedDomain){
-            this.logger.debug(LOG_TAG, "selectedDomain domain=", this._selectedDomain.name);
-            this.loadData(this._selectedDomain, this._selectedApplication, 1, this.pageSize);
+        if (this.domainSelector.selectedDomain) {
+            this.logger.debug(LOG_TAG, "selectedDomain domain=", this.domainSelector.selectedDomain.name);
+            this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, 1, this.pageSize);
         } else {
             this.logger.debug(LOG_TAG, "selectedDomain domain=no selection");
             this.loadData(null, null, 1, this.pageSize);
         }
     }
 
-     /**
-     * Set the selcted domain
-     */
-    @Input()
-    public set selectedApplication(application:Application){
-        this._selectedApplication = application;
-        this.loadData(this._selectedDomain,this._selectedApplication, 1, this.pageSize);
-    }
-
-  /**
-   * Reload the list of the current sessions
-   */
-  public refreshData():void{
-    this.logger.debug(LOG_TAG, "refreshData domain=", this._selectedDomain, " application=" + this._selectedApplication +" currentPage=", this.currentPage, " pageSize=", this.pageSize);
-    this.loadData(this._selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
-  }
-
-
-    onDeleteOKPressed(dataItem:any):void {
+    onDeleteOKPressed(dataItem: any): void {
         this.logger.debug(LOG_TAG, "onDeleteOKPressed dataItem=", dataItem);
-        this.securityService.closeSession(dataItem.id).subscribe((data)=>{
+        this.securityService.closeSession(dataItem.id).subscribe((data) => {
             this.logger.debug(LOG_TAG, "onDeleteOKPressed OK:", data);
             this.refreshData();
             this.showInfo("Session Delete", "Session deleted successfully.")
-        }, (error)=>{
+        }, (error) => {
             this.logger.error(LOG_TAG, "onDeleteOKPressed error:", error);
-            this.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code +"]");
+            this.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code + "]");
         });
     }
 
-    public onRefreshClicked():void {
+    public onRefreshClicked(): void {
         this.refreshData();
     }
 
-   /**
-     * Show Info Toast
-     * @param title 
-     * @param message 
-     */
-    private showInfo(title:string, message:string):void {
+    /**
+      * Show Info Toast
+      * @param title 
+      * @param message 
+      */
+    private showInfo(title: string, message: string): void {
         this.toaster.info(message, title, {
             positionClass: 'toast-top-center'
         });
@@ -225,7 +206,7 @@ export class SessionsSectionComponent implements OnInit {
      * @param title 
      * @param message 
      */
-    private showError(title:string, message:string):void {
+    private showError(title: string, message: string): void {
         this.toaster.error(message, title, {
             positionClass: 'toast-top-center'
         });

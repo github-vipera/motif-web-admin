@@ -6,7 +6,7 @@
 
         <div>
             <label>Domain</label>
-            <kendo-combobox [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
+            <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)" (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
         </div>
 
         <div style="margin-left: 40px;margin-right:10px;width:60%;max-width: 400px;">

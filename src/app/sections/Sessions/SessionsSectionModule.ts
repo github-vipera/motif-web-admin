@@ -7,6 +7,7 @@ import { SessionsSectionComponent } from './components/sessions-section-componen
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { EditService } from '../../components/Grid/edit.service';
+import { CommonsUIModule } from '../../components/CommonsUIModule'
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { EditService } from '../../components/Grid/edit.service';
         LoggerModule, 
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
-        WebConsoleUIKitKendoProviderModule
+        WebConsoleUIKitKendoProviderModule,
+        CommonsUIModule
     ],
     entryComponents:[
         SessionsSectionComponent
