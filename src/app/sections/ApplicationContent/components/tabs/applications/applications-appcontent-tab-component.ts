@@ -4,6 +4,7 @@ import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
+import { DataResult } from '@progress/kendo-data-query';
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -14,9 +15,10 @@ const LOG_TAG = "[ApplicationsAppContentSection]";
   })
 export class ApplicationsTabComponent implements OnInit {
     
+    public gridView: DataResult;
     public domainList: DomainsList = [];
     public _selectedDomain:Domain; //combo box selection
-
+    public loading:boolean;
 
     constructor(private logger: NGXLogger, 
         private toaster: WCToasterService,
@@ -84,11 +86,18 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     public loadData(domain:Domain):void {
+        this.loading = true;
         this.engineService.getEngines(domain.name).subscribe((data)=>{
             this.logger.debug(LOG_TAG, "Engines for domain="+ domain.name+ ": ", data);
+            this.gridView = {
+                data: data,
+                total: data.length
+              }
+            this.loading = false;
         }, (error)=>{
             this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
             this.showError("Get Applications", "Error getting applications: "+ error.error);
+            this.loading = false;
         });
     }
 
