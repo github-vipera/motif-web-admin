@@ -7,7 +7,7 @@ import { ClipboardService } from 'ngx-clipboard'
 import * as FileSaver from 'file-saver'
 import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
-import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faFileImport, faDownload, faCopy } from '@fortawesome/free-solid-svg-icons'
 
 const LOG_TAG = "[LogSection]";
 
@@ -24,6 +24,7 @@ export class LogSectionComponent implements OnInit {
     faFileImport = faFileImport;
     faDownload = faDownload;
     faExternalLinkSquareAlt = faExternalLinkSquareAlt;
+    faCopy = faCopy;
     
     public tailLines:string;
     public linesCount:number = 100;
