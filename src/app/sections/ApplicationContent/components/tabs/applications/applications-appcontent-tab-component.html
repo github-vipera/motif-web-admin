@@ -9,13 +9,7 @@
                         <label>Domain</label>
                         <kendo-combobox [data]="domainList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
                     </div>
-            
-                    <div style="margin-left: 40px;margin-right:10px;width:60%;max-width: 400px;">
-                        <label>Application</label>
-                        <kendo-combobox #applicationsCombo [data]="applicationsList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedApplication" style="width:100%;"></kendo-combobox>
-                    </div>
-            
-                    
+                                
                 </div>
             
                 <div class="flex-cmd">
@@ -25,73 +19,40 @@
                 </div>
             
             </div>
+
             
             <div class="row fill">
                 <kendo-grid [data]="gridView" [columnMenu]="true"
                     [loading]="loading"  
                     [scrollable]="true"
-                    [resizable]="true" [reorderable]="true" 
-                    [pageSize]="pageSize" [skip]="skip" [pageable]="{
-                    buttonCount: 5,
-                    info: true,
-                    type: type,
-                    pageSizes: true,
-                    previousNext: true
-                    }" [scrollable]="'none'" (pageChange)="pageChange($event)">
+                    [resizable]="true" [reorderable]="true">
             >
             
             
                             <kendo-grid-column
-                                field="clientIp" title="Client IP" width="160">
+                                field="name" title="Name">
                             </kendo-grid-column>
             
                             <kendo-grid-column
-                                field="user" title="User" width="160">
+                                field="latestVersion" title="Latest Version" width="160">
                             </kendo-grid-column>
             
                             <kendo-grid-column
-                                field="secure" title="Secure" width="40">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                        <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.secure}}"></label>
-                                </ng-template>
+                                field="forbiddenVersions" title="Forbidden Version" width="160">
                             </kendo-grid-column>
-            
+
                             <kendo-grid-column
-                                field="shared" title="Shared" width="40">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                        <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.shared}}"></label>
-                                </ng-template>
+                               field="downloadUrl" title="App Store URL">
                             </kendo-grid-column>
-            
+
                             <kendo-grid-column
-                                field="domain" title="Domain">
+                                field="lastAppCheck" title="Last App Check" width="160">
                             </kendo-grid-column>
-            
+
                             <kendo-grid-column
-                                    field="application" title="Application">
+                                field="created" title="Created" width="160">
                             </kendo-grid-column>
-            
-                            <kendo-grid-column
-                                    field="service" title="Service">
-                            </kendo-grid-column>
-            
-                            <kendo-grid-column
-                                    field="channel" title="Channel">
-                            </kendo-grid-column>
-            
-                            <kendo-grid-column
-                                    field="lastAccess" title="Last Access" format="{0:dd/MM/yyyy HH:mm:ss}">
-                            </kendo-grid-column>
-            
-                            <kendo-grid-column
-                                    field="lastRequestID" title="Last Request ID">
-                            </kendo-grid-column>
-            
-                            <kendo-grid-column
-                                    field="expiry" title="Expiry">
-                            </kendo-grid-column>
-            
-            
+                            
                             <kendo-grid-column title="" width="150" minResizableWidth="100">
                                     <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
                                             <wc-grid-editor 
