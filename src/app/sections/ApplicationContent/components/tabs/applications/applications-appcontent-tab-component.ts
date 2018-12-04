@@ -4,17 +4,14 @@ import { NGXLogger} from 'web-console-core'
 import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
 
-const LOG_TAG = "[AppContentSection]";
+const LOG_TAG = "[ApplicationsAppContentSection]";
 
 @Component({
-    selector: 'wa-appcontent-section',
-    styleUrls: [ './appcontent-section-component.scss' ],
-    templateUrl: './appcontent-section-component.html'
+    selector: 'wa-appcontent-applications-tab',
+    styleUrls: [ './applications-appcontent-tab-component.scss' ],
+    templateUrl: './applications-appcontent-tab-component.html'
   })
-  @PluginView("Application Content",{
-    iconName: "ico-app-content" 
-})
-export class AppContentSectionComponent implements OnInit {
+export class ApplicationsTabComponent implements OnInit {
     
 
     constructor(private logger: NGXLogger, 

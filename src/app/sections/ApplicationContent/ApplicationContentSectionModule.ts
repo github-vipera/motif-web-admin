@@ -7,6 +7,8 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { AppContentSectionComponent } from './components/appcontent-section-component'
 import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { ApplicationsTabComponent } from './components/tabs/applications/applications-appcontent-tab-component'
+import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-tab-component'
 
 @NgModule({
     imports: [
@@ -21,12 +23,12 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
         DateInputsModule
     ],
     entryComponents:[
-        AppContentSectionComponent
+        AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
     ],
     declarations: [
-        AppContentSectionComponent
+        AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
     ],
-    exports: [ AppContentSectionComponent ],
+    exports: [ AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent ],
     providers: [ 
     ]
     
