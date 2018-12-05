@@ -257,7 +257,7 @@ export class ApplicationsTabComponent implements OnInit {
         }
     }
 
-    onConfirmationCancel():void {
+    onConfirmationCancel(event):void {
         //nop
     }
 
