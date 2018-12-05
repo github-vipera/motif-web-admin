@@ -67,7 +67,7 @@ export class ApplicationsTabComponent implements OnInit {
         private engineService:EnginesService,
         private toasterService:ToasterUtilsService,
         private formBuilder: FormBuilder,
-        private editService: EditService,
+        public editService: EditService,
         private renderer2:Renderer2,
         private errorMessageBuilderService:ErrorMessageBuilderService
         ){
@@ -124,7 +124,7 @@ export class ApplicationsTabComponent implements OnInit {
 
         }, (error)=>{
             this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
-            this.toasterService.showError("Get Applications", "Error getting applications: "+ error.error);
+            this.toasterService.showError("Get Applications", "Error getting applications: "+ this.errorMessageBuilderService.buildErrorMessage(error));
             this.loading = false;
         });
         this.setOptions(true, true, true, true);
@@ -137,7 +137,7 @@ export class ApplicationsTabComponent implements OnInit {
             this.refreshData()
         },(error)=>{
             this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
-            this.toasterService.showError("Delete Application", "An error occurred while deleting new '"+ this.newMobileApp.name +"' application: " + error.error.Details);
+            this.toasterService.showError("Delete Application", "An error occurred while deleting new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
         })
     }
 
