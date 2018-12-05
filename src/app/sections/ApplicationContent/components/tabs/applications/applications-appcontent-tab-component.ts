@@ -279,6 +279,9 @@ export class ApplicationsTabComponent implements OnInit {
         //nop
     }
 
+    /**
+     * Show the new App panel
+     */
     onMobileAppClicked():void{
         this.newMobileApp = {
             downloadUrl:null,
@@ -289,6 +292,10 @@ export class ApplicationsTabComponent implements OnInit {
         this.slideDownAddMobileAppPanel(true);
     }
 
+    /**
+     * 
+     * @param show Show/Hide the new Application Pane
+     */
     private slideDownAddMobileAppPanel(show:boolean):void {
         if (show){
             this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
@@ -297,10 +304,16 @@ export class ApplicationsTabComponent implements OnInit {
         } 
     }
 
+    /**
+     * New app cancelled
+     */
     onMobileApplicationAddCancel():void{
         this.slideDownAddMobileAppPanel(false);
     }
-
+    
+    /**
+     * New app creation confirmed
+     */
     onMobileApplicationAddConfirm():void {
         this.slideDownAddMobileAppPanel(false);
         //Sanitize mandatory params
