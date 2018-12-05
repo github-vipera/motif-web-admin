@@ -132,14 +132,8 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     public onDeleteOKPressed(mobileApplication:EngineCreate){
-        this.engineService.deleteEngine(this.domainSelector.selectedDomain.name,mobileApplication.name).subscribe((data)=>{
-            this.logger.debug(LOG_TAG ,"new Mobile Application deleted:", data);
-            this.toasterService.showInfo("Delete Application", "THe application '"+mobileApplication.name +"' has been deleted successfully.");
-            this.refreshData()
-        },(error)=>{
-            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
-            this.toasterService.showError("Delete Application", "An error occurred while deleting new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
-        })
+        this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", mobileApplication);
+        this.editService.remove(mobileApplication);
     }
 
     public refreshData(){
@@ -230,6 +224,40 @@ export class ApplicationsTabComponent implements OnInit {
         
         let responses = [];
         let i = 0;  
+
+        //Add new
+        for (i=0;i<itemsToAdd.length;i++){
+            let newMobileApp:EngineCreate = {
+                name :  itemsToAdd[i].name,
+                downloadUrl :  ""+itemsToAdd[i].downloadUrl,
+                forbiddenVersion :  ""+itemsToAdd[i].forbiddenVersion,
+                latestVersion :  itemsToAdd[i].latestVersion
+            }
+            let response = this.engineService.createEngine(this.domainSelector.selectedDomain.name, newMobileApp);
+            responses.push(response);
+        }
+
+        /*
+        //Sanitize mandatory params
+        if (!this.newMobileApp.downloadUrl) { this.newMobileApp.downloadUrl = "" }
+        if (!this.newMobileApp.forbiddenVersion) { this.newMobileApp.forbiddenVersion = "" }
+        this.engineService.createEngine(this.domainSelector.selectedDomain.name, this.newMobileApp).subscribe((data)=>{
+            this.logger.debug(LOG_TAG ,"new Mobile Application created:", data);
+            this.toasterService.showInfo("New Application", "New application '"+ this.newMobileApp.name +"' created successfully.");
+            this.refreshData()
+        },(error)=>{
+            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
+            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
+        });
+        */
+        
+
+        //Remove deleted
+        for (i=0;i<itemsToRemove.length;i++){
+            let appNameToDelete = itemsToRemove[i].name;
+            let response = this.engineService.deleteEngine(this.domainSelector.selectedDomain.name,appNameToDelete);
+            responses.push(response);
+        }
 
         //Update existing
         for (i=0;i<itemsToUpdate.length;i++){
@@ -346,18 +374,9 @@ export class ApplicationsTabComponent implements OnInit {
      * New app creation confirmed
      */
     onMobileApplicationAddConfirm():void {
+        this.logger.debug(LOG_TAG ,"onEditCommit new row:", this.newMobileApp);
+        this.editService.create(this.newMobileApp);
         this.slideDownAddMobileAppPanel(false);
-        //Sanitize mandatory params
-        if (!this.newMobileApp.downloadUrl) { this.newMobileApp.downloadUrl = "" }
-        if (!this.newMobileApp.forbiddenVersion) { this.newMobileApp.forbiddenVersion = "" }
-        this.engineService.createEngine(this.domainSelector.selectedDomain.name, this.newMobileApp).subscribe((data)=>{
-            this.logger.debug(LOG_TAG ,"new Mobile Application created:", data);
-            this.toasterService.showInfo("New Application", "New application '"+ this.newMobileApp.name +"' created successfully.");
-            this.refreshData()
-        },(error)=>{
-            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
-            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
-        });
     }
 
 }
