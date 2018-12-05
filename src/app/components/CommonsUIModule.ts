@@ -7,6 +7,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-component'
 import { ToasterUtilsService } from './UI/toaster-utils-service'
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component'
+import { ErrorMessageBuilderService } from './Commons/error-message-builder-service'
 
 @NgModule({
     imports: [
@@ -26,7 +27,7 @@ import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-d
     ],
     exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent ],
     providers: [ 
-        ToasterUtilsService
+        ToasterUtilsService, ErrorMessageBuilderService
     ]
     
   })

@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
-
+import { ErrorMessageBuilderService } from '../../../../../components/Commons/error-message-builder-service'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -67,8 +67,9 @@ export class ApplicationsTabComponent implements OnInit {
         private engineService:EnginesService,
         private toasterService:ToasterUtilsService,
         private formBuilder: FormBuilder,
-        public editService: EditService,
-        private renderer2:Renderer2
+        private editService: EditService,
+        private renderer2:Renderer2,
+        private errorMessageBuilderService:ErrorMessageBuilderService
         ){
             this.editService.init();
         this.logger.debug(LOG_TAG ,"Opening...");
@@ -311,7 +312,7 @@ export class ApplicationsTabComponent implements OnInit {
             this.refreshData()
         },(error)=>{
             this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
-            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + error.error.Details);
+            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
         });
     }
 
