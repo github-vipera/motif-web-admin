@@ -18,7 +18,10 @@ export class ToasterUtilsService  {
 
     public showError(title:string, message:string):void {
         this.toaster.error(message, title, {
-            positionClass: 'toast-top-center'
+            positionClass: 'toast-top-center',
+            closeButton: true,
+            disableTimeOut: true,
+            toastClass: 'toast wc-toast'
         });
     }
 
