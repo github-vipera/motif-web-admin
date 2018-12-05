@@ -48,6 +48,13 @@ export class ApplicationsTabComponent implements OnInit {
     public canExport:boolean = true;
     public canAddProperty:boolean = false;
     
+    public newMobileApp:EngineCreate = {
+        downloadUrl:null,
+        forbiddenVersion:null,
+        latestVersion:null,
+        name:null
+    }
+
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
@@ -123,7 +130,14 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     public onDeleteOKPressed(mobileApplication:EngineCreate){
-        alert("TODO!! remove app " + mobileApplication.name)
+        this.engineService.deleteEngine(this.domainSelector.selectedDomain.name,mobileApplication.name).subscribe((data)=>{
+            this.logger.debug(LOG_TAG ,"new Mobile Application deleted:", data);
+            this.toasterService.showInfo("Delete Application", "THe application '"+mobileApplication.name +"' has been deleted successfully.");
+            this.refreshData()
+        },(error)=>{
+            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
+            this.toasterService.showError("Delete Application", "An error occurred while deleting new '"+ this.newMobileApp.name +"' application: " + error.error.Details);
+        })
     }
 
     public refreshData(){
@@ -265,6 +279,12 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     onMobileAppClicked():void{
+        this.newMobileApp = {
+            downloadUrl:null,
+            forbiddenVersion:null,
+            latestVersion:null,
+            name:null
+        }
         this.slideDownAddMobileAppPanel(true);
     }
 
@@ -282,7 +302,17 @@ export class ApplicationsTabComponent implements OnInit {
 
     onMobileApplicationAddConfirm():void {
         this.slideDownAddMobileAppPanel(false);
-        alert("TODO!!");
+        //Sanitize mandatory params
+        if (!this.newMobileApp.downloadUrl) { this.newMobileApp.downloadUrl = "" }
+        if (!this.newMobileApp.forbiddenVersion) { this.newMobileApp.forbiddenVersion = "" }
+        this.engineService.createEngine(this.domainSelector.selectedDomain.name, this.newMobileApp).subscribe((data)=>{
+            this.logger.debug(LOG_TAG ,"new Mobile Application created:", data);
+            this.toasterService.showInfo("New Application", "New application '"+ this.newMobileApp.name +"' created successfully.");
+            this.refreshData()
+        },(error)=>{
+            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
+            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + error.error.Details);
+        });
     }
 
 }
