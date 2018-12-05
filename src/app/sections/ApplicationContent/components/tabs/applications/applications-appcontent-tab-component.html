@@ -36,21 +36,37 @@
         <div>
             <!-- Sliding Editor Panel -->
             <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
-                <div>
-                    <label>Data Record Type</label>
-                    <kendo-dropdownlist [data]="dataRecordTypes" [(ngModel)]="dataRecordType" [valuePrimitive]="true"></kendo-dropdownlist>
+                <div class="wc-slide-down-editor-pane">
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Application Name">
+                            <input kendoTextBox />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Application Version">
+                            <input kendoTextBox />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="App Store URL">
+                                <input kendoTextBox />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Forbidden Versions">
+                            <input kendoTextBox />
+                        </kendo-textbox-container>
+                    </div>
                 </div>
-                <div>
-                </div>
-
+    
                 <div class="cmd" style="padding-top: 11px;align-items: center;">
-                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Export?</label>
-                    <a (click)="onExportConfirm()">
+                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
+                    <a (click)="onMobileApplicationAddConfirm()">
                         <svg class="ok" data-id="ok">
                             <use xlink:href="assets/img/icons.svg#ico-ok"></use>
                         </svg>
                     </a>
-                    <a (click)="onExportCancel()" data-slideup="#user-add">
+                    <a (click)="onMobileApplicationAddCancel()" data-slideup="#user-add">
                         <svg class="ko" data-id="ko">
                             <use xlink:href="assets/img/icons.svg#ico-ko"></use>
                         </svg>

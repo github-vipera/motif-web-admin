@@ -73,7 +73,6 @@ export class ApplicationsTabComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
-        console.log(">>>>>>>>>>>>> view=", this.view);
     }
 
     /**
@@ -277,5 +276,13 @@ export class ApplicationsTabComponent implements OnInit {
         } 
     }
 
+    onMobileApplicationAddCancel():void{
+        this.slideDownAddMobileAppPanel(false);
+    }
+
+    onMobileApplicationAddConfirm():void {
+        this.slideDownAddMobileAppPanel(false);
+        alert("TODO!!");
+    }
 
 }

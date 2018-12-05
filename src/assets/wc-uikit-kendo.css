@@ -173,3 +173,11 @@ kendo-popup {
     border-color: rgba(0, 0, 0, 0.15);
 }
 
+.k-textbox-container > .k-label {
+    top: 50%;
+}
+
+.k-textbox-container > .k-label, .k-textbox-container.k-state-focused > .k-label {
+    -webkit-transform: translate(-8px, -6px) translate(-1px, -1.07142857em) translate(-12.5%, -9.375%) scale(0.75);
+    transform: translate(-8px, -6px) translate(-1px, -1.07142857em) translate(-12.5%, -9.375%) scale(0.75);
+}

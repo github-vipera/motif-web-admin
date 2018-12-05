@@ -507,3 +507,8 @@ gridster .gridster-row {
 .tab-title {
 	padding-left: 4px;
 }
+
+.wc-slide-down-editor-item {
+	padding-right: 8px;
+	display: inline-flex;
+}
