@@ -15,7 +15,7 @@
                     <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
                     <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()"
                         [disabled]="!editService.hasChanges()">Discard Changes</button>
-                    <button kendoButton [toggleable]="false" (click)="onAddPropertyClicked()" [disabled]="!canAddProperty">
+                    <button kendoButton [toggleable]="false" (click)="onMobileAppClicked()" [disabled]="!canAddProperty">
                         <fa-icon [icon]="faMobileAlt"></fa-icon>Add Mobile Application
                     </button>
                 </kendo-buttongroup>

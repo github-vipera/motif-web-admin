@@ -257,4 +257,12 @@ export class ApplicationsTabComponent implements OnInit {
         }
     }
 
+    onConfirmationCancel():void {
+        //nop
+    }
+
+    onMobileAppClicked():void{
+        alert("TODO!!");
+    }
+
 }
