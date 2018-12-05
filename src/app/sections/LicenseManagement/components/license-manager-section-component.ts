@@ -66,7 +66,7 @@ export class LicenseManagerSectionComponent implements OnInit {
 
     public onDeleteOKPressed(license:License):void {
         this.logger.debug(LOG_TAG ,"Revoking license: ", license);
-        this.licenseManager._delete(license.productName, license.productVersion).subscribe((data)=>{
+        this.licenseManager.deleteLicense(license.productName, license.productVersion).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"License revoke success:", data);
             this.toasterService.showInfo("Revoke License", "The license has been successfully revoked");
             this.refreshData();
@@ -112,7 +112,7 @@ export class LicenseManagerSectionComponent implements OnInit {
      */
     uploadLicense(blob):void {
         this.toasterService.showInfo("Configuration Upload", "Uploading configuration...");
-        this.licenseManager.upload(blob).subscribe((data)=>{
+        this.licenseManager.uploadLicense(blob).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import license done:", data);
             this.toasterService.showInfo("License Upload", "Upload license done successfully.");
             this.refreshData();
