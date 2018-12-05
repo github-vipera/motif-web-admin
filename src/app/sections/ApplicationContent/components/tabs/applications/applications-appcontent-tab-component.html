@@ -3,7 +3,7 @@
 
     <div class="row spread">
         <div class="flex-toolbar" style="display:flex;align-items: center;">
-            <div style="margin-right:10px;width:60%;max-width: 400px;">
+            <div style="margin-right:10px;width:60%;max-width: 400px;min-width: 250px;">
                 <label>Domain</label>
                 <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)"
                     (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
