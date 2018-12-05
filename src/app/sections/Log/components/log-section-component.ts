@@ -42,7 +42,7 @@ export class LogSectionComponent implements OnInit {
     constructor(private logger: NGXLogger, 
         private toasterService: ToasterUtilsService,
         private logService: LogService,
-        private renderer:Renderer2,
+        private renderer2:Renderer2,
         private clipboardService: ClipboardService){
         this.logger.debug(LOG_TAG ,"Opening...");
         
@@ -123,7 +123,7 @@ export class LogSectionComponent implements OnInit {
     }
 
     public onExportClicked():void {
-        //this.renderer.removeClass(this.exportSlideDown.nativeElement, 'closed');
+        //this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
         this.slideDownExportPanel(true);
     }
 
@@ -138,9 +138,9 @@ export class LogSectionComponent implements OnInit {
 
     private slideDownExportPanel(show:boolean):void {
         if (show){
-            this.renderer.removeClass(this.exportSlideDown.nativeElement, 'closed');
+            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
         } else {
-            this.renderer.addClass(this.exportSlideDown.nativeElement, 'closed');
+            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
         } 
     }
 

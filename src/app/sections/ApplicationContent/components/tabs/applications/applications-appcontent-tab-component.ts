@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import * as _ from 'lodash';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
@@ -51,6 +51,7 @@ export class ApplicationsTabComponent implements OnInit {
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
+    @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
 
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
 
@@ -59,8 +60,10 @@ export class ApplicationsTabComponent implements OnInit {
         private engineService:EnginesService,
         private toasterService:ToasterUtilsService,
         private formBuilder: FormBuilder,
-        public editService: EditService
+        public editService: EditService,
+        private renderer2:Renderer2
         ){
+            this.editService.init();
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -70,6 +73,7 @@ export class ApplicationsTabComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG ,"Initializing...");
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+        console.log(">>>>>>>>>>>>> view=", this.view);
     }
 
     /**
@@ -262,7 +266,16 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     onMobileAppClicked():void{
-        alert("TODO!!");
+        this.slideDownAddMobileAppPanel(true);
     }
+
+    private slideDownAddMobileAppPanel(show:boolean):void {
+        if (show){
+            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
+        } else {
+            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
+        } 
+    }
+
 
 }

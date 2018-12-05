@@ -70,6 +70,7 @@ export class ConfigurationSectionComponent implements OnInit {
         private formBuilder: FormBuilder,
         private toasterService: ToasterUtilsService,
         private renderer:Renderer){
+        this.editService.init();
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     

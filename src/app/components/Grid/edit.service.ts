@@ -66,9 +66,7 @@ export class EditService extends BehaviorSubject<any[]> {
     }
 
     public update(item: any): void {
-        console.log(">>>>> update: ", item[this.configuration.idField]);
         if (!this.isNew(item)) {
-            console.log(">>>>> update not new");
             const index = this.itemIndex(item, this.updatedItems);
             if (index !== -1) {
                 this.updatedItems.splice(index, 1, item);
@@ -78,7 +76,7 @@ export class EditService extends BehaviorSubject<any[]> {
         } else {
             const index = this.createdItems.indexOf(item);
             this.createdItems.splice(index, 1, item);
-            console.log(">>>>> update is new index=", index);
+            //console.log(">>>>> update is new index=", index);
         }
         item[this.configuration.dirtyField]= "true";
     }
@@ -152,6 +150,12 @@ export class EditService extends BehaviorSubject<any[]> {
         this.deletedItems = [];
         this.updatedItems = [];
         this.createdItems = [];
+    }
+
+    public init() {
+        this.reset()
+        this.originalData = [];
+        super.next(this.data);
     }
 
     private itemIndex(item: any, data: any[]): number {
