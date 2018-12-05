@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { ErrorMessageBuilderService } from '../../../../../components/Commons/error-message-builder-service'
+import { forkJoin } from 'rxjs/observable/forkJoin'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -203,18 +204,48 @@ export class ApplicationsTabComponent implements OnInit {
      * Button event
      */
     onSaveClicked():void {
-        this.logger.debug(LOG_TAG ,"Save clicked");
-        alert("TODO!!");
-        /*
         this.saveAllChanges().subscribe((responses)=>{
-            this.reloadConfigurationParams();
-            this.logger.debug(LOG_TAG,"Settings saved successfully: ", responses);
-            this.toasterService.showInfo("Settings saved successfully.", "Settings Update");
+            this.refreshData();
+            this.logger.debug(LOG_TAG,"Applications updated successfully: ", responses);
+            this.toasterService.showInfo("Applications updated  successfully.", "Applications Update");
         }, (error)=>{
-            this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
-            this.toasterService.showError("Error saving settings: " +  error, "Settings Update Error");
+            this.logger.debug(LOG_TAG ,"Error saving applications: ", error);
+            this.toasterService.showError("App Update", "Error saving settings: " +  this.errorMessageBuilderService.buildErrorMessage(error));
         });
-        */
+    }
+
+        /**
+     * Save all pending chenges remotely
+     */
+    private saveAllChanges():Observable<any[]> {
+        this.logger.debug(LOG_TAG,"Saving all changes...");
+
+        let itemsToAdd = this.editService.createdItems;
+        let itemsToUpdate = this.editService.updatedItems;
+        let itemsToRemove = this.editService.deletedItems;
+        
+        this.logger.debug(LOG_TAG,"To add:", itemsToAdd);
+        this.logger.debug(LOG_TAG,"To update:", itemsToUpdate);
+        this.logger.debug(LOG_TAG,"To remove:", itemsToRemove);
+        
+        let responses = [];
+        let i = 0;  
+
+        //Update existing
+        for (i=0;i<itemsToUpdate.length;i++){
+            let modifiedAppName = itemsToUpdate[i].name;
+            let modifiedApp : EngineUpdate = {
+                latestVersion : itemsToUpdate[i].latestVersion,
+                forbiddenVersion : ""+itemsToUpdate[i].forbiddenVersion,
+                downloadUrl : ""+itemsToUpdate[i].downloadUrl
+            };
+            let response = this.engineService.updateEngine(this.domainSelector.selectedDomain.name, modifiedAppName, modifiedApp);
+            responses.push(response);
+        }
+
+        this.logger.debug(LOG_TAG,"Waiting for all changes commit.");
+        return forkJoin(responses);
+
     }
 
     /**
