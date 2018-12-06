@@ -1,25 +1,116 @@
 <div>
 
-        <div class="row spread">
-                <div class="flex-toolbar" style="display:flex;align-items: center;">
-                    <div style="margin-right:10px;width:60%;max-width: 400px;">
-                        <label>Domain</label>
-                        <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)"
-                            (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
-                    </div>
-                </div>
-        
-                <div class="flex-cmd">
-                    <kendo-buttongroup look="flat">
-                        <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">Refresh</button>
-                    </kendo-buttongroup>
-                </div>
-        
+    <div class="row spread">
+        <div class="flex-toolbar" style="display:flex;align-items: center;">
+            <div style="margin-right:10px;width:60%;max-width: 400px;">
+                <label>Domain</label>
+                <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)"
+                    (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
             </div>
-        
-        
-            <div class="row fill">
+        </div>
+
+        <div class="flex-cmd">
+            <kendo-buttongroup look="flat">
+                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">Refresh</button>
+            </kendo-buttongroup>
+        </div>
+
+    </div>
+
+
+    <div class="row fill">
+
+        <div>
+            <!-- Sliding Editor Panel -->
+            <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
+                <div class="wc-slide-down-editor-pane">
+                    <!--
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Application Name">
+                            <input kendoTextBox [(ngModel)]="newMobileApp.name" />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Application Version">
+                            <input kendoTextBox [(ngModel)]="newMobileApp.latestVersion" />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="App Store URL">
+                            <input kendoTextBox [(ngModel)]="newMobileApp.downloadUrl" />
+                        </kendo-textbox-container>
+                    </div>
+                    <div class="wc-slide-down-editor-item">
+                        <kendo-textbox-container floatingLabel="Forbidden Versions">
+                            <input kendoTextBox [(ngModel)]="newMobileApp.forbiddenVersion" />
+                        </kendo-textbox-container>
+                    </div>
+                    -->
+                </div>
+
+                <div class="cmd" style="padding-top: 11px;align-items: center;">
+                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
+                    <a (click)="onMobileApplicationAddConfirm()">
+                        <svg class="ok" data-id="ok">
+                            <use xlink:href="assets/img/icons.svg#ico-ok"></use>
+                        </svg>
+                    </a>
+                    <a (click)="onMobileApplicationAddCancel()" data-slideup="#user-add">
+                        <svg class="ko" data-id="ko">
+                            <use xlink:href="assets/img/icons.svg#ico-ko"></use>
+                        </svg>
+                    </a>
+                </div>
 
             </div>
+
+            <!-- Grid -->
+            <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [loading]="loading" [scrollable]="true"
+                (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" (dataStateChange)="onStateChange($event)"
+                (cellClose)="cellCloseHandler($event)" [resizable]="true" [reorderable]="true">
+                >
+
+
+                <kendo-grid-column field="name" title="Name">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <label class="k-icon grid-cell-dirty grid-cell-dirty-{{dataItem.dirty}}"></label>
+                        {{dataItem.name}}
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column field="latestVersion" title="Latest Version" width="160">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="forbiddenVersions" title="Forbidden Version" width="160">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="downloadUrl" title="App Store URL">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="lastAppCheck" title="Last App Check" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
+                </kendo-grid-column>
+
+                <kendo-grid-column field="created" title="Created" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
+                </kendo-grid-column>
+
+                <kendo-grid-column title="" width="150" minResizableWidth="100">
+                    <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex"
+                        let-column="column">
+                        <wc-grid-editor [question]="'Delete ?'" [rowIndex]="rowIndex" [columnIndex]="columnIndex"
+                            [column]="column" [value]="dataItem[column.field]" [dataItem]="dataItem" [buttonClass]="''"
+                            [mainClass]="'wc-table-delete-command'" (onConfirmation)="onDeleteOKPressed(dataItem)"
+                            (onCancel)="onDeleteCancelPressed(dataItem)">
+                            <svg data-id="no">
+                                <use xlink:href="assets/img/icons.svg#ico-no"></use>
+                            </svg>
+                        </wc-grid-editor>
+                    </ng-template>
+                </kendo-grid-column>
+
+            </kendo-grid>
+        </div>
+
+
+    </div>
 
 </div>

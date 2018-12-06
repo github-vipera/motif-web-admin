@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LicenseManagementServiceModule } from '@wa-motif-open-api/license-management-service'
 import { DialogModule } from '@progress/kendo-angular-dialog';
@@ -10,6 +9,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { EditService } from '../../components/Grid/edit.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { CommonsUIModule } from '../../components/CommonsUIModule'
 
 @NgModule({
     imports: [
@@ -21,7 +21,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        CommonsUIModule
     ],
     entryComponents:[
         LicenseManagerSectionComponent

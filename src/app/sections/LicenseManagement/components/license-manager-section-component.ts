@@ -3,9 +3,9 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
 import * as _ from 'lodash';
-import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
+import { NotificationCenter, Notification, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -27,10 +27,10 @@ export class LicenseManagerSectionComponent implements OnInit {
     @ViewChild('xmlFileImport') xmlFileImportEl : ElementRef;
 
     constructor(private logger: NGXLogger, 
-        private toasterService: ToasterUtilsService,
         private licenseManager: LicenseService,
         private renderer:Renderer,
-        private errorMessageBuilderService:ErrorMessageBuilderService){
+        private errorMessageBuilderService:ErrorMessageBuilderService,
+        private notificationCenter: NotificationCenter){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -59,7 +59,13 @@ export class LicenseManagerSectionComponent implements OnInit {
         }, (error=>{
             this.logger.error(LOG_TAG ,"Licenses error: ", error);
             this.loading = false;
-            this.toasterService.showError("Load Licenses", "Error loading licenses: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+            this.notificationCenter.post({
+                name:"LoadLicenseError",
+                title: "Load Licenses",
+                message: "Error loading licenses:",
+                type: NotificationType.Error,
+                error: error
+            });
         }))
     }
     
@@ -71,11 +77,24 @@ export class LicenseManagerSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG ,"Revoking license: ", license);
         this.licenseManager.deleteLicense(license.productName, license.productVersion).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"License revoke success:", data);
-            this.toasterService.showInfo("Revoke License", "The license has been successfully revoked");
+            this.notificationCenter.post({
+                name:"RevokeLicenseSuccess",
+                title: "Revoke License",
+                message: "The license has been successfully revoked",
+                type: NotificationType.Success
+            });
+
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Revoking license error:", error);
-            this.toasterService.showError("Revoke License", "Revoking license error: " + this.errorMessageBuilderService.buildErrorMessage(error));
+            this.notificationCenter.post({
+                name:"RevokeLicenseError",
+                title: "Revoke License",
+                message: "Error revoking license:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
     }
 
@@ -103,7 +122,16 @@ export class LicenseManagerSectionComponent implements OnInit {
           };
           reader.onerror = (error) => {
             this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
-            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"UploadLicenseError",
+                title: "License Upload",
+                message: "Error uploading licenses:",
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+            
           };
           reader.readAsText(file);
         }
@@ -114,14 +142,31 @@ export class LicenseManagerSectionComponent implements OnInit {
      * @param blob 
      */
     uploadLicense(blob):void {
-        this.toasterService.showInfo("Configuration Upload", "Uploading configuration...");
+        this.notificationCenter.post({
+            name:"UploadLicense",
+            title: "License Upload",
+            message: "Uploading license...",
+            type: NotificationType.Info
+        });
         this.licenseManager.uploadLicense(blob).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import license done:", data);
-            this.toasterService.showInfo("License Upload", "Upload license done successfully.");
+            this.notificationCenter.post({
+                name:"UploadLicense",
+                title: "License Upload",
+                message: "License Uploaded successfully.",
+                type: NotificationType.Success
+            });
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import license error:", error);
-            this.toasterService.showError("License Upload", "Upload license error: " + this.errorMessageBuilderService.buildErrorMessage(error));
+            this.notificationCenter.post({
+                name:"UploadLicenseError",
+                title: "License Upload",
+                message: "Error uploading licenses:",
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
         });
     }
 }

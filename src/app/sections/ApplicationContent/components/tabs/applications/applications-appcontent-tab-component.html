@@ -39,26 +39,26 @@
                 <div class="wc-slide-down-editor-pane">
                     <div class="wc-slide-down-editor-item">
                         <kendo-textbox-container floatingLabel="Application Name">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.name"/>
+                            <input kendoTextBox [(ngModel)]="newMobileApp.name" />
                         </kendo-textbox-container>
                     </div>
                     <div class="wc-slide-down-editor-item">
                         <kendo-textbox-container floatingLabel="Application Version">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.latestVersion"/>
+                            <input kendoTextBox [(ngModel)]="newMobileApp.latestVersion" />
                         </kendo-textbox-container>
                     </div>
                     <div class="wc-slide-down-editor-item">
                         <kendo-textbox-container floatingLabel="App Store URL">
-                                <input kendoTextBox [(ngModel)]="newMobileApp.downloadUrl"/>
+                            <input kendoTextBox [(ngModel)]="newMobileApp.downloadUrl" />
                         </kendo-textbox-container>
                     </div>
                     <div class="wc-slide-down-editor-item">
                         <kendo-textbox-container floatingLabel="Forbidden Versions">
-                            <input kendoTextBox  [(ngModel)]="newMobileApp.forbiddenVersion"/>
+                            <input kendoTextBox [(ngModel)]="newMobileApp.forbiddenVersion" />
                         </kendo-textbox-container>
                     </div>
                 </div>
-    
+
                 <div class="cmd" style="padding-top: 11px;align-items: center;">
                     <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
                     <a (click)="onMobileApplicationAddConfirm()">
@@ -107,9 +107,10 @@
                 <kendo-grid-column title="" width="150" minResizableWidth="100">
                     <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex"
                         let-column="column">
-                        <wc-grid-editor [question]="'Delete ?'" [rowIndex]="rowIndex" [columnIndex]="columnIndex" [column]="column"
-                            [value]="dataItem[column.field]" [dataItem]="dataItem" [buttonClass]="''" [mainClass]="'wc-table-delete-command'"
-                            (onConfirmation)="onDeleteOKPressed(dataItem)" (onCancel)="onDeleteCancelPressed(dataItem)">
+                        <wc-grid-editor [question]="'Delete ?'" [rowIndex]="rowIndex" [columnIndex]="columnIndex"
+                            [column]="column" [value]="dataItem[column.field]" [dataItem]="dataItem" [buttonClass]="''"
+                            [mainClass]="'wc-table-delete-command'" (onConfirmation)="onDeleteOKPressed(dataItem)"
+                            (onCancel)="onDeleteCancelPressed(dataItem)">
                             <svg data-id="no">
                                 <use xlink:href="assets/img/icons.svg#ico-no"></use>
                             </svg>

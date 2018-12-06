@@ -8,6 +8,8 @@ import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-c
 import { ToasterUtilsService } from './UI/toaster-utils-service'
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component'
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service'
+import { NotificationCenter } from './Commons/notification-center'
+import { NotificationModule } from '@progress/kendo-angular-notification';
 
 @NgModule({
     imports: [
@@ -17,7 +19,8 @@ import { ErrorMessageBuilderService } from './Commons/error-message-builder-serv
         LoggerModule, 
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
-        WebConsoleUIKitKendoProviderModule
+        WebConsoleUIKitKendoProviderModule,
+        NotificationModule
     ],
     entryComponents:[
         DomainSelectorComboBoxComponent, ConfirmationDialogComponent
@@ -27,7 +30,7 @@ import { ErrorMessageBuilderService } from './Commons/error-message-builder-serv
     ],
     exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent ],
     providers: [ 
-        ToasterUtilsService, ErrorMessageBuilderService
+        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
     ]
     
   })

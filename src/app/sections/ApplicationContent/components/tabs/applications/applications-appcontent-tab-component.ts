@@ -5,10 +5,10 @@ import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
-import {ToasterUtilsService } from '../../../../../components/UI/toaster-utils-service'
+import { ToasterUtilsService } from '../../../../../components/UI/toaster-utils-service'
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
 import { Observable } from 'rxjs/Observable';
-import { GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { MobileApplicaton } from '../../../data/model'
 import { map } from 'rxjs/operators/map';
