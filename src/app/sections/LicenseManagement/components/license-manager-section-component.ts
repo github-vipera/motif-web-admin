@@ -4,7 +4,6 @@ import { NGXLogger} from 'web-console-core'
 import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-management-service'
 import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[LicenseManagerSection]";
@@ -29,7 +28,6 @@ export class LicenseManagerSectionComponent implements OnInit {
     constructor(private logger: NGXLogger, 
         private licenseManager: LicenseService,
         private renderer:Renderer,
-        private errorMessageBuilderService:ErrorMessageBuilderService,
         private notificationCenter: NotificationCenter){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
