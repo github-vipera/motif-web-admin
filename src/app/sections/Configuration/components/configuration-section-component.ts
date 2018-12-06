@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin'
 import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
 
 const LOG_TAG = "[ConfigurationSection]";
 
@@ -69,6 +70,7 @@ export class ConfigurationSectionComponent implements OnInit {
         public editService: EditService,
         private formBuilder: FormBuilder,
         private toasterService: ToasterUtilsService,
+        private errorMessageBuilderService:ErrorMessageBuilderService,
         private renderer:Renderer){
         this.editService.init();
         this.logger.debug(LOG_TAG ,"Opening...");
@@ -124,6 +126,7 @@ export class ConfigurationSectionComponent implements OnInit {
             }, (error)=>{
                 this.logger.error(LOG_TAG ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
+                this.toasterService.showError("Load Configurations", "Error loading configuration parameters: "+ this.errorMessageBuilderService.buildErrorMessage(error));
             });
         } else {
             this.editService.read([], this._editServiceConfig);
@@ -206,6 +209,7 @@ export class ConfigurationSectionComponent implements OnInit {
       
         }, (error)=>{
             this.logger.error(LOG_TAG ,"Export error:", error);
+            this.toasterService.showError("Configuration Export", "Error exporting configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
         });
     }
 
@@ -241,7 +245,7 @@ export class ConfigurationSectionComponent implements OnInit {
             this.toasterService.showInfo("Settings saved successfully.", "Settings Update");
         }, (error)=>{
             this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
-            this.toasterService.showError("Error saving settings: " +  error, "Settings Update Error");
+            this.toasterService.showError("Configuration Save", "Error saving configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
         });
         }
 
@@ -427,7 +431,7 @@ export class ConfigurationSectionComponent implements OnInit {
             this.reloadConfigurationParams();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import xml configuration error:", error);
-            this.toasterService.showError("Configuration Upload", "Upload configuration error: " + error.error.Code + "\n" + error.error.Details);
+            this.toasterService.showError("Configuration Upload", "Error uploading configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
         });
     }
 
