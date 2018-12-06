@@ -14,9 +14,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfigurationSectionEditFormComponent } from './editor-form.component'
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin'
-import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[ConfigurationSection]";
 
@@ -69,11 +68,10 @@ export class ConfigurationSectionComponent implements OnInit {
         private configurationService:ConfigurationsService,
         public editService: EditService,
         private formBuilder: FormBuilder,
-        private toasterService: ToasterUtilsService,
-        private errorMessageBuilderService:ErrorMessageBuilderService,
-        private renderer:Renderer){
-        this.editService.init();
-        this.logger.debug(LOG_TAG ,"Opening...");
+        private renderer:Renderer,
+        private notificationCenter: NotificationCenter){
+            this.editService.init();
+            this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
     /**
@@ -126,7 +124,15 @@ export class ConfigurationSectionComponent implements OnInit {
             }, (error)=>{
                 this.logger.error(LOG_TAG ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
-                this.toasterService.showError("Load Configurations", "Error loading configuration parameters: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+
+                this.notificationCenter.post({
+                    name:"LoadConfigurationError",
+                    title: "Load Configuration",
+                    message: "Error loading configuration settings:",
+                    type: NotificationType.Error,
+                    error: error
+                });
+
             });
         } else {
             this.editService.read([], this._editServiceConfig);
@@ -205,11 +211,25 @@ export class ConfigurationSectionComponent implements OnInit {
             FileSaver.saveAs(data, fileName);   
             this.logger.debug(LOG_TAG ,"Configuration saved: ", fileName);
 
-            this.toasterService.showInfo("Export Done", "Configuration Export");
+            this.notificationCenter.post({
+                name:"ConfigurationExportSuccess",
+                title: "Configuration Export",
+                message: "The configuration has been exported successfully.",
+                type: NotificationType.Success
+            });
+
       
         }, (error)=>{
             this.logger.error(LOG_TAG ,"Export error:", error);
-            this.toasterService.showError("Configuration Export", "Error exporting configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"ConfigurationExportError",
+                title: "Export Configuration",
+                message: "Error exporting configuration:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
     }
 
@@ -242,10 +262,25 @@ export class ConfigurationSectionComponent implements OnInit {
         this.saveAllChanges().subscribe((responses)=>{
             this.reloadConfigurationParams();
             this.logger.debug(LOG_TAG,"Settings saved successfully: ", responses);
-            this.toasterService.showInfo("Settings saved successfully.", "Settings Update");
+
+            this.notificationCenter.post({
+                name:"SettingsSaveSuccess",
+                title: "Settings Save",
+                message: "The configuration settings have been saved correctly",
+                type: NotificationType.Success
+            });
+
         }, (error)=>{
             this.logger.debug(LOG_TAG ,"Error saving settings: ", error);
-            this.toasterService.showError("Configuration Save", "Error saving configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"SettingsSaveError",
+                title: "Configuration Save",
+                message: "Error saving configuration settings:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
         }
 
@@ -413,7 +448,15 @@ export class ConfigurationSectionComponent implements OnInit {
           };
           reader.onerror = (error) => {
             this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
-            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + error);
+
+            this.notificationCenter.post({
+                name:"ReadingConfigurationError",
+                title: "Configuration Upload",
+                message: "Error reading configuration file:",
+                type: NotificationType.Error,
+                error: error
+            });
+
           };
           reader.readAsText(file);
         }
@@ -424,14 +467,36 @@ export class ConfigurationSectionComponent implements OnInit {
      * @param blob 
      */
     uploadConfiguration(blob):void {
-        this.toasterService.showInfo("Configuration Upload", "Uploading configuration...");
+        this.notificationCenter.post({
+            name:"ConfigurationUpload",
+            title: "Configuration Upload",
+            message: "Uploading configuration...",
+            type: NotificationType.Info
+        });
+
         this.configurationService.uploadXml(blob, false).subscribe((data)=>{
             this.logger.info(LOG_TAG ,"Import xml done:", data);
-            this.toasterService.showInfo("Configuration Upload", "Upload configuration done successfully.");
+            
+            this.notificationCenter.post({
+                name:"ConfigurationUploadSuccess",
+                title: "Configuration Upload",
+                message: "The configuration has been successfully uloaded.",
+                type: NotificationType.Success
+            });
+
+
             this.reloadConfigurationParams();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import xml configuration error:", error);
-            this.toasterService.showError("Configuration Upload", "Error uploading configuration: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"ConfigurationUploadError",
+                title: "Configuration Upload",
+                message: "Error uploading configuration:",
+                type: NotificationType.Error,
+                error: error
+            });
+            
         });
     }
 
