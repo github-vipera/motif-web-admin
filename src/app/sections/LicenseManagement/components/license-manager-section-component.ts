@@ -5,6 +5,7 @@ import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-
 import * as _ from 'lodash';
 import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -28,7 +29,8 @@ export class LicenseManagerSectionComponent implements OnInit {
     constructor(private logger: NGXLogger, 
         private toasterService: ToasterUtilsService,
         private licenseManager: LicenseService,
-        private renderer:Renderer){
+        private renderer:Renderer,
+        private errorMessageBuilderService:ErrorMessageBuilderService){
         this.logger.debug(LOG_TAG ,"Opening...");
     } 
     
@@ -57,6 +59,7 @@ export class LicenseManagerSectionComponent implements OnInit {
         }, (error=>{
             this.logger.error(LOG_TAG ,"Licenses error: ", error);
             this.loading = false;
+            this.toasterService.showError("Load Licenses", "Error loading licenses: "+ this.errorMessageBuilderService.buildErrorMessage(error));
         }))
     }
     
@@ -72,7 +75,7 @@ export class LicenseManagerSectionComponent implements OnInit {
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Revoking license error:", error);
-            this.toasterService.showError("Revoke License", "Revoking license error: " + error.error.Code + "\n" + error.error.Details);
+            this.toasterService.showError("Revoke License", "Revoking license error: " + this.errorMessageBuilderService.buildErrorMessage(error));
         });
     }
 
@@ -100,7 +103,7 @@ export class LicenseManagerSectionComponent implements OnInit {
           };
           reader.onerror = (error) => {
             this.logger.error(LOG_TAG ,"onUploadFileSelected error: ", error);
-            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + error);
+            this.toasterService.showError("Configuration Upload", "Error reading configuration file: " + this.errorMessageBuilderService.buildErrorMessage(error));
           };
           reader.readAsText(file);
         }
@@ -118,7 +121,7 @@ export class LicenseManagerSectionComponent implements OnInit {
             this.refreshData();
           }, (error)=>{
             this.logger.error(LOG_TAG,"Import license error:", error);
-            this.toasterService.showError("License Upload", "Upload license error: " + error.error.Code + "\n" + error.error.Details);
+            this.toasterService.showError("License Upload", "Upload license error: " + this.errorMessageBuilderService.buildErrorMessage(error));
         });
     }
 }
