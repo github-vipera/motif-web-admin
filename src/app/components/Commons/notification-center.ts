@@ -40,7 +40,7 @@ export class NotificationCenter {
         this.notificationService.show({
             content: this.messageFromNotification(notification),
             animation: { type: 'fade', duration: 200 },
-            position: { horizontal: 'center', vertical: 'top' },
+            position: { horizontal: 'center', vertical: 'bottom' },
             type: this.typeFromNotification(notification),
             closable: closable
         });
