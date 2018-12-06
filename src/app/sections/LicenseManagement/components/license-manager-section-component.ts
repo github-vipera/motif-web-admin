@@ -5,7 +5,7 @@ import { LicenseService,LicenseList, License } from '@wa-motif-open-api/license-
 import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { ErrorMessageBuilderService } from '../../../components/Commons/error-message-builder-service'
-import { NotificationCenter, Notification, NotificationType } from '../../../components/Commons/notification-center'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[LicenseManagerSection]";
 
@@ -131,7 +131,7 @@ export class LicenseManagerSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
-            
+
           };
           reader.readAsText(file);
         }
