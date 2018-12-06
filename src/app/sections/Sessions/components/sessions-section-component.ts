@@ -11,7 +11,7 @@ import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
-import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[SessionsSection]";
 
@@ -51,7 +51,7 @@ export class SessionsSectionComponent implements OnInit {
 
     constructor(private logger: NGXLogger,
         private securityService: SecurityService,
-        private toasterService: ToasterUtilsService,
+        private notificationCenter: NotificationCenter,
         private applicationsService: ApplicationsService) {
         this.logger.debug(LOG_TAG, "Opening...");
     }
@@ -71,7 +71,16 @@ export class SessionsSectionComponent implements OnInit {
             this.applicationsService.getApplications(this.domainSelector.selectedDomain.name).subscribe(data => {
                 this.applicationsList = data;
             }, error => {
-                console.error("Error: ", error);
+                this.logger.error(LOG_TAG, "refreshApplicationsList error:", error);
+
+                this.notificationCenter.post({
+                    name:"RefreshApplicationsListError",
+                    title: "Load Applications",
+                    message: "Error loading Applications:",
+                    type: NotificationType.Error,
+                    error: error
+                });
+    
             });
         } else {
             this.applicationsList = [];
@@ -111,6 +120,15 @@ export class SessionsSectionComponent implements OnInit {
         }, error => {
             this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
             this.loading = false;
+
+            this.notificationCenter.post({
+                name:"LoadSessionsError",
+                title: "Load Sessions",
+                message: "Error loading Sessions:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
     }
 
@@ -176,10 +194,26 @@ export class SessionsSectionComponent implements OnInit {
         this.securityService.closeSession(dataItem.id).subscribe((data) => {
             this.logger.debug(LOG_TAG, "onDeleteOKPressed OK:", data);
             this.refreshData();
-            this.toasterService.showInfo("Session Delete", "Session deleted successfully.")
+
+
+            this.notificationCenter.post({
+                name:"CloseSessionSuccess",
+                title: "Close Session",
+                message: "Session closed successfully.",
+                type: NotificationType.Success
+            });
+
         }, (error) => {
             this.logger.error(LOG_TAG, "onDeleteOKPressed error:", error);
-            this.toasterService.showError("Session Delete Error", "Error during session deletion: " + error.error.Details + " [" + error.error.Code + "]");
+
+            this.notificationCenter.post({
+                name:"CloseSessionError",
+                title: "Close Session",
+                message: "Error closing session:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
     }
 

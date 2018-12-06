@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/core';
 import { NGXLogger} from 'web-console-core'
-import { WCToasterService } from 'web-console-ui-kit'
 import * as _ from 'lodash';
 import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { AssetsService,  } from '@wa-motif-open-api/app-content-service'
@@ -13,6 +12,7 @@ import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/do
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
 import { Domain } from '@wa-motif-open-api/platform-service'
 import { map } from 'rxjs/operators/map';
+import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 
 
 const LOG_TAG = "[AssetsAppContentSection]";
@@ -52,7 +52,7 @@ export class AssetsTabComponent implements OnInit {
     public canRefresh:boolean = false;
     
     constructor(private logger: NGXLogger, 
-        private toaster: WCToasterService,
+        private notificationCenter: NotificationCenter,
         private assetsService:AssetsService){
         this.logger.debug(LOG_TAG ,"Opening...");
         this.editService = new EditService();
@@ -127,4 +127,55 @@ export class AssetsTabComponent implements OnInit {
         this.canRefresh = canRefresh;
     }
 
+     /**
+     * Button event
+     */
+    public onRefreshClicked():void {
+        /*
+        if (this.editService.hasChanges()){
+            this.confirmationDialog.open("Pending Changes",
+                "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
+                { "action" : "refresh" });
+        } else {
+            this.refreshData();
+        }
+        */
+    }
+
+        /**
+     * User selection on click
+     * triggered by the grid
+     * @param param0 
+     */
+    public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }): void {
+        /*
+        if (!isEdited) {
+            sender.editCell(rowIndex, columnIndex, this.createFormGroupForEdit(dataItem));
+        }
+        */
+    }
+
+      /**
+     * triggered by the grid
+     */
+    public cellCloseHandler(args: any) {
+        /*
+        const { formGroup, dataItem } = args;
+        if (!formGroup.valid) {
+             // prevent closing the edited cell if there are invalid values.
+            args.preventDefault();
+        } else if (formGroup.dirty) {
+            this.editService.assignValues(dataItem, formGroup.value);
+            this.editService.update(dataItem);
+        }
+        */
+    }
+
+    public onAssetBundleAddConfirm():void {
+        //TODO
+    }
+
+    public onAssetBundleAddCancel():void {
+        //TODO!!
+    }
 }

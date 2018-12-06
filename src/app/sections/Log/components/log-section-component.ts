@@ -5,9 +5,9 @@ import { LogService, LogLevel, LogTail } from '@wa-motif-open-api/log-service'
 import * as _ from 'lodash';
 import { ClipboardService } from 'ngx-clipboard'
 import * as FileSaver from 'file-saver'
-import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
 import { faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-solid-svg-icons'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[LogSection]";
 
@@ -40,7 +40,7 @@ export class LogSectionComponent implements OnInit {
     @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
 
     constructor(private logger: NGXLogger, 
-        private toasterService: ToasterUtilsService,
+        private notificationCenter: NotificationCenter,
         private logService: LogService,
         private renderer2:Renderer2,
         private clipboardService: ClipboardService){
@@ -75,7 +75,14 @@ export class LogSectionComponent implements OnInit {
 
     public onCopyToClipboardClicked():void {
         this.clipboardService.copyFromContent(this.tailLines);
-        this.toasterService.showInfo("Log Tail", "The current displayed log has been copied to the clipboard");
+
+        this.notificationCenter.post({
+            name:"LogTailCopy",
+            title: "Log tail Copy",
+            message: "The current displayed log has been copied to the clipboard.",
+            type: NotificationType.Info
+        });
+
     }
 
     public set rootLogLevel(logLevel:LogLevel){
@@ -84,9 +91,25 @@ export class LogSectionComponent implements OnInit {
             this.logger.debug(LOG_TAG ,"Changing ROOT log level :", logLevel);
             this.logService.setRootLogLevel(this._rootLogLevel).subscribe((data)=>{
                 this.logger.debug(LOG_TAG ,"Changed ROOT log level :", data);
-                this.toasterService.showInfo("Log Management", "The ROOT Log Level has been changed to " + logLevel.level);
+               
+                this.notificationCenter.post({
+                    name:"RootLogLevelChangeSuccess",
+                    title: "Log Management",
+                    message: "The ROOT Log Level has been changed to " + logLevel.level,
+                    type: NotificationType.Success
+                });
+    
             }, (error)=>{
-                this.toasterService.showError("Log Management", "Error chaning ROOT Log Level: " + error.error);
+                this.logger.error(LOG_TAG ,"Error changing ROOT Log Level:", error);
+
+                this.notificationCenter.post({
+                    name:"RootLogLevelChangeError",
+                    title: "Log Management",
+                    message: "Error changing ROOT Log Level:",
+                    type: NotificationType.Error,
+                    error: error
+                });
+    
             })
         }
     }
@@ -105,6 +128,15 @@ export class LogSectionComponent implements OnInit {
     }
 
     public onDownloadClicked():void {
+
+        this.notificationCenter.post({
+            name:"LogDownload",
+            title: "Download Log",
+            message: "Downloading Log file...",
+            type: NotificationType.Info
+        });
+
+
         this.logService.downloadCurrentLog().subscribe((data)=>{
             this.logger.debug(LOG_TAG ,"Export done.", data);
 
@@ -114,10 +146,23 @@ export class LogSectionComponent implements OnInit {
             FileSaver.saveAs(blob, fileName);   
             this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
 
-            this.toasterService.showInfo("Log Export", "Log Export done successfully.");
-      
+            this.notificationCenter.post({
+                name:"LogExportSuccess",
+                title: "Download Log",
+                message: "The Log file has been downloaded.",
+                type: NotificationType.Success
+            });
+
         }, (error)=>{
-            this.logger.error(LOG_TAG ,"Export error:", error);
+            this.logger.error(LOG_TAG ,"Log download error:", error);
+
+            this.notificationCenter.post({
+                name:"LogExportError",
+                title: "Download Log",
+                message: "Error downloading the Log file:",
+                type: NotificationType.Error,
+                error: error
+            });
 
         });
     }

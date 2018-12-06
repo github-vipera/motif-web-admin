@@ -11,7 +11,7 @@ import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
 import { Domain } from '@wa-motif-open-api/platform-service'
-import { ToasterUtilsService } from '../../../components/UI/toaster-utils-service'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 const LOG_TAG = "[OAuth2Section]";
 const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/domains/{0}/refreshTokens"
@@ -49,8 +49,8 @@ export class OAuth2SectionComponent implements OnInit {
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,
-    private toasterService:ToasterUtilsService
-    ) {
+    private notificationCenter: NotificationCenter
+        ) {
 
     this.gridConfiguration = {
       columns: [
@@ -166,9 +166,21 @@ export class OAuth2SectionComponent implements OnInit {
 
     this.oauth2Service.revoke(oauthReq).subscribe(value => {
       this.refreshData();
-      this.toasterService.showInfo("Attention Please", "Refresh token revoked!");
+      this.notificationCenter.post({
+        name:"RevokeRefreshTokenSuccess",
+        title: "Revoke Refresh Token",
+        message: "The Refresh Token has been successfully revoked",
+        type: NotificationType.Success
+    });
+
     }, error => {
-      this.toasterService.showAlert("Attention Please", "Refresh token could not be removed.");
+      this.notificationCenter.post({
+        name:"RevokeRefreshTokenError",
+        title: "Revoke Refresh Token",
+        message: "Refresh token could not be removed.",
+        type: NotificationType.Error,
+        error: error
+      });
     })
   }
 

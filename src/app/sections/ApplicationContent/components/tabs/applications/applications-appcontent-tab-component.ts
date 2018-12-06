@@ -5,7 +5,6 @@ import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
-import { ToasterUtilsService } from '../../../../../components/UI/toaster-utils-service'
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
@@ -15,8 +14,8 @@ import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
-import { ErrorMessageBuilderService } from '../../../../../components/Commons/error-message-builder-service'
 import { forkJoin } from 'rxjs/observable/forkJoin'
+import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -66,11 +65,10 @@ export class ApplicationsTabComponent implements OnInit {
     constructor(private logger: NGXLogger, 
         private domainsService:DomainsService,
         private engineService:EnginesService,
-        private toasterService:ToasterUtilsService,
         private formBuilder: FormBuilder,
         public editService: EditService,
         private renderer2:Renderer2,
-        private errorMessageBuilderService:ErrorMessageBuilderService
+        private notificationCenter: NotificationCenter
         ){
             this.editService.init();
         this.logger.debug(LOG_TAG ,"Opening...");
@@ -125,7 +123,15 @@ export class ApplicationsTabComponent implements OnInit {
 
         }, (error)=>{
             this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
-            this.toasterService.showError("Get Applications", "Error getting applications: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"GetApplicationsError",
+                title: "Get Applications",
+                message: "Error getting applications:",
+                type: NotificationType.Error,
+                error: error
+            });
+
             this.loading = false;
         });
         this.setOptions(true, true, true, true);
@@ -201,10 +207,25 @@ export class ApplicationsTabComponent implements OnInit {
         this.saveAllChanges().subscribe((responses)=>{
             this.refreshData();
             this.logger.debug(LOG_TAG,"Applications updated successfully: ", responses);
-            this.toasterService.showInfo("Applications updated  successfully.", "Applications Update");
+
+            this.notificationCenter.post({
+                name:"UpdateApplicationSuccess",
+                title: "Update Application",
+                message: "The application has been successfully updated.",
+                type: NotificationType.Success
+            });
+
         }, (error)=>{
             this.logger.debug(LOG_TAG ,"Error saving applications: ", error);
-            this.toasterService.showError("App Update", "Error saving settings: " +  this.errorMessageBuilderService.buildErrorMessage(error));
+
+            this.notificationCenter.post({
+                name:"UpdateApplicationError",
+                title: "Update Application",
+                message: "Error updating applications:",
+                type: NotificationType.Error,
+                error: error
+            });
+
         });
     }
 
@@ -236,21 +257,6 @@ export class ApplicationsTabComponent implements OnInit {
             let response = this.engineService.createEngine(this.domainSelector.selectedDomain.name, newMobileApp);
             responses.push(response);
         }
-
-        /*
-        //Sanitize mandatory params
-        if (!this.newMobileApp.downloadUrl) { this.newMobileApp.downloadUrl = "" }
-        if (!this.newMobileApp.forbiddenVersion) { this.newMobileApp.forbiddenVersion = "" }
-        this.engineService.createEngine(this.domainSelector.selectedDomain.name, this.newMobileApp).subscribe((data)=>{
-            this.logger.debug(LOG_TAG ,"new Mobile Application created:", data);
-            this.toasterService.showInfo("New Application", "New application '"+ this.newMobileApp.name +"' created successfully.");
-            this.refreshData()
-        },(error)=>{
-            this.logger.error(LOG_TAG ,"New Mobile Application creation error:", error);
-            this.toasterService.showError("New Application", "An error occurred while creating the new '"+ this.newMobileApp.name +"' application: " + this.errorMessageBuilderService.buildErrorMessage(error));
-        });
-        */
-        
 
         //Remove deleted
         for (i=0;i<itemsToRemove.length;i++){

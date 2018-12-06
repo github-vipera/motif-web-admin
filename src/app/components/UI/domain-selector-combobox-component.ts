@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service'
 import { NGXLogger} from 'web-console-core'
+import { NotificationCenter, NotificationType } from '../../components/Commons/notification-center'
 
 const LOG_TAG = "[DomainSelectorComboBoxComponent]";
 
@@ -20,7 +21,8 @@ export class DomainSelectorComboBoxComponent implements OnInit {
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
 
     constructor(private logger: NGXLogger, 
-        private domainsService:DomainsService ){
+        private domainsService:DomainsService,
+        private notificationCenter: NotificationCenter){
             this.logger.debug(LOG_TAG ,"Creating...");
     } 
 
@@ -39,7 +41,14 @@ export class DomainSelectorComboBoxComponent implements OnInit {
         this.domainsService.getDomains().subscribe(data=>{
         this.domainList = data;
         }, error=>{
-        console.error("Error: ", error);
+            this.logger.debug(LOG_TAG ,"refreshDomainList error:", error);
+            this.notificationCenter.post({
+                name:"RefreshDomainListError",
+                title: "Load Domains",
+                message: "Error loading domains:",
+                type: NotificationType.Error,
+                error: error
+            });
         });
     } 
 
