@@ -1,11 +1,26 @@
 <div>
 
+    <wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
+
+
     <div class="row spread">
         <div class="flex-toolbar" style="display:flex;align-items: center;">
             <div style="margin-right:10px;width:60%;max-width: 400px;">
                 <label>Domain</label>
                 <wc-domain-selector-combobox #domainSelector (domainSelected)="onDomainSelected($event)"
                     (selectionCancelled)="onDomainSelected(null)"></wc-domain-selector-combobox>
+            </div>
+
+            <div>
+                <label>&nbsp;</label>
+                <kendo-buttongroup look="flat">
+                    <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
+                    <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()"
+                        [disabled]="!editService.hasChanges()">Discard Changes</button>
+                    <button kendoButton [toggleable]="false" (click)="onAddAssetsBundleClicked()" [disabled]="!canAddBundle">
+                        <fa-icon [icon]="faMobileAlt"></fa-icon>Add Assets Bundle
+                    </button>
+                </kendo-buttongroup>
             </div>
         </div>
 
@@ -78,20 +93,26 @@
                     </ng-template>
                 </kendo-grid-column>
 
-                <kendo-grid-column field="latestVersion" title="Latest Version" width="160">
+                <kendo-grid-column field="version" title="Version" width="160">
                 </kendo-grid-column>
 
-                <kendo-grid-column field="forbiddenVersions" title="Forbidden Version" width="160">
+                <kendo-grid-column field="published" title="Published" width="160">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                                <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.published}}"></label>
+                            </ng-template>
                 </kendo-grid-column>
-
-                <kendo-grid-column field="downloadUrl" title="App Store URL">
-                </kendo-grid-column>
-
-                <kendo-grid-column field="lastAppCheck" title="Last App Check" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
-                </kendo-grid-column>
-
+                    
                 <kendo-grid-column field="created" title="Created" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
                 </kendo-grid-column>
+
+                <kendo-grid-command-column title="" width="100" [class]="wc-grid-command-column">
+                        <ng-template kendoGridCellTemplate>
+                            <div style="display:flex;justify-content: center" offset="-10">
+                                <button style="width: 32px;height: 32px;padding-left:16px;padding-right:16px;" kendoButton [look]="'flat'" alt="Publish" title="Publish/Unpublish" class="k-button"><fa-icon [icon]="faCloudUploadAlt" style="font-size: 0.9rem;"></fa-icon></button>
+                                <button style="width: 32px;height: 32px;padding-left:16px;padding-right:16px;" kendoButton [look]="'flat'" alt="Download" title="Download" class="k-button"><fa-icon [icon]="faDownload" style="font-size: 0.9rem;"></fa-icon></button>
+                            </div>
+                        </ng-template>
+                </kendo-grid-command-column>
 
                 <kendo-grid-column title="" width="150" minResizableWidth="100">
                     <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex"

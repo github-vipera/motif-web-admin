@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import * as _ from 'lodash';
-import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { AssetsService,  } from '@wa-motif-open-api/app-content-service'
+import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch, faMobile, faMobileAlt, faDownload, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import { AssetsService, AssetBundleEntity } from '@wa-motif-open-api/app-content-service'
 import { MobileApplicaton } from '../../../data/model'
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
@@ -13,6 +13,7 @@ import { EditService, EditServiceConfiguration } from '../../../../../components
 import { Domain } from '@wa-motif-open-api/platform-service'
 import { map } from 'rxjs/operators/map';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
+import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 
 
 const LOG_TAG = "[AssetsAppContentSection]";
@@ -24,6 +25,10 @@ const LOG_TAG = "[AssetsAppContentSection]";
   })
 export class AssetsTabComponent implements OnInit {
 
+    faCloudUploadAlt = faCloudUploadAlt;
+    faDownload = faDownload;    
+    faMobile = faMobile;
+    faMobileAlt = faMobileAlt;
     faCoffee = faCoffee;
     faAdjust = faAdjust;
     faBatteryHalf = faBatteryHalf;
@@ -44,13 +49,15 @@ export class AssetsTabComponent implements OnInit {
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
+    @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
 
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
-    private editService:EditService;
+    public editService:EditService;
 
     //Buttons
     public canRefresh:boolean = false;
-    
+    public canAddBundle:boolean = false;
+
     constructor(private logger: NGXLogger, 
         private notificationCenter: NotificationCenter,
         private assetsService:AssetsService){
@@ -89,30 +96,32 @@ export class AssetsTabComponent implements OnInit {
 
     public loadData(domain:Domain):void {
         this.loading = true;
-        /*
-        this.assetsService.(domain.name).subscribe((data)=>{
-            this.logger.debug(LOG_TAG, "Engines for domain="+ domain.name+ ": ", data);
+        this.assetsService.getAssets(this.domainSelector.selectedDomain.name).subscribe((data)=>{
+            this.logger.debug(LOG_TAG, "Assets for domain="+ domain.name+ ": ", data);
 
             data = _.forEach(data, function(element) {
-                if (element.lastAppCheck){
-                    element.lastAppCheck = new Date(element.lastAppCheck);
-                }
                 if (element.created){
                     element.created = new Date(element.created);
                 }
             });
 
-            this.logger.debug(LOG_TAG ,"reloadConfigurationParamsForService done: ", data);
             this.editService.cancelChanges();
             this.editService.read(data, this._editServiceConfig);
             this.loading = false;
-
         }, (error)=>{
-            this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
-            this.toasterService.showError("Get Applications", "Error getting applications: "+ this.errorMessageBuilderService.buildErrorMessage(error));
+            this.logger.error(LOG_TAG, "Load Assets for domain="+ domain.name+ " error: ", error);
+
+            this.notificationCenter.post({
+                name:"GetAssestsError",
+                title: "Get Assets",
+                message: "Error getting assets:",
+                type: NotificationType.Error,
+                error: error
+            });
+
             this.loading = false;
         });
-        */
+
         this.setOptions(true, true, true, true);
     }
 
@@ -121,9 +130,9 @@ export class AssetsTabComponent implements OnInit {
      * @param canSave 
      * @param canRefresh 
      * @param canExport 
-     * @param canAddProperty 
+     * @param canAddBundle 
      */
-    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddProperty:boolean) : void {
+    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddBundle:boolean) : void {
         this.canRefresh = canRefresh;
     }
 
@@ -131,7 +140,6 @@ export class AssetsTabComponent implements OnInit {
      * Button event
      */
     public onRefreshClicked():void {
-        /*
         if (this.editService.hasChanges()){
             this.confirmationDialog.open("Pending Changes",
                 "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
@@ -139,7 +147,12 @@ export class AssetsTabComponent implements OnInit {
         } else {
             this.refreshData();
         }
-        */
+    }
+
+    public refreshData(){
+        if (this.domainSelector.selectedDomain){
+            this.loadData(this.domainSelector.selectedDomain);
+        }
     }
 
         /**
@@ -171,6 +184,11 @@ export class AssetsTabComponent implements OnInit {
         */
     }
 
+    public onDeleteOKPressed(assetBundle:AssetBundleEntity){
+        this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", assetBundle);
+        this.editService.remove(assetBundle);
+    }
+
     public onAssetBundleAddConfirm():void {
         //TODO
     }
@@ -178,4 +196,84 @@ export class AssetsTabComponent implements OnInit {
     public onAssetBundleAddCancel():void {
         //TODO!!
     }
+
+    onConfirmationCancel(event):void {
+        //nop
+    }
+
+        /**
+     * Event emitted by the confirmation dialog
+     * @param userData 
+     */
+    onConfirmationOK(userData):void {
+        this.logger.debug(LOG_TAG ,"onConfirmationOK for:", userData);
+
+        if (userData && userData.action==="refresh"){
+            this.refreshData();
+        } 
+        if (userData && userData.action==="discardChanges"){
+            this.editService.cancelChanges();
+        }
+    }
+
+    /**
+     * Button event
+     */
+    onSaveClicked():void {
+        /*
+        this.saveAllChanges().subscribe((responses)=>{
+            this.refreshData();
+            this.logger.debug(LOG_TAG,"Applications updated successfully: ", responses);
+
+            this.notificationCenter.post({
+                name:"UpdateApplicationSuccess",
+                title: "Update Application",
+                message: "The application has been successfully updated.",
+                type: NotificationType.Success
+            });
+
+        }, (error)=>{
+            this.logger.debug(LOG_TAG ,"Error saving applications: ", error);
+
+            this.notificationCenter.post({
+                name:"UpdateApplicationError",
+                title: "Update Application",
+                message: "Error updating applications:",
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
+        */
+    }
+
+    /**
+     * Button Event
+     */
+    onDiscardClicked():void {
+        if (this.editService.hasChanges()){
+            this.confirmationDialog.open("Pending Changes",
+                "Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?",
+                { "action" : "discardChanges" });
+        } else {
+            this.refreshData();
+        }
+    }
+
+        /**
+     * Show the new App panel
+     */
+    onAddAssetsBundleClicked():void{
+        /*
+        this.newMobileApp = {
+            downloadUrl:null,
+            forbiddenVersion:null,
+            latestVersion:null,
+            name:null
+        }
+        this.slideDownAddMobileAppPanel(true);
+        */
+    }
+
+
 }

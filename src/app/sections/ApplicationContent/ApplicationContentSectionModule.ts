@@ -12,6 +12,7 @@ import { AssetsTabComponent } from './components/tabs/assets/assets-appcontent-t
 import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
         DateInputsModule,
         AppContentServiceModule,
         CommonsUIModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        TooltipModule
     ],
     entryComponents:[
         AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
