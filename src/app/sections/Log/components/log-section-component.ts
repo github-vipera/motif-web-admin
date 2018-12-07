@@ -8,6 +8,7 @@ import * as FileSaver from 'file-saver'
 import { faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-solid-svg-icons'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import { saveAs } from '@progress/kendo-file-saver';
 
 const LOG_TAG = "[LogSection]";
 
@@ -70,6 +71,13 @@ export class LogSectionComponent implements OnInit {
             this.currentTailLinesCount = logTail.lines;
         }, (error)=>{
             this.logger.error(LOG_TAG ,"tailCurrentLog error:", error);
+            this.notificationCenter.post({
+                name:"RefreshLogTailError",
+                title: "Tail Log",
+                message: "Error refreshing log:",
+                type: NotificationType.Error,
+                error: error
+            });
         });
     }
 
@@ -143,7 +151,8 @@ export class LogSectionComponent implements OnInit {
             var blob = new Blob([data], {type: 'application/zip'});
          
             let fileName = "motif_log_" + new Date().getTime() +".zip";
-            FileSaver.saveAs(blob, fileName);   
+            saveAs(blob, fileName);
+            //FileSaver.saveAs(blob, fileName);   
             this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
 
             this.notificationCenter.post({
