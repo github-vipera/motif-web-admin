@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators/map';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component'
+import { saveAs } from '@progress/kendo-file-saver';
 
 
 const LOG_TAG = "[AssetsAppContentSection]";
@@ -313,5 +314,55 @@ export class AssetsTabComponent implements OnInit {
         });
     }
 
-  
+    onPublishClicked(dataItem){
+        this.logger.debug(LOG_TAG ,"onPublishClicked: ", dataItem);
+        //TODO!!
+    }
+
+    onDownloadClicked(dataItem){
+        this.doDownloadAssetsBundle(dataItem);
+    }
+
+    private doDownloadAssetsBundle(dataItem):void {
+        this.logger.debug(LOG_TAG ,"doDownloadAssetsBundle: ", dataItem);
+
+        this.notificationCenter.post({
+            name:"DownloadAssetBundleProgress",
+            title: "Download Asset Bundle",
+            message: "Downloading the assets bundle...",
+            type: NotificationType.Info
+        });
+
+        this.assetsService.downloadAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe((data)=>{
+            this.logger.debug(LOG_TAG,"Asset downloaded successfully: ", data);
+
+            var blob = new Blob([data], {type: 'application/zip'});
+
+            let fileName = dataItem.name +".zip";
+            saveAs(blob, fileName);
+            //FileSaver.saveAs(blob, fileName);   
+            this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
+
+            this.notificationCenter.post({
+                name:"DownloadAssetBundleSuccess",
+                title: "Download Asset Bundle",
+                message: "The asset bundle has been successfully downloaded.",
+                type: NotificationType.Success
+            });
+
+        }, (error)=>{
+
+            this.logger.debug(LOG_TAG ,"Error downloading asset bundle: ", error);
+
+            this.notificationCenter.post({
+                name:"DownloadAssetBundleError",
+                title: "Download Asset Bundle",
+                message: "Error downloading asset bundle:",
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
+    }
+
 }
