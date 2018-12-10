@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/cor
 import { NGXLogger} from 'web-console-core'
 import * as _ from 'lodash';
 import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch, faMobile, faMobileAlt, faDownload, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
-import { AssetsService, AssetBundleEntity } from '@wa-motif-open-api/app-content-service'
+import { AssetsService, AssetBundleEntity, AssetBundleUpdate } from '@wa-motif-open-api/app-content-service'
 import { MobileApplicaton } from '../../../data/model'
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
@@ -316,7 +316,7 @@ export class AssetsTabComponent implements OnInit {
 
     onPublishClicked(dataItem){
         this.logger.debug(LOG_TAG ,"onPublishClicked: ", dataItem);
-        //TODO!!
+        this.doPublishAssetsBundle(dataItem);
     }
 
     onDownloadClicked(dataItem){
@@ -365,4 +365,44 @@ export class AssetsTabComponent implements OnInit {
         });
     }
 
+    private doPublishAssetsBundle(dataItem):void {
+        this.logger.debug(LOG_TAG ,"doPublishAssetsBundle: ", dataItem);
+
+        this.notificationCenter.post({
+            name:"PublishAssetBundleProgress",
+            title: "Publish Asset Bundle",
+            message: "Publishing the assets bundle...",
+            type: NotificationType.Info
+        });
+
+        let bundleUpdate:AssetBundleUpdate = {
+            published: !dataItem.published;
+        }
+
+        this.assetsService.updateAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version, bundleUpdate).subscribe((data)=>{
+            this.logger.debug(LOG_TAG,"Asset published successfully: ", data);
+
+            this.refreshData();
+
+            this.notificationCenter.post({
+                name:"PublishAssetBundleSuccess",
+                title: "Publish Asset Bundle",
+                message: "The asset bundle has been successfully published.",
+                type: NotificationType.Success
+            });
+
+        }, (error)=>{
+
+            this.logger.debug(LOG_TAG ,"Error publishing asset bundle: ", error);
+
+            this.notificationCenter.post({
+                name:"PublishAssetBundleError",
+                title: "Publish Asset Bundle",
+                message: "Error publishing asset bundle:",
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
+    }
 }
