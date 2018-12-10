@@ -1,8 +1,20 @@
-import { Component, OnInit, ViewChild, Renderer, ElementRef, Renderer2} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger} from 'web-console-core'
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service'
 import { SafeStyle } from '@angular/platform-browser';
+import { process, State } from '@progress/kendo-data-query';
+
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/distinctUntilChanged";
+
+import {
+    GridComponent,
+    GridDataResult,
+    DataStateChangeEvent
+} from '@progress/kendo-angular-grid';
+import * as _ from 'lodash';
 
 const LOG_TAG = "[PluginsSection]";
 
@@ -17,10 +29,17 @@ const LOG_TAG = "[PluginsSection]";
 export class PluginsSectionComponent implements OnInit {
 
     public data:PluginList;
+    public gridData: GridDataResult;// = process(sampleProducts, this.state);
+    public loading:boolean;
+    private filterValue:string;
+
+    public state: State = {
+    };
 
     constructor(private logger: NGXLogger,
         private registryService:RegistryService){
         this.logger.debug(LOG_TAG ,"Opening...");
+
     } 
     
     /**
@@ -36,11 +55,17 @@ export class PluginsSectionComponent implements OnInit {
     }
 
     public refreshData(){
+        this.loading = true;
         this.registryService.getPlugins(true, 'REGISTERED').subscribe((data:PluginList)=>{
             this.data = data;
-            console.log("refreshData: ", data);
+            this.displayData();
+            this.displayData();
+            this.loading = false;
+            //console.log("refreshData: ", data);
         }, (error)=>{
-            console.error("refreshData error: ", error);
+            //console.error("refreshData error: ", error);
+            this.gridData = process([], this.state);
+            this.loading = false;
         });
     }
 
@@ -52,4 +77,21 @@ export class PluginsSectionComponent implements OnInit {
         }
     }
 
+    public onFilterChange(event:Event){
+        this.filterValue = event.srcElement.value; 
+        this.displayData();
+    }
+
+    private displayData():void{
+        let filteredData;
+        if (this.filterValue){
+            filteredData = _.filter(this.data,(o)=>{
+                var matcher = new RegExp("." + this.filterValue + ".");
+                return matcher.test(o.name);
+            });
+        } else {
+            filteredData = this.data;
+        }
+        this.gridData = process(filteredData, this.state);
+    }
 }

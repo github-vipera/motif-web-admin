@@ -3,6 +3,9 @@
 <div class="row spread">
 
     <div class="flex-toolbar" style="display:flex;align-items: center;">
+        <kendo-textbox-container floatingLabel="Filter">
+            <input #filterInput kendoTextBox  (afterValueChanged)="onFilterChange($event)" />
+        </kendo-textbox-container>
     </div>
 
     <div class="flex-cmd">
@@ -15,9 +18,8 @@
 
 <div class="row fill">
 
-        <kendo-grid #datagrid [data]="data" 
-                [loading]="loading"  
-                [navigable]="false"> 
+        <kendo-grid #datagrid [data]="gridData" 
+                [loading]="loading"> 
 
                 <kendo-grid-column
                     field="name" title="Name" >

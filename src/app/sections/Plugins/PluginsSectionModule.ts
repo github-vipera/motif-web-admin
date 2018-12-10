@@ -9,6 +9,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { PluginsSectionComponent } from './components/plugins-section-component'
 import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-service'
+import { CommonsUIModule } from '../../components/CommonsUIModule'
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-
         ClipboardModule,
         DateInputsModule,
         FontAwesomeModule,
-        PluginRegistryServiceModule
+        PluginRegistryServiceModule,
+        CommonsUIModule
     ],
     entryComponents:[
         PluginsSectionComponent

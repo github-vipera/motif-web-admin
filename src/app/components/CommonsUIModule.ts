@@ -12,6 +12,7 @@ import { NotificationCenter } from './Commons/notification-center'
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { FileDropPanelComponent } from './UI/file-drop-panel-component'
 import { DroppableModule } from '@ctrl/ngx-droppable';
+import { AfterValueChangedDirective } from './UI/after-value-change-directive'
 
 @NgModule({
     imports: [
@@ -29,9 +30,9 @@ import { DroppableModule } from '@ctrl/ngx-droppable';
         DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent
     ],
     declarations: [
-        DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent
+        DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent, AfterValueChangedDirective
     ],
-    exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent ],
+    exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent, AfterValueChangedDirective ],
     providers: [ 
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
     ]
