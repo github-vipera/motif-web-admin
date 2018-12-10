@@ -10,6 +10,8 @@ import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-d
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service'
 import { NotificationCenter } from './Commons/notification-center'
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { FileDropPanelComponent } from './UI/file-drop-panel-component'
+import { DroppableModule } from '@ctrl/ngx-droppable';
 
 @NgModule({
     imports: [
@@ -20,15 +22,16 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
-        NotificationModule
+        NotificationModule,
+        DroppableModule
     ],
     entryComponents:[
-        DomainSelectorComboBoxComponent, ConfirmationDialogComponent
+        DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent
     ],
     declarations: [
-        DomainSelectorComboBoxComponent, ConfirmationDialogComponent
+        DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent
     ],
-    exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent ],
+    exports: [ DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent ],
     providers: [ 
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
     ]

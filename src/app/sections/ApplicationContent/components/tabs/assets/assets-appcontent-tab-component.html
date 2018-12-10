@@ -37,34 +37,15 @@
 
         <div>
             <!-- Sliding Editor Panel -->
-            <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
+            <div style="display:flex;margin-bottom: 10px;height: 75px;" class="editor slidedown closed" #uploadAssetsSlideDown>
                 <div class="wc-slide-down-editor-pane">
-                    <!--
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Application Name">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.name" />
-                        </kendo-textbox-container>
+                    <div style="width:350px;height: 100%;">
+                            <wc-file-drop-panel #fileDrop></wc-file-drop-panel>
                     </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Application Version">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.latestVersion" />
-                        </kendo-textbox-container>
-                    </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="App Store URL">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.downloadUrl" />
-                        </kendo-textbox-container>
-                    </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Forbidden Versions">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.forbiddenVersion" />
-                        </kendo-textbox-container>
-                    </div>
-                    -->
                 </div>
 
-                <div class="cmd" style="padding-top: 11px;align-items: center;">
-                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
+                <div class="cmd" style="align-items: center;">
+                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Upload?</label>
                     <a (click)="onAssetBundleAddConfirm()">
                         <svg class="ok" data-id="ok">
                             <use xlink:href="assets/img/icons.svg#ico-ok"></use>
@@ -81,8 +62,8 @@
 
             <!-- Grid -->
             <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [loading]="loading" [scrollable]="true"
-                (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" (dataStateChange)="onStateChange($event)"
-                (cellClose)="cellCloseHandler($event)" [resizable]="true" [reorderable]="true">
+                (dataStateChange)="onStateChange($event)"
+                [resizable]="true" [reorderable]="true">
                 >
 
 
@@ -108,8 +89,8 @@
                 <kendo-grid-command-column title="" width="100" [class]="wc-grid-command-column">
                         <ng-template kendoGridCellTemplate>
                             <div style="display:flex;justify-content: center" offset="-10">
-                                <button style="width: 32px;height: 32px;padding-left:16px;padding-right:16px;" kendoButton [look]="'flat'" alt="Publish" title="Publish/Unpublish" class="k-button"><fa-icon [icon]="faCloudUploadAlt" style="font-size: 0.9rem;"></fa-icon></button>
-                                <button style="width: 32px;height: 32px;padding-left:16px;padding-right:16px;" kendoButton [look]="'flat'" alt="Download" title="Download" class="k-button"><fa-icon [icon]="faDownload" style="font-size: 0.9rem;"></fa-icon></button>
+                                <button style="width: 24px;height: 24px;" kendoButton [look]="'flat'" alt="Publish" title="Publish/Unpublish" class="k-button"><fa-icon [icon]="faCloudUploadAlt" style="font-size: 0.9rem;"></fa-icon></button>
+                                <button style="width: 24px;height: 24px;" kendoButton [look]="'flat'" alt="Download" title="Download" class="k-button"><fa-icon [icon]="faDownload" style="font-size: 0.9rem;"></fa-icon></button>
                             </div>
                         </ng-template>
                 </kendo-grid-command-column>

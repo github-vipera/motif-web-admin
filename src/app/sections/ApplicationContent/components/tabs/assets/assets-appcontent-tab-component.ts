@@ -14,6 +14,7 @@ import { Domain } from '@wa-motif-open-api/platform-service'
 import { map } from 'rxjs/operators/map';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
+import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component'
 
 
 const LOG_TAG = "[AssetsAppContentSection]";
@@ -48,8 +49,9 @@ export class AssetsTabComponent implements OnInit {
     public loading:boolean;
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
-    @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
+    @ViewChild('uploadAssetsSlideDown') uploadAssetsSlideDown:ElementRef;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
+    @ViewChild('fileDrop') fileDrop:FileDropPanelComponent;
 
     private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
     public editService:EditService;
@@ -60,7 +62,8 @@ export class AssetsTabComponent implements OnInit {
 
     constructor(private logger: NGXLogger, 
         private notificationCenter: NotificationCenter,
-        private assetsService:AssetsService){
+        private assetsService:AssetsService,
+        private renderer2:Renderer2){
         this.logger.debug(LOG_TAG ,"Opening...");
         this.editService = new EditService();
         this.editService.init();
@@ -134,6 +137,7 @@ export class AssetsTabComponent implements OnInit {
      */
     private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddBundle:boolean) : void {
         this.canRefresh = canRefresh;
+        this.canAddBundle = canAddBundle;
     }
 
      /**
@@ -155,46 +159,22 @@ export class AssetsTabComponent implements OnInit {
         }
     }
 
-        /**
-     * User selection on click
-     * triggered by the grid
-     * @param param0 
-     */
-    public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }): void {
-        /*
-        if (!isEdited) {
-            sender.editCell(rowIndex, columnIndex, this.createFormGroupForEdit(dataItem));
-        }
-        */
-    }
-
-      /**
-     * triggered by the grid
-     */
-    public cellCloseHandler(args: any) {
-        /*
-        const { formGroup, dataItem } = args;
-        if (!formGroup.valid) {
-             // prevent closing the edited cell if there are invalid values.
-            args.preventDefault();
-        } else if (formGroup.dirty) {
-            this.editService.assignValues(dataItem, formGroup.value);
-            this.editService.update(dataItem);
-        }
-        */
-    }
-
     public onDeleteOKPressed(assetBundle:AssetBundleEntity){
         this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", assetBundle);
         this.editService.remove(assetBundle);
     }
 
     public onAssetBundleAddConfirm():void {
-        //TODO
+        if (this.fileDrop.file){
+            this.doUploadNewAssetBundle(this.fileDrop.file);
+            this.slideDownUploadAssets(false);
+            this.fileDrop.reset();
+        }
     }
 
     public onAssetBundleAddCancel():void {
-        //TODO!!
+        this.slideDownUploadAssets(false);
+        this.fileDrop.reset();
     }
 
     onConfirmationCancel(event):void {
@@ -220,6 +200,7 @@ export class AssetsTabComponent implements OnInit {
      * Button event
      */
     onSaveClicked():void {
+        alert("TODO!!");
         /*
         this.saveAllChanges().subscribe((responses)=>{
             this.refreshData();
@@ -264,16 +245,73 @@ export class AssetsTabComponent implements OnInit {
      * Show the new App panel
      */
     onAddAssetsBundleClicked():void{
-        /*
-        this.newMobileApp = {
-            downloadUrl:null,
-            forbiddenVersion:null,
-            latestVersion:null,
-            name:null
-        }
-        this.slideDownAddMobileAppPanel(true);
-        */
+        this.slideDownUploadAssets(true);
     }
 
+    /**
+     * 
+     * @param show Show/Hide the new Slide down panel
+     */
+    private slideDownUploadAssets(show:boolean):void {
+        if (show){
+            this.renderer2.removeClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
+        } else {
+            this.renderer2.addClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
+        } 
+    }
 
+    doUploadNewAssetBundle(file:File):void {
+        let reader = new FileReader();
+        reader.onloadend = (data) => {
+            this.uploadAssetBundle(reader.result);
+        };
+        reader.onerror = (error) => {
+          this.logger.error(LOG_TAG ,"doUploadNewAssetBundle error: ", error);
+
+          this.notificationCenter.post({
+              name:"ReadingAssetBundleError",
+              title: "Asset Bundle Upload",
+              message: "Error reading asset bundle file:",
+              type: NotificationType.Error,
+              error: error
+          });
+        };
+        reader.readAsText(file);
+    }
+
+    uploadAssetBundle(blob):void{
+        this.logger.debug(LOG_TAG ,"uploadAssetBundle : ", blob);
+
+        this.notificationCenter.post({
+            name:"UploadAssetBundleProgress",
+            title: "Upload Asset Bundle",
+            message: "Uploading the asset bundle...",
+            type: NotificationType.Info
+        });
+
+        this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, blob).subscribe((event)=>{
+            this.refreshData();
+            this.logger.debug(LOG_TAG,"Asset Bundle uploaded successfully: ", event);
+
+            this.notificationCenter.post({
+                name:"UploadAssetBundleSuccess",
+                title: "Upload Asset Bundle",
+                message: "The asset bundle has been successfully uploaded.",
+                type: NotificationType.Success
+            });
+
+        },(error)=>{
+            this.logger.debug(LOG_TAG ,"Error uploading asset bundle: ", error);
+
+            this.notificationCenter.post({
+                name:"UploadAssetBundleError",
+                title: "Upload Asset Bundle",
+                message: "Error uploading asset bundle:",
+                type: NotificationType.Error,
+                error: error
+            });
+        });
+    }
+
+  
 }

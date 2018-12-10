@@ -385,4 +385,5 @@ export class ApplicationsTabComponent implements OnInit {
         this.slideDownAddMobileAppPanel(false);
     }
 
+  
 }

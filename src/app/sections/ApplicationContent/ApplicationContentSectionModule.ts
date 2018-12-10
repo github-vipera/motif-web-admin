@@ -13,6 +13,7 @@ import { AppContentServiceModule } from '@wa-motif-open-api/app-content-service'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { DroppableModule } from '@ctrl/ngx-droppable';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
         AppContentServiceModule,
         CommonsUIModule,
         FontAwesomeModule,
-        TooltipModule
+        TooltipModule,
+        DroppableModule
     ],
     entryComponents:[
         AppContentSectionComponent,ApplicationsTabComponent,AssetsTabComponent
