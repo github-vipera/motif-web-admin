@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/core';
-import { NGXLogger} from 'web-console-core'
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { NGXLogger } from 'web-console-core'
 import * as _ from 'lodash';
 import { fas, faCoffee, faAdjust, faBatteryHalf, faCircleNotch, faMobile, faMobileAlt, faDownload, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import { AssetsService, AssetBundleEntity, AssetBundleUpdate } from '@wa-motif-open-api/app-content-service'
@@ -16,19 +16,20 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
 import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component'
 import { saveAs } from '@progress/kendo-file-saver';
+import { forkJoin } from 'rxjs/observable/forkJoin'
 
 
 const LOG_TAG = "[AssetsAppContentSection]";
 
 @Component({
     selector: 'wa-assets-appcontent-tab-component',
-    styleUrls: [ './assets-appcontent-tab-component.scss' ],
+    styleUrls: ['./assets-appcontent-tab-component.scss'],
     templateUrl: './assets-appcontent-tab-component.html'
-  })
+})
 export class AssetsTabComponent implements OnInit {
 
     faCloudUploadAlt = faCloudUploadAlt;
-    faDownload = faDownload;    
+    faDownload = faDownload;
     faMobile = faMobile;
     faMobileAlt = faMobileAlt;
     faCoffee = faCoffee;
@@ -44,38 +45,38 @@ export class AssetsTabComponent implements OnInit {
         take: 10
     };
     public changes: any = {};
-    public editDataItem:MobileApplicaton;
+    public editDataItem: MobileApplicaton;
 
     public gridView: DataResult;
-    public loading:boolean;
+    public loading: boolean;
 
-    @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
-    @ViewChild('uploadAssetsSlideDown') uploadAssetsSlideDown:ElementRef;
-    @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
-    @ViewChild('fileDrop') fileDrop:FileDropPanelComponent;
+    @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
+    @ViewChild('uploadAssetsSlideDown') uploadAssetsSlideDown: ElementRef;
+    @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
+    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
 
-    private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
-    public editService:EditService;
+    private _editServiceConfig: EditServiceConfiguration = { idField: "name", dirtyField: "dirty", isNewField: "isNew" };
+    public editService: EditService;
 
     //Buttons
-    public canRefresh:boolean = false;
-    public canAddBundle:boolean = false;
+    public canRefresh: boolean = false;
+    public canAddBundle: boolean = false;
 
-    constructor(private logger: NGXLogger, 
+    constructor(private logger: NGXLogger,
         private notificationCenter: NotificationCenter,
-        private assetsService:AssetsService,
-        private renderer2:Renderer2){
-        this.logger.debug(LOG_TAG ,"Opening...");
+        private assetsService: AssetsService,
+        private renderer2: Renderer2) {
+        this.logger.debug(LOG_TAG, "Opening...");
         this.editService = new EditService();
         this.editService.init();
-        this.logger.debug(LOG_TAG ,"Opening...");
-    } 
-    
+        this.logger.debug(LOG_TAG, "Opening...");
+    }
+
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG ,"Initializing...");
+        this.logger.debug(LOG_TAG, "Initializing...");
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
     }
 
@@ -85,26 +86,26 @@ export class AssetsTabComponent implements OnInit {
      */
     public onStateChange(state: State) {
         this.gridState = state;
-        this.logger.debug(LOG_TAG ,"onStateChange: ", state);
+        this.logger.debug(LOG_TAG, "onStateChange: ", state);
     }
 
-    public onDomainSelected(domain:Domain){
-        if (domain){
+    public onDomainSelected(domain: Domain) {
+        if (domain) {
             this.loadData(domain);
             this.setOptions(true, true, true, true);
-        }  else {
+        } else {
             this.editService.read([], this._editServiceConfig);
             this.setOptions(false, false, true, false);
         }
     }
 
-    public loadData(domain:Domain):void {
+    public loadData(domain: Domain): void {
         this.loading = true;
-        this.assetsService.getAssets(this.domainSelector.selectedDomain.name).subscribe((data)=>{
-            this.logger.debug(LOG_TAG, "Assets for domain="+ domain.name+ ": ", data);
+        this.assetsService.getAssets(this.domainSelector.selectedDomain.name).subscribe((data) => {
+            this.logger.debug(LOG_TAG, "Assets for domain=" + domain.name + ": ", data);
 
-            data = _.forEach(data, function(element) {
-                if (element.created){
+            data = _.forEach(data, function (element) {
+                if (element.created) {
                     element.created = new Date(element.created);
                 }
             });
@@ -112,11 +113,11 @@ export class AssetsTabComponent implements OnInit {
             this.editService.cancelChanges();
             this.editService.read(data, this._editServiceConfig);
             this.loading = false;
-        }, (error)=>{
-            this.logger.error(LOG_TAG, "Load Assets for domain="+ domain.name+ " error: ", error);
+        }, (error) => {
+            this.logger.error(LOG_TAG, "Load Assets for domain=" + domain.name + " error: ", error);
 
             this.notificationCenter.post({
-                name:"GetAssestsError",
+                name: "GetAssestsError",
                 title: "Get Assets",
                 message: "Error getting assets:",
                 type: NotificationType.Error,
@@ -129,70 +130,70 @@ export class AssetsTabComponent implements OnInit {
         this.setOptions(true, true, true, true);
     }
 
-   /**
-     * Enable or disable buttons
-     * @param canSave 
-     * @param canRefresh 
-     * @param canExport 
-     * @param canAddBundle 
-     */
-    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddBundle:boolean) : void {
+    /**
+      * Enable or disable buttons
+      * @param canSave 
+      * @param canRefresh 
+      * @param canExport 
+      * @param canAddBundle 
+      */
+    private setOptions(canSave: boolean, canRefresh: boolean, canExport: boolean, canAddBundle: boolean): void {
         this.canRefresh = canRefresh;
         this.canAddBundle = canAddBundle;
     }
 
-     /**
-     * Button event
-     */
-    public onRefreshClicked():void {
-        if (this.editService.hasChanges()){
+    /**
+    * Button event
+    */
+    public onRefreshClicked(): void {
+        if (this.editService.hasChanges()) {
             this.confirmationDialog.open("Pending Changes",
                 "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
-                { "action" : "refresh" });
+                { "action": "refresh" });
         } else {
             this.refreshData();
         }
     }
 
-    public refreshData(){
-        if (this.domainSelector.selectedDomain){
+    public refreshData() {
+        if (this.domainSelector.selectedDomain) {
             this.loadData(this.domainSelector.selectedDomain);
         }
     }
 
-    public onDeleteOKPressed(assetBundle:AssetBundleEntity){
-        this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", assetBundle);
+    public onDeleteOKPressed(assetBundle: AssetBundleEntity) {
+        this.logger.debug(LOG_TAG, "onDeleteOKPressed for item: ", assetBundle);
         this.editService.remove(assetBundle);
     }
 
-    public onAssetBundleAddConfirm():void {
-        if (this.fileDrop.file){
+    public onAssetBundleAddConfirm(): void {
+        if (this.fileDrop.file) {
             this.doUploadNewAssetBundle(this.fileDrop.file);
             this.slideDownUploadAssets(false);
             this.fileDrop.reset();
         }
     }
 
-    public onAssetBundleAddCancel():void {
+    public onAssetBundleAddCancel(): void {
         this.slideDownUploadAssets(false);
         this.fileDrop.reset();
     }
 
-    onConfirmationCancel(event):void {
+    onConfirmationCancel(event): void {
         //nop
     }
 
-        /**
-     * Event emitted by the confirmation dialog
-     * @param userData 
-     */
-    onConfirmationOK(userData):void {
-        this.logger.debug(LOG_TAG ,"onConfirmationOK for:", userData);
+    /**
+ * Event emitted by the confirmation dialog
+ * @param userData 
+ */
+    onConfirmationOK(userData): void {
+        this.logger.debug(LOG_TAG, "onConfirmationOK for:", userData);
 
-        if (userData && userData.action==="refresh"){
+        if (userData && userData.action === "refresh") {
             this.refreshData();
-        } 
-        if (userData && userData.action==="discardChanges"){
+        }
+        if (userData && userData.action === "discardChanges") {
             this.editService.cancelChanges();
         }
     }
@@ -200,52 +201,76 @@ export class AssetsTabComponent implements OnInit {
     /**
      * Button event
      */
-    onSaveClicked():void {
-        alert("TODO!!");
-        /*
-        this.saveAllChanges().subscribe((responses)=>{
+    onSaveClicked(): void {
+
+        this.saveAllChanges().subscribe((responses) => {
             this.refreshData();
-            this.logger.debug(LOG_TAG,"Applications updated successfully: ", responses);
+            this.logger.debug(LOG_TAG, "Bundles updated successfully: ", responses);
 
             this.notificationCenter.post({
-                name:"UpdateApplicationSuccess",
-                title: "Update Application",
-                message: "The application has been successfully updated.",
+                name: "UpdateBundleSuccess",
+                title: "Update Bundle",
+                message: "The bundle list has been successfully updated.",
                 type: NotificationType.Success
             });
 
-        }, (error)=>{
-            this.logger.debug(LOG_TAG ,"Error saving applications: ", error);
+        }, (error) => {
+            this.logger.debug(LOG_TAG, "Error saving bundles: ", error);
 
             this.notificationCenter.post({
-                name:"UpdateApplicationError",
-                title: "Update Application",
-                message: "Error updating applications:",
+                name: "UpdateBundleError",
+                title: "Update Bundle",
+                message: "Error updating bundle list:",
                 type: NotificationType.Error,
                 error: error
             });
 
         });
-        */
+
+    }
+
+    /**
+ * Save all pending chenges remotely
+ */
+    private saveAllChanges(): Observable<any[]> {
+        this.logger.debug(LOG_TAG, "Saving all changes...");
+
+        let itemsToRemove = this.editService.deletedItems;
+
+        this.logger.debug(LOG_TAG, "To remove:", itemsToRemove);
+
+        let responses = [];
+        let i = 0;
+
+        //Remove deleted
+        for (i = 0; i < itemsToRemove.length; i++) {
+            let assetsToDelete = itemsToRemove[i].name;
+            let response = this.assetsService.deleteAsset(this.domainSelector.selectedDomain.name, assetsToDelete.name, assetsToDelete.version);
+            responses.push(response);
+        }
+
+        this.logger.debug(LOG_TAG, "Waiting for all changes commit.");
+        return forkJoin(responses);
+
     }
 
     /**
      * Button Event
      */
-    onDiscardClicked():void {
-        if (this.editService.hasChanges()){
+    onDiscardClicked(): void {
+        if (this.editService.hasChanges()) {
             this.confirmationDialog.open("Pending Changes",
                 "Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?",
-                { "action" : "discardChanges" });
+                { "action": "discardChanges" });
         } else {
             this.refreshData();
         }
     }
 
-        /**
-     * Show the new App panel
-     */
-    onAddAssetsBundleClicked():void{
+    /**
+ * Show the new App panel
+ */
+    onAddAssetsBundleClicked(): void {
         this.slideDownUploadAssets(true);
     }
 
@@ -253,59 +278,59 @@ export class AssetsTabComponent implements OnInit {
      * 
      * @param show Show/Hide the new Slide down panel
      */
-    private slideDownUploadAssets(show:boolean):void {
-        if (show){
+    private slideDownUploadAssets(show: boolean): void {
+        if (show) {
             this.renderer2.removeClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
         } else {
             this.renderer2.addClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
-        } 
+        }
     }
 
-    doUploadNewAssetBundle(file:File):void {
+    doUploadNewAssetBundle(file: File): void {
         let reader = new FileReader();
         reader.onloadend = (data) => {
             this.uploadAssetBundle(reader.result);
         };
         reader.onerror = (error) => {
-          this.logger.error(LOG_TAG ,"doUploadNewAssetBundle error: ", error);
+            this.logger.error(LOG_TAG, "doUploadNewAssetBundle error: ", error);
 
-          this.notificationCenter.post({
-              name:"ReadingAssetBundleError",
-              title: "Asset Bundle Upload",
-              message: "Error reading asset bundle file:",
-              type: NotificationType.Error,
-              error: error
-          });
+            this.notificationCenter.post({
+                name: "ReadingAssetBundleError",
+                title: "Asset Bundle Upload",
+                message: "Error reading asset bundle file:",
+                type: NotificationType.Error,
+                error: error
+            });
         };
         reader.readAsText(file);
     }
 
-    uploadAssetBundle(blob):void{
-        this.logger.debug(LOG_TAG ,"uploadAssetBundle : ", blob);
+    uploadAssetBundle(blob): void {
+        this.logger.debug(LOG_TAG, "uploadAssetBundle : ", blob);
 
         this.notificationCenter.post({
-            name:"UploadAssetBundleProgress",
+            name: "UploadAssetBundleProgress",
             title: "Upload Asset Bundle",
             message: "Uploading the asset bundle...",
             type: NotificationType.Info
         });
 
-        this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, blob).subscribe((event)=>{
+        this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, blob).subscribe((event) => {
             this.refreshData();
-            this.logger.debug(LOG_TAG,"Asset Bundle uploaded successfully: ", event);
+            this.logger.debug(LOG_TAG, "Asset Bundle uploaded successfully: ", event);
 
             this.notificationCenter.post({
-                name:"UploadAssetBundleSuccess",
+                name: "UploadAssetBundleSuccess",
                 title: "Upload Asset Bundle",
                 message: "The asset bundle has been successfully uploaded.",
                 type: NotificationType.Success
             });
 
-        },(error)=>{
-            this.logger.debug(LOG_TAG ,"Error uploading asset bundle: ", error);
+        }, (error) => {
+            this.logger.debug(LOG_TAG, "Error uploading asset bundle: ", error);
 
             this.notificationCenter.post({
-                name:"UploadAssetBundleError",
+                name: "UploadAssetBundleError",
                 title: "Upload Asset Bundle",
                 message: "Error uploading asset bundle:",
                 type: NotificationType.Error,
@@ -314,48 +339,48 @@ export class AssetsTabComponent implements OnInit {
         });
     }
 
-    onPublishClicked(dataItem){
-        this.logger.debug(LOG_TAG ,"onPublishClicked: ", dataItem);
+    onPublishClicked(dataItem) {
+        this.logger.debug(LOG_TAG, "onPublishClicked: ", dataItem);
         this.doPublishAssetsBundle(dataItem);
     }
 
-    onDownloadClicked(dataItem){
+    onDownloadClicked(dataItem) {
         this.doDownloadAssetsBundle(dataItem);
     }
 
-    private doDownloadAssetsBundle(dataItem):void {
-        this.logger.debug(LOG_TAG ,"doDownloadAssetsBundle: ", dataItem);
+    private doDownloadAssetsBundle(dataItem): void {
+        this.logger.debug(LOG_TAG, "doDownloadAssetsBundle: ", dataItem);
 
         this.notificationCenter.post({
-            name:"DownloadAssetBundleProgress",
+            name: "DownloadAssetBundleProgress",
             title: "Download Asset Bundle",
             message: "Downloading the assets bundle...",
             type: NotificationType.Info
         });
 
-        this.assetsService.downloadAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe((data)=>{
-            this.logger.debug(LOG_TAG,"Asset downloaded successfully: ", data);
+        this.assetsService.downloadAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe((data) => {
+            this.logger.debug(LOG_TAG, "Asset downloaded successfully: ", data);
 
-            var blob = new Blob([data], {type: 'application/zip'});
+            var blob = new Blob([data], { type: 'application/zip' });
 
-            let fileName = dataItem.name +".zip";
+            let fileName = dataItem.name + ".zip";
             saveAs(blob, fileName);
             //FileSaver.saveAs(blob, fileName);   
-            this.logger.debug(LOG_TAG ,"Log saved: ", fileName);
+            this.logger.debug(LOG_TAG, "Log saved: ", fileName);
 
             this.notificationCenter.post({
-                name:"DownloadAssetBundleSuccess",
+                name: "DownloadAssetBundleSuccess",
                 title: "Download Asset Bundle",
                 message: "The asset bundle has been successfully downloaded.",
                 type: NotificationType.Success
             });
 
-        }, (error)=>{
+        }, (error) => {
 
-            this.logger.debug(LOG_TAG ,"Error downloading asset bundle: ", error);
+            this.logger.debug(LOG_TAG, "Error downloading asset bundle: ", error);
 
             this.notificationCenter.post({
-                name:"DownloadAssetBundleError",
+                name: "DownloadAssetBundleError",
                 title: "Download Asset Bundle",
                 message: "Error downloading asset bundle:",
                 type: NotificationType.Error,
@@ -365,38 +390,38 @@ export class AssetsTabComponent implements OnInit {
         });
     }
 
-    private doPublishAssetsBundle(dataItem):void {
-        this.logger.debug(LOG_TAG ,"doPublishAssetsBundle: ", dataItem);
+    private doPublishAssetsBundle(dataItem): void {
+        this.logger.debug(LOG_TAG, "doPublishAssetsBundle: ", dataItem);
 
         this.notificationCenter.post({
-            name:"PublishAssetBundleProgress",
+            name: "PublishAssetBundleProgress",
             title: "Publish Asset Bundle",
             message: "Publishing the assets bundle...",
             type: NotificationType.Info
         });
 
-        let bundleUpdate:AssetBundleUpdate = {
+        let bundleUpdate: AssetBundleUpdate = {
             published: !dataItem.published;
         }
 
-        this.assetsService.updateAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version, bundleUpdate).subscribe((data)=>{
-            this.logger.debug(LOG_TAG,"Asset published successfully: ", data);
+        this.assetsService.updateAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version, bundleUpdate).subscribe((data) => {
+            this.logger.debug(LOG_TAG, "Asset published successfully: ", data);
 
             this.refreshData();
 
             this.notificationCenter.post({
-                name:"PublishAssetBundleSuccess",
+                name: "PublishAssetBundleSuccess",
                 title: "Publish Asset Bundle",
                 message: "The asset bundle has been successfully published.",
                 type: NotificationType.Success
             });
 
-        }, (error)=>{
+        }, (error) => {
 
-            this.logger.debug(LOG_TAG ,"Error publishing asset bundle: ", error);
+            this.logger.debug(LOG_TAG, "Error publishing asset bundle: ", error);
 
             this.notificationCenter.post({
-                name:"PublishAssetBundleError",
+                name: "PublishAssetBundleError",
                 title: "Publish Asset Bundle",
                 message: "Error publishing asset bundle:",
                 type: NotificationType.Error,

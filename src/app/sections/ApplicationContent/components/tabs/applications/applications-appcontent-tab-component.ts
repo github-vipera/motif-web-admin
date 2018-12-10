@@ -229,7 +229,7 @@ export class ApplicationsTabComponent implements OnInit {
         });
     }
 
-        /**
+    /**
      * Save all pending chenges remotely
      */
     private saveAllChanges():Observable<any[]> {
