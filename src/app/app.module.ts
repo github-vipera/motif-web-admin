@@ -18,7 +18,8 @@ import { OAuth2SectionModule } from './sections/OAuth2/OAuth2SectionModule';
 import { SessionsSectionModule } from './sections/Sessions/SessionsSectionModule'
 import { LicenseManagerSectionModule } from './sections/LicenseManagement/LicenseManagerSectionModule'
 import { LogSectionModule } from './sections/Log/LogSectionModule'
-import {ApplicationContentSectionModule } from './sections/ApplicationContent/ApplicationContentSectionModule'
+import { ApplicationContentSectionModule } from './sections/ApplicationContent/ApplicationContentSectionModule'
+import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
     SessionsSectionModule,
     LicenseManagerSectionModule,
     LogSectionModule,
-    ApplicationContentSectionModule
+    ApplicationContentSectionModule,
+    PluginsSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
