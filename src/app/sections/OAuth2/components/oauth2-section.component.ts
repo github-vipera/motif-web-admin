@@ -17,7 +17,7 @@ const LOG_TAG = "[OAuth2Section]";
 const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/domains/{0}/refreshTokens"
 
 @Component({
-  selector: 'wa-oauth2',
+  selector: 'wa-oauth2-section',
   styleUrls: ['./oauth2-section.component.scss'],
   templateUrl: './oauth2-section.component.html'
 })

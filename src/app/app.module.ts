@@ -20,6 +20,7 @@ import { LicenseManagerSectionModule } from './sections/LicenseManagement/Licens
 import { LogSectionModule } from './sections/Log/LogSectionModule'
 import { ApplicationContentSectionModule } from './sections/ApplicationContent/ApplicationContentSectionModule'
 import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
+import { ServicesSectionModule } from './sections/Services/ServicesSectionModule'
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     LicenseManagerSectionModule,
     LogSectionModule,
     ApplicationContentSectionModule,
-    PluginsSectionModule
+    PluginsSectionModule,
+    ServicesSectionModule
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 

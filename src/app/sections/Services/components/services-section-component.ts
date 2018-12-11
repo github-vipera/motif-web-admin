@@ -16,17 +16,17 @@ import {
 } from '@progress/kendo-angular-grid';
 import * as _ from 'lodash';
 
-const LOG_TAG = "[PluginsSection]";
+const LOG_TAG = "[ServicesSection]";
 
 @Component({
-    selector: 'wa-plugins-section',
-    styleUrls: [ './plugins-section-component.scss' ],
-    templateUrl: './plugins-section-component.html'
+    selector: 'wa-services-section',
+    styleUrls: [ './services-section-component.scss' ],
+    templateUrl: './services-section-component.html'
   })
-  @PluginView("Plugins",{
-    iconName: "ico-plugins" 
+  @PluginView("Services",{
+    iconName: "ico-services" 
 })
-export class PluginsSectionComponent implements OnInit {
+export class ServicesSectionComponent implements OnInit {
 
     public data:PluginList;
     public gridData: GridDataResult;// = process(sampleProducts, this.state);
