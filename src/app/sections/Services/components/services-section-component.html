@@ -83,7 +83,20 @@
 
 
         </kendo-grid>
-
-
-
+    
     </div>
+
+
+    <aside>
+            <wc-property-editor
+                [model]="propertyModel">
+            </wc-property-editor>
+            <div class="cmd">
+                    <a class="btn" (click)="onSavePropertiesPressed()">
+                        <svg class="ok" data-id="ok"><use xlink:href="assets/img/icons.svg#ico-ok"></use></svg> 
+                        Save
+                    </a>
+                </div>
+        </aside>
+
+</div>

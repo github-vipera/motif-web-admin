@@ -5,6 +5,7 @@ import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-r
 import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@progress/kendo-data-query';
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { DomainsService, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
+import { WCPropertyEditorModel, WCPropertyEditorComponent, WCPropertyEditorItem, WCPropertyEditorItemType } from 'web-console-ui-kit'
 
 import {
     GridComponent,
@@ -38,6 +39,52 @@ export class ServicesSectionComponent implements OnInit {
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
 
+    public propertyModel:WCPropertyEditorModel = {
+        items: [
+          {
+            name: "Description",
+            field: "description",
+            type: WCPropertyEditorItemType.String,
+            value: "Vipera platform secure"
+          },
+          {
+            name: "Offline",
+            field: "offline",
+            type: WCPropertyEditorItemType.Boolean,
+            value: true
+          },
+          {
+            name: "OTP expiry",
+            field: "otpExpiry",
+            type: WCPropertyEditorItemType.String,
+            value: "-1"
+          },
+          {
+            name: "Disabled Value",
+            field: "disabledValue",
+            type: WCPropertyEditorItemType.String,
+            value: "this is disabled",
+            disabled:true
+          },
+          {
+            name: "Age",
+            field: "age",
+            type: WCPropertyEditorItemType.String,
+            value: "45",
+            htmlInputType: "number"
+          },
+          {
+            name: "Car Type",
+            field: "carType",
+            type: WCPropertyEditorItemType.List,
+            value: "BMW",
+            listValues: ["Audi", "Mercedes", "Alfa Romeo", "BMW", "Mini Cooper"]
+          }
+    
+        ]
+      }
+
+      
     public data = [
         { name: "login", description: "Login Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
         { name: "logout", description: "Logout Operation", type: "Operation", channel: "REST", domain: "Default", application: "Vipera", service: "Security" },
