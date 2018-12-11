@@ -1,24 +1,23 @@
-:host{
-    display: flex;
-    flex: 1;
-    flex-direction: column;
- }
-
-.log-pane {
-    white-space: pre;
+/**
+:host ::ng-deep .service-catalog-tree  .k-grid .k-grouping-row {
+    background-color: #22272b;
 }
 
-.editor.slidedown > div > label {
-    padding-bottom: 5px;
+:host ::ng-deep .service-catalog-tree  .k-grouping-header  {
+    display: none;
 }
 
-.editor.slidedown > div > kendo-daterange > div > label {
-    padding-bottom: 5px;
+:host ::ng-deep .service-catalog-tree .k-grid td {
+    border-bottom: 1px dotted #666;
 }
 
-.small-copy-button {
-    height: 2rem;
-    width: 2rem;
-    border-radius: 50px;
-    background: #0f88e8;
+:host ::ng-deep .service-catalog-tree .k-grid tr, .k-grid td {
+    padding: 0.5rem;
 }
+
+
+:host ::ng-deep .k-grid tr.k-state-selected, .k-grid td.k-state-selected {
+    color: inherit;
+    background-color: rgba(99, 111, 174, 0.25);
+}
+**/

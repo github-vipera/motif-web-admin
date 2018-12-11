@@ -4,7 +4,7 @@
 
     <div class="flex-toolbar" style="display:flex;align-items: center;">
         <kendo-textbox-container floatingLabel="Filter">
-            <input #filterInput kendoTextBox  (afterValueChanged)="onFilterChange($event)" />
+            <input #filterInput kendoTextBox (afterValueChanged)="onFilterChange($event)" />
         </kendo-textbox-container>
     </div>
 
@@ -18,23 +18,72 @@
 
 <div class="row fill">
 
-        <kendo-grid #datagrid [data]="gridData" 
-                [loading]="loading"> 
+    <div class="service-catalog-tree">
+        <kendo-grid [group]="groups" [data]="gridView" [selectable]="false" [columnMenu]="false" [resizable]="true"
+            [reorderable]="false" style="height: 100%" [scrollable]="true">
 
-                <kendo-grid-column
-                    field="name" title="Name" >
-                </kendo-grid-column>
+            <kendo-grid-column field="domain" sortable="false" [hidden]="true">
+                <ng-template kendoGridGroupHeaderTemplate let-group let-field="field" let-value="value" let-dataItem
+                    let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                    <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                        <strong>X {{field}}</strong>: {{value}}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
 
-                <kendo-grid-column field="version" title="Version" width="150">
+            <kendo-grid-column field="application" sortable="false" [hidden]="true">
+                <ng-template kendoGridGroupHeaderTemplate let-group let-field="field" let-value="value" let-dataItem
+                    let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                    <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                        <strong>Y {{field}}</strong>: {{value}}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="service" sortable="false" [hidden]="true">
+                <ng-template kendoGridGroupHeaderTemplate let-group let-field="field" let-value="value" let-dataItem
+                    let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                    <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                        <strong>Z {{field}}</strong>: {{value}}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="name" title="Name" sortable="false">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" let-value="value">
+                    <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                       @ {{dataItem.name}}
+                    </div>
+                </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column field="description" title="Description" sortable="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" let-value="value">
+                            <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                               § {{dataItem.description}}
+                            </div>
+                        </ng-template>
                     </kendo-grid-column>
 
-                <kendo-grid-column field="status" title="Status" width="150">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                                <span class="whole-cell" [style.color]="statusColorCode(dataItem)">
-                                  {{ dataItem.status }}
-                                </span>
-                              </ng-template>
-                </kendo-grid-column>
+            <kendo-grid-column field="type" title="Type" sortable="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" let-value="value">
+                            <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                               # {{dataItem.type}}
+                            </div>
+                        </ng-template>
+            </kendo-grid-column>
 
-            </kendo-grid>
-</div>
+            <kendo-grid-column field="channel" title="Channel" sortable="false">
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" let-value="value">
+                            <div (click)="onDomainRowClicked(dataItem, $event)" style="width:100%;height:100%;">
+                               * {{dataItem.channel}}
+                            </div>
+                        </ng-template>
+            </kendo-grid-column>
+
+
+        </kendo-grid>
+
+
+
+    </div>

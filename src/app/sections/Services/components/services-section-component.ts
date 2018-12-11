@@ -1,97 +1,93 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core'
-import { NGXLogger} from 'web-console-core'
+import { NGXLogger } from 'web-console-core'
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service'
-import { SafeStyle } from '@angular/platform-browser';
-import { process, State } from '@progress/kendo-data-query';
-
-import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/distinctUntilChanged";
+import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@progress/kendo-data-query';
 
 import {
     GridComponent,
     GridDataResult,
     DataStateChangeEvent
 } from '@progress/kendo-angular-grid';
+
 import * as _ from 'lodash';
+import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = "[ServicesSection]";
 
 @Component({
     selector: 'wa-services-section',
-    styleUrls: [ './services-section-component.scss' ],
+    styleUrls: ['./services-section-component.scss'],
     templateUrl: './services-section-component.html'
-  })
-  @PluginView("Services",{
-    iconName: "ico-services" 
+})
+@PluginView("Services", {
+    iconName: "ico-services"
 })
 export class ServicesSectionComponent implements OnInit {
 
-    public data:PluginList;
-    public gridData: GridDataResult;// = process(sampleProducts, this.state);
-    public loading:boolean;
-    private filterValue:string;
+    public gridData: DataResult;
+    public gridView: DataResult;
+    public sort: SortDescriptor[] = [];
+    public groups: GroupDescriptor[] = [];
 
-    public state: State = {
-    };
+    public data = [
+        { name: "login", description: "Login Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
+        { name: "logout", description: "Logout Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
+        { name: "appcheck", description: "App Check Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Utility" },
+        { name: "pay", description: "HCE Pay Operation", type: "Operation", channel: "JSON", domain: "Bankart", application: "NLB Pay", service: "Payments" }
+    ]
+
+    public loading: boolean;
+    private _currentRowElement:any;
 
     constructor(private logger: NGXLogger,
-        private registryService:RegistryService){
-        this.logger.debug(LOG_TAG ,"Opening...");
+        private registryService: RegistryService) {
+        this.logger.debug(LOG_TAG, "Opening...");
 
-    } 
-    
+    }
+
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG ,"Initializing...");
+        this.logger.debug(LOG_TAG, "Initializing...");
+        this.groups = [{ field: 'domain' },{ field: 'application' },{ field: 'service' } ];
+
+        this.gridView = process(this.data, { group: this.groups });
     }
 
-    public onRefreshClicked():void {
-        this.logger.debug(LOG_TAG ,"Refresh clicked");
+
+    public onRefreshClicked(): void {
+        this.logger.debug(LOG_TAG, "Refresh clicked");
         this.refreshData();
     }
 
-    public refreshData(){
+    public refreshData() {
         this.loading = true;
-        this.registryService.getPlugins(true, 'REGISTERED').subscribe((data:PluginList)=>{
-            this.data = data;
-            this.displayData();
-            this.displayData();
-            this.loading = false;
-            //console.log("refreshData: ", data);
-        }, (error)=>{
-            //console.error("refreshData error: ", error);
-            this.gridData = process([], this.state);
-            this.loading = false;
-        });
+        this.loading = false;
     }
 
-    public statusColorCode(plugin:Plugin):SafeStyle {
-        if (plugin.status === 'ACTIVE'){
-            return '#1ab31a'
-        } else {
-            return "inherit";
+    public cellClickHandler(event) {
+        console.log("cellClickHandler: ", event)
+    }
+
+    public onDomainRowClicked(dataItem,event){
+        console.log("onDomainRowClicked:", dataItem);
+        this.doSelectCurrentRow(event.srcElement.closest('tr'));
+    }   
+
+    private doSelectCurrentRow(rowElement:ElementRef):void {
+        if (this._currentRowElement){
+            this.doUnselectRow(this._currentRowElement);
         }
+        this._currentRowElement = rowElement; 
+        this._currentRowElement.classList.add("k-state-selected");
+        this._currentRowElement.attributes["role"] = "row";
     }
 
-    public onFilterChange(event:Event){
-        this.filterValue = event.srcElement.value; 
-        this.displayData();
+    private doUnselectRow(rowElement:ElementRef):void {
+        this._currentRowElement.classList.remove("k-state-selected");
+        this._currentRowElement.attributes["role"] = null;
     }
 
-    private displayData():void{
-        let filteredData;
-        if (this.filterValue){
-            filteredData = _.filter(this.data,(o)=>{
-                var matcher = new RegExp("." + this.filterValue + ".");
-                return matcher.test(o.name);
-            });
-        } else {
-            filteredData = this.data;
-        }
-        this.gridData = process(filteredData, this.state);
-    }
 }
