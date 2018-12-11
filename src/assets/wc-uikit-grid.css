@@ -32,3 +32,8 @@
 .wc-grid-command-column {
     padding: 0px;
 }
+
+.k-grid td.k-state-selected, .k-grid tr.k-state-selected > td {
+    color: white;
+    background-color: rgba(105, 119, 192, 0.25)
+}

@@ -1,4 +1,4 @@
-/**
+
 :host ::ng-deep .service-catalog-tree  .k-grid .k-grouping-row {
     background-color: #22272b;
 }
@@ -15,9 +15,101 @@
     padding: 0.5rem;
 }
 
-
+/*
 :host ::ng-deep .k-grid tr.k-state-selected, .k-grid td.k-state-selected {
     color: inherit;
     background-color: rgba(99, 111, 174, 0.25);
 }
-**/
+*/
+
+.channel-label,
+.badge {
+  background-color: #b5b5b5;
+  color: #fff;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.channel-label {
+  border-radius: 4px;
+  display: inline;
+}
+
+.badge {
+  border-radius: 10px;
+  display: inline-block;
+  padding: 1px 7px;
+}
+
+.channel-label[href]:hover, .channel-label[href]:focus {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.badge:hover, a.badge:focus {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.channel-label a,
+.badge a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.channel-label:empty,
+.badge:empty {
+  display: none;
+}
+
+.badge-channel-REST {
+    background-color: green;
+}
+
+.badge-channel-JSON {
+    background-color: #8484c1;
+}
+
+.badge-channel-BROWSER {
+    background-color: rgb(233, 125, 2);
+}
+
+.badge-channel-SMS {
+    background-color: #a6a695;
+}
+
+.badge-channel-WEBADMIN {
+    background-color: rgb(255, 52, 52);
+}
+
+.badge-channel-WEBCONTENT {
+    background-color: rgb(70, 70, 167);
+}
+
+.wc-services-grid-column-description {
+    color: #8484c1;
+}
+
+.wc-services-grid-column-name {
+    font-weight: bold;
+}
+
+.wc-services-grid-rowselector {
+    width:100%;
+    height:100%; 
+    display: flex; 
+    align-items: center;
+
+    fa-icon {
+        padding-right: 8px;
+    }
+}

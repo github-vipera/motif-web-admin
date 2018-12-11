@@ -3,6 +3,8 @@ import { PluginView } from 'web-console-core'
 import { NGXLogger } from 'web-console-core'
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service'
 import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@progress/kendo-data-query';
+import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesome/free-solid-svg-icons';
+import { DomainsService, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 
 import {
     GridComponent,
@@ -25,6 +27,12 @@ const LOG_TAG = "[ServicesSection]";
 })
 export class ServicesSectionComponent implements OnInit {
 
+    faGlobe = faGlobe;
+    faBoxOpen = faBoxOpen;
+    faArchive = faArchive;
+    faCompass = faCompass;
+    faDesktop = faDesktop;
+
     public gridData: DataResult;
     public gridView: DataResult;
     public sort: SortDescriptor[] = [];
@@ -32,9 +40,11 @@ export class ServicesSectionComponent implements OnInit {
 
     public data = [
         { name: "login", description: "Login Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
-        { name: "logout", description: "Logout Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
-        { name: "appcheck", description: "App Check Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Utility" },
-        { name: "pay", description: "HCE Pay Operation", type: "Operation", channel: "JSON", domain: "Bankart", application: "NLB Pay", service: "Payments" }
+        { name: "logout", description: "Logout Operation", type: "Operation", channel: "REST", domain: "Default", application: "Vipera", service: "Security" },
+        { name: "appcheck", description: "App Check Operation", type: "Operation", channel: "BROWSER", domain: "Default", application: "Vipera", service: "Utility" },
+        { name: "pay", description: "HCE Pay Operation", type: "Operation", channel: "SMS", domain: "Bankart", application: "NLB Pay", service: "Payments" },
+        { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBADMIN", domain: "Bankart", application: "NLB Pay", service: "Payments" },
+        { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBCONTENT", domain: "Bankart", application: "NLB Pay", service: "Payments" }
     ]
 
     public loading: boolean;
@@ -71,8 +81,8 @@ export class ServicesSectionComponent implements OnInit {
         console.log("cellClickHandler: ", event)
     }
 
-    public onDomainRowClicked(dataItem,event){
-        console.log("onDomainRowClicked:", dataItem);
+    public onRowClicked(dataItem,event){
+        console.log("onRowClicked:", dataItem);
         this.doSelectCurrentRow(event.srcElement.closest('tr'));
     }   
 
