@@ -401,7 +401,7 @@ export class AssetsTabComponent implements OnInit {
         });
 
         let bundleUpdate: AssetBundleUpdate = {
-            published: !dataItem.published;
+            published: !dataItem.published
         }
 
         this.assetsService.updateAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version, bundleUpdate).subscribe((data) => {
