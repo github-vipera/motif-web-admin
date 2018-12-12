@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-service'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { ServicesSectionComponent } from './components/services-section-component'
+import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { ServicesSectionComponent } from './components/services-section-componen
         DateInputsModule,
         FontAwesomeModule,
         PluginRegistryServiceModule,
-        CommonsUIModule
+        CommonsUIModule,
+        WebAdminCommonServicesModule
     ],
     entryComponents:[
         ServicesSectionComponent

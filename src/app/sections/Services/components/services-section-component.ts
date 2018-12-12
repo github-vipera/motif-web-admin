@@ -6,6 +6,7 @@ import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { DomainsService, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { WCPropertyEditorModel, WCPropertyEditorComponent, WCPropertyEditorItem, WCPropertyEditorItemType } from 'web-console-ui-kit'
+import { ServiceCatalogService } from '../../../services/ServiceCatalogService'
 
 import {
     GridComponent,
@@ -98,7 +99,8 @@ export class ServicesSectionComponent implements OnInit {
     private _currentRowElement:any;
 
     constructor(private logger: NGXLogger,
-        private registryService: RegistryService) {
+        private registryService: RegistryService,
+        private serviceCatalogService: ServiceCatalogService) {
         this.logger.debug(LOG_TAG, "Opening...");
 
     }
@@ -107,10 +109,19 @@ export class ServicesSectionComponent implements OnInit {
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG, "Initializing...");
+        this.logger.debug(LOG_TAG, 'Initializing...');
         this.groups = [{ field: 'domain' },{ field: 'application' },{ field: 'service' } ];
 
         this.gridView = process(this.data, { group: this.groups });
+
+        this.serviceCatalogService.getServiceCatalog().subscribe( (serviceCatalog) => {
+            this.logger.debug(LOG_TAG, 'getServiceCatalog results: ', serviceCatalog);
+        }, (error) => {
+            this.logger.error(LOG_TAG, 'getServiceCatalog error:', error);
+        }, () => {
+            this.logger.debug(LOG_TAG, 'getServiceCatalog completed');
+        });
+        
     }
 
 

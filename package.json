@@ -45,6 +45,7 @@
     "@progress/kendo-theme-default": "latest",
     "@types/file-saver": "^2.0.0",
     "@wa-motif-open-api/app-content-service": "^0.0.6",
+    "@wa-motif-open-api/catalog-service": "0.0.6",
     "@wa-motif-open-api/configuration-service": "^0.0.6",
     "@wa-motif-open-api/license-management-service": "^0.0.6",
     "@wa-motif-open-api/log-service": "^0.0.6",
