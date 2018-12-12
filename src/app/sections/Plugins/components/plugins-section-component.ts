@@ -78,7 +78,7 @@ export class PluginsSectionComponent implements OnInit {
     }
 
     public onFilterChange(event:Event){
-        this.filterValue = event.srcElement.value; 
+        this.filterValue = event.srcElement["value"]; 
         this.displayData();
     }
 
