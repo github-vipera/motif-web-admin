@@ -27,6 +27,9 @@ export class ServiceCatalogService {
         private logger: NGXLogger) {
     }
 
+    /**
+     * Returns a JSON with the Service Catalog Structure
+     */
     public getServiceCatalog(): Observable<any> {
         return new Observable((observer) => {
  
@@ -45,28 +48,32 @@ export class ServiceCatalogService {
 
                         for (const application of applications ) {
 
-                            const applicationInfo:any = application;
+                            const applicationInfo: any = application;
                             domainInfo.applications.push(applicationInfo);
                             this.appService.getServiceList(domain.name, application.name).subscribe( ( services: ServiceList ) => {
                                 applicationInfo.services = services;
                             }, ( error ) => {
                                 this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
+                                observer.error(error);
+                            }, () => {
+                                observer.next( serviceCatalog );
+                                observer.complete();
                             });
                         }
 
                     }, ( error ) => {
                         this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
+                        observer.error(error);
                     });
 
                 }
             }, (error) => {
                 this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
-            }, () => {
-                observer.next( serviceCatalog );
-                observer.complete();
+                observer.error(error);
             });
         });
     }
+
 
 
     /**
