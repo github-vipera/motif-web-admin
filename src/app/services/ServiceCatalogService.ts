@@ -38,6 +38,9 @@ export class ServiceCatalogService {
             const serviceCatalog = [];
 
             this.domainService.getDomains().subscribe(( domains: DomainsList ) => {
+                const domainsCount = domains.length;
+                let processedDomains = 0;
+
                 for (const domain of domains) {
 
                     const domainInfo:any = domain;
@@ -49,28 +52,43 @@ export class ServiceCatalogService {
                         const appCount = applications.length;
                         let processedApps = 0;
 
-                        for (const application of applications ) {
+                        if (appCount === 0) {
+                            processedDomains++;
+                        }
 
+                        for (const application of applications ) {
                             const applicationInfo: any = application;
-                            domainInfo.applications.push(applicationInfo);
                             this.appService.getServiceList(domain.name, application.name).subscribe( ( services: ServiceList ) => {
                                 applicationInfo.services = services;
+                                // tslint:disable-next-line:max-line-length
+                                this.logger.debug(LOG_TAG, 'getServiceCatalog services[' + application.name + '@' + domain.name + ']:', services );
                             }, ( error ) => {
                                 this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
                                 observer.error(error);
                             }, () => {
                                 processedApps++;
-                                if (processedApps === appCount){
+                                if (processedApps === appCount) {
+                                    processedDomains++;
+                                }
+                                if ( processedDomains === domainsCount) {
                                     observer.next( serviceCatalog );
                                     observer.complete();
+                                    this.logger.debug(LOG_TAG, 'getServiceCatalog completed' );
                                 }
                             });
+                            domainInfo.applications.push(applicationInfo);
                         }
 
                     }, ( error ) => {
                         this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
                         observer.error(error);
                     });
+
+                    if ( processedDomains === domainsCount) {
+                        observer.next( serviceCatalog );
+                        observer.complete();
+                        this.logger.debug(LOG_TAG, 'getServiceCatalog completed' );
+                    }
 
                 }
             }, (error) => {
@@ -116,14 +134,11 @@ export class ServiceCatalogService {
                                                 type: 'Operation'
                                             };
                                             services.push(serviceEntry);
-        
                                         }
                                     }
                                 }
                             }
 
-
-        
                         }
                     }
 
