@@ -73,26 +73,32 @@ a.badge:hover, a.badge:focus {
 
 .badge-channel-REST {
     background-color: green;
+    font-size: 0.63rem;
 }
 
 .badge-channel-JSON {
     background-color: #8484c1;
+    font-size: 0.63rem;
 }
 
 .badge-channel-BROWSER {
     background-color: rgb(233, 125, 2);
+    font-size: 0.63rem;
 }
 
 .badge-channel-SMS {
     background-color: #a6a695;
+    font-size: 0.63rem;
 }
 
 .badge-channel-WEBADMIN {
     background-color: rgb(255, 52, 52);
+    font-size: 0.63rem;
 }
 
 .badge-channel-WEBCONTENT {
     background-color: rgb(70, 70, 167);
+    font-size: 0.63rem;
 }
 
 .wc-services-grid-column-description {
@@ -113,3 +119,20 @@ a.badge:hover, a.badge:focus {
         padding-right: 8px;
     }
 }
+
+.node-icon-Domain {
+    color: rgb(45, 235, 146);
+}
+
+.node-icon-Application {
+    color: rgb(45, 235, 146);
+}
+
+.node-icon-Service {
+    color: rgb(45, 235, 146);
+}
+
+.service-catalog-row {
+    padding: .6rem !important;
+}
+

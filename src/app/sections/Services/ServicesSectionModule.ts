@@ -11,6 +11,7 @@ import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { ServicesSectionComponent } from './components/services-section-component'
 import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
+import {TreeTableModule} from 'primeng/treetable';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServi
         FontAwesomeModule,
         PluginRegistryServiceModule,
         CommonsUIModule,
-        WebAdminCommonServicesModule
+        WebAdminCommonServicesModule,
+        TreeTableModule
     ],
     entryComponents:[
         ServicesSectionComponent

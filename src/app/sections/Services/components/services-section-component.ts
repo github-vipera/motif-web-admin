@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger } from 'web-console-core'
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service'
@@ -7,6 +7,8 @@ import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesom
 import { DomainsService, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { WCPropertyEditorModel, WCPropertyEditorComponent, WCPropertyEditorItem, WCPropertyEditorItemType } from 'web-console-ui-kit'
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService'
+import { TreeNode } from 'primeng/api';
+import { ServiceCatalogTableModel } from '../data/model';
 
 import {
     GridComponent,
@@ -85,24 +87,15 @@ export class ServicesSectionComponent implements OnInit {
         ]
       }
 
-      
-    public data = [];
-    /* [
-        { name: "login", description: "Login Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
-        { name: "logout", description: "Logout Operation", type: "Operation", channel: "REST", domain: "Default", application: "Vipera", service: "Security" },
-        { name: "appcheck", description: "App Check Operation", type: "Operation", channel: "BROWSER", domain: "Default", application: "Vipera", service: "Utility" },
-        { name: "pay", description: "HCE Pay Operation", type: "Operation", channel: "SMS", domain: "Bankart", application: "NLB Pay", service: "Payments" },
-        { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBADMIN", domain: "Bankart", application: "NLB Pay", service: "Payments" },
-        { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBCONTENT", domain: "Bankart", application: "NLB Pay", service: "Payments" }
-    ]*/
+    @Input() tableModel: ServiceCatalogTableModel;
 
     public loading: boolean;
-    private _currentRowElement:any;
+    private _currentRowElement: any;
 
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
         private serviceCatalogService: ServiceCatalogService) {
-        this.logger.debug(LOG_TAG, "Opening...");
+        this.logger.debug(LOG_TAG, 'Opening...');
 
     }
 
@@ -111,60 +104,31 @@ export class ServicesSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG, 'Initializing...');
-        this.groups = [{ field: 'domain' },{ field: 'application' },{ field: 'service' } ];
+        this.groups = [{ field: 'domain' }, { field: 'application' }, { field: 'service' } ];
 
-        //this.gridView = process(this.data, { group: this.groups });
+        this.tableModel = new ServiceCatalogTableModel();
 
-        /*
-        this.serviceCatalogService.getServiceCatalog().subscribe( (serviceCatalog) => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog results: ', JSON.stringify(serviceCatalog));
-        }, (error) => {
-            this.logger.error(LOG_TAG, 'getServiceCatalog error:', error);
-        }, () => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog completed');
-        });
-        */
-
-       this.serviceCatalogService.getServices().subscribe(data => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', data);
-            this.data = data;
-            this.gridView = process(this.data, { group: this.groups });
-        });
-
+        this.refreshData();
     }
 
-
     public onRefreshClicked(): void {
-        this.logger.debug(LOG_TAG, "Refresh clicked");
+        this.logger.debug(LOG_TAG, 'Refresh clicked');
         this.refreshData();
     }
 
     public refreshData() {
         this.loading = true;
-        this.loading = false;
+        this.serviceCatalogService.getServiceCatalog().subscribe(data => {
+            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', data);
+            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', JSON.stringify(data));
+            this.tableModel.loadData(data);
+            this.logger.debug(LOG_TAG, 'getServiceCatalog model: ', this.tableModel.model);
+            this.loading = false;
+        });
     }
 
-    public cellClickHandler(event) {
-        console.log("cellClickHandler: ", event)
-    }
-
-    public onRowClicked(dataItem,event){
-        console.log("onRowClicked:", dataItem);
-        this.doSelectCurrentRow(event.srcElement.closest('tr'));
-    }   
-
-    private doSelectCurrentRow(rowElement:ElementRef):void {
-        if (this._currentRowElement){
-            this.doUnselectRow(this._currentRowElement);
-        }
-        this._currentRowElement = rowElement; 
-        this._currentRowElement.classList.add("k-state-selected");
-        this._currentRowElement.attributes["role"] = "row";
-    }
-
-    private doUnselectRow(rowElement:ElementRef):void {
-        this._currentRowElement.classList.remove("k-state-selected");
-        this._currentRowElement.attributes["role"] = null;
+    @Input() onSavePropertiesPressed(): void {
+        // TODO!!
     }
 
 }
