@@ -1,11 +1,13 @@
 import { TreeNode } from 'primeng/api';
 import { icon } from '@fortawesome/fontawesome-svg-core';
+import * as uuidv1 from 'uuid/v1'
 
 export class ServiceCatalogTableModel {
 
     private _model: TreeNode[] = [];
 
-    constructor() {}
+    constructor() {
+    }
 
     public loadData(serviceCatalog: any) {
         this.rebuildModel(serviceCatalog);
@@ -33,7 +35,9 @@ export class ServiceCatalogTableModel {
                 leaf: leaf,
                 icon: 'pi-bell',
                 selectable: true,
-                nodeIcon: iconName
+                nodeIcon: iconName,
+                nodeIconStyle: 'color:blue;',
+                id: uuidv1()
             },
             children: []
         };

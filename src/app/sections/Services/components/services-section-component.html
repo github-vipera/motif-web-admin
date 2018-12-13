@@ -25,8 +25,9 @@
 </div>
 
 <div class="row fill">
-  <p-treeTable [value]="tableModel.model">
-    <ng-template pTemplate="header">
+  <p-treeTable [value]="tableModel.model" selectionMode="single" [(selection)]="selectedNode1" dataKey="id"
+  (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+    <ng-template pTemplate="header" let-columns>
       <tr>
         <th>Name</th>
         <th>Description</th>
@@ -34,7 +35,7 @@
         <th>Channel</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
       <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
         <td class="service-catalog-row">
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>

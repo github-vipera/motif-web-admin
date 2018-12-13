@@ -136,6 +136,16 @@ a.badge:hover, a.badge:focus {
     padding: .6rem !important;
 }
 
+th {
+    padding: .6rem !important;
+    border-bottom: 1px solid #666;
+}
+
 td {
-    border-bottom: 1px dotted;
+    padding: .6rem !important;
+    border-bottom: 1px dotted #666;
+}
+
+.ui-state-highlight {
+    background-color: #335e78;
 }

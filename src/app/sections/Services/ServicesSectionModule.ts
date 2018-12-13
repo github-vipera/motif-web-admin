@@ -30,15 +30,14 @@ import {TreeTableModule} from 'primeng/treetable';
         WebAdminCommonServicesModule,
         TreeTableModule
     ],
-    entryComponents:[
+    entryComponents: [
         ServicesSectionComponent
     ],
     declarations: [
         ServicesSectionComponent
     ],
     exports: [ ServicesSectionComponent ],
-    providers: [ 
-    ]
+    providers: [  ]
     
   })
   export class ServicesSectionModule { }

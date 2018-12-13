@@ -42,6 +42,8 @@ export class ServicesSectionComponent implements OnInit {
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
 
+    selectedNode: TreeNode;
+
     public propertyModel:WCPropertyEditorModel = {
         items: [
           {
@@ -131,4 +133,11 @@ export class ServicesSectionComponent implements OnInit {
         // TODO!!
     }
 
+    nodeSelect(event) {
+        this.logger.debug(LOG_TAG, 'Node selected: ', event.node.data.name);
+    }
+
+    nodeUnselect(event) {
+        this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data.name);
+    }
 }
