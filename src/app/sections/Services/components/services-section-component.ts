@@ -86,14 +86,15 @@ export class ServicesSectionComponent implements OnInit {
       }
 
       
-    public data = [
+    public data = [];
+    /* [
         { name: "login", description: "Login Operation", type: "Operation", channel: "JSON", domain: "Default", application: "Vipera", service: "Security" },
         { name: "logout", description: "Logout Operation", type: "Operation", channel: "REST", domain: "Default", application: "Vipera", service: "Security" },
         { name: "appcheck", description: "App Check Operation", type: "Operation", channel: "BROWSER", domain: "Default", application: "Vipera", service: "Utility" },
         { name: "pay", description: "HCE Pay Operation", type: "Operation", channel: "SMS", domain: "Bankart", application: "NLB Pay", service: "Payments" },
         { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBADMIN", domain: "Bankart", application: "NLB Pay", service: "Payments" },
         { name: "transfer", description: "HCE Money Transfer Operation", type: "Operation", channel: "WEBCONTENT", domain: "Bankart", application: "NLB Pay", service: "Payments" }
-    ]
+    ]*/
 
     public loading: boolean;
     private _currentRowElement:any;
@@ -112,16 +113,24 @@ export class ServicesSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
         this.groups = [{ field: 'domain' },{ field: 'application' },{ field: 'service' } ];
 
-        this.gridView = process(this.data, { group: this.groups });
+        //this.gridView = process(this.data, { group: this.groups });
 
+        /*
         this.serviceCatalogService.getServiceCatalog().subscribe( (serviceCatalog) => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog results: ', serviceCatalog);
+            this.logger.debug(LOG_TAG, 'getServiceCatalog results: ', JSON.stringify(serviceCatalog));
         }, (error) => {
             this.logger.error(LOG_TAG, 'getServiceCatalog error:', error);
         }, () => {
             this.logger.debug(LOG_TAG, 'getServiceCatalog completed');
         });
-        
+        */
+
+       this.serviceCatalogService.getServices().subscribe(data => {
+            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', data);
+            this.data = data;
+            this.gridView = process(this.data, { group: this.groups });
+        });
+
     }
 
 

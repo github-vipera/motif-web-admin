@@ -46,6 +46,9 @@ export class ServiceCatalogService {
 
                     this.applicationService.getApplications(domain.name).subscribe(( applications: ApplicationsList ) => {
 
+                        const appCount = applications.length;
+                        let processedApps = 0;
+
                         for (const application of applications ) {
 
                             const applicationInfo: any = application;
@@ -56,8 +59,11 @@ export class ServiceCatalogService {
                                 this.logger.error(LOG_TAG, 'getServiceCatalog error:' , error);
                                 observer.error(error);
                             }, () => {
-                                observer.next( serviceCatalog );
-                                observer.complete();
+                                processedApps++;
+                                if (processedApps === appCount){
+                                    observer.next( serviceCatalog );
+                                    observer.complete();
+                                }
                             });
                         }
 
@@ -74,7 +80,64 @@ export class ServiceCatalogService {
         });
     }
 
+    public getServices(): Observable<any> {
+        return new Observable((observer) => {
 
+            this.logger.debug(LOG_TAG, 'getServices called' );
+
+            let services:any = [];
+
+            this.getServiceCatalog().subscribe((serviceCatalog) => {
+
+                this.logger.debug(LOG_TAG, 'getServices rawData:', serviceCatalog );
+
+                serviceCatalog.forEach(domain => {
+
+                    if (domain.applications){
+                        for (let i = 0 ; i < domain.applications.length; i++) {
+                            const application = domain.applications[i];
+
+                            if (application.services) {
+                                for (let y = 0; y < application.services.length; y++) {
+                                    const service = application.services[y];
+
+                                    if (service.serviceOperationList) {
+                                        for (let z = 0; z < service.serviceOperationList.length; z++) {
+                                            const operation = service.serviceOperationList[z];
+
+                                            const serviceEntry:any = {
+                                                domain: domain.name,
+                                                application: application.name,
+                                                service: service.name,
+                                                serviceEnabled : service.enabled,
+                                                channel: service.channel,
+                                                name: operation.name,
+                                                description: operation.description,
+                                                type: 'Operation'
+                                            };
+                                            services.push(serviceEntry);
+        
+                                        }
+                                    }
+                                }
+                            }
+
+
+        
+                        }
+                    }
+
+                });
+                observer.next( services );
+                observer.complete();
+
+            }, (error) => {
+                this.logger.error(LOG_TAG, 'getServices error:' , error);
+                observer.error(error);
+            });
+
+        });
+    }
 
     /**
      this.domainService.getDomains()
