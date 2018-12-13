@@ -37,3 +37,7 @@
     color: white;
     background-color: rgba(105, 119, 192, 0.25)
 }
+
+.k-grid td {
+    border-bottom: 1px dotted #666;
+}
