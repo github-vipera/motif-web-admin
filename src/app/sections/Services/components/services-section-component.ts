@@ -1,13 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
-import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesome/free-solid-svg-icons';
+import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
+import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component'
 
 import {
     GridComponent,
@@ -18,7 +19,7 @@ import {
 import * as _ from 'lodash';
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 
-const LOG_TAG = "[ServicesSection]";
+const LOG_TAG = '[ServicesSection]';
 
 @Component({
     selector: 'wa-services-section',
@@ -93,6 +94,8 @@ export class ServicesSectionComponent implements OnInit {
     public loading: boolean;
     private _currentRowElement: any;
 
+    @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
+
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
         private serviceCatalogService: ServiceCatalogService) {
@@ -133,11 +136,21 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     nodeSelect(event) {
-        this.logger.debug(LOG_TAG, 'Node selected: ', event.node.data.name);
+        this.logger.debug(LOG_TAG, 'Node selected: ', event.node.data);
+
+        if (event.node.nodeType === 'Domain') {
+            this._servicesEditor.startEditDomain(event.node.data.name);
+        } else if (event.node.nodeType === 'Application') {
+            // TODO!!
+        } else if (event.node.nodeType === 'Service') {
+            // TODO!!
+        } else if (event.node.nodeType === 'Operation') {
+            // TODO!!
+        }
     }
 
     nodeUnselect(event) {
-        this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data.name);
+        this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
     }
 
     public onFilterChange(event) {

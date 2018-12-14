@@ -74,16 +74,7 @@
     </kendo-splitter-pane>
 
     <kendo-splitter-pane [collapsible]="true" size="30%">
-
-      <kendo-tabstrip>
-
-        <kendo-tabstrip-tab [title]="'Domain: Test'" [selected]="true">
-          <ng-template kendoTabContent>
-            <wa-services-domain-editor></wa-services-domain-editor>
-          </ng-template>
-        </kendo-tabstrip-tab>
-
-      </kendo-tabstrip>
+        <wa-services-editor #servicesEditor></wa-services-editor>
     </kendo-splitter-pane>
 
   </kendo-splitter>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -80,6 +81,26 @@ export class ServiceCataglogEditorComponent implements OnInit {
             editingType: EditingType.Operation
         };
         // TODO!!
+    }
+
+    public get editorContext(): EditorContext {
+        return this._editorContext;
+    }
+
+    public isDomainEditing(): boolean {
+        return (this._editorContext.editingType === EditingType.Domain);
+    }
+
+    public isApplicationEditing(): boolean {
+        return (this._editorContext.editingType === EditingType.Application);
+    }
+
+    public isServiceEditing(): boolean {
+        return (this._editorContext.editingType === EditingType.Service);
+    }
+
+    public isOperationEditing(): boolean {
+        return (this._editorContext.editingType === EditingType.Operation);
     }
 
 }

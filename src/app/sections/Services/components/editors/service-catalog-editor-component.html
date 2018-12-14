@@ -1,10 +1,15 @@
 <kendo-tabstrip>
-
-  <kendo-tabstrip-tab [title]="'Domain: Test'" [selected]="true">
+  <kendo-tabstrip-tab [title]="'TODO!!'" [selected]="true">
     <ng-template kendoTabContent>
+        <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
+      <!--
+  
+      <div *ngIf="isApplicationEditing()">Application Editor</div>
 
-      <wa-services-domain-editor></wa-services-domain-editor>
-      
+      <div *ngIf="isServiceEditing()">Service Editor</div>
+
+      <div *ngIf="isOperationEditing()">Operation Editor</div>
+      -->
     </ng-template>
   </kendo-tabstrip-tab>
 
