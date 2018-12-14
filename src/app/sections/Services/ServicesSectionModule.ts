@@ -11,7 +11,8 @@ import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { ServicesSectionComponent } from './components/services-section-component'
 import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
-import {TreeTableModule} from 'primeng/treetable';
+import { TreeTableModule } from 'primeng/treetable';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {TreeTableModule} from 'primeng/treetable';
         PluginRegistryServiceModule,
         CommonsUIModule,
         WebAdminCommonServicesModule,
-        TreeTableModule
+        TreeTableModule,
+        LayoutModule
     ],
     entryComponents: [
         ServicesSectionComponent

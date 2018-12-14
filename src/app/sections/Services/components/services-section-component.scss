@@ -149,3 +149,7 @@ td {
 .ui-state-highlight {
     background-color: #335e78;
 }
+
+.ui-state-highlight>td {
+    color: white;
+}

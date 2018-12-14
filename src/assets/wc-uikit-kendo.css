@@ -181,3 +181,22 @@ kendo-popup {
     -webkit-transform: translate(-8px, -6px) translate(-1px, -1.07142857em) translate(-12.5%, -9.375%) scale(0.75);
     transform: translate(-8px, -6px) translate(-1px, -1.07142857em) translate(-12.5%, -9.375%) scale(0.75);
 }
+
+.k-widget, .k-block, .k-panel {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: transparent;
+}
+
+.k-splitbar {
+    color: #656565;
+    background-color: rgb(56, 56, 56);
+}
+
+.k-ghost-splitbar-horizontal, .k-splitbar-horizontal {
+    width: 6px;
+    border-width: 0;
+    background-repeat: repeat-y;
+    flex-direction: column;
+    top: 0;
+    margin: 0 4px 0 4px;
+}
