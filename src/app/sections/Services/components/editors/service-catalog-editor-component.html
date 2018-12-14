@@ -3,6 +3,11 @@
     <div class='wc-service-catalog-editor-container'>
         <div class='wc-service-catalog-editor-namespace wc-truncate-text'>{{namespace}}</div>
 
+        <div class='wc-service-catalog-editor-commands'>
+            <button kendoButton look="flat" icon="save" class='right-button'>Save</button>
+            <button kendoButton look="flat" icon="reload" >Reload</button>
+        </div>
+
         <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
 
         <div *ngIf="isApplicationEditing()">Application Editor</div>
