@@ -512,3 +512,9 @@ gridster .gridster-row {
 	padding-right: 8px;
 	display: inline-flex;
 }
+
+.wc-truncate-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -119,4 +119,21 @@ export class ServiceCataglogEditorComponent implements OnInit {
         this._title = title;
     }
 
+    @Input() get namespace(): string {
+        let namespace = '';
+
+        if (this._editorContext.domainName) {
+            namespace += this._editorContext.domainName;
+        }
+        if (this._editorContext.applicationName) {
+            namespace += '/' + this._editorContext.applicationName;
+        }
+        if (this._editorContext.serviceName) {
+            namespace += '/' + this._editorContext.serviceName;
+        }
+        if (this._editorContext.operationName) {
+            namespace += '/' + this._editorContext.operationName;
+        }
+        return namespace;
+    }
 }

@@ -1,6 +1,8 @@
 <div>
-    <div class='wc-service-catalog-editor-title'>{{title}}</div>
+    <div class='wc-service-catalog-editor-title wc-truncate-text'>{{title}}</div>
     <div class='wc-service-catalog-editor-container'>
+        <div class='wc-service-catalog-editor-namespace wc-truncate-text'>{{namespace}}</div>
+
         <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
 
         <div *ngIf="isApplicationEditing()">Application Editor</div>
