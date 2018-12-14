@@ -1,16 +1,21 @@
+<div>
+    <div class='wc-service-catalog-editor-title'>{{title}}</div>
+
+    <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
+
+    <div *ngIf="isApplicationEditing()">Application Editor</div>
+
+    <div *ngIf="isServiceEditing()">Service Editor</div>
+
+    <div *ngIf="isOperationEditing()">Operation Editor</div>
+
+</div>
+<!--
 <kendo-tabstrip>
-  <kendo-tabstrip-tab [title]="'TODO!!'" [selected]="true">
+  <kendo-tabstrip-tab [title]="'TODO!!'" [selected]="true" #tabstrip>
     <ng-template kendoTabContent>
-        <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
-      <!--
-  
-      <div *ngIf="isApplicationEditing()">Application Editor</div>
-
-      <div *ngIf="isServiceEditing()">Service Editor</div>
-
-      <div *ngIf="isOperationEditing()">Operation Editor</div>
-      -->
     </ng-template>
   </kendo-tabstrip-tab>
 
 </kendo-tabstrip>
+-->

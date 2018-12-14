@@ -9,6 +9,7 @@ import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component'
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 import {
     GridComponent,
@@ -98,7 +99,8 @@ export class ServicesSectionComponent implements OnInit {
 
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
-        private serviceCatalogService: ServiceCatalogService) {
+        private serviceCatalogService: ServiceCatalogService,
+        private notificationCenter: NotificationCenter) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
     }
@@ -123,11 +125,19 @@ export class ServicesSectionComponent implements OnInit {
     public refreshData() {
         this.loading = true;
         this.serviceCatalogService.getServiceCatalog().subscribe(data => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', data);
-            this.logger.debug(LOG_TAG, 'getServiceCatalog services: ', JSON.stringify(data));
+            this.logger.debug(LOG_TAG, 'getServiceCatalog done.');
+            this.logger.trace(LOG_TAG, 'getServiceCatalog services: ', data);
             this.tableModel.loadData(data);
-            this.logger.debug(LOG_TAG, 'getServiceCatalog model: ', this.tableModel.model);
             this.loading = false;
+        }, (error) => {
+            this.logger.error(LOG_TAG, 'getServiceCatalog error: ', error);
+            this.notificationCenter.post({
+                name: 'ConfigurationExportError',
+                title: 'Export Configuration',
+                message: 'Error exporting configuration:',
+                type: NotificationType.Error,
+                error: error
+            });
         });
     }
 
@@ -138,14 +148,22 @@ export class ServicesSectionComponent implements OnInit {
     nodeSelect(event) {
         this.logger.debug(LOG_TAG, 'Node selected: ', event.node.data);
 
-        if (event.node.nodeType === 'Domain') {
-            this._servicesEditor.startEditDomain(event.node.data.name);
-        } else if (event.node.nodeType === 'Application') {
-            // TODO!!
-        } else if (event.node.nodeType === 'Service') {
-            // TODO!!
-        } else if (event.node.nodeType === 'Operation') {
-            // TODO!!
+        const catalogEntry = event.node.data.catalogEntry;
+        const nodeType = event.node.data.nodeType;
+
+        if (nodeType === 'Domain') {
+            this._servicesEditor.startEditDomain(catalogEntry.domain);
+        } else if (nodeType === 'Application') {
+            this._servicesEditor.startEditApplication(catalogEntry.domain, catalogEntry.application);
+        } else if (nodeType === 'Service') {
+            this._servicesEditor.startEditService(catalogEntry.domain, 
+                catalogEntry.application,
+                catalogEntry.service);
+        } else if (nodeType === 'Operation') {
+            this._servicesEditor.startEditOperation(catalogEntry.domain, 
+                catalogEntry.application,
+                catalogEntry.service,
+                catalogEntry.operation);
         }
     }
 

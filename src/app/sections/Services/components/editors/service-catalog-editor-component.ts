@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -29,6 +28,7 @@ interface EditorContext {
 export class ServiceCataglogEditorComponent implements OnInit {
 
     private _editorContext: EditorContext;
+    private _title = 'No selection.';
 
     constructor(private logger: NGXLogger) {
 
@@ -50,6 +50,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             domainName: domainName,
             editingType: EditingType.Domain
         };
+        this.setTitle('Domain \'' + domainName + '\'');
+        this.logger.debug(LOG_TAG, 'startEditDomain: ', this._editorContext);
         // TODO!!
     }
 
@@ -59,6 +61,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             applicationName: applicationName,
             editingType: EditingType.Application
         };
+        this.logger.debug(LOG_TAG, 'startEditApplication: ', this._editorContext);
+        this.setTitle('Application \'' + applicationName + '\'');
         // TODO!!
     }
 
@@ -69,6 +73,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             serviceName: serviceName,
             editingType: EditingType.Service
         };
+        this.logger.debug(LOG_TAG, 'startEditService: ', this._editorContext);
+        this.setTitle('Service \''  + serviceName + '\'');
         // TODO!!
     }
 
@@ -80,6 +86,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             operationName: operationName,
             editingType: EditingType.Operation
         };
+        this.logger.debug(LOG_TAG, 'startEditOperation: ', this._editorContext);
+        this.setTitle('Operation \'' + operationName + '\'');
         // TODO!!
     }
 
@@ -101,6 +109,14 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     public isOperationEditing(): boolean {
         return (this._editorContext.editingType === EditingType.Operation);
+    }
+
+    @Input() get title(): string {
+        return this._title;
+    }
+
+    private setTitle(title: string): void {
+        this._title = title;
     }
 
 }
