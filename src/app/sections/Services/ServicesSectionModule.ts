@@ -13,8 +13,10 @@ import { ServicesSectionComponent } from './components/services-section-componen
 import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
 import { TreeTableModule } from 'primeng/treetable';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { DomainEditorComponent } from './components/editors/domain/domain-editor-component'
-import { ServiceCataglogEditorComponent } from './components/editors/service-catalog-editor-component'
+import { ServiceCataglogEditorComponent } from './components/editors/service-catalog-editor-component';
+import { DomainEditorComponent } from './components/editors/domain/domain-editor-component';
+import { ApplicationEditorComponent } from './components/editors/application/application-editor-component';
+import { ServiceEditorComponent } from './components/editors/service/service-editor-component';
 
 @NgModule({
     imports: [
@@ -35,12 +37,16 @@ import { ServiceCataglogEditorComponent } from './components/editors/service-cat
         LayoutModule
     ],
     entryComponents: [
-        ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent
+        ServicesSectionComponent
     ],
     declarations: [
-        ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent
+        ServicesSectionComponent,
+        ServiceCataglogEditorComponent,
+        DomainEditorComponent,
+        ApplicationEditorComponent,
+        ServiceEditorComponent
     ],
-    exports: [ ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent ],
+    exports: [ ServicesSectionComponent ],
     providers: [  ]
   })
   export class ServicesSectionModule { }

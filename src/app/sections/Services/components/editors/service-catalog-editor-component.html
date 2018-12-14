@@ -10,11 +10,11 @@
 
         <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
 
-        <div *ngIf="isApplicationEditing()">Application Editor</div>
-    
-        <div *ngIf="isServiceEditing()">Service Editor</div>
-    
-        <div *ngIf="isOperationEditing()">Operation Editor</div>
+        <wa-services-application-editor *ngIf="isApplicationEditing()"></wa-services-application-editor>
+        
+        <wa-services-service-editor *ngIf="isServiceEditing()"></wa-services-service-editor>
+
+        <wa-services-service-editor *ngIf="isOperationEditing()"></wa-services-service-editor>
     </div>
 
 
