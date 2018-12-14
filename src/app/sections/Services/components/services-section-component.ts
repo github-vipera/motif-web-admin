@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
-import { PluginView } from 'web-console-core'
-import { NGXLogger } from 'web-console-core'
-import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service'
-import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@progress/kendo-data-query';
+import { Component, OnInit, Input } from '@angular/core';
+import { PluginView } from 'web-console-core';
+import { NGXLogger } from 'web-console-core';
+import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
+import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop } from '@fortawesome/free-solid-svg-icons';
-import { DomainsService, Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
-import { WCPropertyEditorModel, WCPropertyEditorComponent, WCPropertyEditorItem, WCPropertyEditorItemType } from 'web-console-ui-kit'
-import { ServiceCatalogService } from '../../../services/ServiceCatalogService'
+import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
+import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
 
@@ -140,4 +139,9 @@ export class ServicesSectionComponent implements OnInit {
     nodeUnselect(event) {
         this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data.name);
     }
+
+    public onFilterChange(event) {
+        // TODO!!
+    }
+
 }

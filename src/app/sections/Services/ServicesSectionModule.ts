@@ -13,15 +13,17 @@ import { ServicesSectionComponent } from './components/services-section-componen
 import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
 import { TreeTableModule } from 'primeng/treetable';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { DomainEditorComponent } from './components/editors/domain/domain-editor-component'
+import { ServiceCataglogEditorComponent } from './components/editors/service-catalog-editor-component'
 
 @NgModule({
     imports: [
-        DialogModule, 
-        LogServiceModule, 
-        GridModule, 
-        LoggerModule, 
-        WebConsoleUIKitCoreModule, 
-        WebConsoleUIKitDataModule, 
+        DialogModule,
+        LogServiceModule,
+        GridModule,
+        LoggerModule,
+        WebConsoleUIKitCoreModule,
+        WebConsoleUIKitDataModule,
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
         DateInputsModule,
@@ -33,16 +35,15 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
         LayoutModule
     ],
     entryComponents: [
-        ServicesSectionComponent
+        ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent
     ],
     declarations: [
-        ServicesSectionComponent
+        ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent
     ],
-    exports: [ ServicesSectionComponent ],
+    exports: [ ServicesSectionComponent, ServiceCataglogEditorComponent, DomainEditorComponent ],
     providers: [  ]
-    
   })
   export class ServicesSectionModule { }
-  
+
 
 

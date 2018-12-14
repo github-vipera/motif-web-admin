@@ -17,7 +17,8 @@
         kendoButton
         [toggleable]="false"
         [icon]="'refresh'"
-        (click)="onRefreshClicked()">
+        (click)="onRefreshClicked()"
+      >
         Refresh
       </button>
     </kendo-buttongroup>
@@ -25,56 +26,79 @@
 </div>
 
 <div class="row fill">
-    <kendo-splitter>
-        <kendo-splitter-pane>
-          <p-treeTable [value]="tableModel.model" 
-    [scrollable]="true" 
-    selectionMode="single" 
-    [(selection)]="selectedNode" 
-    dataKey="id"
-    (onNodeSelect)="nodeSelect($event)" 
-    (onNodeUnselect)="nodeUnselect($event)">
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Channel</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-      <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
-        <td class="service-catalog-row">
-          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-          <i class='pi pi-fw {{rowData.nodeIcon}} node-icon-{{rowData.nodeType}}'></i>
-          <span><strong>{{rowData.name}}</strong></span>
-        </td>
-        <td class="service-catalog-row">{{ rowData.description }}</td>
-        <td class="service-catalog-row">{{ rowData.nodeType }}</td>
-        <td class="service-catalog-row">
-            <span class="channel-label badge-channel-{{rowData.channel}}">{{rowData.channel}}</span>
-        </td>
-      </tr>
-    </ng-template>
-          </p-treeTable>
-        </kendo-splitter-pane>
-        <kendo-splitter-pane [collapsible]="true" size="30%">
-            Editor Placeholder
-        </kendo-splitter-pane>
-    </kendo-splitter>
+  <kendo-splitter>
+    <kendo-splitter-pane>
+      <p-treeTable
+        [value]="tableModel.model"
+        [scrollable]="true"
+        selectionMode="single"
+        [(selection)]="selectedNode"
+        dataKey="id"
+        (onNodeSelect)="nodeSelect($event)"
+        (onNodeUnselect)="nodeUnselect($event)"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Channel</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-rowNode
+          let-rowData="rowData"
+          let-columns="columns"
+        >
+          <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
+            <td class="service-catalog-row">
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              <i
+                class="pi pi-fw {{rowData.nodeIcon}} node-icon-{{rowData.nodeType}}"
+              ></i>
+              <span
+                ><strong>{{ rowData.name }}</strong></span
+              >
+            </td>
+            <td class="service-catalog-row">{{ rowData.description }}</td>
+            <td class="service-catalog-row">{{ rowData.nodeType }}</td>
+            <td class="service-catalog-row">
+              <span class="channel-label badge-channel-{{rowData.channel}}">{{
+                rowData.channel
+              }}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+    </kendo-splitter-pane>
+
+    <kendo-splitter-pane [collapsible]="true" size="30%">
+
+      <kendo-tabstrip>
+
+        <kendo-tabstrip-tab [title]="'Domain: Test'" [selected]="true">
+          <ng-template kendoTabContent>
+            <wa-services-domain-editor></wa-services-domain-editor>
+          </ng-template>
+        </kendo-tabstrip-tab>
+
+      </kendo-tabstrip>
+    </kendo-splitter-pane>
+
+  </kendo-splitter>
 
   <!--
-  <aside>
-    <wc-property-editor [model]="propertyModel"> </wc-property-editor>
-    <div class="cmd">
-      <a class="btn" (click)='onSavePropertiesPressed()'>
-        <svg class='ok' data-id='ok'>
-          <use xlink:href="assets/img/icons.svg#ico-ok"></use>
-        </svg>
-        Save
-      </a>
-    </div>
-  </aside>
--->
-
+    <aside>
+      <wc-property-editor [model]="propertyModel"> </wc-property-editor>
+      <div class="cmd">
+        <a class="btn" (click)='onSavePropertiesPressed()'>
+          <svg class='ok' data-id='ok'>
+            <use xlink:href="assets/img/icons.svg#ico-ok"></use>
+          </svg>
+          Save
+        </a>
+      </div>
+    </aside>
+  -->
 </div>

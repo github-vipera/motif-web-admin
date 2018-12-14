@@ -348,6 +348,10 @@ export class AssetsTabComponent implements OnInit {
         this.doDownloadAssetsBundle(dataItem);
     }
 
+    onDeleteCancelPressed (dataItem) {
+        // nop
+    }
+
     private doDownloadAssetsBundle(dataItem): void {
         this.logger.debug(LOG_TAG, "doDownloadAssetsBundle: ", dataItem);
 
