@@ -13,7 +13,8 @@ export class OfflineMessagesSettingsComponent implements OnInit {
 
     displayDialog: boolean;
 
-    constructor() {}
+    constructor(private logger: NGXLogger) {
+    }
 
     /**
      * Angular ngOnInit
