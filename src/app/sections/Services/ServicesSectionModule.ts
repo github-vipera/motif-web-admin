@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service'
-import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { ClipboardModule } from 'ngx-clipboard';
@@ -17,10 +16,11 @@ import { ServiceCataglogEditorComponent } from './components/editors/service-cat
 import { DomainEditorComponent } from './components/editors/domain/domain-editor-component';
 import { ApplicationEditorComponent } from './components/editors/application/application-editor-component';
 import { ServiceEditorComponent } from './components/editors/service/service-editor-component';
+import { DialogModule } from 'primeng/dialog';
+import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
 
 @NgModule({
     imports: [
-        DialogModule,
         LogServiceModule,
         GridModule,
         LoggerModule,
@@ -34,7 +34,8 @@ import { ServiceEditorComponent } from './components/editors/service/service-edi
         CommonsUIModule,
         WebAdminCommonServicesModule,
         TreeTableModule,
-        LayoutModule
+        LayoutModule,
+        DialogModule
     ],
     entryComponents: [
         ServicesSectionComponent
@@ -44,7 +45,8 @@ import { ServiceEditorComponent } from './components/editors/service/service-edi
         ServiceCataglogEditorComponent,
         DomainEditorComponent,
         ApplicationEditorComponent,
-        ServiceEditorComponent
+        ServiceEditorComponent,
+        OfflineMessagesSettingsComponent
     ],
     exports: [ ServicesSectionComponent ],
     providers: [  ]

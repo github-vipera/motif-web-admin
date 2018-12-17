@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
+import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -10,6 +11,8 @@ const LOG_TAG = '[ServicesSectionApplicationEditor]';
     templateUrl: './application-editor-component.html'
 })
 export class ApplicationEditorComponent implements OnInit {
+
+    @ViewChild('offlineMessagesEditor') offlineMessagesEditor: OfflineMessagesSettingsComponent;
 
     public offlineMessages: string[] = ['uno', 'due', 'tre'];
 
@@ -33,7 +36,9 @@ export class ApplicationEditorComponent implements OnInit {
             type: WCPropertyEditorItemType.List,
             value: '',
             listValues: ['Uno', 'Due', 'Tre', 'Quattro', 'Cinque'],
-            disabled: true
+            disabled: true,
+            miniCommand: true,
+            miniCommandCaption: 'Setup...'
           },
           {
             name: 'OTP expiry',
@@ -194,5 +199,15 @@ export class ApplicationEditorComponent implements OnInit {
         // TODO!!
     }
 
+    onMiniButtonClick(event: any): void {
+      this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
+      // TODO!!
+      this.offlineMessagesEditor.show();
+    }
+
+    onPropertyChange(event: any): void {
+      this.logger.debug(LOG_TAG, 'onPropertyChange:', event);
+      // TODO!!
+    }
 
 }

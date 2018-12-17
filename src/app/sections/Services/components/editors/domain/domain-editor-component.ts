@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
+import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 
 const LOG_TAG = '[ServicesSectionDomainEditor]';
 
@@ -9,6 +10,17 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
     templateUrl: './domain-editor-component.html'
 })
 export class DomainEditorComponent implements OnInit {
+
+    public propertyModel: WCPropertyEditorModel = {
+        items: [
+          {
+            name: 'Description',
+            field: 'description',
+            type: WCPropertyEditorItemType.String,
+            value: 'Vipera platform secure'
+          }
+        ]
+    };
 
     constructor(private logger: NGXLogger) {
 
