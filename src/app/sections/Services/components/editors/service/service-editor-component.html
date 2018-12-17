@@ -1,3 +1,8 @@
-<div class='inspector'>    
-    <strong>Service</strong>
+<div class="inspector">
+
+    <wc-property-editor [model]="propertyModel" (propertyChange)="onPropertyChange($event)" 
+        (miniButtonClick)="onMiniButtonClick($event)"> </wc-property-editor>
+
+    <wa-services-offline-messages-editor #offlineMessagesEditor></wa-services-offline-messages-editor>
+
 </div>

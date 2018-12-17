@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
+import { WCPropertyEditorModel, WCPropertyEditorItemType, PropertyChangeEvent, MinitButtonClickEvent } from 'web-console-ui-kit';
 import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
+import { EditorPropertyChangeEvent } from '../commons/editors-events';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
+
 
 @Component({
     selector: 'wa-services-application-editor',
@@ -13,6 +15,8 @@ const LOG_TAG = '[ServicesSectionApplicationEditor]';
 export class ApplicationEditorComponent implements OnInit {
 
     @ViewChild('offlineMessagesEditor') offlineMessagesEditor: OfflineMessagesSettingsComponent;
+
+    @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
     public offlineMessages: string[] = ['uno', 'due', 'tre'];
 
@@ -185,7 +189,6 @@ export class ApplicationEditorComponent implements OnInit {
       };
 
     constructor(private logger: NGXLogger) {
-
     }
 
     /**
@@ -195,19 +198,15 @@ export class ApplicationEditorComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
-    public setDomain(domainName: string) {
-        // TODO!!
-    }
-
-    onMiniButtonClick(event: any): void {
+    onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
       // TODO!!
       this.offlineMessagesEditor.show();
     }
 
-    onPropertyChange(event: any): void {
+    onPropertyChange(event: PropertyChangeEvent): void {
       this.logger.debug(LOG_TAG, 'onPropertyChange:', event);
-      // TODO!!
+      this.propertyChange.emit({ propertyName: event.item.field, propertyValue: event.newValue });
     }
 
 }

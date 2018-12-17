@@ -34,5 +34,5 @@ export class OfflineMessagesSettingsComponent implements OnInit {
     public get isShowed(): boolean {
         return this.displayDialog;
     }
-    
+
 }

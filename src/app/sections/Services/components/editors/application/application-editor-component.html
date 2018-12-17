@@ -1,16 +1,8 @@
 <div class="inspector">
 
-    <wc-property-editor [model]="propertyModel" (propertyChange)="onPropertyChange($event)" (miniButtonClick)="onMiniButtonClick($event)"> </wc-property-editor>
+    <wc-property-editor [model]="propertyModel" (propertyChange)="onPropertyChange($event)" 
+        (miniButtonClick)="onMiniButtonClick($event)"> </wc-property-editor>
 
     <wa-services-offline-messages-editor #offlineMessagesEditor></wa-services-offline-messages-editor>
-
-    <!--
-    <div><label>Description:</label> <input value="Test Label" /></div>
-
-    <div><label>Test Combo</label>
-        <kendo-dropdownlist [data]='offlineMessages'
-        [valuePrimitive]="false"></kendo-dropdownlist>
-    </div>
-    -->
 
 </div>
