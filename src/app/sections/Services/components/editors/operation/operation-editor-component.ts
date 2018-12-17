@@ -55,13 +55,13 @@ export class OperationEditorComponent implements OnInit {
           {
             name: 'Input Params (JSON)',
             field: 'inputParams',
-            type: WCPropertyEditorItemType.String,
+            type: WCPropertyEditorItemType.Text,
             value: ''
           },
           {
             name: 'Output Params (JSON)',
             field: 'outputParams',
-            type: WCPropertyEditorItemType.String,
+            type: WCPropertyEditorItemType.Text,
             value: ''
           }
         ]
