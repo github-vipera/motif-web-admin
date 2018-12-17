@@ -16,6 +16,7 @@ import { ServiceCataglogEditorComponent } from './components/editors/service-cat
 import { DomainEditorComponent } from './components/editors/domain/domain-editor-component';
 import { ApplicationEditorComponent } from './components/editors/application/application-editor-component';
 import { ServiceEditorComponent } from './components/editors/service/service-editor-component';
+import { OperationEditorComponent } from './components/editors/operation/operation-editor-component';
 import { DialogModule } from 'primeng/dialog';
 import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
 
@@ -46,7 +47,8 @@ import { OfflineMessagesSettingsComponent } from './components/editors/commons/o
         DomainEditorComponent,
         ApplicationEditorComponent,
         ServiceEditorComponent,
-        OfflineMessagesSettingsComponent
+        OfflineMessagesSettingsComponent,
+        OperationEditorComponent
     ],
     exports: [ ServicesSectionComponent ],
     providers: [  ]

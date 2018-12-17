@@ -160,7 +160,7 @@ export class ServicesSectionComponent implements OnInit {
                 catalogEntry.application,
                 catalogEntry.service);
         } else if (nodeType === 'Operation') {
-            this._servicesEditor.startEditOperation(catalogEntry.domain, 
+            this._servicesEditor.startEditOperation(catalogEntry.domain,
                 catalogEntry.application,
                 catalogEntry.service,
                 catalogEntry.operation);
