@@ -3,10 +3,8 @@ import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
+import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center'
 import { EditorContext } from './service-catalog-editor-context';
-
-const LOG_TAG = '[ServicesSectionDomainEditor]';
 
 export abstract class BaseEditorComponent  {
 
