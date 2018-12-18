@@ -41,8 +41,6 @@ export class DomainEditorComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
-
-
     private refreshDomainInfo(domainName: string) {
         this.loading = true;
         this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
