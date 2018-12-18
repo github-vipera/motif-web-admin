@@ -8,13 +8,13 @@
             <button kendoButton look="flat" icon="reload" >Reload</button>
         </div>
 
-        <wa-services-domain-editor *ngIf="isDomainEditing()"></wa-services-domain-editor>
+        <wa-services-domain-editor *ngIf="isDomainEditing()" #domainEditor [editorContext]="editorContext"></wa-services-domain-editor>
 
-        <wa-services-application-editor *ngIf="isApplicationEditing()"></wa-services-application-editor>
+        <wa-services-application-editor *ngIf="isApplicationEditing()" #applicationEditor></wa-services-application-editor>
         
-        <wa-services-service-editor *ngIf="isServiceEditing()"></wa-services-service-editor>
+        <wa-services-service-editor *ngIf="isServiceEditing()" #serviceEditor></wa-services-service-editor>
 
-        <wa-services-operation-editor *ngIf="isOperationEditing()"></wa-services-operation-editor>
+        <wa-services-operation-editor *ngIf="isOperationEditing()" #operationEditor></wa-services-operation-editor>
     </div>
 
 

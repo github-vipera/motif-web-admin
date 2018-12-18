@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { DomainsService, 
-         DomainsList, 
-         Domain, 
+import { DomainsService,
+         DomainsList,
+         Domain,
          ApplicationsService,
-         ApplicationsList, 
+         ApplicationsList,
          Application,
-          } from '@wa-motif-open-api/platform-service'
+          } from '@wa-motif-open-api/platform-service';
 
 import { ServicesService, OperationsService, ServiceList } from '@wa-motif-open-api/catalog-service'
 import { ApplicationsService as AppService } from '@wa-motif-open-api/catalog-service'
 
-import { Observable, from, forkJoin } from 'rxjs';
-import { flatMap, mergeMap, map, switchMap, toArray, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core'
 
 const LOG_TAG = "[ServiceCatalogService]";
@@ -36,7 +35,7 @@ export class ServiceCatalogService {
             this.logger.debug(LOG_TAG, 'getServiceCatalog called' );
  
             const serviceCatalog = [];
-
+            
             this.domainService.getDomains().subscribe(( domains: DomainsList ) => {
                 const domainsCount = domains.length;
                 let processedDomains = 0;

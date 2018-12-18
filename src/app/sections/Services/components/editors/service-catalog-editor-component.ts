@@ -1,24 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
+import { DomainEditorComponent } from './domain/domain-editor-component';
+import { EditingType, EditorContext } from './service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
-
-enum EditingType {
-    None,
-    Domain,
-    Application,
-    Service,
-    Operation
-}
-
-interface EditorContext {
-    domainName: string;
-    applicationName?: string;
-    serviceName?: string;
-    operationName?: string;
-    userdata?: any;
-    editingType: EditingType;
-}
 
 @Component({
     selector: 'wa-services-editor',
@@ -29,6 +14,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     private _editorContext: EditorContext;
     private _title = 'No selection.';
+
+    @ViewChild('domainEditor') _domainEditor: DomainEditorComponent;
 
     constructor(private logger: NGXLogger) {
 
@@ -52,7 +39,6 @@ export class ServiceCataglogEditorComponent implements OnInit {
         };
         this.setTitle('Domain \'' + domainName + '\'');
         this.logger.debug(LOG_TAG, 'startEditDomain: ', this._editorContext);
-        // TODO!!
     }
 
     public startEditApplication(domainName: string, applicationName: string): void {

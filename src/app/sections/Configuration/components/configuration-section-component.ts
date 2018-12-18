@@ -121,7 +121,7 @@ export class ConfigurationSectionComponent implements OnInit {
                 this.editService.cancelChanges();
                 this.editService.read(data, this._editServiceConfig);
                 this.loading = false;
-            }, (error)=>{
+            }, (error) => {
                 this.logger.error(LOG_TAG ,"reloadConfigurationParamsForService error: ", error);
                 this.loading = false;
 
