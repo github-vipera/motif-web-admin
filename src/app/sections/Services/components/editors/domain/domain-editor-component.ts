@@ -16,7 +16,7 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
 })
 export class DomainEditorComponent extends BaseEditorComponent implements OnInit {
 
-    public myModel: WCPropertyEditorModel = {
+    public domainModel: WCPropertyEditorModel = {
         items: [
           {
             name: 'Description',
@@ -33,7 +33,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
         public domainService: DomainsService,
         public notificationCenter: NotificationCenter) {
             super(logger, notificationCenter);
-            this.setModel(this.myModel);
+            this.setModel(this.domainModel);
     }
 
     /**

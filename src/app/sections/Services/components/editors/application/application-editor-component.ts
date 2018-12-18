@@ -3,6 +3,11 @@ import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, PropertyChangeEvent, MinitButtonClickEvent } from 'web-console-ui-kit';
 import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
+import { BaseEditorComponent } from '../base-editor-component';
+import { Observable } from 'rxjs';
+import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
+import { EditorContext } from '../service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -12,15 +17,17 @@ const LOG_TAG = '[ServicesSectionApplicationEditor]';
     styleUrls: ['./application-editor-component.scss'],
     templateUrl: './application-editor-component.html'
 })
-export class ApplicationEditorComponent implements OnInit {
+export class ApplicationEditorComponent  extends BaseEditorComponent implements OnInit {
 
     @ViewChild('offlineMessagesEditor') offlineMessagesEditor: OfflineMessagesSettingsComponent;
 
     @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
+    private _currentApplication: Application;
+
     public offlineMessages: string[] = ['uno', 'due', 'tre'];
 
-    public propertyModel: WCPropertyEditorModel = {
+    public applicationModel: WCPropertyEditorModel = {
         items: [
           {
             name: 'Description',
@@ -189,7 +196,11 @@ export class ApplicationEditorComponent implements OnInit {
         ]
       };
 
-    constructor(private logger: NGXLogger) {
+    constructor(public logger: NGXLogger,
+      public applicationService: ApplicationsService,
+      public notificationCenter: NotificationCenter) {
+        super(logger, notificationCenter);
+        this.setModel(this.applicationModel);
     }
 
     /**
@@ -205,9 +216,96 @@ export class ApplicationEditorComponent implements OnInit {
       this.offlineMessagesEditor.show();
     }
 
-    onPropertyChange(event: PropertyChangeEvent): void {
-      this.logger.debug(LOG_TAG, 'onPropertyChange:', event);
-      this.propertyChange.emit({ propertyName: event.item.field, propertyValue: event.newValue });
-    }
+    doRefreshData(editorContext: EditorContext): Observable<any> {
+      return this.refreshApplicationInfo(editorContext.domainName, editorContext.applicationName);
+  }
+
+  doSaveChanges(editorContext: EditorContext): Observable<any> {
+    return null;
+    /*
+      return new Observable((observer) => {
+
+          this.logger.debug(LOG_TAG, 'Saving changes on domain: ', this._currentDomain.name);
+
+          const propertyItem: WCPropertyEditorItem = this.getPropertyItem('description');
+
+          this.domainService.updateDomain(this._currentDomain.name,
+                  { 'description' : propertyItem.value }).subscribe((data) => {
+
+                      this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
+
+                      this.notificationCenter.post({
+                          name: 'SaveDomainConfig',
+                          title: 'Save Domain Configuration',
+                          message: 'Domain configuration changed successfully.',
+                          type: NotificationType.Success
+                      });
+
+                      observer.next({});
+
+          }, (error) => {
+
+              this.logger.error(LOG_TAG , 'setDomain error: ', error);
+
+              this.notificationCenter.post({
+                  name: 'SaveDomainConfigError',
+                  title: 'Save Domain Configuration',
+                  message: 'Error saving domain configuration:',
+                  type: NotificationType.Error,
+                  error: error
+              });
+
+              observer.error(error);
+
+          });
+      });
+      */
+  }
+
+  private refreshApplicationInfo(domainName: string, applicationName: string) {
+      return new Observable((observer) => {
+
+          this.logger.debug(LOG_TAG, 'Selected domain and application ', domainName, applicationName);
+          this.applicationService.getApplication(domainName, applicationName).subscribe((application: Application) => {
+              this._currentApplication = application;
+
+              this.getPropertyItem('description').value = application.description;
+
+              
+              /*
+              this.propertyModel = {
+                  items: [
+                      {
+                          name: 'Description',
+                          field: 'description',
+                          type: WCPropertyEditorItemType.String,
+                          value: domain.description
+                      }
+                  ]
+              };*/
+
+              this.logger.debug(LOG_TAG, 'Current application: ', this._currentApplication);
+
+              observer.next(null);
+
+          }, (error) => {
+
+              this.logger.error(LOG_TAG , 'Get Applcation error: ', error);
+
+              this.notificationCenter.post({
+                  name: 'LoadApplicationConfigError',
+                  title: 'Load Application Configuration',
+                  message: 'Error loading application configuration:',
+                  type: NotificationType.Error,
+                  error: error
+              });
+
+              observer.error(error);
+
+          });
+
+      });
+  }
+
 
 }

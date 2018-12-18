@@ -24,7 +24,15 @@
             (endSavingWithError)='isBusy=false'
             ></wa-services-domain-editor>
 
-        <wa-services-application-editor *ngIf="isApplicationEditing()" #applicationEditor></wa-services-application-editor>
+        <wa-services-application-editor #applicationEditor 
+        *ngIf="isApplicationEditing()"
+        [editorContext]="editorContext" 
+        (startLoading)='isBusy=true'
+        (endLoading)='isBusy=false'
+        (endSaving)='onDataSaved($event);isBusy=false;'
+        (startSaving)='isBusy=true'
+        (endSavingWithError)='isBusy=false'
+    ></wa-services-application-editor>
         
         <wa-services-service-editor *ngIf="isServiceEditing()" #serviceEditor></wa-services-service-editor>
 

@@ -22,6 +22,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
     isBusy: boolean;
 
     @ViewChild('domainEditor') _domainEditor: BaseEditorComponent;
+    @ViewChild('applicationEditor') _applicationEditor: BaseEditorComponent;
 
     @Output() changesSaved: EventEmitter<ServiceCatalogEditorChangesEvent> = new EventEmitter();
 
@@ -58,7 +59,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
         };
         this.logger.debug(LOG_TAG, 'startEditApplication: ', this._editorContext);
         this.setTitle('Application \'' + applicationName + '\'');
-        // TODO!!
+        this.changeDetector.detectChanges();
     }
 
     public startEditService(domainName: string, applicationName: string, serviceName: string): void {
@@ -137,7 +138,11 @@ export class ServiceCataglogEditorComponent implements OnInit {
     }
 
     onReloadButtonClick(event) {
-        this._domainEditor.discardChanges();
+        if (this.editorContext.editingType === EditingType.Domain) {
+            this._domainEditor.discardChanges();
+        } else if (this.editorContext.editingType === EditingType.Application) {
+            this._applicationEditor.discardChanges();
+        }
     }
 
     onDataSaved(changes: ServiceCatalogEditorChangesEvent) {
