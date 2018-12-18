@@ -17,7 +17,7 @@ export interface EditorContext {
     editingType: EditingType;
 }
 
-export interface ServiceCatalogEditorChanges {
+export interface ServiceCatalogEditorChangesEvent {
     context: EditorContext;
     model: WCPropertyEditorModel;
 }

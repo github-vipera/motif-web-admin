@@ -3,7 +3,7 @@ import { NGXLogger } from 'web-console-core';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { BaseEditorComponent } from './base-editor-component';
-import { ServiceCatalogEditorChanges } from './service-catalog-editor-context';
+import { ServiceCatalogEditorChangesEvent } from './service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -19,11 +19,11 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     private _editorContext: EditorContext;
     private _title = 'No selection.';
-    loading: boolean;
+    isBusy: boolean;
 
     @ViewChild('domainEditor') _domainEditor: BaseEditorComponent;
 
-    @Output() changesSaved: EventEmitter<ServiceCatalogEditorChanges> = new EventEmitter();
+    @Output() changesSaved: EventEmitter<ServiceCatalogEditorChangesEvent> = new EventEmitter();
 
     constructor(private logger: NGXLogger,
         private changeDetector: ChangeDetectorRef) {
@@ -140,12 +140,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
         this._domainEditor.discardChanges();
     }
 
-    onLoading(loading: boolean) {
-        this.logger.debug(LOG_TAG, 'onLoading: ', loading);
-        this.loading = loading;
-    }
-
-    onDataSaved(changes: ServiceCatalogEditorChanges) {
+    onDataSaved(changes: ServiceCatalogEditorChangesEvent) {
         this.logger.debug(LOG_TAG, 'onDataSaved: ', changes);
         this.changesSaved.emit(changes);
     }

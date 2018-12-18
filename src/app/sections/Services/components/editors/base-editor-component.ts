@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center'
-import { EditorContext, ServiceCatalogEditorChanges } from './service-catalog-editor-context'
+import { EditorContext, ServiceCatalogEditorChangesEvent } from './service-catalog-editor-context'
 
 const LOG_TAG = '[BaseEditorComponent]';
 
@@ -17,7 +17,7 @@ export abstract class BaseEditorComponent  {
     @Output() public endLoading: EventEmitter<any> = new EventEmitter();
 
     @Output() public startSaving: EventEmitter<any> = new EventEmitter();
-    @Output() public endSaving: EventEmitter<ServiceCatalogEditorChanges> = new EventEmitter();
+    @Output() public endSaving: EventEmitter<ServiceCatalogEditorChangesEvent> = new EventEmitter();
     @Output() public endSavingWithError: EventEmitter<any> = new EventEmitter();
 
     constructor(public logger: NGXLogger,

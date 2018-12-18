@@ -19,7 +19,7 @@ import {
 
 import * as _ from 'lodash';
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
-import { ServiceCatalogEditorChanges } from './editors/service-catalog-editor-context';
+import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -131,9 +131,22 @@ export class ServicesSectionComponent implements OnInit {
         // TODO!!
     }
 
-    public onChangesSaved(event: ServiceCatalogEditorChanges) {
+    public onChangesSaved(event: ServiceCatalogEditorChangesEvent) {
         this.logger.debug(LOG_TAG, 'onChangesSaved: ', event);
+        if (event.context.editingType === EditingType.Domain) {
+            this.handleChangesForDomain(event);
+        }
         // TODO!! update the table model without reloading it
+    }
+
+    private handleChangesForDomain(event: ServiceCatalogEditorChangesEvent) {
+        const domainName = event.context.domainName;
+        const description = event.model.items[0].value;
+        const treeNode = this.tableModel.getDomainNode(domainName);
+        if (treeNode) {
+            treeNode.data.description = description;
+        }
+
     }
 
 }

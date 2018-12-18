@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
+import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
 import { EditorContext } from '../service-catalog-editor-context';
-import { BaseEditorComponent } from '../base-editor-component'
+import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 
 const LOG_TAG = '[ServicesSectionDomainEditor]';

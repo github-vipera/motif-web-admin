@@ -106,4 +106,13 @@ export class ServiceCatalogTableModel {
         return this._model;
     }
 
+    public getDomainNode(domainName: string): TreeNode {
+        for (let i = 0; i < this._model.length; i++) {
+            const treeNode: TreeNode = this._model[i];
+            if (treeNode.data.name === domainName) {
+                return treeNode;
+            }
+        }
+        return null;
+    }
 }

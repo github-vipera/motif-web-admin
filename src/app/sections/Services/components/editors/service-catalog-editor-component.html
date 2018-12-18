@@ -3,7 +3,7 @@
     <div class='wc-service-catalog-editor-container'>
 
         <div class='wc-service-catalog-editor-loading-overlay'
-             [class.wc-service-catalog-editor-loading-overlay-hidden]='!loading'>
+             [class.wc-service-catalog-editor-loading-overlay-hidden]='!isBusy'>
              <fa-icon [icon]="faCircleNotch" [spin]="true" class="wc-service-catalog-editor-loading-overlay-icon"></fa-icon>
         </div>
         
@@ -17,9 +17,11 @@
         <wa-services-domain-editor  
         #domainEditor *ngIf="isDomainEditing()" 
             [editorContext]="editorContext" 
-            (startLoading)='loading=true'
-            (endLoading)='loading=false'
-            (endSaving)='onDataSaved($event)'
+            (startLoading)='isBusy=true'
+            (endLoading)='isBusy=false'
+            (endSaving)='onDataSaved($event);isBusy=false;'
+            (startSaving)='isBusy=true'
+            (endSavingWithError)='isBusy=false'
             ></wa-services-domain-editor>
 
         <wa-services-application-editor *ngIf="isApplicationEditing()" #applicationEditor></wa-services-application-editor>
