@@ -32,7 +32,8 @@ export class ApplicationEditorComponent implements OnInit {
             name: 'Offline',
             field: 'offline',
             type: WCPropertyEditorItemType.Boolean,
-            value: true
+            value: false,
+            linkTo: ['offlineMessage']
           },
           {
             name: 'Offline Message',

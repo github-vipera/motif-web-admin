@@ -190,6 +190,7 @@ aside .cmd {margin:2rem auto; text-align:center;}
 .inspector textarea:focus { background-color: #484f54; } 
 .inspector > div > div > label[disabled] { color: #666;}
 .inspector > div > button[disabled] { color: #666;}
+.inspector > div > div > select[disabled] { color: #666;}
 
 section {flex:1; background:#22272B; padding:1rem; height:100%; overflow:auto; display:flex; flex-direction:column;}
 section .header {color:#ddd; width:100%; padding:.5rem 1rem; display:flex; justify-content:space-between; align-items:center;}
