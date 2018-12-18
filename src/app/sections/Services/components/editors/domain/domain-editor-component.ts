@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
@@ -29,6 +29,9 @@ export class DomainEditorComponent implements OnInit {
     private _currentEditorContext: EditorContext;
     public loading: boolean;
 
+    @Output() public startLoading: EventEmitter<any> = new EventEmitter();
+    @Output() public endLoading: EventEmitter<any> = new EventEmitter();
+
     constructor(private logger: NGXLogger,
         private domainService: DomainsService,
         private notificationCenter: NotificationCenter) {
@@ -42,6 +45,7 @@ export class DomainEditorComponent implements OnInit {
     }
 
     private refreshDomainInfo(domainName: string) {
+        this.startLoading.emit();
         this.loading = true;
         this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
         this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
@@ -57,6 +61,7 @@ export class DomainEditorComponent implements OnInit {
                 ]
             };
             this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
+            this.endLoading.emit();
 
         }, (error) => {
 
@@ -70,6 +75,8 @@ export class DomainEditorComponent implements OnInit {
                 type: NotificationType.Error,
                 error: error
             });
+
+            this.endLoading.emit();
 
         });
     }

@@ -14,6 +14,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     private _editorContext: EditorContext;
     private _title = 'No selection.';
+    loading: boolean;
 
     @ViewChild('domainEditor') _domainEditor: DomainEditorComponent;
 

@@ -2,8 +2,8 @@
     <div class='wc-service-catalog-editor-title wc-truncate-text'>{{title}}</div>
     <div class='wc-service-catalog-editor-container'>
 
-        <div class='wc-service-catalog-editor-loading-overlay wc-service-catalog-editor-loading-overlay-hidden'>
-
+        <div class='wc-service-catalog-editor-loading-overlay'
+             [class.wc-service-catalog-editor-loading-overlay-hidden]='!loading'>
         </div>
         
         <div class='wc-service-catalog-editor-namespace wc-truncate-text'>{{namespace}}</div>
@@ -13,7 +13,12 @@
             <button kendoButton look="flat" icon="reload" >Reload</button>
         </div>
 
-        <wa-services-domain-editor *ngIf="isDomainEditing()" #domainEditor [editorContext]="editorContext"></wa-services-domain-editor>
+        <wa-services-domain-editor  
+        #domainEditor *ngIf="isDomainEditing()" 
+            [editorContext]="editorContext" 
+            (startLoading)='loading=true;'
+            (endLoading)='loading=false;'
+            ></wa-services-domain-editor>
 
         <wa-services-application-editor *ngIf="isApplicationEditing()" #applicationEditor></wa-services-application-editor>
         
