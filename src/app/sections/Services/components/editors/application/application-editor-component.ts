@@ -187,7 +187,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'UserID Length',
-            field: 'UserIdLength',
+            field: 'userIdLength',
             type: WCPropertyEditorItemType.String,
             value: '16',
             htmlInputType: 'number',
@@ -285,7 +285,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
               this.getPropertyItem('maxLoginFailures').value = application.passwordMaxFailures;
               this.getPropertyItem('registerUser').value = application.registerUser;
               this.getPropertyItem('registerPassword').value = application.registerPasswd;
-              //this.getPropertyItem('userActivation').value = application.userActivation;
+              this.getPropertyItem('userActivation').value = application.needsActivation;
               this.getPropertyItem('verifyClientIp').value = application.verifyClientIp;
               this.getPropertyItem('viperaSerialFormat').value = application.viperaSerialFormat;
               this.getPropertyItem('viperaSerialLength').value = application.viperaSerialLength;
