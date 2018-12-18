@@ -58,6 +58,14 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                     { 'description' : propertyItem.value }).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
+
+                        this.notificationCenter.post({
+                            name: 'SaveDomainConfig',
+                            title: 'Save Domain Configuration',
+                            message: 'Domain configuration changed successfully.',
+                            type: NotificationType.Success
+                        });
+        
                         observer.next({});
 
             }, (error) => {
