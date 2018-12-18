@@ -53,7 +53,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
             this.logger.debug(LOG_TAG, 'Saving changes on domain: ', this._currentDomain.name);
 
             const propertyItem: WCPropertyEditorItem = this.getPropertyItem('description');
-            
+
             this.domainService.updateDomain(this._currentDomain.name,
                     { 'description' : propertyItem.value }).subscribe((data) => {
 
@@ -65,8 +65,11 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                             message: 'Domain configuration changed successfully.',
                             type: NotificationType.Success
                         });
-        
-                        observer.next({});
+
+                        observer.next({
+                            model: this.propertyModel,
+                            context: this.editorContext
+                        });
 
             }, (error) => {
 
@@ -105,7 +108,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                 };
                 this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
 
-                observer.next({});
+                observer.next(null);
 
             }, (error) => {
 

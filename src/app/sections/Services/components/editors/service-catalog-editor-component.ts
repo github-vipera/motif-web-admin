@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular
 import { NGXLogger } from 'web-console-core';
 import { DomainEditorComponent } from './domain/domain-editor-component';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
-import { BaseEditorComponent } from './base-editor-component'
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { BaseEditorComponent, BaseEditorChanges } from './base-editor-component';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -140,6 +140,10 @@ export class ServiceCataglogEditorComponent implements OnInit {
     onLoading(loading: boolean) {
         this.logger.debug(LOG_TAG, 'onLoading: ', loading);
         this.loading = loading;
+    }
+
+    onDataSaved(changes: BaseEditorChanges) {
+        this.logger.debug(LOG_TAG, 'onDataSaved: ', changes);
     }
 
 }

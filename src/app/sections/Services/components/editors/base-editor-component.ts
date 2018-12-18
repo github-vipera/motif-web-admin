@@ -8,6 +8,11 @@ import { ifError } from 'assert';
 
 const LOG_TAG = '[BaseEditorComponent]';
 
+export interface BaseEditorChanges {
+    context: EditorContext;
+    model: WCPropertyEditorModel;
+}
+
 export abstract class BaseEditorComponent  {
 
     private _currentEditorContext: EditorContext;
@@ -18,7 +23,8 @@ export abstract class BaseEditorComponent  {
     @Output() public endLoading: EventEmitter<any> = new EventEmitter();
 
     @Output() public startSaving: EventEmitter<any> = new EventEmitter();
-    @Output() public endSaving: EventEmitter<any> = new EventEmitter();
+    @Output() public endSaving: EventEmitter<BaseEditorChanges> = new EventEmitter();
+    @Output() public endSavingWithError: EventEmitter<any> = new EventEmitter();
 
     constructor(public logger: NGXLogger,
         public notificationCenter: NotificationCenter) {
@@ -39,12 +45,16 @@ export abstract class BaseEditorComponent  {
         });
     }
 
+    public get editorContext(): EditorContext {
+        return this._currentEditorContext;
+    }
+
     public saveChanges() {
         this.startSaving.emit();
         this.doSaveChanges(this._currentEditorContext).subscribe((event) => {
-            this.endSaving.emit();
+            this.endSaving.emit(event);
         }, (error) => {
-            this.endSaving.emit();
+            this.endSavingWithError.emit(error);
         });
     }
 
@@ -66,10 +76,10 @@ export abstract class BaseEditorComponent  {
             }
         }
         return null;
-    } 
+    }
 
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;
 
-    abstract doSaveChanges(editorContext: EditorContext): Observable<any>;
+    abstract doSaveChanges(editorContext: EditorContext): Observable<BaseEditorChanges>;
 
 }

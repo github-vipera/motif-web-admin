@@ -19,6 +19,7 @@
             [editorContext]="editorContext" 
             (startLoading)='loading=true'
             (endLoading)='loading=false'
+            (endSaving)='onDataSaved($event)'
             ></wa-services-domain-editor>
 
         <wa-services-application-editor *ngIf="isApplicationEditing()" #applicationEditor></wa-services-application-editor>
