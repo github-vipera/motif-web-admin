@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { DomainEditorComponent } from './domain/domain-editor-component';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { BaseEditorComponent, BaseEditorChanges } from './base-editor-component';
+import { BaseEditorComponent } from './base-editor-component';
+import { ServiceCatalogEditorChanges } from './service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesCatalogEditor]';
+
 
 @Component({
     selector: 'wa-services-editor',
@@ -22,8 +23,10 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     @ViewChild('domainEditor') _domainEditor: BaseEditorComponent;
 
+    @Output() changesSaved: EventEmitter<ServiceCatalogEditorChanges> = new EventEmitter();
+
     constructor(private logger: NGXLogger,
-        private changeDetector : ChangeDetectorRef) {
+        private changeDetector: ChangeDetectorRef) {
     }
 
     /**
@@ -142,8 +145,9 @@ export class ServiceCataglogEditorComponent implements OnInit {
         this.loading = loading;
     }
 
-    onDataSaved(changes: BaseEditorChanges) {
+    onDataSaved(changes: ServiceCatalogEditorChanges) {
         this.logger.debug(LOG_TAG, 'onDataSaved: ', changes);
+        this.changesSaved.emit(changes);
     }
 
 }

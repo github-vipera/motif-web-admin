@@ -1,3 +1,5 @@
+import { WCPropertyEditorModel } from 'web-console-ui-kit';
+
 export enum EditingType {
     None,
     Domain,
@@ -13,4 +15,9 @@ export interface EditorContext {
     operationName?: string;
     userdata?: any;
     editingType: EditingType;
+}
+
+export interface ServiceCatalogEditorChanges {
+    context: EditorContext;
+    model: WCPropertyEditorModel;
 }

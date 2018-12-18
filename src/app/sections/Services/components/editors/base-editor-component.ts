@@ -3,15 +3,9 @@ import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center'
-import { EditorContext } from './service-catalog-editor-context';
-import { ifError } from 'assert';
+import { EditorContext, ServiceCatalogEditorChanges } from './service-catalog-editor-context'
 
 const LOG_TAG = '[BaseEditorComponent]';
-
-export interface BaseEditorChanges {
-    context: EditorContext;
-    model: WCPropertyEditorModel;
-}
 
 export abstract class BaseEditorComponent  {
 
@@ -23,7 +17,7 @@ export abstract class BaseEditorComponent  {
     @Output() public endLoading: EventEmitter<any> = new EventEmitter();
 
     @Output() public startSaving: EventEmitter<any> = new EventEmitter();
-    @Output() public endSaving: EventEmitter<BaseEditorChanges> = new EventEmitter();
+    @Output() public endSaving: EventEmitter<ServiceCatalogEditorChanges> = new EventEmitter();
     @Output() public endSavingWithError: EventEmitter<any> = new EventEmitter();
 
     constructor(public logger: NGXLogger,
@@ -51,8 +45,11 @@ export abstract class BaseEditorComponent  {
 
     public saveChanges() {
         this.startSaving.emit();
-        this.doSaveChanges(this._currentEditorContext).subscribe((event) => {
-            this.endSaving.emit(event);
+        this.doSaveChanges(this._currentEditorContext).subscribe(() => {
+            this.endSaving.emit({
+                context: this._currentEditorContext,
+                model: this.propertyModel
+            });
         }, (error) => {
             this.endSavingWithError.emit(error);
         });
@@ -80,6 +77,6 @@ export abstract class BaseEditorComponent  {
 
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;
 
-    abstract doSaveChanges(editorContext: EditorContext): Observable<BaseEditorChanges>;
+    abstract doSaveChanges(editorContext: EditorContext): Observable<any>;
 
 }

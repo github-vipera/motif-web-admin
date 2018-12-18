@@ -19,6 +19,7 @@ import {
 
 import * as _ from 'lodash';
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { ServiceCatalogEditorChanges } from './editors/service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -44,51 +45,6 @@ export class ServicesSectionComponent implements OnInit {
     public groups: GroupDescriptor[] = [];
 
     selectedNode: TreeNode;
-
-    public propertyModel:WCPropertyEditorModel = {
-        items: [
-          {
-            name: "Description",
-            field: "description",
-            type: WCPropertyEditorItemType.String,
-            value: "Vipera platform secure"
-          },
-          {
-            name: "Offline",
-            field: "offline",
-            type: WCPropertyEditorItemType.Boolean,
-            value: true
-          },
-          {
-            name: "OTP expiry",
-            field: "otpExpiry",
-            type: WCPropertyEditorItemType.String,
-            value: "-1"
-          },
-          {
-            name: "Disabled Value",
-            field: "disabledValue",
-            type: WCPropertyEditorItemType.String,
-            value: "this is disabled",
-            disabled:true
-          },
-          {
-            name: "Age",
-            field: "age",
-            type: WCPropertyEditorItemType.String,
-            value: "45",
-            htmlInputType: "number"
-          },
-          {
-            name: "Car Type",
-            field: "carType",
-            type: WCPropertyEditorItemType.List,
-            value: "BMW",
-            listValues: ["Audi", "Mercedes", "Alfa Romeo", "BMW", "Mini Cooper"]
-          }
-    
-        ]
-      }
 
     @Input() tableModel: ServiceCatalogTableModel;
 
@@ -173,6 +129,11 @@ export class ServicesSectionComponent implements OnInit {
 
     public onFilterChange(event) {
         // TODO!!
+    }
+
+    public onChangesSaved(event: ServiceCatalogEditorChanges) {
+        this.logger.debug(LOG_TAG, 'onChangesSaved: ', event);
+        // TODO!! update the table model without reloading it
     }
 
 }

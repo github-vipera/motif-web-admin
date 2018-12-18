@@ -66,10 +66,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                             type: NotificationType.Success
                         });
 
-                        observer.next({
-                            model: this.propertyModel,
-                            context: this.editorContext
-                        });
+                        observer.next({});
 
             }, (error) => {
 
