@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
+import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 import { EditorContext } from '../service-catalog-editor-context';
@@ -16,7 +16,7 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
 })
 export class DomainEditorComponent extends BaseEditorComponent implements OnInit {
 
-    public propertyModel: WCPropertyEditorModel = {
+    public myModel: WCPropertyEditorModel = {
         items: [
           {
             name: 'Description',
@@ -33,6 +33,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
         public domainService: DomainsService,
         public notificationCenter: NotificationCenter) {
             super(logger, notificationCenter);
+            this.setModel(this.myModel);
     }
 
     /**
@@ -50,8 +51,11 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
         return new Observable((observer) => {
 
             this.logger.debug(LOG_TAG, 'Saving changes on domain: ', this._currentDomain.name);
+
+            const propertyItem: WCPropertyEditorItem = this.getPropertyItem('description');
+            
             this.domainService.updateDomain(this._currentDomain.name,
-                    { 'description' : this.propertyModel.items[0].value }).subscribe((data) => {
+                    { 'description' : propertyItem.value }).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
                         observer.next({});

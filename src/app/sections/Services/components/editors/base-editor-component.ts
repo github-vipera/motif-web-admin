@@ -1,16 +1,18 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
-import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
-import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
+import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center'
 import { EditorContext } from './service-catalog-editor-context';
+import { ifError } from 'assert';
 
 const LOG_TAG = '[BaseEditorComponent]';
 
 export abstract class BaseEditorComponent  {
 
     private _currentEditorContext: EditorContext;
+
+    public propertyModel: WCPropertyEditorModel;
 
     @Output() public startLoading: EventEmitter<any> = new EventEmitter();
     @Output() public endLoading: EventEmitter<any> = new EventEmitter();
@@ -20,6 +22,10 @@ export abstract class BaseEditorComponent  {
 
     constructor(public logger: NGXLogger,
         public notificationCenter: NotificationCenter) {
+    }
+
+    protected setModel(model:WCPropertyEditorModel) {
+        this.propertyModel = model;
     }
 
     @Input()
@@ -51,6 +57,16 @@ export abstract class BaseEditorComponent  {
             this.endLoading.emit();
         });
     }
+
+    protected getPropertyItem(field: string): WCPropertyEditorItem {
+        const items: WCPropertyEditorItem[] = this.propertyModel.items;
+        for (let i = 0; i< items.length; i++) {
+            if (items[i].field === field) {
+                return items[i];
+            }
+        }
+        return null;
+    } 
 
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;
 
