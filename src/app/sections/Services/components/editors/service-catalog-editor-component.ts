@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { DomainEditorComponent } from './domain/domain-editor-component';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -12,6 +13,8 @@ const LOG_TAG = '[ServicesCatalogEditor]';
 })
 export class ServiceCataglogEditorComponent implements OnInit {
 
+    faCircleNotch = faCircleNotch;
+    
     private _editorContext: EditorContext;
     private _title = 'No selection.';
     loading: boolean;
