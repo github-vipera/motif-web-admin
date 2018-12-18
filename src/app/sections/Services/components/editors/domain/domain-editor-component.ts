@@ -27,10 +27,12 @@ export class DomainEditorComponent implements OnInit {
 
     private _currentDomain: Domain;
     private _currentEditorContext: EditorContext;
-    public loading: boolean;
 
     @Output() public startLoading: EventEmitter<any> = new EventEmitter();
     @Output() public endLoading: EventEmitter<any> = new EventEmitter();
+
+    @Output() public startSaving: EventEmitter<any> = new EventEmitter();
+    @Output() public endSaving: EventEmitter<any> = new EventEmitter();
 
     constructor(private logger: NGXLogger,
         private domainService: DomainsService,
@@ -46,7 +48,6 @@ export class DomainEditorComponent implements OnInit {
 
     private refreshDomainInfo(domainName: string) {
         this.startLoading.emit();
-        this.loading = true;
         this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
         this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
             this._currentDomain = domain;
@@ -66,7 +67,6 @@ export class DomainEditorComponent implements OnInit {
         }, (error) => {
 
             this.logger.error(LOG_TAG , 'setDomain error: ', error);
-            this.loading = false;
 
             this.notificationCenter.post({
                 name: 'LoadDomainConfigError',
@@ -85,6 +85,14 @@ export class DomainEditorComponent implements OnInit {
     public set editorContext(editorContext: EditorContext) {
         this._currentEditorContext = editorContext;
         this.refreshDomainInfo(editorContext.domainName);
+    }
+
+    public saveChanges() {
+        //TODO!!
+    }
+
+    public discardChanges() {
+        this.refreshDomainInfo(this._currentEditorContext.domainName);
     }
 
 }

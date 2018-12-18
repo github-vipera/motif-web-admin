@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { DomainEditorComponent } from './domain/domain-editor-component';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
@@ -21,8 +21,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     @ViewChild('domainEditor') _domainEditor: DomainEditorComponent;
 
-    constructor(private logger: NGXLogger) {
-
+    constructor(private logger: NGXLogger,
+        private changeDetector : ChangeDetectorRef) {
     }
 
     /**
@@ -43,6 +43,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
         };
         this.setTitle('Domain \'' + domainName + '\'');
         this.logger.debug(LOG_TAG, 'startEditDomain: ', this._editorContext);
+        this.changeDetector.detectChanges();
     }
 
     public startEditApplication(domainName: string, applicationName: string): void {
@@ -126,4 +127,13 @@ export class ServiceCataglogEditorComponent implements OnInit {
         }
         return namespace;
     }
+
+    onSaveButtonClick(event) {
+        alert('Save Clicked!');
+    }
+
+    onRefreshButtonClick(event) {
+        alert('Save Clicked!');
+    }
+
 }
