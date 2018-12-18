@@ -159,7 +159,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'Verify Client IP',
-            field: 'verifyClientIP',
+            field: 'verifyClientIp',
             type: WCPropertyEditorItemType.Boolean,
             value: true
           },
@@ -180,14 +180,14 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'UserID Format',
-            field: 'userIDFormat',
+            field: 'userIdFormat',
             type: WCPropertyEditorItemType.String,
             value: '[a-zA-Z0-9]+',
             disabled: false
           },
           {
             name: 'UserID Length',
-            field: 'UserIDLength',
+            field: 'UserIdLength',
             type: WCPropertyEditorItemType.String,
             value: '16',
             htmlInputType: 'number',
@@ -270,19 +270,27 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
               this._currentApplication = application;
 
               this.getPropertyItem('description').value = application.description;
-
-              
-              /*
-              this.propertyModel = {
-                  items: [
-                      {
-                          name: 'Description',
-                          field: 'description',
-                          type: WCPropertyEditorItemType.String,
-                          value: domain.description
-                      }
-                  ]
-              };*/
+              this.getPropertyItem('offline').value = application.offline;
+              this.getPropertyItem('otpExpiry').value = application.otpExpiry;
+              this.getPropertyItem('otpFormat').value = application.otpFormat;
+              this.getPropertyItem('otpLength').value = application.otpLength;
+              this.getPropertyItem('otpReuse').value = application.otpReuse;
+              this.getPropertyItem('otpMaxFailures').value = application.otpMaxFailures;
+              this.getPropertyItem('allowMultipleSessions').value = application.allowMultipleSessions;
+              this.getPropertyItem('instanceKeyLength').value = application.instanceKeyLength;
+              this.getPropertyItem('allowMultipleApps').value = application.allowMultipleInstall;
+              this.getPropertyItem('passwordHistory').value = application.passwordHistory;
+              this.getPropertyItem('passwordExpiry').value = application.passwordExpiry;
+              this.getPropertyItem('passwordFormat').value = application.passwordFormat;
+              this.getPropertyItem('maxLoginFailures').value = application.passwordMaxFailures;
+              this.getPropertyItem('registerUser').value = application.registerUser;
+              this.getPropertyItem('registerPassword').value = application.registerPasswd;
+              //this.getPropertyItem('userActivation').value = application.userActivation;
+              this.getPropertyItem('verifyClientIp').value = application.verifyClientIp;
+              this.getPropertyItem('viperaSerialFormat').value = application.viperaSerialFormat;
+              this.getPropertyItem('viperaSerialLength').value = application.viperaSerialLength;
+              this.getPropertyItem('userIdFormat').value = application.userIdFormat;
+              this.getPropertyItem('userIdLength').value = application.userIdLength;
 
               this.logger.debug(LOG_TAG, 'Current application: ', this._currentApplication);
 
