@@ -75,6 +75,16 @@ export abstract class BaseEditorComponent  {
         return null;
     }
 
+    protected getChangedProperties(): WCPropertyEditorItem[] {
+        const ret = [];
+        for (let i = 0; i < this.propertyModel.items.length; i++) {
+            if (this.propertyModel.items[i].valueChanged) {
+                ret.push(this.propertyModel.items[i]);
+            }
+        }
+        return ret;
+    }
+
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;
 
     abstract doSaveChanges(editorContext: EditorContext): Observable<any>;

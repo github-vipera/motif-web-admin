@@ -1,12 +1,12 @@
 import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { WCPropertyEditorModel, WCPropertyEditorItemType, PropertyChangeEvent, MinitButtonClickEvent } from 'web-console-ui-kit';
+import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem,  MinitButtonClickEvent } from 'web-console-ui-kit';
 import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
-import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
+import { ApplicationsService, ApplicationsList, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
@@ -104,7 +104,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'Allow Multiple Apps',
-            field: 'allowMultipleApps',
+            field: 'allowMultipleInstall',
             type: WCPropertyEditorItemType.Boolean,
             value: false
           },
@@ -133,7 +133,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'Max Login Failures',
-            field: 'maxLoginFailures',
+            field: 'passwordMaxFailures',
             type: WCPropertyEditorItemType.String,
             value: '-1',
             htmlInputType: 'number',
@@ -147,13 +147,13 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           },
           {
             name: 'Register Password',
-            field: 'registerPassword',
+            field: 'registerPasswd',
             type: WCPropertyEditorItemType.Boolean,
             value: false
           },
           {
             name: 'User Activation',
-            field: 'userActivation',
+            field: 'needsActivation',
             type: WCPropertyEditorItemType.Boolean,
             value: true
           },
@@ -221,45 +221,98 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
   }
 
   doSaveChanges(editorContext: EditorContext): Observable<any> {
-    return null;
-    /*
       return new Observable((observer) => {
 
-          this.logger.debug(LOG_TAG, 'Saving changes on domain: ', this._currentDomain.name);
+          this.logger.debug(LOG_TAG, 'Saving changes on application: ', this.editorContext.domainName, this._currentApplication.name);
 
-          const propertyItem: WCPropertyEditorItem = this.getPropertyItem('description');
+          const updatedApplication = this.fromModel();
 
-          this.domainService.updateDomain(this._currentDomain.name,
-                  { 'description' : propertyItem.value }).subscribe((data) => {
+          this.applicationService.updateApplication(this.editorContext.domainName, this.editorContext.applicationName,
+            updatedApplication).subscribe((data) => {
 
-                      this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
-
-                      this.notificationCenter.post({
-                          name: 'SaveDomainConfig',
-                          title: 'Save Domain Configuration',
-                          message: 'Domain configuration changed successfully.',
-                          type: NotificationType.Success
-                      });
-
-                      observer.next({});
-
-          }, (error) => {
-
-              this.logger.error(LOG_TAG , 'setDomain error: ', error);
+              this.logger.debug(LOG_TAG, 'Current application: ', this.editorContext.domainName, this._currentApplication.name);
 
               this.notificationCenter.post({
-                  name: 'SaveDomainConfigError',
-                  title: 'Save Domain Configuration',
-                  message: 'Error saving domain configuration:',
+                  name: 'SaveApplicationConfig',
+                  title: 'Save Application Configuration',
+                  message: 'Application configuration changed successfully.',
+                  type: NotificationType.Success
+              });
+
+              observer.next({});
+
+            }, (error) => {
+
+              this.logger.error(LOG_TAG , 'save Application error: ', error);
+
+              this.notificationCenter.post({
+                  name: 'SaveApplicationConfigError',
+                  title: 'Save Application Configuration',
+                  message: 'Error saving application configuration:',
                   type: NotificationType.Error,
                   error: error
               });
 
               observer.error(error);
 
-          });
+            });
+
       });
-      */
+  }
+
+  private fromModel(): ApplicationUpdate {
+    const changedProperties: WCPropertyEditorItem[] = this.getChangedProperties();
+
+    const changedProps: Property[] = [];
+    for (let i = 0 ; i < changedProperties.length; i++) {
+      const property = {
+        key : changedProperties[i].field,
+        value: changedProperties[i].value
+      };
+      changedProps.push(property);
+    }
+
+    const application: ApplicationUpdate = {
+      properties: changedProps
+    };
+
+    const descriptionProperty: WCPropertyEditorItem = this.getPropertyItem('description').value;
+    const categoryProperty: WCPropertyEditorItem = this.getPropertyItem('category').value;
+
+    if (descriptionProperty.valueChanged) {
+      application.description = descriptionProperty.value;
+    }
+
+    if (categoryProperty.valueChanged) {
+      application.category = categoryProperty.value;
+    }
+
+    return application;
+  }
+
+  private toModel(application: Application): void {
+    this.getPropertyItem('description').value = application.description;
+    this.getPropertyItem('offline').value = application.offline;
+    this.getPropertyItem('otpExpiry').value = application.otpExpiry;
+    this.getPropertyItem('otpFormat').value = application.otpFormat;
+    this.getPropertyItem('otpLength').value = application.otpLength;
+    this.getPropertyItem('otpReuse').value = application.otpReuse;
+    this.getPropertyItem('otpMaxFailures').value = application.otpMaxFailures;
+    this.getPropertyItem('allowMultipleSessions').value = application.allowMultipleSessions;
+    this.getPropertyItem('instanceKeyLength').value = application.instanceKeyLength;
+    this.getPropertyItem('allowMultipleInstall').value = application.allowMultipleInstall;
+    this.getPropertyItem('passwordHistory').value = application.passwordHistory;
+    this.getPropertyItem('passwordExpiry').value = application.passwordExpiry;
+    this.getPropertyItem('passwordFormat').value = application.passwordFormat;
+    this.getPropertyItem('passwordMaxFailures').value = application.passwordMaxFailures;
+    this.getPropertyItem('registerUser').value = application.registerUser;
+    this.getPropertyItem('registerPasswd').value = application.registerPasswd;
+    this.getPropertyItem('needsActivation').value = application.needsActivation;
+    this.getPropertyItem('verifyClientIp').value = application.verifyClientIp;
+    this.getPropertyItem('viperaSerialFormat').value = application.viperaSerialFormat;
+    this.getPropertyItem('viperaSerialLength').value = application.viperaSerialLength;
+    this.getPropertyItem('userIdFormat').value = application.userIdFormat;
+    this.getPropertyItem('userIdLength').value = application.userIdLength;
   }
 
   private refreshApplicationInfo(domainName: string, applicationName: string) {
@@ -269,28 +322,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
           this.applicationService.getApplication(domainName, applicationName).subscribe((application: Application) => {
               this._currentApplication = application;
 
-              this.getPropertyItem('description').value = application.description;
-              this.getPropertyItem('offline').value = application.offline;
-              this.getPropertyItem('otpExpiry').value = application.otpExpiry;
-              this.getPropertyItem('otpFormat').value = application.otpFormat;
-              this.getPropertyItem('otpLength').value = application.otpLength;
-              this.getPropertyItem('otpReuse').value = application.otpReuse;
-              this.getPropertyItem('otpMaxFailures').value = application.otpMaxFailures;
-              this.getPropertyItem('allowMultipleSessions').value = application.allowMultipleSessions;
-              this.getPropertyItem('instanceKeyLength').value = application.instanceKeyLength;
-              this.getPropertyItem('allowMultipleApps').value = application.allowMultipleInstall;
-              this.getPropertyItem('passwordHistory').value = application.passwordHistory;
-              this.getPropertyItem('passwordExpiry').value = application.passwordExpiry;
-              this.getPropertyItem('passwordFormat').value = application.passwordFormat;
-              this.getPropertyItem('maxLoginFailures').value = application.passwordMaxFailures;
-              this.getPropertyItem('registerUser').value = application.registerUser;
-              this.getPropertyItem('registerPassword').value = application.registerPasswd;
-              this.getPropertyItem('userActivation').value = application.needsActivation;
-              this.getPropertyItem('verifyClientIp').value = application.verifyClientIp;
-              this.getPropertyItem('viperaSerialFormat').value = application.viperaSerialFormat;
-              this.getPropertyItem('viperaSerialLength').value = application.viperaSerialLength;
-              this.getPropertyItem('userIdFormat').value = application.userIdFormat;
-              this.getPropertyItem('userIdLength').value = application.userIdLength;
+              this.toModel(application);
 
               this.logger.debug(LOG_TAG, 'Current application: ', this._currentApplication);
 

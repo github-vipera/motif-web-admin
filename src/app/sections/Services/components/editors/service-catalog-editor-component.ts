@@ -134,7 +134,11 @@ export class ServiceCataglogEditorComponent implements OnInit {
     }
 
     onSaveButtonClick(event) {
-        this._domainEditor.saveChanges();
+        if (this.editorContext.editingType === EditingType.Domain) {
+            this._domainEditor.saveChanges();
+        } else if (this.editorContext.editingType === EditingType.Application) {
+            this._applicationEditor.saveChanges();
+        }
     }
 
     onReloadButtonClick(event) {
