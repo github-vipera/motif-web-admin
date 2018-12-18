@@ -227,7 +227,8 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
           const updatedApplication = this.fromModel();
 
-          this.applicationService.updateApplication(this.editorContext.domainName, this.editorContext.applicationName,
+          this.applicationService.updateApplication(this.editorContext.domainName, 
+            this.editorContext.applicationName,
             updatedApplication).subscribe((data) => {
 
               this.logger.debug(LOG_TAG, 'Current application: ', this.editorContext.domainName, this._currentApplication.name);
