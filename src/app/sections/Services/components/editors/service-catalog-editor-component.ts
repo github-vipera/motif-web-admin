@@ -3,6 +3,7 @@ import { NGXLogger } from 'web-console-core';
 import { DomainEditorComponent } from './domain/domain-editor-component';
 import { EditingType, EditorContext } from './service-catalog-editor-context';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { BaseEditorComponent } from './base-editor-component'
 
 const LOG_TAG = '[ServicesCatalogEditor]';
 
@@ -14,12 +15,12 @@ const LOG_TAG = '[ServicesCatalogEditor]';
 export class ServiceCataglogEditorComponent implements OnInit {
 
     faCircleNotch = faCircleNotch;
-    
+
     private _editorContext: EditorContext;
     private _title = 'No selection.';
     loading: boolean;
 
-    @ViewChild('domainEditor') _domainEditor: DomainEditorComponent;
+    @ViewChild('domainEditor') _domainEditor: BaseEditorComponent;
 
     constructor(private logger: NGXLogger,
         private changeDetector : ChangeDetectorRef) {
@@ -132,8 +133,13 @@ export class ServiceCataglogEditorComponent implements OnInit {
         alert('Save Clicked!');
     }
 
-    onRefreshButtonClick(event) {
-        alert('Save Clicked!');
+    onReloadButtonClick(event) {
+        this._domainEditor.discardChanges();
+    }
+
+    onLoading(loading: boolean) {
+        this.logger.debug(LOG_TAG, 'onLoading: ', loading);
+        this.loading = loading;
     }
 
 }

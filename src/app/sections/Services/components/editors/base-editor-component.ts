@@ -6,6 +6,8 @@ import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center'
 import { EditorContext } from './service-catalog-editor-context';
 
+const LOG_TAG = '[BaseEditorComponent]';
+
 export abstract class BaseEditorComponent  {
 
     private _currentEditorContext: EditorContext;
@@ -16,9 +18,8 @@ export abstract class BaseEditorComponent  {
     @Output() public startSaving: EventEmitter<any> = new EventEmitter();
     @Output() public endSaving: EventEmitter<any> = new EventEmitter();
 
-    constructor(private logger: NGXLogger,
-        private domainService: DomainsService,
-        private notificationCenter: NotificationCenter) {
+    constructor(public logger: NGXLogger,
+        public notificationCenter: NotificationCenter) {
     }
 
     @Input()
@@ -42,7 +43,13 @@ export abstract class BaseEditorComponent  {
     }
 
     public discardChanges() {
-        this.doRefreshData(this._currentEditorContext);
+        this.logger.debug(LOG_TAG, 'discardChanges called.');
+        this.startLoading.emit();
+        this.doRefreshData(this._currentEditorContext).subscribe((data) => {
+            this.endLoading.emit();
+        }, (error) => {
+            this.endLoading.emit();
+        });
     }
 
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;

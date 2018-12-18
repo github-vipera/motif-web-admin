@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
 import { EditorContext } from '../service-catalog-editor-context';
+import { BaseEditorComponent } from '../base-editor-component'
+import { Observable } from 'rxjs';
 
 const LOG_TAG = '[ServicesSectionDomainEditor]';
 
@@ -12,7 +14,7 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
     styleUrls: ['./domain-editor-component.scss'],
     templateUrl: './domain-editor-component.html'
 })
-export class DomainEditorComponent implements OnInit {
+export class DomainEditorComponent extends BaseEditorComponent implements OnInit {
 
     public propertyModel: WCPropertyEditorModel = {
         items: [
@@ -26,17 +28,10 @@ export class DomainEditorComponent implements OnInit {
     };
 
     private _currentDomain: Domain;
-    private _currentEditorContext: EditorContext;
-
-    @Output() public startLoading: EventEmitter<any> = new EventEmitter();
-    @Output() public endLoading: EventEmitter<any> = new EventEmitter();
-
-    @Output() public startSaving: EventEmitter<any> = new EventEmitter();
-    @Output() public endSaving: EventEmitter<any> = new EventEmitter();
-
-    constructor(private logger: NGXLogger,
-        private domainService: DomainsService,
-        private notificationCenter: NotificationCenter) {
+    constructor(public logger: NGXLogger,
+        public domainService: DomainsService,
+        public notificationCenter: NotificationCenter) {
+            super(logger, notificationCenter);
     }
 
     /**
@@ -46,53 +41,52 @@ export class DomainEditorComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
+    doRefreshData(editorContext: EditorContext): Observable<any> {
+        return this.refreshDomainInfo(editorContext.domainName);
+    }
+
+    doSaveChanges(editorContext: EditorContext): Observable<any> {
+        return null;
+    }
+
     private refreshDomainInfo(domainName: string) {
-        this.startLoading.emit();
-        this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
-        this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
-            this._currentDomain = domain;
-            this.propertyModel = {
-                items: [
-                    {
-                        name: 'Description',
-                        field: 'description',
-                        type: WCPropertyEditorItemType.String,
-                        value: domain.description
-                    }
-                ]
-            };
-            this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
-            this.endLoading.emit();
+        return new Observable((observer) => {
 
-        }, (error) => {
+            this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
+            this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
+                this._currentDomain = domain;
+                this.propertyModel = {
+                    items: [
+                        {
+                            name: 'Description',
+                            field: 'description',
+                            type: WCPropertyEditorItemType.String,
+                            value: domain.description
+                        }
+                    ]
+                };
+                this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
 
-            this.logger.error(LOG_TAG , 'setDomain error: ', error);
+                observer.next({});
 
-            this.notificationCenter.post({
-                name: 'LoadDomainConfigError',
-                title: 'Load Domain COnfiguration',
-                message: 'Error loading domain configuration:',
-                type: NotificationType.Error,
-                error: error
+            }, (error) => {
+
+                this.logger.error(LOG_TAG , 'setDomain error: ', error);
+
+                this.notificationCenter.post({
+                    name: 'LoadDomainConfigError',
+                    title: 'Load Domain COnfiguration',
+                    message: 'Error loading domain configuration:',
+                    type: NotificationType.Error,
+                    error: error
+                });
+
+                observer.error(error);
+
             });
-
-            this.endLoading.emit();
 
         });
     }
 
-    @Input()
-    public set editorContext(editorContext: EditorContext) {
-        this._currentEditorContext = editorContext;
-        this.refreshDomainInfo(editorContext.domainName);
-    }
-
-    public saveChanges() {
-        //TODO!!
-    }
-
-    public discardChanges() {
-        this.refreshDomainInfo(this._currentEditorContext.domainName);
-    }
 
 }
