@@ -130,7 +130,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
     }
 
     onSaveButtonClick(event) {
-        alert('Save Clicked!');
+        this._domainEditor.saveChanges();
     }
 
     onReloadButtonClick(event) {

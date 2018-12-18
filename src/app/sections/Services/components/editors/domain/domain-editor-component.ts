@@ -28,6 +28,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
     };
 
     private _currentDomain: Domain;
+
     constructor(public logger: NGXLogger,
         public domainService: DomainsService,
         public notificationCenter: NotificationCenter) {
@@ -46,7 +47,32 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
     }
 
     doSaveChanges(editorContext: EditorContext): Observable<any> {
-        return null;
+        return new Observable((observer) => {
+
+            this.logger.debug(LOG_TAG, 'Saving changes on domain: ', this._currentDomain.name);
+            this.domainService.updateDomain(this._currentDomain.name,
+                    { 'description' : this.propertyModel.items[0].value }).subscribe((data) => {
+
+                        this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
+                        observer.next({});
+
+            }, (error) => {
+
+                this.logger.error(LOG_TAG , 'setDomain error: ', error);
+
+                this.notificationCenter.post({
+                    name: 'SaveDomainConfigError',
+                    title: 'Save Domain Configuration',
+                    message: 'Error saving domain configuration:',
+                    type: NotificationType.Error,
+                    error: error
+                });
+
+                observer.error(error);
+
+            });
+        });
+
     }
 
     private refreshDomainInfo(domainName: string) {
@@ -75,7 +101,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
 
                 this.notificationCenter.post({
                     name: 'LoadDomainConfigError',
-                    title: 'Load Domain COnfiguration',
+                    title: 'Load Domain Configuration',
                     message: 'Error loading domain configuration:',
                     type: NotificationType.Error,
                     error: error
