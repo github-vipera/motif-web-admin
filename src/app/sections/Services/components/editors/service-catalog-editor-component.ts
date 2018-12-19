@@ -23,6 +23,7 @@ export class ServiceCataglogEditorComponent implements OnInit {
 
     @ViewChild('domainEditor') _domainEditor: BaseEditorComponent;
     @ViewChild('applicationEditor') _applicationEditor: BaseEditorComponent;
+    @ViewChild('applicationEditor') _serviceEditor: BaseEditorComponent;
 
     @Output() changesSaved: EventEmitter<ServiceCatalogEditorChangesEvent> = new EventEmitter();
 
@@ -138,6 +139,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             this._domainEditor.saveChanges();
         } else if (this.editorContext.editingType === EditingType.Application) {
             this._applicationEditor.saveChanges();
+        } else if (this.editorContext.editingType === EditingType.Service) {
+            this._serviceEditor.saveChanges();
         }
     }
 
@@ -146,6 +149,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             this._domainEditor.discardChanges();
         } else if (this.editorContext.editingType === EditingType.Application) {
             this._applicationEditor.discardChanges();
+        } else if (this.editorContext.editingType === EditingType.Service) {
+            this._serviceEditor.discardChanges();
         }
     }
 

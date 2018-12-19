@@ -243,6 +243,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
               });
 
               observer.next({});
+              observer.complete();
 
             }, (error) => {
 
@@ -332,7 +333,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     this.getPropertyItem('userIdLength').value = application.userIdLength;
   }
 
-  private refreshApplicationInfo(domainName: string, applicationName: string) {
+  private refreshApplicationInfo(domainName: string, applicationName: string): Observable<any> {
       return new Observable((observer) => {
 
           this.logger.debug(LOG_TAG, 'Selected domain and application ', domainName, applicationName);
@@ -344,6 +345,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
               this.logger.debug(LOG_TAG, 'Current application: ', this._currentApplication);
 
               observer.next(null);
+              observer.complete();
 
           }, (error) => {
 

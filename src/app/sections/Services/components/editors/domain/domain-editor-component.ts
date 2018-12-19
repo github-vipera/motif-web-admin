@@ -67,6 +67,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                         });
 
                         observer.next({});
+                        observer.complete();
 
             }, (error) => {
 
@@ -106,6 +107,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                 this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
 
                 observer.next(null);
+                observer.complete();
 
             }, (error) => {
 
