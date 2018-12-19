@@ -90,8 +90,10 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {
-      // tslint:disable-next-line:max-line-length
-      return this.refreshServiceInfo(editorContext.domainName, editorContext.applicationName, editorContext.serviceName, editorContext.channel);
+      return this.refreshServiceInfo(editorContext.domainName,
+        editorContext.applicationName,
+        editorContext.serviceName,
+        editorContext.channel);
     }
 
     doSaveChanges(editorContext: EditorContext): Observable<any> {
