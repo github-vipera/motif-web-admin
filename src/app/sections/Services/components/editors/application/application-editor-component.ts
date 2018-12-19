@@ -40,11 +40,11 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
             field: 'offline',
             type: WCPropertyEditorItemType.Boolean,
             value: false,
-            linkTo: ['offlineMessage']
+            linkTo: ['category']
           },
           {
             name: 'Offline Message',
-            field: 'offlineMessage',
+            field: 'category',
             type: WCPropertyEditorItemType.List,
             value: '',
             listValues: ['Uno', 'Due', 'Tre', 'Quattro', 'Cinque'],
@@ -227,11 +227,13 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
           const updatedApplication = this.fromModel();
 
-          this.applicationService.updateApplication(this.editorContext.domainName, 
+          this.logger.debug(LOG_TAG, 'application update: ', updatedApplication);
+
+          this.applicationService.updateApplication(this.editorContext.domainName,
             this.editorContext.applicationName,
             updatedApplication).subscribe((data) => {
 
-              this.logger.debug(LOG_TAG, 'Current application: ', this.editorContext.domainName, this._currentApplication.name);
+              this.logger.debug(LOG_TAG, 'Updated application: ', this.editorContext.domainName, this._currentApplication.name, data);
 
               this.notificationCenter.post({
                   name: 'SaveApplicationConfig',
@@ -262,23 +264,31 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
   }
 
   private fromModel(): ApplicationUpdate {
+    this.logger.debug(LOG_TAG, 'fromModel called.');
+
     const changedProperties: WCPropertyEditorItem[] = this.getChangedProperties();
+
+    this.logger.trace(LOG_TAG, 'fromModel changedProperties:', changedProperties);
 
     const changedProps: Property[] = [];
     for (let i = 0 ; i < changedProperties.length; i++) {
-      const property = {
-        key : changedProperties[i].field,
-        value: changedProperties[i].value
-      };
-      changedProps.push(property);
+      const changedProperty = changedProperties[i];
+      if ((changedProperty.field !== 'description') && (changedProperty.field !== 'category')) {
+        const property = {
+          key : changedProperty.field,
+          value: changedProperty.value
+        };
+        changedProps.push(property);
+      } else {
+        this.logger.debug(LOG_TAG, 'fromModel discarded field >>>>', changedProperty);
+      }
     }
 
     const application: ApplicationUpdate = {
-      properties: changedProps
     };
 
-    const descriptionProperty: WCPropertyEditorItem = this.getPropertyItem('description').value;
-    const categoryProperty: WCPropertyEditorItem = this.getPropertyItem('category').value;
+    const descriptionProperty: WCPropertyEditorItem = this.getPropertyItem('description');
+    const categoryProperty: WCPropertyEditorItem = this.getPropertyItem('category');
 
     if (descriptionProperty.valueChanged) {
       application.description = descriptionProperty.value;
@@ -287,6 +297,12 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     if (categoryProperty.valueChanged) {
       application.category = categoryProperty.value;
     }
+
+    if (changedProps.length > 0) {
+      application.properties = changedProps;
+    }
+
+    this.logger.debug(LOG_TAG, 'fromModel updateApp: ', application);
 
     return application;
   }

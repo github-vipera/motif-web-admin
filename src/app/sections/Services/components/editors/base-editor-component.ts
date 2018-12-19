@@ -67,7 +67,7 @@ export abstract class BaseEditorComponent  {
 
     protected getPropertyItem(field: string): WCPropertyEditorItem {
         const items: WCPropertyEditorItem[] = this.propertyModel.items;
-        for (let i = 0; i< items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             if (items[i].field === field) {
                 return items[i];
             }
