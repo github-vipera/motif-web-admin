@@ -13,6 +13,7 @@ export interface EditorContext {
     applicationName?: string;
     serviceName?: string;
     operationName?: string;
+    channel?: string;
     userdata?: any;
     editingType: EditingType;
 }

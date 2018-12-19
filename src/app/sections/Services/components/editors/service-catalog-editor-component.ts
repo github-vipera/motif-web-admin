@@ -63,29 +63,36 @@ export class ServiceCataglogEditorComponent implements OnInit {
         this.changeDetector.detectChanges();
     }
 
-    public startEditService(domainName: string, applicationName: string, serviceName: string): void {
+    public startEditService(domainName: string,
+        applicationName: string, serviceName: string, channel: string): void {
         this._editorContext = {
             domainName: domainName,
             applicationName: applicationName,
             serviceName: serviceName,
-            editingType: EditingType.Service
+            editingType: EditingType.Service,
+            channel: channel
         };
         this.logger.debug(LOG_TAG, 'startEditService: ', this._editorContext);
         this.setTitle('Service \''  + serviceName + '\'');
-        // TODO!!
+        this.changeDetector.detectChanges();
     }
 
-    public startEditOperation(domainName: string, applicationName: string, serviceName: string, operationName: string): void {
+    public startEditOperation(domainName: string, 
+        applicationName: string,
+        serviceName: string,
+        channel: string,
+        operationName: string): void {
         this._editorContext = {
             domainName: domainName,
             applicationName: applicationName,
             serviceName: serviceName,
             operationName: operationName,
+            channel: channel,
             editingType: EditingType.Operation
         };
         this.logger.debug(LOG_TAG, 'startEditOperation: ', this._editorContext);
         this.setTitle('Operation \'' + operationName + '\'');
-        // TODO!!
+        this.changeDetector.detectChanges();
     }
 
     public get editorContext(): EditorContext {

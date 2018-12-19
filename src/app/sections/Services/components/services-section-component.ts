@@ -112,13 +112,15 @@ export class ServicesSectionComponent implements OnInit {
         } else if (nodeType === 'Application') {
             this._servicesEditor.startEditApplication(catalogEntry.domain, catalogEntry.application);
         } else if (nodeType === 'Service') {
-            this._servicesEditor.startEditService(catalogEntry.domain, 
+            this._servicesEditor.startEditService(catalogEntry.domain,
                 catalogEntry.application,
-                catalogEntry.service);
+                catalogEntry.service,
+                catalogEntry.channel);
         } else if (nodeType === 'Operation') {
             this._servicesEditor.startEditOperation(catalogEntry.domain,
                 catalogEntry.application,
                 catalogEntry.service,
+                catalogEntry.channel,
                 catalogEntry.operation);
         }
     }

@@ -50,7 +50,8 @@ export class ServiceCatalogTableModel {
                     domain: ( domain ? domain.name : null),
                     application: ( application ? application.name : null),
                     service: ( service ? service.name : null),
-                    operation: ( operation ? operation.name : null)
+                    operation: ( operation ? operation.name : null),
+                    channel: channel
                 }
             },
             children: []
