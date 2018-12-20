@@ -135,12 +135,28 @@ export class ServicesSectionComponent implements OnInit {
 
     public onChangesSaved(event: ServiceCatalogEditorChangesEvent) {
         this.logger.debug(LOG_TAG, 'onChangesSaved: ', event);
-        if (event.context.editingType === EditingType.Domain) {
-            this.handleChangesForDomain(event);
-        }
-        // TODO!! update the table model without reloading it
+        this.handleChanges(event);
     }
 
+    private handleChanges(event: ServiceCatalogEditorChangesEvent) {
+        const description = event.model.items[0].value;
+        let treeNode: TreeNode;
+        if (event.context.editingType === EditingType.Domain) {
+            treeNode = this.tableModel.getDomainNode(event.context.domainName);
+        } else if (event.context.editingType === EditingType.Application) {
+            treeNode = this.tableModel.getApplicationNode(event.context.domainName, event.context.applicationName);
+        } else if (event.context.editingType === EditingType.Operation) {
+            treeNode = this.tableModel.getOperationNode(event.context.domainName, 
+                event.context.applicationName,
+                event.context.serviceName,
+                event.context.operationName);
+        }
+        if (treeNode) {
+            treeNode.data.description = description;
+        }
+    }
+
+    /*
     private handleChangesForDomain(event: ServiceCatalogEditorChangesEvent) {
         const domainName = event.context.domainName;
         const description = event.model.items[0].value;
@@ -148,7 +164,7 @@ export class ServicesSectionComponent implements OnInit {
         if (treeNode) {
             treeNode.data.description = description;
         }
-
     }
+    */
 
 }

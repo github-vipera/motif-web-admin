@@ -108,12 +108,53 @@ export class ServiceCatalogTableModel {
     }
 
     public getDomainNode(domainName: string): TreeNode {
-        for (let i = 0; i < this._model.length; i++) {
-            const treeNode: TreeNode = this._model[i];
-            if (treeNode.data.name === domainName) {
+        const domainNodes = this.getDomainNodes();
+        return this.getChildNodeByName(domainNodes, domainName);
+    }
+
+    public getApplicationNode(domainName: string, applicationName: string): TreeNode {
+        const applicationNodes = this.getDomainNode(domainName).children;
+        return this.getChildNodeByName(applicationNodes, applicationName);
+    }
+
+    public getServiceNode(domainName: string, applicationName: string, serviceName: string): TreeNode {
+        const servicesNodes = this.getApplicationNode(domainName, applicationName).children;
+        return this.getChildNodeByName(servicesNodes, serviceName);
+    }
+
+    public getOperationNode(domainName: string, applicationName: string, serviceName: string, operationName: string): TreeNode {
+        const operationsNodes = this.getServiceNode(domainName, applicationName, serviceName).children;
+        return this.getChildNodeByName(operationsNodes, operationName);
+    }
+
+    private getChildNodeByName(nodes: TreeNode[], childNodeName: string): TreeNode {
+        for (let i = 0; i < nodes.length; i++) {
+            const treeNode: TreeNode = nodes[i];
+            if (treeNode.data.name === childNodeName) {
                 return treeNode;
             }
         }
         return null;
     }
+
+
+    public getDomainNodes(): TreeNode[] {
+        const ret = [];
+        for (let i = 0; i < this._model.length; i++) {
+            const treeNode: TreeNode = this._model[i];
+            ret.push(treeNode);
+        }
+        return ret;
+    }
+
+    public getApplicationNodes(): TreeNode[] {
+        const ret = [];
+        const domainNodes = this.getDomainNodes();
+        for (let i = 0; i < domainNodes.length; i++) {
+            const domainNode = domainNodes[i];
+            ret.push( domainNode.children );
+        }
+        return ret;
+     }
+
 }
