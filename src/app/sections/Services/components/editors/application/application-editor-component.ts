@@ -6,7 +6,7 @@ import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
-import { ApplicationsService, ApplicationsList, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
+import { ApplicationsService, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';

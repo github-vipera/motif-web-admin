@@ -5,7 +5,7 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
-import { OperationsService, ServiceOperation } from '@wa-motif-open-api/catalog-service';
+import { OperationsService, ServiceOperation, ServiceOperationProperties } from '@wa-motif-open-api/catalog-service';
 
 const LOG_TAG = '[OperationSectionServiceEditor]';
 
@@ -51,7 +51,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
           },
           {
             name: 'Session-less',
-            field: 'sessionLess',
+            field: 'sessionless',
             type: WCPropertyEditorItemType.Boolean,
             value: false
           },
@@ -96,8 +96,49 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
   }
 
   doSaveChanges(editorContext: EditorContext): Observable<any> {
-    // TODO!!
-    return null;
+    return new Observable((observer) => {
+
+      this.logger.debug(LOG_TAG, 'Saving changes on operation: ', this.editorContext);
+
+      const updatedOperation = this.fromModel();
+
+      const properties: ServiceOperationProperties = this.fromModel();
+
+      this.logger.debug(LOG_TAG, 'operation update: ', properties);
+      this.operationsService.updateServiceOperation(this.editorContext.channel,
+        this.editorContext.domainName,
+        this.editorContext.applicationName,
+        this.editorContext.serviceName, this.editorContext.operationName, properties).subscribe( (data) => {
+
+          this.logger.debug(LOG_TAG, 'Updated operation: ', this.editorContext, data);
+
+          this.notificationCenter.post({
+              name: 'SaveOperationConfig',
+              title: 'Save Operation Configuration',
+              message: 'Operation configuration changed successfully.',
+              type: NotificationType.Success
+          });
+
+          observer.next({});
+          observer.complete();
+
+      }, (error) => {
+
+        this.logger.error(LOG_TAG , 'save Operation error: ', error);
+
+        this.notificationCenter.post({
+            name: 'SaveOperationConfigError',
+            title: 'Save Operation Configuration',
+            message: 'Error saving operation configuration:',
+            type: NotificationType.Error,
+            error: error
+        });
+
+        observer.error(error);
+
+      });
+
+    });
   }
 
   private refreshOperationInfo(domainName: string,
@@ -156,6 +197,20 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
     } catch (ex) {
       this.logger.error(LOG_TAG, 'toModel error: ', ex);
     }
+  }
+
+  private fromModel(): ServiceOperationProperties {
+    const ret: ServiceOperationProperties = {
+      description : this.getPropertyItem('description').value,
+      encryptActive : this.getPropertyItem('encryptActive').value,
+      counted : this.getPropertyItem('counted').value,
+      pluginName : this.getPropertyItem('pluginName').value,
+      secure : this.getPropertyItem('secure').value,
+      sessionless : this.getPropertyItem('sessionless').value,
+      inputParams : this.getPropertyItem('inputParams').value,
+      outputParams : this.getPropertyItem('outputParams').value
+    };
+    return ret;
   }
 
 }
