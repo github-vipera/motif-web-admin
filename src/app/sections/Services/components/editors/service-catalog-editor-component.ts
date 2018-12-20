@@ -77,12 +77,13 @@ export class ServiceCataglogEditorComponent implements OnInit {
         this.changeDetector.detectChanges();
     }
 
-    public startEditOperation(domainName: string, 
+    public startEditOperation(domainName: string,
         applicationName: string,
         serviceName: string,
         channel: string,
         operationName: string): void {
-        this._editorContext = {
+        this.logger.debug(LOG_TAG, 'startEditOperation called for ', domainName, applicationName, serviceName, channel, operationName);
+            this._editorContext = {
             domainName: domainName,
             applicationName: applicationName,
             serviceName: serviceName,

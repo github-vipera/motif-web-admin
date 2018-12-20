@@ -45,7 +45,17 @@
             (endSavingWithError)='isBusy=false'
         ></wa-services-service-editor>
 
-        <wa-services-operation-editor *ngIf="isOperationEditing()" #operationEditor></wa-services-operation-editor>
+        <wa-services-operation-editor 
+        #operationEditor
+        *ngIf="isOperationEditing()" 
+        [editorContext]="editorContext" 
+        (startLoading)='isBusy=true'
+        (endLoading)='isBusy=false'
+        (endSaving)='onDataSaved($event);isBusy=false;'
+        (startSaving)='isBusy=true'
+        (endSavingWithError)='isBusy=false'
+        ></wa-services-operation-editor>
+    
     </div>
 
 
