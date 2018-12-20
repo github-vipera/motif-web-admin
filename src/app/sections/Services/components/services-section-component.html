@@ -2,13 +2,17 @@
 
 <div class="row spread">
   <div class="flex-toolbar" style="display:flex;align-items: center;">
-    <kendo-textbox-container floatingLabel="Filter">
-      <input
-        #filterInput
-        kendoTextBox
-        (afterValueChanged)="onFilterChange($event)"
-      />
-    </kendo-textbox-container>
+      <kendo-dropdownbutton [data]="addActions" look="flat" [icon]="'plus'">
+      Add...
+      </kendo-dropdownbutton>
+      <kendo-buttongroup look="flat">
+          <button kendoButton [disabled]="!deleteButtonEnabled" [toggleable]="false" [icon]="'delete'" #deleteButton>{{deleteButtonCaption}}</button>
+          <!--
+          <button kendoButton [toggleable]="false" [icon]="'save'" >Add Domain</button>
+          <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" >Remove Domain</button>
+          <button kendoButton [toggleable]="false" [icon]="'filter-add-expression'" >Add Service</button>
+          -->
+      </kendo-buttongroup>
   </div>
 
   <div class="flex-cmd">

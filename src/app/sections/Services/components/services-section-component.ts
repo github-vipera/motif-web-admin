@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
@@ -33,6 +33,16 @@ const LOG_TAG = '[ServicesSection]';
 })
 export class ServicesSectionComponent implements OnInit {
 
+    addActions: Array<any> = [{
+        text: 'Add Domain'
+    }, {
+        text: 'Add Application'
+    }, {
+        text: 'Add Service'
+    }, {
+        text: 'Add Operation'
+    }];
+
     faGlobe = faGlobe;
     faBoxOpen = faBoxOpen;
     faArchive = faArchive;
@@ -46,12 +56,16 @@ export class ServicesSectionComponent implements OnInit {
 
     selectedNode: TreeNode;
 
+    deleteButtonCaption = 'Delete selected Domain ';
+    deleteButtonEnabled: boolean;
+
     @Input() tableModel: ServiceCatalogTableModel;
 
     public loading: boolean;
     private _currentRowElement: any;
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
+    @ViewChild('deleteButton') _deleteButton: ElementRef;
 
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
@@ -123,6 +137,21 @@ export class ServicesSectionComponent implements OnInit {
                 catalogEntry.channel,
                 catalogEntry.operation);
         }
+        this.updateCommands(nodeType);
+    }
+
+    private updateCommands(nodeType: string) {
+        if (nodeType === 'Domain') {
+            this.deleteButtonCaption = 'Delete selected Domain';
+        } else if (nodeType === 'Application') {
+            this.deleteButtonCaption = 'Delete selected Application';
+        } else if (nodeType === 'Service') {
+            this.deleteButtonCaption = 'Delete selected Service';
+        } else if (nodeType === 'Operation') {
+            this.deleteButtonCaption = 'Delete selected Operation';
+        }
+
+        this.deleteButtonEnabled = true;
     }
 
     nodeUnselect(event) {

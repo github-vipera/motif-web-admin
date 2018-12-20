@@ -19,6 +19,7 @@ import { ServiceEditorComponent } from './components/editors/service/service-edi
 import { OperationEditorComponent } from './components/editors/operation/operation-editor-component';
 import { DialogModule } from 'primeng/dialog';
 import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { OfflineMessagesSettingsComponent } from './components/editors/commons/o
         WebAdminCommonServicesModule,
         TreeTableModule,
         LayoutModule,
-        DialogModule
+        DialogModule,
+        ButtonsModule
     ],
     entryComponents: [
         ServicesSectionComponent
