@@ -1,4 +1,4 @@
-<p-contextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]='wc-context-menu'></p-contextMenu>
+<p-contextMenu #tableContextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]='wc-context-menu'></p-contextMenu>
 
 <wc-dashboard-header [title]="'Services'"></wc-dashboard-header>
 
@@ -43,6 +43,7 @@
           dataKey="id"
           (onNodeSelect)="nodeSelect($event)"
           (onNodeUnselect)="nodeUnselect($event)"
+          [(contextMenuSelection)]="selectedNode" [contextMenu]="tableContextMenu"
         >
           <ng-template pTemplate="header" let-columns>
             <tr>
@@ -58,7 +59,7 @@
             let-rowData="rowData"
             let-columns="columns"
           >
-            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
+            <tr [ttRow]="rowNode" [ttContextMenuRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px" (contextmenu)="onRowClick($event)">
               <td class="service-catalog-row">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                 <i

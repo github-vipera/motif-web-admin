@@ -93,26 +93,31 @@ export class ServicesSectionComponent implements OnInit {
 
         this.menuItems = [
             {
-                label: 'File',
-                items: [{
-                        label: 'New', 
-                        icon: 'pi pi-fw pi-plus',
-                        items: [
-                            {label: 'Project'},
-                            {label: 'Other'},
-                        ]
+                label: 'New...',
+                items: [
+                    {
+                        label: 'New Domain',
+                        command: (event) => { this.onAddDomainClick(); }
                     },
-                    {label: 'Open'},
-                    {label: 'Quit'}
+                    {
+                        label: 'New Application',
+                        disabled: true,
+                        command: (event) => { this.onAddApplicationClick(); }
+                    },
+                    {
+                        label: 'New Service',
+                        command: (event) => { this.onAddApplicationClick(); }
+                    },
+                    {
+                        label: 'New Operation',
+                        command: (event) => { this.onAddApplicationClick(); }
+                    }
                 ]
             },
             {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {label: 'Delete', icon: 'pi pi-fw pi-trash'},
-                    {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
-                ]
+                label: 'Delete',
+                disabled: true,
+                command: (event) => { this.onDeleteSelectedNode(); }
             }
         ];
     }
@@ -254,4 +259,7 @@ export class ServicesSectionComponent implements OnInit {
         alert('onAddOperationClick');
     }
 
+    private onDeleteSelectedNode(): void {
+        alert('onDeleteSelectedNode: ' + this.selectedNode.data.name);
+    }
 }
