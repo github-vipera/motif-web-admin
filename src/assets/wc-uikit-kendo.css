@@ -200,3 +200,11 @@ kendo-popup {
     top: 0;
     margin: 0 4px 0 4px;
 }
+
+.dropdown-flat-button {
+    color: #ddd;
+}
+
+.k-list > li {
+    color: #ddd;
+}

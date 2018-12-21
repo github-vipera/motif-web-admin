@@ -20,6 +20,7 @@ import { OperationEditorComponent } from './components/editors/operation/operati
 import { DialogModule } from 'primeng/dialog';
 import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
         TreeTableModule,
         LayoutModule,
         DialogModule,
-        ButtonsModule
+        ButtonsModule,
+        ContextMenuModule
     ],
     entryComponents: [
         ServicesSectionComponent

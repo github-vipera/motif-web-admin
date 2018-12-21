@@ -24,6 +24,7 @@ import { ServicesSectionModule } from './sections/Services/ServicesSectionModule
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 
+
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: WebConsoleLoginComponent },
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     PluginsSectionModule,
     ServicesSectionModule,
     LayoutModule
+    
   ],
   providers: [ 
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 

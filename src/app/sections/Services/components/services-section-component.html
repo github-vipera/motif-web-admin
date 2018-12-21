@@ -1,12 +1,14 @@
+<p-contextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]='wc-context-menu'></p-contextMenu>
+
 <wc-dashboard-header [title]="'Services'"></wc-dashboard-header>
 
-<div class="row spread">
+<div class="row spread" #target>
   <div class="flex-toolbar" style="display:flex;align-items: center;">
-      <kendo-dropdownbutton [data]="addActions" look="flat" [icon]="'plus'">
-      Add...
+      <kendo-dropdownbutton class="dropdown-flat-button" [data]="addActions" look="flat" [icon]="'plus'">
+          Add...
       </kendo-dropdownbutton>
+      <button kendoButton look="flat" [disabled]="!deleteButtonEnabled" [toggleable]="false" [icon]="'delete'" #deleteButton>{{deleteButtonCaption}}</button>
       <kendo-buttongroup look="flat">
-          <button kendoButton [disabled]="!deleteButtonEnabled" [toggleable]="false" [icon]="'delete'" #deleteButton>{{deleteButtonCaption}}</button>
           <!--
           <button kendoButton [toggleable]="false" [icon]="'save'" >Add Domain</button>
           <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" >Remove Domain</button>
@@ -32,49 +34,51 @@
 <div class="row fill">
   <kendo-splitter>
     <kendo-splitter-pane>
-      <p-treeTable
-        [value]="tableModel.model"
-        [scrollable]="true"
-        selectionMode="single"
-        [(selection)]="selectedNode"
-        dataKey="id"
-        (onNodeSelect)="nodeSelect($event)"
-        (onNodeUnselect)="nodeUnselect($event)"
-      >
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Channel</th>
-          </tr>
-        </ng-template>
-        <ng-template
-          pTemplate="body"
-          let-rowNode
-          let-rowData="rowData"
-          let-columns="columns"
+      <div #servicetableContainer>
+        <p-treeTable #serviceTable
+          [value]="tableModel.model"
+          [scrollable]="true"
+          selectionMode="single"
+          [(selection)]="selectedNode"
+          dataKey="id"
+          (onNodeSelect)="nodeSelect($event)"
+          (onNodeUnselect)="nodeUnselect($event)"
         >
-          <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
-            <td class="service-catalog-row">
-              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-              <i
-                class="pi pi-fw {{rowData.nodeIcon}} node-icon-{{rowData.nodeType}}"
-              ></i>
-              <span
-                ><strong>{{ rowData.name }}</strong></span
-              >
-            </td>
-            <td class="service-catalog-row">{{ rowData.description }}</td>
-            <td class="service-catalog-row">{{ rowData.nodeType }}</td>
-            <td class="service-catalog-row">
-              <span class="channel-label badge-channel-{{rowData.channel}}">{{
-                rowData.channel
-              }}</span>
-            </td>
-          </tr>
-        </ng-template>
-      </p-treeTable>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Channel</th>
+            </tr>
+          </ng-template>
+          <ng-template
+            pTemplate="body"
+            let-rowNode
+            let-rowData="rowData"
+            let-columns="columns"
+          >
+            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
+              <td class="service-catalog-row">
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                <i
+                  class="pi pi-fw {{rowData.nodeIcon}} node-icon-{{rowData.nodeType}}"
+                ></i>
+                <span
+                  ><strong>{{ rowData.name }}</strong></span
+                >
+              </td>
+              <td class="service-catalog-row">{{ rowData.description }}</td>
+              <td class="service-catalog-row">{{ rowData.nodeType }}</td>
+              <td class="service-catalog-row">
+                <span class="channel-label badge-channel-{{rowData.channel}}">{{
+                  rowData.channel
+                }}</span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-treeTable>
+      </div>
     </kendo-splitter-pane>
 
     <kendo-splitter-pane [collapsible]="true" size="30%">

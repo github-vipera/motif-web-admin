@@ -1,0 +1,19 @@
+
+.ui-contextmenu {
+	background-color: #363F44;
+	font-size: 0.85rem;
+}
+
+
+.ui-submenu {
+	background-color: blue;
+}
+
+.ui-menu-list {
+	background-color: #363F44;
+}
+
+.ui-menuitem:hover {
+	background-color: rgb(45, 53, 57);
+}
+/*	ui-widget-content ui-corner-all ui-submenu-list ui-shadow */

@@ -34,7 +34,8 @@
               "src/assets/wc-uikit-form.css",
               "src/assets/wc-uikit-grid.css",
               "src/assets/wc-uikit-toast.css",
-              "src/assets/wc-uikit-dashboard.css"
+              "src/assets/wc-uikit-dashboard.css",
+              "src/assets/wc-uikit-primeng.css"
             ],
             "scripts": []
           },

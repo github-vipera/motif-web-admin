@@ -10,6 +10,7 @@ import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import {MenuItem} from 'primeng/api';
 
 import {
     GridComponent,
@@ -33,14 +34,31 @@ const LOG_TAG = '[ServicesSection]';
 })
 export class ServicesSectionComponent implements OnInit {
 
+    private menuItems: MenuItem[];
+
     addActions: Array<any> = [{
-        text: 'Add Domain'
+        text: 'Add Domain',
+        click: (dataItem) => {
+            this.onAddDomainClick();
+        }
     }, {
-        text: 'Add Application'
+        text: 'Add Application',
+        disabled: true,
+        click: (dataItem) => {
+            this.onAddApplicationClick();
+        }
     }, {
-        text: 'Add Service'
+        text: 'Add Service',
+        disabled: true,
+        click: (dataItem) => {
+            this.onAddServiceClick();
+        }
     }, {
-        text: 'Add Operation'
+        text: 'Add Operation',
+        disabled: true,
+        click: (dataItem) => {
+            this.onAddOperationClick();
+        }
     }];
 
     faGlobe = faGlobe;
@@ -73,6 +91,30 @@ export class ServicesSectionComponent implements OnInit {
         private notificationCenter: NotificationCenter) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
+        this.menuItems = [
+            {
+                label: 'File',
+                items: [{
+                        label: 'New', 
+                        icon: 'pi pi-fw pi-plus',
+                        items: [
+                            {label: 'Project'},
+                            {label: 'Other'},
+                        ]
+                    },
+                    {label: 'Open'},
+                    {label: 'Quit'}
+                ]
+            },
+            {
+                label: 'Edit',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    {label: 'Delete', icon: 'pi pi-fw pi-trash'},
+                    {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
+                ]
+            }
+        ];
     }
 
     /**
@@ -195,5 +237,21 @@ export class ServicesSectionComponent implements OnInit {
         }
     }
     */
+
+   private onAddDomainClick(): void {
+    alert('onAddDomainClick');
+   }
+
+   private onAddApplicationClick(): void {
+    alert('onAddApplicationClick');
+   }
+
+   private onAddServiceClick(): void {
+    alert('onAddServiceClick');
+   }
+
+    private onAddOperationClick(): void {
+        alert('onAddOperationClick');
+    }
 
 }
