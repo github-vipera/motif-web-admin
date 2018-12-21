@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
@@ -84,7 +84,7 @@ export class ServicesSectionComponent implements OnInit {
     private _currentRowElement: any;
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
-    @ViewChild('deleteButton') _deleteButton: ElementRef;
+    @ViewChild('addNewSlideDown') exportSlideDown:ElementRef;
 
     private _deleteMenuItem: MenuItem;
     private _addDomainMenuItem: MenuItem;
@@ -96,7 +96,9 @@ export class ServicesSectionComponent implements OnInit {
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
         private serviceCatalogService: ServiceCatalogService,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: NotificationCenter,
+        private renderer2: Renderer2,
+        ) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
         this._deleteMenuItem = {
@@ -205,7 +207,7 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     private updateCommands(nodeType: string) {
-        const deleteEnabled = false;
+        const deleteEnabled = true;
         const addDomainEnabled = true;
         let addApplicationEnabled = false;
         let addServiceEnabled = false;
@@ -281,19 +283,19 @@ export class ServicesSectionComponent implements OnInit {
 
 
    private onAddDomainClick(): void {
-    alert('onAddDomainClick');
+    this.slideDownAddPanel(true);
    }
 
    private onAddApplicationClick(): void {
-    alert('onAddApplicationClick');
+    this.slideDownAddPanel(true);
    }
 
    private onAddServiceClick(): void {
-    alert('onAddServiceClick');
+    this.slideDownAddPanel(true);
    }
 
     private onAddOperationClick(): void {
-        alert('onAddOperationClick');
+        this.slideDownAddPanel(true);
     }
 
     private onDeleteSelectedNode(): void {
@@ -308,5 +310,29 @@ export class ServicesSectionComponent implements OnInit {
     get selectedNode(): TreeNode {
         return this._selectedNode;
     }
+
+    onAddConfirm() {
+        this.slideDownAddPanel(false);
+        // TODO!!
+    }
+
+    onAddCancel() {
+        this.slideDownAddPanel(false);
+        // TODO!!
+    }
+
+        /**
+     * 
+     * @param show Show/Hide the new Application Pane
+     */
+    private slideDownAddPanel(show:boolean):void {
+        if (show) {
+            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
+        } else {
+            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
+        }
+    }
+
+
 
 }
