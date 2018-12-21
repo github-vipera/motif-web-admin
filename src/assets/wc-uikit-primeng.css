@@ -41,4 +41,14 @@
 .ui-menuitem-link.ui-state-disabled {
 	color: #666;
 }
+
+.ui-submenu-list {
+	background-color: #363F44;
+}
+
+
+/*
+ui-menu-list	List element.
+ui-menuitem
+*/
 /*	ui-widget-content ui-corner-all ui-submenu-list ui-shadow */

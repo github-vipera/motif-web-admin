@@ -72,7 +72,7 @@ export class ServicesSectionComponent implements OnInit {
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
 
-    selectedNode: TreeNode;
+    _selectedNode: TreeNode;
 
     deleteButtonCaption = 'Delete selected Domain ';
     deleteButtonEnabled: boolean;
@@ -162,11 +162,11 @@ export class ServicesSectionComponent implements OnInit {
         // TODO!!
     }
 
-    nodeSelect(event) {
-        this.logger.debug(LOG_TAG, 'Node selected: ', event.node.data);
+    nodeSelect(node: TreeNode) {
+        this.logger.debug(LOG_TAG, 'Node selected: ', node.data);
 
-        const catalogEntry = event.node.data.catalogEntry;
-        const nodeType = event.node.data.nodeType;
+        const catalogEntry = node.data.catalogEntry;
+        const nodeType = node.data.nodeType;
 
         if (nodeType === 'Domain') {
             this._servicesEditor.startEditDomain(catalogEntry.domain);
@@ -198,6 +198,8 @@ export class ServicesSectionComponent implements OnInit {
             this.deleteButtonCaption = 'Delete selected Operation';
         }
 
+        // TODO!!! update menu items
+ 
         this.deleteButtonEnabled = true;
     }
 
@@ -262,4 +264,14 @@ export class ServicesSectionComponent implements OnInit {
     private onDeleteSelectedNode(): void {
         alert('onDeleteSelectedNode: ' + this.selectedNode.data.name);
     }
+
+    set selectedNode(node: TreeNode) {
+        this._selectedNode = node;
+        this.nodeSelect(node);
+    }
+
+    get selectedNode(): TreeNode {
+        return this._selectedNode;
+    }
+
 }

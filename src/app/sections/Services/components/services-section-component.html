@@ -4,9 +4,7 @@
 
 <div class="row spread" #target>
   <div class="flex-toolbar" style="display:flex;align-items: center;">
-      <kendo-dropdownbutton class="dropdown-flat-button" [data]="addActions" look="flat" [icon]="'plus'">
-          Add...
-      </kendo-dropdownbutton>
+      <p-menubar [model]="menuItems"  [autoDisplay]="false"></p-menubar>
       <button kendoButton look="flat" [disabled]="!deleteButtonEnabled" [toggleable]="false" [icon]="'delete'" #deleteButton>{{deleteButtonCaption}}</button>
       <kendo-buttongroup look="flat">
           <!--
@@ -41,7 +39,6 @@
           selectionMode="single"
           [(selection)]="selectedNode"
           dataKey="id"
-          (onNodeSelect)="nodeSelect($event)"
           (onNodeUnselect)="nodeUnselect($event)"
           [(contextMenuSelection)]="selectedNode" [contextMenu]="tableContextMenu"
         >
@@ -59,7 +56,7 @@
             let-rowData="rowData"
             let-columns="columns"
           >
-            <tr [ttRow]="rowNode" [ttContextMenuRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px" (contextmenu)="onRowClick($event)">
+            <tr [ttRow]="rowNode" [ttContextMenuRow]="rowNode" [ttSelectableRow]="rowNode" style="height:30px">
               <td class="service-catalog-row">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                 <i
