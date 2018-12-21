@@ -1,3 +1,6 @@
+/**
+ * MENU
+ */
 
 .ui-contextmenu {
 	background-color: #363F44;
@@ -55,9 +58,14 @@
 	background-color: #363F44;
 }
 
+/**
+ * DIALOGS
+ */
+.ui-dialog {
+    background: #343b40;
+}
 
-/*
-ui-menu-list	List element.
-ui-menuitem
-*/
-/*	ui-widget-content ui-corner-all ui-submenu-list ui-shadow */
+.ui-dialog .ui-dialog-titlebar {
+	background-color: #1b1f21;
+	color: #c1c1c1;
+}

@@ -8,22 +8,27 @@ import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
-import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component'
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component';
+import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
+import { NewItemDialogComponent } from './dialogs/new-item-dialog';
 
+/*
 import {
     GridComponent,
     GridDataResult,
     DataStateChangeEvent
 } from '@progress/kendo-angular-grid';
+*/
 
-import * as _ from 'lodash';
-import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSection]';
+
+interface NewItemContext {
+    type: EditingType;
+}
 
 @Component({
     selector: 'wa-services-section',
@@ -37,43 +42,13 @@ export class ServicesSectionComponent implements OnInit {
 
     private menuItems: MenuItem[];
 
-    addActions: Array<any> = [{
-        text: 'Add Domain',
-        click: (dataItem) => {
-            this.onAddDomainClick();
-        }
-    }, {
-        text: 'Add Application',
-        disabled: true,
-        click: (dataItem) => {
-            this.onAddApplicationClick();
-        }
-    }, {
-        text: 'Add Service',
-        disabled: true,
-        click: (dataItem) => {
-            this.onAddServiceClick();
-        }
-    }, {
-        text: 'Add Operation',
-        disabled: true,
-        click: (dataItem) => {
-            this.onAddOperationClick();
-        }
-    }];
-
+    // Icons
     faGlobe = faGlobe;
     faBoxOpen = faBoxOpen;
     faArchive = faArchive;
     faCompass = faCompass;
     faDesktop = faDesktop;
 
-    public gridData: DataResult;
-    public gridView: DataResult;
-    public sort: SortDescriptor[] = [];
-    public groups: GroupDescriptor[] = [];
-
-    _selectedNode: TreeNode;
 
     deleteButtonCaption = 'Delete selected Domain ';
     deleteButtonEnabled: boolean;
@@ -82,10 +57,13 @@ export class ServicesSectionComponent implements OnInit {
 
     public loading: boolean;
     private _currentRowElement: any;
+    _selectedNode: TreeNode;
+    _currentNewItemContext: NewItemContext;
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
-    @ViewChild('addNewSlideDown') exportSlideDown:ElementRef;
+    @ViewChild('newItemDialog') _newItemDialog: NewItemDialogComponent;
 
+    // Menus
     private _deleteMenuItem: MenuItem;
     private _addDomainMenuItem: MenuItem;
     private _addApplicationMenuItem: MenuItem;
@@ -122,13 +100,13 @@ export class ServicesSectionComponent implements OnInit {
             id: 'newService',
             label: 'New Service',
             disabled: true,
-            command: (event) => { this.onAddApplicationClick(); }
+            command: (event) => { this.onAddServiceClick(); }
         };
         this._addOperationMenuItem =  {
             id: 'newOperation',
             label: 'New Operation',
             disabled: true,
-            command: (event) => { this.onAddApplicationClick(); }
+            command: (event) => { this.onAddOperationClick(); }
         };
         this._addMenuItem = {
             label: 'New...',
@@ -228,7 +206,6 @@ export class ServicesSectionComponent implements OnInit {
             addOperationEnabled = true;
         }
 
-
         // update menu items
         this._deleteMenuItem.label = deleteButtonCaption;
         this._deleteMenuItem.disabled = !deleteEnabled;
@@ -264,6 +241,7 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     private handleChanges(event: ServiceCatalogEditorChangesEvent) {
+        this.logger.debug(LOG_TAG, 'handleChanges: ', event);
         const description = event.model.items[0].value;
         let treeNode: TreeNode;
         if (event.context.editingType === EditingType.Domain) {
@@ -283,19 +261,23 @@ export class ServicesSectionComponent implements OnInit {
 
 
    private onAddDomainClick(): void {
-    this.slideDownAddPanel(true);
+    this.logger.debug(LOG_TAG, 'onAddDomainClick');
+    this._newItemDialog.show(EditingType.Domain);
    }
 
    private onAddApplicationClick(): void {
-    this.slideDownAddPanel(true);
+    this.logger.debug(LOG_TAG, 'onAddApplicationClick');
+    this._newItemDialog.show(EditingType.Application);
    }
 
    private onAddServiceClick(): void {
-    this.slideDownAddPanel(true);
+    this.logger.debug(LOG_TAG, 'onAddServiceClick');
+    this._newItemDialog.show(EditingType.Service);
    }
 
     private onAddOperationClick(): void {
-        this.slideDownAddPanel(true);
+        this.logger.debug(LOG_TAG, 'onAddOperationClick');
+        this._newItemDialog.show(EditingType.Operation);
     }
 
     private onDeleteSelectedNode(): void {
@@ -312,27 +294,14 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     onAddConfirm() {
-        this.slideDownAddPanel(false);
         // TODO!!
+        alert(this._currentNewItemContext);
+        this._currentNewItemContext = null;
     }
 
     onAddCancel() {
-        this.slideDownAddPanel(false);
-        // TODO!!
+        this._currentNewItemContext = null;
     }
-
-        /**
-     * 
-     * @param show Show/Hide the new Application Pane
-     */
-    private slideDownAddPanel(show:boolean):void {
-        if (show) {
-            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
-        } else {
-            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
-        }
-    }
-
 
 
 }

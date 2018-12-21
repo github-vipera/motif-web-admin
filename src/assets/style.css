@@ -525,3 +525,7 @@ gridster .gridster-row {
     overflow: hidden;
 }
 
+div .editor.slidedown {
+	display: flex;
+	flex-direction: row;
+}

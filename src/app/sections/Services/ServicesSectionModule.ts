@@ -21,7 +21,8 @@ import { DialogModule } from 'primeng/dialog';
 import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ContextMenuModule } from 'primeng/contextmenu';
-import {MenubarModule} from 'primeng/menubar';
+import { MenubarModule } from 'primeng/menubar';
+import { NewItemDialogComponent } from './components/dialogs/new-item-dialog';
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import {MenubarModule} from 'primeng/menubar';
         ApplicationEditorComponent,
         ServiceEditorComponent,
         OfflineMessagesSettingsComponent,
-        OperationEditorComponent
+        OperationEditorComponent,
+        NewItemDialogComponent
     ],
     exports: [ ServicesSectionComponent ],
     providers: [  ]

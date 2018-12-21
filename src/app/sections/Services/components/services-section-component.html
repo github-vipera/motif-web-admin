@@ -1,5 +1,8 @@
 <p-contextMenu #tableContextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]='wc-context-menu'></p-contextMenu>
 
+<wa-services-section-newitem-dialog #newItemDialog></wa-services-section-newitem-dialog>
+
+
 <wc-dashboard-header [title]="'Services'"></wc-dashboard-header>
 
 <div class="row spread" #target>
@@ -26,33 +29,6 @@
       </button>
     </kendo-buttongroup>
   </div>
-</div>
-
-<div class="row fill">
-    <!-- Sliding Editor Panel -->
-    <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #addNewSlideDown>
-        <div class="wc-slide-down-editor-pane">
-            <div class="wc-slide-down-editor-item">
-                <kendo-textbox-container floatingLabel="Domain Name">
-                    <input kendoTextBox />
-                </kendo-textbox-container>
-            </div>
-        </div>
-        <div class="cmd" style="padding-top: 11px;align-items: center;">
-            <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
-            <a (click)="onAddConfirm()">
-                <svg class="ok" data-id="ok">
-                    <use xlink:href="assets/img/icons.svg#ico-ok"></use>
-                </svg>
-            </a>
-            <a (click)="onAddCancel()" data-slideup="#user-add">
-                <svg class="ko" data-id="ko">
-                    <use xlink:href="assets/img/icons.svg#ico-ko"></use>
-                </svg>
-            </a>
-        </div>
-
-    </div>
 </div>
 
 <div class="row fill">
