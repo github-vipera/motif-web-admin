@@ -179,10 +179,6 @@ export class ServicesSectionComponent implements OnInit {
         });
     }
 
-    @Input() onSavePropertiesPressed(): void {
-        // TODO!!
-    }
-
     nodeSelect(node: TreeNode) {
         this.logger.debug(LOG_TAG, 'Node selected: ', node.data);
 
