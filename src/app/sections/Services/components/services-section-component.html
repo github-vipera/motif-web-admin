@@ -5,7 +5,6 @@
 <div class="row spread" #target>
   <div class="flex-toolbar" style="display:flex;align-items: center;">
       <p-menubar [model]="menuItems"  [autoDisplay]="false"></p-menubar>
-      <button kendoButton look="flat" [disabled]="!deleteButtonEnabled" [toggleable]="false" [icon]="'delete'" #deleteButton>{{deleteButtonCaption}}</button>
       <kendo-buttongroup look="flat">
           <!--
           <button kendoButton [toggleable]="false" [icon]="'save'" >Add Domain</button>

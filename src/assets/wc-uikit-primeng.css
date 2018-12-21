@@ -42,6 +42,18 @@
 	color: #666;
 }
 
+.ui-menuitem-link.ui-state-disabled:hover {
+	color: #666;
+}
+
+.ui-contextmenu.ui-state-disabled:hover {
+	color: #666;
+}
+
+.ui-menuitem-link.ui-state-disabled:hover {
+	color: #666;
+}
+
 .ui-submenu-list {
 	background-color: #363F44;
 }

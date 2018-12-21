@@ -10,7 +10,8 @@ import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
-import {MenuItem} from 'primeng/api';
+import { MenuItem } from 'primeng/api';
+import * as _ from 'lodash';
 
 import {
     GridComponent,
@@ -85,40 +86,60 @@ export class ServicesSectionComponent implements OnInit {
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
     @ViewChild('deleteButton') _deleteButton: ElementRef;
 
+    private _deleteMenuItem: MenuItem;
+    private _addDomainMenuItem: MenuItem;
+    private _addApplicationMenuItem: MenuItem;
+    private _addServiceMenuItem: MenuItem;
+    private _addOperationMenuItem: MenuItem;
+    private _addMenuItem: MenuItem;
+
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
         private serviceCatalogService: ServiceCatalogService,
         private notificationCenter: NotificationCenter) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
+        this._deleteMenuItem = {
+            id: 'delete',
+            label: 'Delete',
+            disabled: true,
+            command: (event) => { this.onDeleteSelectedNode(); }
+        };
+        this._addDomainMenuItem = {
+            id: 'newDomain',
+            label: 'New Domain',
+            command: (event) => { this.onAddDomainClick(); }
+        };
+        this._addApplicationMenuItem = {
+            id: 'newApplication',
+            label: 'New Application',
+            disabled: true,
+            command: (event) => { this.onAddApplicationClick(); }
+        };
+        this._addServiceMenuItem =  {
+            id: 'newService',
+            label: 'New Service',
+            disabled: true,
+            command: (event) => { this.onAddApplicationClick(); }
+        };
+        this._addOperationMenuItem =  {
+            id: 'newOperation',
+            label: 'New Operation',
+            disabled: true,
+            command: (event) => { this.onAddApplicationClick(); }
+        };
+        this._addMenuItem = {
+            label: 'New...',
+            items: [
+                this._addDomainMenuItem,
+                this._addApplicationMenuItem,
+                this._addServiceMenuItem,
+                this._addOperationMenuItem
+            ]
+        };
         this.menuItems = [
-            {
-                label: 'New...',
-                items: [
-                    {
-                        label: 'New Domain',
-                        command: (event) => { this.onAddDomainClick(); }
-                    },
-                    {
-                        label: 'New Application',
-                        disabled: true,
-                        command: (event) => { this.onAddApplicationClick(); }
-                    },
-                    {
-                        label: 'New Service',
-                        command: (event) => { this.onAddApplicationClick(); }
-                    },
-                    {
-                        label: 'New Operation',
-                        command: (event) => { this.onAddApplicationClick(); }
-                    }
-                ]
-            },
-            {
-                label: 'Delete',
-                disabled: true,
-                command: (event) => { this.onDeleteSelectedNode(); }
-            }
+            this._addMenuItem,
+            this._deleteMenuItem
         ];
     }
 
@@ -188,20 +209,48 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     private updateCommands(nodeType: string) {
+        const deleteEnabled = false;
+        const addDomainEnabled = true;
+        let addApplicationEnabled = false;
+        let addServiceEnabled = false;
+        let addOperationEnabled = false;
+
+        let deleteButtonCaption = '';
         if (nodeType === 'Domain') {
-            this.deleteButtonCaption = 'Delete selected Domain';
+            deleteButtonCaption = 'Delete selected Domain';
+            addApplicationEnabled = true;
         } else if (nodeType === 'Application') {
-            this.deleteButtonCaption = 'Delete selected Application';
+            deleteButtonCaption = 'Delete selected Application';
+            addServiceEnabled = true;
         } else if (nodeType === 'Service') {
-            this.deleteButtonCaption = 'Delete selected Service';
+            deleteButtonCaption = 'Delete selected Service';
+            addOperationEnabled = true;
         } else if (nodeType === 'Operation') {
-            this.deleteButtonCaption = 'Delete selected Operation';
+            deleteButtonCaption = 'Delete selected Operation';
+            addOperationEnabled = true;
         }
 
-        // TODO!!! update menu items
- 
-        this.deleteButtonEnabled = true;
+
+        // update menu items
+        this._deleteMenuItem.label = deleteButtonCaption;
+        this._deleteMenuItem.disabled = !deleteEnabled;
+        this._addDomainMenuItem.disabled = !addDomainEnabled;
+        this._addApplicationMenuItem.disabled = !addApplicationEnabled;
+        this._addServiceMenuItem.disabled = !addServiceEnabled;
+        this._addOperationMenuItem.disabled = !addOperationEnabled;
+
     }
+
+    private updateMenuItemStatus(itemId: string, enabled: boolean, label?: string): void {
+        const itemIndex = _.findIndex(this.menuItems, function(o: any) { return o.id === itemId; });
+        if (itemIndex >= 0 ) {
+            this.menuItems[itemIndex].disabled = !enabled;
+            if (label) {
+                this.menuItems[itemIndex].label = label;
+            }
+        }
+    }
+
 
     nodeUnselect(event) {
         this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
@@ -234,16 +283,6 @@ export class ServicesSectionComponent implements OnInit {
         }
     }
 
-    /*
-    private handleChangesForDomain(event: ServiceCatalogEditorChangesEvent) {
-        const domainName = event.context.domainName;
-        const description = event.model.items[0].value;
-        const treeNode = this.tableModel.getDomainNode(domainName);
-        if (treeNode) {
-            treeNode.data.description = description;
-        }
-    }
-    */
 
    private onAddDomainClick(): void {
     alert('onAddDomainClick');
