@@ -1,8 +1,13 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { EditingType } from '../editors/service-catalog-editor-context';
 
 const LOG_TAG = '[NewItemDialogComponent]';
+
+export interface DialogResult {
+    name: string;
+    channel?: string;
+}
 
 @Component({
     selector: 'wa-services-section-newitem-dialog',
@@ -16,6 +21,9 @@ export class NewItemDialogComponent implements OnInit {
     display: boolean;
     name: string;
     floatingLabel: string;
+
+    @Output() confirm: EventEmitter<DialogResult> = new EventEmitter();
+    @Output() cancel: EventEmitter<void> = new EventEmitter();
 
     constructor(private logger: NGXLogger) {}
 
@@ -50,4 +58,17 @@ export class NewItemDialogComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Title:', this.dialogTitle, editType);
         // TODO!!
     }
+
+    onCancel(): void {
+        this.display = false;
+        this.cancel.emit();
+    }
+
+    onConfirm(): void {
+        this.display = false;
+        this.confirm.emit({
+            name: 'Test'
+        });
+    }
+
 }

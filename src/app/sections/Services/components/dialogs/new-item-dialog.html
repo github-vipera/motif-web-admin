@@ -20,8 +20,8 @@
 
   <p-footer>
     <kendo-buttongroup look="flat">
-      <button kendoButton [toggleable]="false">Cancel</button>
-      <button kendoButton [toggleable]="false" [primary]="true">Create</button>
+      <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
+      <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Create</button>
     </kendo-buttongroup>
   </p-footer>
 </p-dialog>
