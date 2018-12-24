@@ -31,7 +31,8 @@ const LOG_TAG = '[ServicesSection]';
 })
 export class ServicesSectionComponent implements OnInit {
 
-    private menuItems: MenuItem[];
+    // Menus
+    menuItems: MenuItem[];
 
     // Icons
     faGlobe = faGlobe;

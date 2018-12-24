@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { NGXLogger} from 'web-console-core'
+import { NGXLogger} from 'web-console-core';
 import * as _ from 'lodash';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
-import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service'
+import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service';
 import { DataResult } from '@progress/kendo-data-query';
-import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component'
+import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component';
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
-import { MobileApplicaton } from '../../../data/model'
+import { MobileApplicaton } from '../../../data/model';
 import { map } from 'rxjs/operators/map';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component'
+import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
-import { forkJoin } from 'rxjs/observable/forkJoin'
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center'
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
 
 const LOG_TAG = "[ApplicationsAppContentSection]";
 
@@ -53,7 +53,7 @@ export class ApplicationsTabComponent implements OnInit {
         forbiddenVersion:null,
         latestVersion:null,
         name:null
-    }
+    };
 
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
@@ -138,8 +138,12 @@ export class ApplicationsTabComponent implements OnInit {
     }
 
     public onDeleteOKPressed(mobileApplication:EngineCreate){
-        this.logger.debug(LOG_TAG ,"onDeleteOKPressed for item: ", mobileApplication);
+        this.logger.debug(LOG_TAG ,'onDeleteOKPressed for item: ', mobileApplication);
         this.editService.remove(mobileApplication);
+    }
+
+    public onDeleteCancelPressed(data: any) {
+        // NOP
     }
 
     public refreshData(){
@@ -253,7 +257,7 @@ export class ApplicationsTabComponent implements OnInit {
                 downloadUrl :  ""+itemsToAdd[i].downloadUrl,
                 forbiddenVersion :  ""+itemsToAdd[i].forbiddenVersion,
                 latestVersion :  itemsToAdd[i].latestVersion
-            }
+            };
             let response = this.engineService.createEngine(this.domainSelector.selectedDomain.name, newMobileApp);
             responses.push(response);
         }
@@ -353,7 +357,7 @@ export class ApplicationsTabComponent implements OnInit {
             forbiddenVersion:null,
             latestVersion:null,
             name:null
-        }
+        };
         this.slideDownAddMobileAppPanel(true);
     }
 
