@@ -11,32 +11,32 @@ export enum NotificationType {
 }
 
 export interface Notification {
-    name:string,
-    message: string,
-    title: string,
-    object?: any,
-    userInfo?: any,
-    error?: any,
-    type:NotificationType
-    closable?:boolean
+    name: string;
+    message: string;
+    title: string;
+    object?: any;
+    userInfo?: any;
+    error?: any;
+    type: NotificationType;
+    closable?: boolean;
 }
 
 
 @Injectable()
 export class NotificationCenter {
 
-    constructor(private errorMessageBuilderService:ErrorMessageBuilderService,
-        private toasterService:ToasterUtilsService,
+    constructor(private errorMessageBuilderService: ErrorMessageBuilderService,
+        private toasterService: ToasterUtilsService,
         private notificationService: NotificationService) {
     }
 
-    public post(notification:Notification):void {
+    public post(notification: Notification): void {
         this.handleNotification(notification);
-        //TODO!! collect notifications in a browsable pane
+        // TODO!! collect notifications in a browsable pane
     }
 
-    private handleNotification(notification:Notification):void {
-        let closable = (notification.closable?notification.closable:false);
+    private handleNotification(notification: Notification): void {
+        const closable = (notification.closable ? notification.closable : false);
         this.notificationService.show({
             content: this.messageFromNotification(notification),
             animation: { type: 'fade', duration: 200 },
@@ -46,30 +46,27 @@ export class NotificationCenter {
         });
     }
 
-    private messageFromNotification(notification:Notification):string {
-        let message = "";
-        if ((notification.type===NotificationType.Error) && notification.error){
-            message = notification.message + " " + this.errorMessageBuilderService.buildErrorMessage(notification.error);
+    private messageFromNotification(notification: Notification): string {
+        let message = '';
+        if ((notification.type === NotificationType.Error) && notification.error) {
+            message = notification.message + ' ' + this.errorMessageBuilderService.buildErrorMessage(notification.error);
         } else {
             message = notification.message;
         }
         return message;
     }
 
-    private typeFromNotification(notification:Notification):Type{
-        if (notification.type===NotificationType.Info){
-            return {style:'info', icon:true}
-        }
-        else if (notification.type===NotificationType.Success){
-            return {style:'success', icon:true}
-        }
-        else if (notification.type===NotificationType.Warning){
-            return {style:'warning', icon:true}
-        }
-        else if (notification.type===NotificationType.Error){
-            return {style:'error', icon:true};
+    private typeFromNotification(notification: Notification): Type {
+        if (notification.type === NotificationType.Info) {
+            return { style: 'info', icon: true };
+        } else if (notification.type === NotificationType.Success) {
+            return { style: 'success', icon: true };
+        } else if (notification.type === NotificationType.Warning) {
+            return { style: 'warning', icon: true };
+        } else if (notification.type === NotificationType.Error) {
+            return { style: 'error', icon: true };
         } else {
-            return { style: 'info', icon:true}
+            return { style: 'info', icon: true };
         }
     }
 

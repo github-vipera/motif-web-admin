@@ -7,28 +7,28 @@ export class ErrorMessageBuilderService {
     constructor() {
     }
 
-    public buildErrorMessage(error:any){
+    public buildErrorMessage(error: any) {
 
-        if (error instanceof HttpErrorResponse){
+        if (error instanceof HttpErrorResponse) {
             return this.handleHttpError(error);
         } else {
-            //TODO!! 
-            return error.error.Details + " [" + error.error.Code + "]";
+            // TODO!!
+            return error.error.details + ' [' + error.error.code + ']';
         }
 
     }
 
-    handleHttpError(error:HttpErrorResponse): string {
-        if (error.status===400){
-            return error.error.Details + " [" + error.error.Code + "]";
-        } else if (error.status===401) {
-            return "Authentication is required."
+    handleHttpError(error: HttpErrorResponse): string {
+        if (error.status === 400){
+            return error.error.details + ' [' + error.error.code + ']';
+        } else if (error.status === 401) {
+            return 'Authentication is required.';
         }
     }
 
-    isCommonHttpError(error:HttpErrorResponse): boolean {
-        if ((error.status > 400) && (error.status <=451)){
-            return true;// 4xx Client errors
+    isCommonHttpError(error: HttpErrorResponse): boolean {
+        if ((error.status > 400) && (error.status <= 451)) {
+            return true; // 4xx Client errors
         }
     }
 }

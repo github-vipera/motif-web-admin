@@ -283,7 +283,70 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     onNewItemConfirm(event: DialogResult): void {
-        alert(event.name + ' ' + event.channel);
+        if (event.editType === EditingType.Domain) {
+            this.createNewDomain(event.name);
+        } else if (event.editType === EditingType.Application) {
+            this.createNewApplication(this.selectedNode.data.catalogEntry.domain, event.name);
+        } else if (event.editType === EditingType.Service) {
+            this.createNewService(this.selectedNode.data.catalogEntry.domain,
+                this.selectedNode.data.catalogEntry.application,
+                event.name, event.channel);
+        } else if (event.editType === EditingType.Operation) {
+            this.createNewOperation(this.selectedNode.data.catalogEntry.domain,
+                this.selectedNode.data.catalogEntry.application,
+                this.selectedNode.data.catalogEntry.service,
+                event.name);
+        }
+    }
+
+    private createNewDomain(domainName: string): void {
+        this.logger.debug(LOG_TAG, 'createNewDomain called for: ', domainName);
+
+        this.serviceCatalogService.createNewDomain(domainName).subscribe((data) => {
+
+            this.logger.debug(LOG_TAG, 'New domain added: ', data);
+
+            this.notificationCenter.post({
+                name: 'CreateNewDomain',
+                title: 'Create New Domain',
+                message: 'New Domain created successfully.',
+                type: NotificationType.Success
+            });
+
+        }, (error) => {
+
+            this.logger.error(LOG_TAG , 'New domain error: ', error);
+
+            this.notificationCenter.post({
+                name: 'CreateNewDomainError',
+                title: 'Create New Domain',
+                message: 'Error creating the new domain:',
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
+    }
+
+    private createNewApplication(domain: string, applicationName: string): void {
+        // TODO!!
+        alert('TODO!! create new app ' + applicationName + ' under ' + domain);
+    }
+
+    private createNewService(domain: string,
+        application: string,
+        serviceName: string,
+        channel: string): void {
+        // TODO!!
+        alert('TODO!! create new service ' + serviceName + ' under ' + domain + '@' + application);
+    }
+
+    private createNewOperation(domain: string,
+        application: string,
+        service: string,
+        operationName: string): void {
+        // TODO!!
+        alert('TODO!! create new operation ' + operationName + ' under ' + domain + '@' + application + '@' + service);
     }
 
 }

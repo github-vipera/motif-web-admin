@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomainsService,
          DomainsList,
-         Domain,
+         Domain, DomainCreate,
          ApplicationsService,
          ApplicationsList,
          Application,
@@ -150,6 +150,22 @@ export class ServiceCatalogService {
                 observer.error(error);
             });
 
+        });
+    }
+
+    public createNewDomain(domainName: string): Observable<any> {
+        return new Observable((observer) => {
+
+            this.logger.debug(LOG_TAG, 'createNewDomain called for ', domainName);
+
+            const domainCreate: DomainCreate = { name: domainName, description: 'Description of ' + domainName };
+
+            this.domainService.createDomain(domainCreate).subscribe((data) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
         });
     }
 
