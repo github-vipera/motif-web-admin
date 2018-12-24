@@ -89,7 +89,7 @@ export class NewItemDialogComponent implements OnInit {
     }
 
     onConfirm(): void {
-        if (!this.validate()){
+        if (!this.validate()) {
             return;
         }
         this.display = false;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ErrorMessageBuilderService } from './error-message-builder-service'
-import { ToasterUtilsService } from '../UI/toaster-utils-service'
+import { ErrorMessageBuilderService } from './error-message-builder-service';
+import { ToasterUtilsService } from '../UI/toaster-utils-service';
 import { NotificationService, Type } from '@progress/kendo-angular-notification';
 
 export enum NotificationType {

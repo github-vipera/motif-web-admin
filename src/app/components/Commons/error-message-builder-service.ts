@@ -19,7 +19,7 @@ export class ErrorMessageBuilderService {
     }
 
     handleHttpError(error: HttpErrorResponse): string {
-        if (error.status === 400){
+        if (error.status === 400) {
             return error.error.details + ' [' + error.error.code + ']';
         } else if (error.status === 401) {
             return 'Authentication is required.';

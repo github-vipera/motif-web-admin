@@ -26,8 +26,8 @@ const LOG_TAG = '[ServicesSection]';
     styleUrls: ['./services-section-component.scss'],
     templateUrl: './services-section-component.html'
 })
-@PluginView("Services", {
-    iconName: "ico-services"
+@PluginView('Services', {
+    iconName: 'ico-services'
 })
 export class ServicesSectionComponent implements OnInit {
 
@@ -238,7 +238,7 @@ export class ServicesSectionComponent implements OnInit {
         } else if (event.context.editingType === EditingType.Application) {
             treeNode = this.tableModel.getApplicationNode(event.context.domainName, event.context.applicationName);
         } else if (event.context.editingType === EditingType.Operation) {
-            treeNode = this.tableModel.getOperationNode(event.context.domainName, 
+            treeNode = this.tableModel.getOperationNode(event.context.domainName,
                 event.context.applicationName,
                 event.context.serviceName,
                 event.context.operationName);
