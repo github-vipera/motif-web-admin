@@ -8,7 +8,7 @@ import { DomainsService,
          ApplicationCreate,
           } from '@wa-motif-open-api/platform-service';
 
-import { ServicesService,  Service, ServiceList, ServiceCreate } from '@wa-motif-open-api/catalog-service';
+import { ServicesService,  Service, ServiceList, ServiceCreate, OperationsService, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { ApplicationsService as AppService } from '@wa-motif-open-api/catalog-service';
 
 import { Observable } from 'rxjs';
@@ -25,6 +25,7 @@ export class ServiceCatalogService {
         private applicationService: ApplicationsService,
         private appService: AppService,
         private servicesService: ServicesService,
+        private operationsService: OperationsService,
         private logger: NGXLogger) {
     }
 
@@ -205,6 +206,26 @@ export class ServiceCatalogService {
         });
     }
 
+    public createNewOperation(domain: string, application: string, service: string, operationName: string): Observable<ServiceOperation> {
+        return new Observable((observer) => {
+
+            this.logger.debug(LOG_TAG, 'createNewOperation called for ', domain, application, service, operationName);
+            /*
+            const serviceOperation: ServiceOperation = {
+                name: operationName,
+                description: 'Description of ' + operationName
+            };
+
+            // channel: string, domain: string, application: string, service: string, serviceOperation?: ServiceOperation
+            this.operationsService.createServiceOperation(channel, domain, application, service, serviceOperation).subscribe((data: Service) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+            */
+        });
+    }
 
     /**
      this.domainService.getDomains()

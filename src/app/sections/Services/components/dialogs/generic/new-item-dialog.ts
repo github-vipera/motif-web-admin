@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { EditingType } from '../editors/service-catalog-editor-context';
+import { EditingType } from '../../editors/service-catalog-editor-context';
 
 const LOG_TAG = '[NewItemDialogComponent]';
 

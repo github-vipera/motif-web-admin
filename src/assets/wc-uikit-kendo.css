@@ -213,3 +213,10 @@ kendo-popup {
     background-color: #353a3e !important;
     color: #ddd;
 }
+
+.k-textbox::placeholder, .k-input::placeholder, .k-input.k-textbox::placeholder, .k-textarea::placeholder {
+    color: rgb(147, 147, 147);
+    font-size: 11px;
+    font-family: montserrat;
+    text-transform: uppercase;
+}

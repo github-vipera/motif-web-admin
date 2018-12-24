@@ -1,0 +1,63 @@
+<p-dialog
+  #newItemDialog
+  [(visible)]="display"
+  [modal]="true"
+  [responsive]="true"
+  [style]="{ width: '450px', minWidth: '400px' }"
+  [minY]="70"
+  [baseZIndex]="10000"
+>
+  <p-header> New Service Operation </p-header>
+
+  <div style="min-width: 350px;display:flex;flex-direction: column;">
+    
+    <kendo-textbox-container
+      floatingLabel="Operation Name"
+      style="width: 100%;"
+    >
+      <input kendoTextBox [(ngModel)]="name" required />
+    </kendo-textbox-container>
+    <label class="warning-label" *ngIf="nameEditingWarningDisplay">Invalid name</label>
+
+    <kendo-textbox-container
+      floatingLabel="Description"
+      style="width: 100%;"
+    >
+      <input kendoTextBox [(ngModel)]="description" required />
+    </kendo-textbox-container>
+
+    <kendo-textbox-container
+    floatingLabel="Plugin Name"
+    style="width: 100%;"
+  >
+    <input kendoTextBox [(ngModel)]="pluginName" required />
+  </kendo-textbox-container>
+
+  <wc-switch-button [title]="'Secure'" [id]="'secure'" style="padding-top:14px;"></wc-switch-button>
+  <wc-switch-button [title]="'Counted'" [id]="'counted'" style="padding-top:14px;"></wc-switch-button>
+  <wc-switch-button [title]="'Session Less'" [id]="'sessionLess'" style="padding-top:14px;"></wc-switch-button>
+  
+  <textarea kendoTextArea placeholder="Input Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="inputParams"></textarea>
+  <textarea kendoTextArea placeholder="Output Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="outputParams"></textarea>
+
+  <!--
+  <kendo-textbox-container floatingLabel="Input Params (JSON)" style="width: 100%;height: 100px;">
+      <textarea kendoTextArea></textarea>
+    </kendo-textbox-container>
+
+     
+  <kendo-textbox-container floatingLabel="Output Params (JSON)" style="width: 100%;height: 100px;">
+      <textarea kendoTextArea></textarea>
+    </kendo-textbox-container>
+  -->
+
+</div>
+
+  <p-footer>
+    <kendo-buttongroup look="flat">
+      <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
+      <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Create</button>
+    </kendo-buttongroup>
+  </p-footer>
+
+</p-dialog>

@@ -22,8 +22,10 @@ import { OfflineMessagesSettingsComponent } from './components/editors/commons/o
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenubarModule } from 'primeng/menubar';
-import { NewItemDialogComponent } from './components/dialogs/new-item-dialog';
+import { NewItemDialogComponent } from './components/dialogs/generic/new-item-dialog';
+import { NewOperationDialogComponent } from './components/dialogs/service-operation/new-operation-dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
     imports: [
@@ -45,7 +47,8 @@ import { DropdownModule } from 'primeng/dropdown';
         ButtonsModule,
         ContextMenuModule,
         MenubarModule,
-        DropdownModule
+        DropdownModule,
+        InputSwitchModule
     ],
     entryComponents: [
         ServicesSectionComponent
@@ -58,7 +61,8 @@ import { DropdownModule } from 'primeng/dropdown';
         ServiceEditorComponent,
         OfflineMessagesSettingsComponent,
         OperationEditorComponent,
-        NewItemDialogComponent
+        NewItemDialogComponent,
+        NewOperationDialogComponent
     ],
     exports: [ ServicesSectionComponent ],
     providers: [  ]

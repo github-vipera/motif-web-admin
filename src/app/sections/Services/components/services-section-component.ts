@@ -10,7 +10,8 @@ import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
-import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
+import { NewItemDialogComponent, DialogResult } from './dialogs/generic/new-item-dialog';
+import { NewOperationDialogComponent, NewOperationDialogResult } from './dialogs/service-operation/new-operation-dialog';
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 import { Domain, Application } from '@wa-motif-open-api/platform-service';
 import { Service } from '@wa-motif-open-api/catalog-service';
@@ -51,6 +52,7 @@ export class ServicesSectionComponent implements OnInit {
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
     @ViewChild('newItemDialog') _newItemDialog: NewItemDialogComponent;
+    @ViewChild('newOperationDialog') _newOperationDialog: NewOperationDialogComponent;
 
     // Menus
     private _deleteMenuItem: MenuItem;
@@ -266,7 +268,7 @@ export class ServicesSectionComponent implements OnInit {
 
     private onAddOperationClick(): void {
         this.logger.debug(LOG_TAG, 'onAddOperationClick');
-        this._newItemDialog.show(EditingType.Operation);
+        this._newOperationDialog.show(EditingType.Operation);
     }
 
     private onDeleteSelectedNode(): void {
@@ -297,6 +299,11 @@ export class ServicesSectionComponent implements OnInit {
                 this.selectedNode.data.catalogEntry.service,
                 event.name);
         }
+    }
+
+    onNewServiceOperationConfirm(event: NewOperationDialogResult): void {
+        // TODO!!
+        alert('TODO!!');
     }
 
     private createNewDomain(domainName: string): void {

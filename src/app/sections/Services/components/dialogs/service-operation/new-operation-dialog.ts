@@ -1,0 +1,106 @@
+import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
+import { NGXLogger } from 'web-console-core';
+import { EditingType } from '../../editors/service-catalog-editor-context';
+
+const LOG_TAG = '[NewItemDialogComponent]';
+
+export interface NewOperationDialogResult {
+    name: string;
+    editType: EditingType;
+    description?: string;
+}
+
+
+@Component({
+    selector: 'wa-services-section-new-operation-dialog',
+    styleUrls: ['./new-operation-dialog.scss'],
+    templateUrl: './new-operation-dialog.html'
+})
+export class NewOperationDialogComponent implements OnInit {
+
+    _currentEditType: EditingType;
+    display: boolean;
+    name: string;
+    description: string;
+    pluginName: string;
+    secure: boolean;
+    counted: boolean;
+    sessionLess: boolean;
+    inputParams: string;
+    outputParams: string;
+    _nameEditingWarningDisplay: boolean;
+
+    @Output() confirm: EventEmitter<NewOperationDialogResult> = new EventEmitter();
+    @Output() cancel: EventEmitter<void> = new EventEmitter();
+
+    constructor(private logger: NGXLogger) {}
+
+    ngOnInit() {
+        this.logger.debug(LOG_TAG, 'Initializing...');
+    }
+
+    public show(editType: EditingType): void {
+        this.prepare(editType);
+        this.display = true;
+    }
+
+    public hide() {
+        this.display = false;
+    }
+
+    public get currentEditType(): EditingType {
+        return this._currentEditType;
+    }
+
+    private prepare(editType: EditingType) {
+        this.logger.debug(LOG_TAG, 'prepare for:', editType);
+        this._currentEditType = editType;
+        // empty the fields
+        this.name = '';
+        this.description = '';
+        this.pluginName = '';
+        this.secure = false;
+        this.counted = false;
+        this.sessionLess = false;
+        this.inputParams = '';
+        this.outputParams = '';
+    }
+
+    onCancel(): void {
+        this.display = false;
+        this.cancel.emit();
+    }
+
+    onConfirm(): void {
+        if (!this.validate()) {
+            return;
+        }
+        this.display = false;
+        const event: NewOperationDialogResult = {
+            name: this.name,
+            description: this.description,
+            editType: this._currentEditType
+        };
+        this.confirm.emit(event);
+    }
+
+    get isServiceEditing(): boolean {
+        return (this._currentEditType === EditingType.Service);
+    }
+
+    get nameEditingWarningDisplay(): boolean {
+        return this._nameEditingWarningDisplay;
+    }
+
+    private validate(): boolean {
+        let validate = true;
+        if (!this.name  || this.name === '') {
+            this._nameEditingWarningDisplay = true;
+            validate = false;
+        } else {
+            this._nameEditingWarningDisplay = false;
+        }
+        return validate;
+    }
+
+}
