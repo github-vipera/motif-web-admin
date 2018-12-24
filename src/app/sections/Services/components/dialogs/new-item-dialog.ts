@@ -37,6 +37,8 @@ export class NewItemDialogComponent implements OnInit {
         { name: 'WebContent', code: 'WEBCONTENT'},
     ];
     selectedChannel: Channel;
+    private _channelEditingWarningDisplay: boolean;
+    private _nameEditingWarningDisplay: boolean;
 
     @Output() confirm: EventEmitter<DialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -87,15 +89,47 @@ export class NewItemDialogComponent implements OnInit {
     }
 
     onConfirm(): void {
+        if (!this.validate()){
+            return;
+        }
         this.display = false;
-        this.confirm.emit({
-            name: 'Test',
+        const event: DialogResult = {
+            name: this.name,
             editType: this._currentEditType
-        });
+        };
+        if (this.isServiceEditing) {
+            event.channel = this.selectedChannel.code;
+        }
+        this.confirm.emit(event);
     }
 
-    isServiceEditing(): boolean {
-        return (this._currentEditType === EditingType.Service)
+    get isServiceEditing(): boolean {
+        return (this._currentEditType === EditingType.Service);
+    }
+
+    get channelEditingWarningDisplay(): boolean {
+        return this._channelEditingWarningDisplay;
+    }
+
+    get nameEditingWarningDisplay(): boolean {
+        return this._nameEditingWarningDisplay;
+    }
+
+    private validate(): boolean {
+        let validate = true;
+        if (!this.name  || this.name === '') {
+            this._nameEditingWarningDisplay = true;
+            validate = false;
+        } else {
+            this._nameEditingWarningDisplay = false;
+        }
+        if (this.isServiceEditing && !this.selectedChannel) {
+            this._channelEditingWarningDisplay = true;
+            validate = false;
+        } else {
+            this._channelEditingWarningDisplay = false;
+        }
+        return validate;
     }
 
 }

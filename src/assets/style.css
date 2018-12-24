@@ -529,3 +529,11 @@ div .editor.slidedown {
 	display: flex;
 	flex-direction: row;
 }
+
+.warning-label {
+	text-transform: inherit;
+    font-weight: lighter;
+    font-family: inherit;
+	color: #ff4b4b;
+	padding-top: 4px;
+}

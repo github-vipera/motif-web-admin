@@ -1,6 +1,6 @@
 <p-contextMenu #tableContextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]='wc-context-menu'></p-contextMenu>
 
-<wa-services-section-newitem-dialog #newItemDialog></wa-services-section-newitem-dialog>
+<wa-services-section-newitem-dialog #newItemDialog (confirm)='onNewItemConfirm($event)'></wa-services-section-newitem-dialog>
 
 
 <wc-dashboard-header [title]="'Services'"></wc-dashboard-header>

@@ -17,10 +17,12 @@
     >
       <input kendoTextBox [(ngModel)]="name" required />
     </kendo-textbox-container>
+    <label class="warning-label" *ngIf="nameEditingWarningDisplay">Invalid name</label>
 
-    <p-dropdown *ngIf="isServiceEditing()"  class="wa-services-section-newitem-dialog-channel-selector" placeholder="Select a Channel" [style]="{'width':'100%;background: #5d5f5f;padding-top:10px;'}" [options]="channels" [(ngModel)]="selectedChannel" optionLabel="name" appendTo="body" baseZIndex="999999"></p-dropdown>
+    <p-dropdown *ngIf="isServiceEditing"  class="wa-services-section-newitem-dialog-channel-selector" placeholder="Select a Channel" [style]="{'width':'100%;background: #5d5f5f;padding-top:10px;'}" [options]="channels" [(ngModel)]="selectedChannel" optionLabel="name" appendTo="body" baseZIndex="999999"></p-dropdown>
+    <label class="warning-label" *ngIf="channelEditingWarningDisplay">You need to select a channel</label>
 
-  </div>
+</div>
 
   <p-footer>
     <kendo-buttongroup look="flat">

@@ -12,7 +12,7 @@ import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
-import { NewItemDialogComponent } from './dialogs/new-item-dialog';
+import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
 
 /*
 import {
@@ -292,6 +292,7 @@ export class ServicesSectionComponent implements OnInit {
         return this._selectedNode;
     }
 
+    /*
     onAddConfirm() {
         // TODO!!
         alert(this._currentNewItemContext);
@@ -301,6 +302,10 @@ export class ServicesSectionComponent implements OnInit {
     onAddCancel() {
         this._currentNewItemContext = null;
     }
+    */
 
+    onNewItemConfirm(event: DialogResult): void {
+        alert(event.name + ' ' + event.channel);
+    }
 
 }
