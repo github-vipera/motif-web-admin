@@ -36,7 +36,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
           },
           {
             name: 'Offline Message',
-            field: 'offlineMessage',
+            field: 'category',
             type: WCPropertyEditorItemType.List,
             value: '',
             listValues: ['Uno', 'Due', 'Tre', 'Quattro', 'Cinque'],
@@ -97,8 +97,49 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     }
 
     doSaveChanges(editorContext: EditorContext): Observable<any> {
-      // TODO!!
-      return null;
+      return new Observable((observer) => {
+
+        this.logger.debug(LOG_TAG, 'Saving changes on service: ', this.editorContext);
+
+        const updatedOperation = this.fromModel();
+
+        const serviceUpdate: ServiceUpdate = this.fromModel();
+
+        this.logger.debug(LOG_TAG, 'operation update: ', serviceUpdate);
+        this.servicesService.updateService(this.editorContext.channel,
+          this.editorContext.domainName,
+          this.editorContext.applicationName,
+          this.editorContext.serviceName, serviceUpdate).subscribe( (data) => {
+
+            this.logger.debug(LOG_TAG, 'Service updated: ', this.editorContext, data);
+
+            this.notificationCenter.post({
+                name: 'SaveServiceConfig',
+                title: 'Save Service Configuration',
+                message: 'Service configuration changed successfully.',
+                type: NotificationType.Success
+            });
+
+            observer.next({});
+            observer.complete();
+
+        }, (error) => {
+
+          this.logger.error(LOG_TAG , 'Service config update error: ', error);
+
+          this.notificationCenter.post({
+              name: 'SaveServiceConfigError',
+              title: 'Save Service Configuration',
+              message: 'Error saving service configuration:',
+              type: NotificationType.Error,
+              error: error
+          });
+
+          observer.error(error);
+
+        });
+
+      });
     }
 
     private refreshServiceInfo(domainName: string, applicationName: string, serviceName: string, channel: string): Observable<any> {
@@ -139,55 +180,29 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     private fromModel(): ServiceUpdate {
       this.logger.debug(LOG_TAG, 'fromModel called.');
 
-      const changedProperties: WCPropertyEditorItem[] = this.getChangedProperties();
-
-      this.logger.trace(LOG_TAG, 'fromModel changedProperties:', changedProperties);
-
-      // TODO!!
-      /*
-      const changedProps: Property[] = [];
-      for (let i = 0 ; i < changedProperties.length; i++) {
-        const changedProperty = changedProperties[i];
-        if ((changedProperty.field !== 'description') && (changedProperty.field !== 'category')) {
-          const property = {
-            key : changedProperty.field,
-            value: changedProperty.value
-          };
-          changedProps.push(property);
-        } else {
-          this.logger.debug(LOG_TAG, 'fromModel discarded field >>>>', changedProperty);
-        }
-      }
-  
-      const application: ApplicationUpdate = {
+      const serviceUpdate: ServiceUpdate = {
+        enabled: this.getPropertyItem('enabled').value,
+        systemCategory: this.getPropertyItem('category').value,
+        countersPlugin: this.getPropertyItem('countersPlugin').value,
+        thresholdActionsPlugin: this.getPropertyItem('thresholdActionsPlugin').value,
+        thresholdChecksPlugin: this.getPropertyItem('thresholdChecksPlugin').value
       };
-  
-      const descriptionProperty: WCPropertyEditorItem = this.getPropertyItem('description');
-      const categoryProperty: WCPropertyEditorItem = this.getPropertyItem('category');
-  
-      if (descriptionProperty.valueChanged) {
-        application.description = descriptionProperty.value;
-      }
-  
-      if (categoryProperty.valueChanged) {
-        application.category = categoryProperty.value;
-      }
-  
-      if (changedProps.length > 0) {
-        application.properties = changedProps;
-      }
-  
-      this.logger.debug(LOG_TAG, 'fromModel updateApp: ', application);
-  
-      return application;
-      */
-     return null;
+
+      this.logger.trace(LOG_TAG, 'fromModel serviceUpdate:', serviceUpdate);
+
+      return serviceUpdate;
     }
 
     private toModel(service: Service): void {
       this.getPropertyItem('enabled').value = service.enabled;
-      // TODO!! add other fields (where are??)
+      this.getPropertyItem('category').value = service.category;
+      // this.getPropertyItem('channel').value = service.channel;
+      this.getPropertyItem('countersPlugin').value = service.countersPlugin;
+      this.getPropertyItem('thresholdActionsPlugin').value = service.thresholdActionsPlugin;
+      this.getPropertyItem('thresholdChecksPlugin').value = service.thresholdChecksPlugin;
     }
+
+
 
 
 }

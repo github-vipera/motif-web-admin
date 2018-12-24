@@ -14,21 +14,12 @@ import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
 
-/*
-import {
-    GridComponent,
-    GridDataResult,
-    DataStateChangeEvent
-} from '@progress/kendo-angular-grid';
-*/
 
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSection]';
 
-interface NewItemContext {
-    type: EditingType;
-}
+
 
 @Component({
     selector: 'wa-services-section',
@@ -58,7 +49,6 @@ export class ServicesSectionComponent implements OnInit {
     public loading: boolean;
     private _currentRowElement: any;
     _selectedNode: TreeNode;
-    _currentNewItemContext: NewItemContext;
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
     @ViewChild('newItemDialog') _newItemDialog: NewItemDialogComponent;
@@ -291,18 +281,6 @@ export class ServicesSectionComponent implements OnInit {
     get selectedNode(): TreeNode {
         return this._selectedNode;
     }
-
-    /*
-    onAddConfirm() {
-        // TODO!!
-        alert(this._currentNewItemContext);
-        this._currentNewItemContext = null;
-    }
-
-    onAddCancel() {
-        this._currentNewItemContext = null;
-    }
-    */
 
     onNewItemConfirm(event: DialogResult): void {
         alert(event.name + ' ' + event.channel);
