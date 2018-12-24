@@ -8,7 +8,7 @@ import { DomainsService,
          ApplicationCreate,
           } from '@wa-motif-open-api/platform-service';
 
-import { ServicesService, OperationsService, ServiceList } from '@wa-motif-open-api/catalog-service';
+import { ServicesService,  Service, ServiceList, ServiceCreate } from '@wa-motif-open-api/catalog-service';
 import { ApplicationsService as AppService } from '@wa-motif-open-api/catalog-service';
 
 import { Observable } from 'rxjs';
@@ -24,6 +24,7 @@ export class ServiceCatalogService {
     constructor(private domainService: DomainsService,
         private applicationService: ApplicationsService,
         private appService: AppService,
+        private servicesService: ServicesService,
         private logger: NGXLogger) {
     }
 
@@ -169,7 +170,7 @@ export class ServiceCatalogService {
             });
         });
     }
-    
+
     public createNewApplication(domain: string, applicationName: string): Observable<Application> {
         return new Observable((observer) => {
 
@@ -178,6 +179,24 @@ export class ServiceCatalogService {
             const appCreate: ApplicationCreate = { name: applicationName, description: 'Description of ' + applicationName };
 
             this.applicationService.createApplication(domain, appCreate).subscribe((data: Application) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+        });
+    }
+
+    public createNewService(domain: string, application: string, serviceName: string, channel: string): Observable<Service> {
+        return new Observable((observer) => {
+
+            this.logger.debug(LOG_TAG, 'createNewService called for ', domain, application, serviceName, channel);
+
+            const serviceCreate: ServiceCreate = {
+                name: serviceName
+            };
+
+            this.servicesService.createService(channel, domain, application, serviceCreate).subscribe((data: Service) => {
                 observer.next(data);
                 observer.complete();
             }, (error) => {

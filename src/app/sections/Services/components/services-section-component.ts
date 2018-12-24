@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 import { Domain, Application } from '@wa-motif-open-api/platform-service';
+import { Service } from '@wa-motif-open-api/catalog-service';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -330,7 +331,7 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     private createNewApplication(domainName: string, applicationName: string): void {
-        // TODO!!
+
         this.logger.debug(LOG_TAG, 'createNewApplication called for: ', domainName, applicationName);
 
         this.serviceCatalogService.createNewApplication(domainName, applicationName).subscribe((newApplication: Application) => {
@@ -365,8 +366,35 @@ export class ServicesSectionComponent implements OnInit {
         application: string,
         serviceName: string,
         channel: string): void {
-        // TODO!!
-        alert('TODO!! create new service ' + serviceName + ' under ' + domain + '@' + application);
+
+        this.logger.debug(LOG_TAG, 'createNewService called for: ', domain, application, serviceName, channel);
+
+        this.serviceCatalogService.createNewService(domain, application, serviceName, channel).subscribe((newService: Service) => {
+
+            this.logger.debug(LOG_TAG, 'New service added: ', newService);
+
+            this.tableModel.addServiceNode(domain, application, newService);
+
+            this.notificationCenter.post({
+                name: 'CreateNewService',
+                title: 'Create New Service',
+                message: 'New Service created successfully.',
+                type: NotificationType.Success
+            });
+
+        }, (error) => {
+
+            this.logger.error(LOG_TAG , 'New application error: ', error);
+
+            this.notificationCenter.post({
+                name: 'CreateNewServiceError',
+                title: 'Create New Service',
+                message: 'Error creating the new service:',
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
     }
 
     private createNewOperation(domain: string,
