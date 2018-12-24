@@ -5,6 +5,7 @@ import { DomainsService,
          ApplicationsService,
          ApplicationsList,
          Application,
+         ApplicationCreate,
           } from '@wa-motif-open-api/platform-service';
 
 import { ServicesService, OperationsService, ServiceList } from '@wa-motif-open-api/catalog-service';
@@ -153,14 +154,14 @@ export class ServiceCatalogService {
         });
     }
 
-    public createNewDomain(domainName: string): Observable<any> {
+    public createNewDomain(domainName: string): Observable<Domain> {
         return new Observable((observer) => {
 
             this.logger.debug(LOG_TAG, 'createNewDomain called for ', domainName);
 
             const domainCreate: DomainCreate = { name: domainName, description: 'Description of ' + domainName };
 
-            this.domainService.createDomain(domainCreate).subscribe((data) => {
+            this.domainService.createDomain(domainCreate).subscribe((data: Domain) => {
                 observer.next(data);
                 observer.complete();
             }, (error) => {
@@ -168,6 +169,23 @@ export class ServiceCatalogService {
             });
         });
     }
+    
+    public createNewApplication(domain: string, applicationName: string): Observable<Application> {
+        return new Observable((observer) => {
+
+            this.logger.debug(LOG_TAG, 'createNewApplication called for ', domain, applicationName);
+
+            const appCreate: ApplicationCreate = { name: applicationName, description: 'Description of ' + applicationName };
+
+            this.applicationService.createApplication(domain, appCreate).subscribe((data: Application) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+        });
+    }
+
 
     /**
      this.domainService.getDomains()

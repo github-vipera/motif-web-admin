@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
-import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import { WCPropertyEditorModel, WCPropertyEditorItemType } from 'web-console-ui-kit';
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { ServiceCatalogTableModel } from '../data/model';
@@ -14,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
+import { Domain, Application } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -65,6 +64,7 @@ export class ServicesSectionComponent implements OnInit {
         private serviceCatalogService: ServiceCatalogService,
         private notificationCenter: NotificationCenter,
         private renderer2: Renderer2,
+        private changeDetector: ChangeDetectorRef
         ) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
@@ -301,9 +301,11 @@ export class ServicesSectionComponent implements OnInit {
     private createNewDomain(domainName: string): void {
         this.logger.debug(LOG_TAG, 'createNewDomain called for: ', domainName);
 
-        this.serviceCatalogService.createNewDomain(domainName).subscribe((data) => {
+        this.serviceCatalogService.createNewDomain(domainName).subscribe((newDomain: Domain) => {
 
-            this.logger.debug(LOG_TAG, 'New domain added: ', data);
+            this.logger.debug(LOG_TAG, 'New domain added: ', newDomain);
+
+            this.tableModel.addDomainNode(newDomain);
 
             this.notificationCenter.post({
                 name: 'CreateNewDomain',
@@ -327,9 +329,36 @@ export class ServicesSectionComponent implements OnInit {
         });
     }
 
-    private createNewApplication(domain: string, applicationName: string): void {
+    private createNewApplication(domainName: string, applicationName: string): void {
         // TODO!!
-        alert('TODO!! create new app ' + applicationName + ' under ' + domain);
+        this.logger.debug(LOG_TAG, 'createNewApplication called for: ', domainName, applicationName);
+
+        this.serviceCatalogService.createNewApplication(domainName, applicationName).subscribe((newApplication: Application) => {
+
+            this.logger.debug(LOG_TAG, 'New application added: ', newApplication);
+
+            this.tableModel.addApplicationNode(domainName, newApplication);
+
+            this.notificationCenter.post({
+                name: 'CreateNewApplication',
+                title: 'Create New Application',
+                message: 'New Application created successfully.',
+                type: NotificationType.Success
+            });
+
+        }, (error) => {
+
+            this.logger.error(LOG_TAG , 'New application error: ', error);
+
+            this.notificationCenter.post({
+                name: 'CreateNewApplicationError',
+                title: 'Create New Application',
+                message: 'Error creating the new application:',
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
     }
 
     private createNewService(domain: string,
