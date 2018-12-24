@@ -13,8 +13,6 @@ import { NotificationCenter, NotificationType } from '../../../components/Common
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/new-item-dialog';
-
-
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 
 const LOG_TAG = '[ServicesSection]';
