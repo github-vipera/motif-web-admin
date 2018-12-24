@@ -6,7 +6,13 @@ const LOG_TAG = '[NewItemDialogComponent]';
 
 export interface DialogResult {
     name: string;
+    editType: EditingType;
     channel?: string;
+}
+
+interface Channel {
+    name: string;
+    code: string;
 }
 
 @Component({
@@ -21,6 +27,16 @@ export class NewItemDialogComponent implements OnInit {
     display: boolean;
     name: string;
     floatingLabel: string;
+
+    channels: Channel[] = [
+        { name: 'JSON', code: 'JSON'},
+        { name: 'Browser', code: 'BROWSER'},
+        { name: 'REST', code: 'REST'},
+        { name: 'SMS', code: 'SMS'},
+        { name: 'WebAdmin', code: 'WEBADMIN'},
+        { name: 'WebContent', code: 'WEBCONTENT'},
+    ];
+    selectedChannel: Channel;
 
     @Output() confirm: EventEmitter<DialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -40,7 +56,12 @@ export class NewItemDialogComponent implements OnInit {
         this.display = false;
     }
 
+    public get currentEditType(): EditingType {
+        return this._currentEditType;
+    }
+
     private prepare(editType: EditingType) {
+        this.logger.debug(LOG_TAG, 'prepare for:', editType);
         this._currentEditType = editType;
         if (editType === EditingType.Domain) {
             this.dialogTitle = 'Add new Domain';
@@ -55,8 +76,9 @@ export class NewItemDialogComponent implements OnInit {
             this.dialogTitle = 'Add new Operation';
             this.floatingLabel = 'Operation Name';
         }
-        this.logger.debug(LOG_TAG, 'Title:', this.dialogTitle, editType);
-        // TODO!!
+        // empty the fields
+        this.name = '';
+        this.selectedChannel = null;
     }
 
     onCancel(): void {
@@ -67,8 +89,13 @@ export class NewItemDialogComponent implements OnInit {
     onConfirm(): void {
         this.display = false;
         this.confirm.emit({
-            name: 'Test'
+            name: 'Test',
+            editType: this._currentEditType
         });
+    }
+
+    isServiceEditing(): boolean {
+        return (this._currentEditType === EditingType.Service)
     }
 
 }

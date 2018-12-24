@@ -23,6 +23,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenubarModule } from 'primeng/menubar';
 import { NewItemDialogComponent } from './components/dialogs/new-item-dialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { NewItemDialogComponent } from './components/dialogs/new-item-dialog';
         DialogModule,
         ButtonsModule,
         ContextMenuModule,
-        MenubarModule
+        MenubarModule,
+        DropdownModule
     ],
     entryComponents: [
         ServicesSectionComponent

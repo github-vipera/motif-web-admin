@@ -9,13 +9,17 @@
 >
   <p-header> {{ dialogTitle }} </p-header>
 
-  <div style="min-width: 350px;">
+  <div style="min-width: 350px;display:flex;flex-direction: column;">
+    
     <kendo-textbox-container
       floatingLabel="{{floatingLabel}}"
       style="width: 100%;"
     >
       <input kendoTextBox [(ngModel)]="name" required />
     </kendo-textbox-container>
+
+    <p-dropdown *ngIf="isServiceEditing()"  class="wa-services-section-newitem-dialog-channel-selector" placeholder="Select a Channel" [style]="{'width':'100%;background: #5d5f5f;padding-top:10px;'}" [options]="channels" [(ngModel)]="selectedChannel" optionLabel="name" appendTo="body" baseZIndex="999999"></p-dropdown>
+
   </div>
 
   <p-footer>
@@ -24,4 +28,5 @@
       <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Create</button>
     </kendo-buttongroup>
   </p-footer>
+
 </p-dialog>

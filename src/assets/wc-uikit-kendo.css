@@ -208,3 +208,8 @@ kendo-popup {
 .k-list > li {
     color: #ddd;
 }
+
+.k-dropdown-wrap {
+    background-color: #353a3e !important;
+    color: #ddd;
+}

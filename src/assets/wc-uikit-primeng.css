@@ -69,3 +69,13 @@
 	background-color: #1b1f21;
 	color: #c1c1c1;
 }
+
+.ui-dropdown-panel .ui-dropdown-list {
+	background: #444c50;
+	color: white;
+	font-size: 0.8rem;
+}
+
+.ui-dropdown-item:hover {
+	background: #3e4448;
+}

@@ -128,7 +128,6 @@ export class ServicesSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG, 'Initializing...');
-        this.groups = [{ field: 'domain' }, { field: 'application' }, { field: 'service' } ];
 
         this.tableModel = new ServiceCatalogTableModel();
 
