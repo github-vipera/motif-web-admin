@@ -19,7 +19,7 @@ import * as _ from 'lodash';
 const LOG_TAG = '[PluginsSection]';
 
 @Component({
-    selector: 'wa-plugins-section',
+    selector: 'app-plugins-section',
     styleUrls: [ './plugins-section-component.scss' ],
     templateUrl: './plugins-section-component.html'
   })
@@ -37,7 +37,7 @@ export class PluginsSectionComponent implements OnInit {
     };
 
     constructor(private logger: NGXLogger,
-        private registryService: RegistryService){
+        private registryService: RegistryService) {
         this.logger.debug(LOG_TAG , 'Opening...');
 
     }
@@ -54,7 +54,7 @@ export class PluginsSectionComponent implements OnInit {
         this.refreshData();
     }
 
-    public refreshData(){
+    public refreshData() {
         this.loading = true;
         this.registryService.getPlugins(true, 'REGISTERED').subscribe((data: PluginList) => {
             this.data = data;
@@ -70,21 +70,21 @@ export class PluginsSectionComponent implements OnInit {
     }
 
     public statusColorCode(plugin: Plugin): SafeStyle {
-        if (plugin.status === 'ACTIVE'){
+        if (plugin.status === 'ACTIVE') {
             return '#1ab31a';
         } else {
             return 'inherit';
         }
     }
 
-    public onFilterChange(event: Event){
+    public onFilterChange(event: Event) {
         this.filterValue = event.srcElement['value'];
         this.displayData();
     }
 
-    private displayData(): void{
+    private displayData(): void {
         let filteredData;
-        if (this.filterValue){
+        if (this.filterValue) {
             filteredData = _.filter(this.data, (o) => {
                 const matcher = new RegExp('.' + this.filterValue + '.');
                 return matcher.test(o.name);
