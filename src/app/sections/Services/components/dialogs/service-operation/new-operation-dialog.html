@@ -33,23 +33,26 @@
     <input kendoTextBox [(ngModel)]="pluginName" required />
   </kendo-textbox-container>
 
-  <wc-switch-button [title]="'Secure'" [id]="'secure'" style="padding-top:14px;"></wc-switch-button>
-  <wc-switch-button [title]="'Counted'" [id]="'counted'" style="padding-top:14px;"></wc-switch-button>
-  <wc-switch-button [title]="'Session Less'" [id]="'sessionLess'" style="padding-top:14px;"></wc-switch-button>
+  <!--  <wc-switch-button [title]="'Secure'" [id]="'secure'" style="padding-top:14px;" [checked]="secure"></wc-switch-button>
+  <wc-switch-button [title]="'Counted'" [id]="'counted'" style="padding-top:14px;" [checked]="counted"></wc-switch-button>
+  <wc-switch-button [title]="'Session Less'" [id]="'sessionLess'" style="padding-top:14px;" [checked]="sessionLess"></wc-switch-button>
+  -->
+  <label class="switch-control-label"> 
+      Secure
+      <wc-switch-control [(ngModel)]="secure" class="switch-control-button" ></wc-switch-control>
+  </label>
+  <label class="switch-control-label"> 
+      Counted
+      <wc-switch-control [(ngModel)]="counted" class="switch-control-button"  ></wc-switch-control>
+  </label>
+  <label class="switch-control-label"> 
+      Sessionless
+      <wc-switch-control [(ngModel)]="sessionLess" class="switch-control-button" ></wc-switch-control>
+  </label>
   
   <textarea kendoTextArea placeholder="Input Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="inputParams"></textarea>
   <textarea kendoTextArea placeholder="Output Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="outputParams"></textarea>
 
-  <!--
-  <kendo-textbox-container floatingLabel="Input Params (JSON)" style="width: 100%;height: 100px;">
-      <textarea kendoTextArea></textarea>
-    </kendo-textbox-container>
-
-     
-  <kendo-textbox-container floatingLabel="Output Params (JSON)" style="width: 100%;height: 100px;">
-      <textarea kendoTextArea></textarea>
-    </kendo-textbox-container>
-  -->
 
 </div>
 
