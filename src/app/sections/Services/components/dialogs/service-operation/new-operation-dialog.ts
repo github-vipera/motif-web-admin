@@ -7,7 +7,13 @@ const LOG_TAG = '[NewItemDialogComponent]';
 export interface NewOperationDialogResult {
     name: string;
     editType: EditingType;
-    description?: string;
+    description: string;
+    pluginName: string;
+    secure: boolean;
+    counted: boolean;
+    sessionless: boolean;
+    inputParams: string;
+    outputParams: string;
 }
 
 
@@ -79,7 +85,13 @@ export class NewOperationDialogComponent implements OnInit {
         const event: NewOperationDialogResult = {
             name: this.name,
             description: this.description,
-            editType: this._currentEditType
+            editType: this._currentEditType,
+            pluginName: this.pluginName,
+            counted: this.counted,
+            secure: this.secure,
+            sessionless: this.sessionLess,
+            inputParams: this.inputParams,
+            outputParams: this.outputParams
         };
         this.confirm.emit(event);
     }

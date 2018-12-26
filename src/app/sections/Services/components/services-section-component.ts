@@ -303,6 +303,7 @@ export class ServicesSectionComponent implements OnInit {
 
     onNewServiceOperationConfirm(event: NewOperationDialogResult): void {
         // TODO!!
+        console.log('>>>>> ', event);
         alert('TODO!!');
     }
 
