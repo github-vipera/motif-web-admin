@@ -59,7 +59,6 @@ export class PluginsSectionComponent implements OnInit {
         this.registryService.getPlugins(true, 'REGISTERED').subscribe((data: PluginList) => {
             this.data = data;
             this.displayData();
-            this.displayData();
             this.loading = false;
             // console.log("refreshData: ", data);
         }, (error) => {
