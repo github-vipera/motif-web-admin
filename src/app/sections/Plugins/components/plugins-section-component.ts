@@ -45,6 +45,7 @@ export class PluginsSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
+        this.refreshData();
     }
 
     public onRefreshClicked(): void {
@@ -83,12 +84,17 @@ export class PluginsSectionComponent implements OnInit {
         let filteredData;
         if (this.filterValue) {
             filteredData = _.filter(this.data, (o) => {
-                const matcher = new RegExp('.' + this.filterValue + '.');
+                const matcher = this.buildRegExp(this.filterValue);
                 return matcher.test(o.name);
             });
         } else {
             filteredData = this.data;
         }
         this.gridData = process(filteredData, this.state);
+    }
+
+    private buildRegExp(filter: string) {
+        const wildcarded = '*' + filter + '*';
+        return new RegExp('^' + wildcarded.split('*').join('.*') + '$');
     }
 }
