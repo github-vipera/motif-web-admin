@@ -26,6 +26,8 @@ import { NewItemDialogComponent } from './components/dialogs/generic/new-item-di
 import { NewOperationDialogComponent } from './components/dialogs/service-operation/new-operation-dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
     imports: [
@@ -48,7 +50,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         ContextMenuModule,
         MenubarModule,
         DropdownModule,
-        InputSwitchModule
+        InputSwitchModule,
+        ConfirmDialogModule
     ],
     entryComponents: [
         ServicesSectionComponent
@@ -65,7 +68,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         NewOperationDialogComponent
     ],
     exports: [ ServicesSectionComponent ],
-    providers: [  ]
+    providers: [ ConfirmationService  ]
   })
   export class ServicesSectionModule { }
 

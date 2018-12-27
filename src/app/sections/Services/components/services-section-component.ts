@@ -15,6 +15,7 @@ import { NewOperationDialogComponent, NewOperationDialogResult } from './dialogs
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 import { Domain, Application } from '@wa-motif-open-api/platform-service';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
+import { ConfirmationService } from 'primeng/api';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -67,7 +68,8 @@ export class ServicesSectionComponent implements OnInit {
         private serviceCatalogService: ServiceCatalogService,
         private notificationCenter: NotificationCenter,
         private renderer2: Renderer2,
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        private confirmationService: ConfirmationService
         ) {
         this.logger.debug(LOG_TAG, 'Opening...');
 
@@ -276,7 +278,13 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     private onDeleteSelectedNode(): void {
-        alert('onDeleteSelectedNode: ' + this.selectedNode.data.name);
+        console.log('OnDeleteSelected node: ', this.selectedNode.data);
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete this action?',
+            accept: () => {
+                alert('onDeleteSelectedNode: ' + this.selectedNode.data.name);
+            }
+        });
     }
 
     set selectedNode(node: TreeNode) {
