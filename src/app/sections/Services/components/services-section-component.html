@@ -27,14 +27,16 @@
 
 <div class="row fill">
   <kendo-splitter>
-    <kendo-splitter-pane>
-      <div #servicetableContainer>
+    <kendo-splitter-pane style="overflow: hidden;">
+      <div #servicetableContainer style="height: 100%;">
         <p-treeTable #serviceTable
           [value]="tableModel.model"
-          [scrollable]="true"
           selectionMode="single"
           [(selection)]="selectedNode"
           dataKey="id"
+          class="treetable-xxx"
+          [scrollable]="true" 
+          scrollHeight="100%"
           (onNodeUnselect)="nodeUnselect($event)"
           [(contextMenuSelection)]="selectedNode" [contextMenu]="tableContextMenu"
         >

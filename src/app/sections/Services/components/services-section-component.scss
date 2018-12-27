@@ -1,3 +1,8 @@
+:host{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+ }
 
 :host ::ng-deep .service-catalog-tree  .k-grid .k-grouping-row {
     background-color: #22272b;
@@ -153,3 +158,29 @@ td {
 .ui-state-highlight>td {
     color: white;
 }
+
+/*
+.ui-treetable-scrollable-body {
+    height: 94%;
+}
+
+.ui-treetable-scrollable-view {
+    height: 100%;
+}
+
+.ui-treetable-scrollable-wrapper {
+    height: 100%;
+}
+
+.ui-treetable {
+    height: 100%;
+
+    .ui-treetable-scrollable-body {
+        height: 94%;
+    }
+    
+}
+*/
+
+
+

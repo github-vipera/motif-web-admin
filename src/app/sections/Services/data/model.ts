@@ -64,6 +64,7 @@ export class ServiceCatalogTableModel {
           channel: channel
         }
       },
+      expanded: true,
       children: []
     };
   }

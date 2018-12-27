@@ -79,3 +79,22 @@
 .ui-dropdown-item:hover {
 	background: #3e4448;
 }
+
+.ui-treetable {
+    height: 100%;
+}
+
+.ui-treetable-scrollable-wrapper {
+    height: 100%;            
+}	
+
+    
+.ui-treetable-scrollable-view {
+    height: 100%;
+}
+    
+.ui-treetable-scrollable-body {
+    max-height: none !important;
+    height: 95% !important;
+}
+
