@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
-import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LoggerModule } from 'web-console-core';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-component';
@@ -15,6 +14,7 @@ import { DroppableModule } from '@ctrl/ngx-droppable';
 import { AfterValueChangedDirective } from './UI/after-value-change-directive';
 import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
     imports: [
