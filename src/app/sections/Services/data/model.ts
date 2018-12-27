@@ -242,7 +242,15 @@ export class ServiceCatalogTableModel {
                              applicationName: string,
                              serviceName: string,
                              operationName: string): void {
-    // TODO!!
+    const serviceNode = this.getServiceNode(channel, domainName, applicationName, serviceName);
+    if ( serviceNode ) {
+      const nodeIndex = this.getNodeIndex(serviceNode.children, operationName);
+      if ( nodeIndex >= 0 ) {
+        serviceNode.children.splice(nodeIndex, 1);
+        serviceNode.children = [...serviceNode.children];
+        this.refreshModel();
+      }
+    }
   }
 
   public getDomainNodes(): TreeNode[] {
