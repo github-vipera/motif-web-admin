@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service';
@@ -10,9 +10,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import {
-    GridComponent,
-    GridDataResult,
-    DataStateChangeEvent
+    GridDataResult
 } from '@progress/kendo-angular-grid';
 import * as _ from 'lodash';
 
