@@ -254,14 +254,6 @@ export class ServiceCatalogTableModel {
   }
 
   public getDomainNodes(): TreeNode[] {
-    /*
-    const ret = [];
-    for (let i = 0; i < this._model.length; i++) {
-      const treeNode: TreeNode = this._model[i];
-      ret.push(treeNode);
-    }
-    return ret;
-    */
    return this._model;
   }
 
