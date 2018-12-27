@@ -305,11 +305,11 @@ export class ServicesSectionComponent implements OnInit {
 
     onNewServiceOperationConfirm(event: NewOperationDialogResult): void {
         this.logger.debug(LOG_TAG, 'createNewOperation called for: ', event);
-        this.serviceCatalogService.createNewOperation(event.channel, 
+        this.serviceCatalogService.createNewOperation(event.channel,
             event.domain,
             event.application,
             event.service,
-            event.name, 
+            event.name,
             event.description,
             event.pluginName,
             event.encrypted,

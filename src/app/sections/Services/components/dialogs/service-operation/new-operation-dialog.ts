@@ -68,7 +68,7 @@ export class NewOperationDialogComponent implements OnInit {
         return this._currentEditType;
     }
 
-    private prepare(editType: EditingType, 
+    private prepare(editType: EditingType,
         channel: string,
         domain: string,
         application: string,
