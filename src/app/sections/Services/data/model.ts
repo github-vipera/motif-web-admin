@@ -194,7 +194,7 @@ export class ServiceCatalogTableModel {
       const treeNode: TreeNode = nodes[i];
       if (treeNode.data.name === childNodeName) {
         if (channel) {
-          if (treeNode.data.channel === channel){
+          if (treeNode.data.channel === channel) {
             return treeNode;
           }
         } else {
@@ -359,11 +359,11 @@ export class ServiceCatalogTableModel {
     return this.getNodeIndex(this.getDomainNodes(), domainName);
   }
 
-  private getNodeIndex(nodes: TreeNode[], nodeName:string, channel?: string): number {
+  private getNodeIndex(nodes: TreeNode[], nodeName: string, channel?: string): number {
     for (let i = 0; i < nodes.length; i++) {
       if (nodes[i].data.name === nodeName ) {
         if (channel) {
-          if (nodes[i].data.catalogEntry.channel===channel){
+          if (nodes[i].data.catalogEntry.channel === channel) {
             return i;
           }
         } else {
