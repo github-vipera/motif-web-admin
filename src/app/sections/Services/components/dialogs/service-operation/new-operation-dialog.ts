@@ -5,6 +5,9 @@ import { EditingType } from '../../editors/service-catalog-editor-context';
 const LOG_TAG = '[NewItemDialogComponent]';
 
 export interface NewOperationDialogResult {
+    domain: string;
+    application: string;
+    service: string;
     name: string;
     editType: EditingType;
     description: string;
@@ -12,8 +15,10 @@ export interface NewOperationDialogResult {
     secure: boolean;
     counted: boolean;
     sessionless: boolean;
+    encrypted: boolean;
     inputParams: string;
     outputParams: string;
+    channel: string;
 }
 
 
@@ -32,9 +37,14 @@ export class NewOperationDialogComponent implements OnInit {
     secure: boolean;
     counted: boolean;
     sessionLess: boolean;
+    encrypted: boolean;
     inputParams: string;
     outputParams: string;
     _nameEditingWarningDisplay: boolean;
+    domain: string;
+    application: string;
+    service: string;
+    channel: string;
 
     @Output() confirm: EventEmitter<NewOperationDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -45,8 +55,8 @@ export class NewOperationDialogComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
-    public show(editType: EditingType): void {
-        this.prepare(editType);
+    public show(editType: EditingType, channel: string, domain: string, application: string, service: string): void {
+        this.prepare(editType, channel, domain, application, service);
         this.display = true;
     }
 
@@ -58,7 +68,11 @@ export class NewOperationDialogComponent implements OnInit {
         return this._currentEditType;
     }
 
-    private prepare(editType: EditingType) {
+    private prepare(editType: EditingType, 
+        channel: string,
+        domain: string,
+        application: string,
+        service: string): void {
         this.logger.debug(LOG_TAG, 'prepare for:', editType);
         this._currentEditType = editType;
         // empty the fields
@@ -70,6 +84,11 @@ export class NewOperationDialogComponent implements OnInit {
         this.sessionLess = false;
         this.inputParams = '';
         this.outputParams = '';
+        this.domain = domain;
+        this.application = application;
+        this.service = service;
+        this.encrypted = true;
+        this.channel = channel;
     }
 
     onCancel(): void {
@@ -83,6 +102,9 @@ export class NewOperationDialogComponent implements OnInit {
         }
         this.display = false;
         const event: NewOperationDialogResult = {
+            domain: this.domain,
+            application: this.application,
+            service: this.service,
             name: this.name,
             description: this.description,
             editType: this._currentEditType,
@@ -91,7 +113,9 @@ export class NewOperationDialogComponent implements OnInit {
             secure: this.secure,
             sessionless: this.sessionLess,
             inputParams: this.inputParams,
-            outputParams: this.outputParams
+            outputParams: this.outputParams,
+            encrypted : this.encrypted,
+            channel: this.channel
         };
         this.confirm.emit(event);
     }

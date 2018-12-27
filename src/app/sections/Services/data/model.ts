@@ -1,4 +1,4 @@
-import { Service } from '@wa-motif-open-api/catalog-service';
+import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { EventEmitter } from '@angular/core';
 import { Application, Domain } from '@wa-motif-open-api/platform-service';
 import { TreeNode } from 'primeng/api';
@@ -225,6 +225,27 @@ export class ServiceCatalogTableModel {
      */
     this._model = [...this.model, domainNode];
     return domainNode;
+  }
+
+  public addOperationNode(domainName: string, applicationName: string, serviceName: string, operation: ServiceOperation): TreeNode {
+    const operationNode: TreeNode = this.buildNode(
+      operation.name,
+      operation.description,
+      'Operation',
+      null,
+      true,
+      domainName,
+      applicationName,
+      serviceName,
+      operation.name
+    );
+    const serviceNode: TreeNode = this.getServiceNode(domainName, applicationName, serviceName);
+    if (serviceNode) {
+      serviceNode.children = [...serviceNode.children, operationNode];
+    }
+    this.refreshModel();
+    return operationNode;
+
   }
 
   public addApplicationNode(domainName: string, application: Application): TreeNode {

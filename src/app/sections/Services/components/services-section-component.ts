@@ -14,7 +14,7 @@ import { NewItemDialogComponent, DialogResult } from './dialogs/generic/new-item
 import { NewOperationDialogComponent, NewOperationDialogResult } from './dialogs/service-operation/new-operation-dialog';
 import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service-catalog-editor-context';
 import { Domain, Application } from '@wa-motif-open-api/platform-service';
-import { Service } from '@wa-motif-open-api/catalog-service';
+import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -268,7 +268,11 @@ export class ServicesSectionComponent implements OnInit {
 
     private onAddOperationClick(): void {
         this.logger.debug(LOG_TAG, 'onAddOperationClick');
-        this._newOperationDialog.show(EditingType.Operation);
+        this._newOperationDialog.show(EditingType.Operation,
+            this.currentSelectedChannel,
+            this.currentSelectedDomain,
+            this.currentSelectedApplication,
+            this.currentSelectedService);
     }
 
     private onDeleteSelectedNode(): void {
@@ -288,23 +292,57 @@ export class ServicesSectionComponent implements OnInit {
         if (event.editType === EditingType.Domain) {
             this.createNewDomain(event.name);
         } else if (event.editType === EditingType.Application) {
-            this.createNewApplication(this.selectedNode.data.catalogEntry.domain, event.name);
+            this.createNewApplication(this.currentSelectedDomain, event.name);
         } else if (event.editType === EditingType.Service) {
-            this.createNewService(this.selectedNode.data.catalogEntry.domain,
-                this.selectedNode.data.catalogEntry.application,
+            this.createNewService(this.currentSelectedDomain,
+                this.currentSelectedApplication,
                 event.name, event.channel);
-        } else if (event.editType === EditingType.Operation) {
-            this.createNewOperation(this.selectedNode.data.catalogEntry.domain,
-                this.selectedNode.data.catalogEntry.application,
-                this.selectedNode.data.catalogEntry.service,
-                event.name);
+        } else {
+            this.logger.warn(LOG_TAG, 'onNewItemConfirm unknown for: ', event);
+            alert('Unknown event type: ' + event.editType);
         }
     }
 
     onNewServiceOperationConfirm(event: NewOperationDialogResult): void {
-        // TODO!!
-        console.log('>>>>> ', event);
-        alert('TODO!!');
+        this.logger.debug(LOG_TAG, 'createNewOperation called for: ', event);
+        this.serviceCatalogService.createNewOperation(event.channel, 
+            event.domain,
+            event.application,
+            event.service,
+            event.name, 
+            event.description,
+            event.pluginName,
+            event.encrypted,
+            event.secure,
+            event.counted,
+            event.sessionless,
+            event.inputParams,
+            event.outputParams).subscribe((operation: ServiceOperation) => {
+
+                this.logger.debug(LOG_TAG, 'New Operation added: ', operation);
+
+                this.tableModel.addOperationNode(event.domain, event.application, event.service, operation);
+
+                this.notificationCenter.post({
+                    name: 'CreateNewOperation',
+                    title: 'Create New Operation',
+                    message: 'New Operation created successfully.',
+                    type: NotificationType.Success
+                });
+
+        }, (error) => {
+
+            this.logger.error(LOG_TAG , 'New operation error: ', error);
+
+            this.notificationCenter.post({
+                name: 'CreateNewOperationError',
+                title: 'Create New Operation',
+                message: 'Error creating the new operation:',
+                type: NotificationType.Error,
+                error: error
+            });
+
+        });
     }
 
     private createNewDomain(domainName: string): void {
@@ -405,12 +443,22 @@ export class ServicesSectionComponent implements OnInit {
         });
     }
 
-    private createNewOperation(domain: string,
-        application: string,
-        service: string,
-        operationName: string): void {
-        // TODO!!
-        alert('TODO!! create new operation ' + operationName + ' under ' + domain + '@' + application + '@' + service);
+    public get currentSelectedDomain(): string {
+        return this.selectedNode.data.catalogEntry.domain;
+    }
+
+    public get currentSelectedApplication(): string {
+        return this.selectedNode.data.catalogEntry.application;
+    }
+
+    public get currentSelectedService(): string {
+        return this.selectedNode.data.catalogEntry.service;
+    }
+
+    public get currentSelectedChannel(): string {
+        const serviceNode: TreeNode = this.tableModel.getServiceNode(this.currentSelectedDomain,
+            this.currentSelectedApplication, this.currentSelectedService);
+        return serviceNode.data.catalogEntry.channel;
     }
 
 }

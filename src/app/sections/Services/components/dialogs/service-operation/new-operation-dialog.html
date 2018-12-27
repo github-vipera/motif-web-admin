@@ -49,7 +49,11 @@
       Sessionless
       <wc-switch-control [(ngModel)]="sessionLess" class="switch-control-button" ></wc-switch-control>
   </label>
-  
+  <label class="switch-control-label"> 
+    Encrypted
+    <wc-switch-control [(ngModel)]="encrypted" class="switch-control-button" ></wc-switch-control>
+</label>
+
   <textarea kendoTextArea placeholder="Input Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="inputParams"></textarea>
   <textarea kendoTextArea placeholder="Output Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="outputParams"></textarea>
 

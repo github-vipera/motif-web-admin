@@ -206,24 +206,43 @@ export class ServiceCatalogService {
         });
     }
 
-    public createNewOperation(domain: string, application: string, service: string, operationName: string): Observable<ServiceOperation> {
+    public createNewOperation(channel: string,
+        domain: string,
+        application: string,
+        service: string,
+        operationName: string,
+        description: string,
+        pluginName: string,
+        encrypted: boolean,
+        secure: boolean,
+        counted: boolean,
+        sessionless: boolean,
+        inputParams: string,
+        outputParams: string
+        ): Observable<ServiceOperation> {
         return new Observable((observer) => {
 
             this.logger.debug(LOG_TAG, 'createNewOperation called for ', domain, application, service, operationName);
-            /*
             const serviceOperation: ServiceOperation = {
+                counted: counted,
+                encryptActive: encrypted,
+                inputParams: inputParams,
+                outputParams: outputParams,
+                pluginName: pluginName,
+                secure: secure,
+                sessionless: sessionless,
                 name: operationName,
-                description: 'Description of ' + operationName
+                description: description
             };
 
-            // channel: string, domain: string, application: string, service: string, serviceOperation?: ServiceOperation
-            this.operationsService.createServiceOperation(channel, domain, application, service, serviceOperation).subscribe((data: Service) => {
-                observer.next(data);
-                observer.complete();
+            this.operationsService.createServiceOperation(channel, 
+                domain, application, service, serviceOperation). subscribe((data: ServiceOperation) => {
+                    observer.next(data);
+                    observer.complete();
             }, (error) => {
                 observer.error(error);
             });
-            */
+
         });
     }
 
