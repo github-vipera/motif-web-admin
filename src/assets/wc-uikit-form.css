@@ -56,3 +56,23 @@
     }
   }
   
+
+.switch-control-label {
+  padding-top:12px;
+  display:flex;
+  flex-direction: column;
+}
+
+.switch-control-button {
+  padding-top:5px;
+}
+
+.combo-control-label {
+  padding-top:12px;
+  display:flex;
+  flex-direction: column;
+}
+
+.combo-control-label kendo-dropdownlist {
+  padding-top: 4px;
+}

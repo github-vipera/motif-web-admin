@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
-import { DialogModule } from '@progress/kendo-angular-dialog';
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
 import { LoggerModule } from 'web-console-core'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
-import { ConfigurationSectionEditFormComponent } from './components/editor-form.component'
 import { EditService } from '../../components/Grid/edit.service';
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { DialogModule } from 'primeng/dialog';
+import { NewConfigurationParamDialogComponent } from './components/dialog/new-configuration-param-dialog'
 
 @NgModule({
     imports: [
@@ -27,7 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
         ConfigurationSectionComponent
     ],
     declarations: [
-        ConfigurationSectionComponent, ConfigurationSectionEditFormComponent
+        ConfigurationSectionComponent, NewConfigurationParamDialogComponent
     ],
     exports: [ ConfigurationSectionComponent ],
     providers: [ 

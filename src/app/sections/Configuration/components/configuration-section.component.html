@@ -91,7 +91,7 @@
 
             </kendo-grid>
 
-            <configuration-section-edit-form #newPropertyDialog [model]="editDataItem" (cancel)="onEditCancel()" (save)="onEditCommit($event)"></configuration-section-edit-form>
+            <wa-configuration-section-new-config-param-dialog #newPropertyDialog (confirm)="onAddNewPropertyConfirmed($event)"></wa-configuration-section-new-config-param-dialog>
 
 
 </div>
