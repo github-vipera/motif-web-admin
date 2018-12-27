@@ -413,9 +413,9 @@ export class ServicesSectionComponent implements OnInit {
 
     private handleDeleteDomain(catalogEntry: CatalogEntry): void {
         this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete the domain ' + catalogEntry.application + ' ?',
+            message: 'Are you sure that you want to delete the domain ' + catalogEntry.domain + ' ?',
             accept: () => {
-                this.serviceCatalogService.deleteApplication(catalogEntry.domain, catalogEntry.application).subscribe((data) => {
+                this.serviceCatalogService.deleteDomain(catalogEntry.domain).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Domain deleted: ', data);
 

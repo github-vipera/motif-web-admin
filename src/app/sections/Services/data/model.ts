@@ -205,11 +205,23 @@ export class ServiceCatalogTableModel {
   }
 
   public removeDomainNode(domainName: string): void {
-    // TODO!!
+    const nodeIndex = this.getDomainNodeIndex(domainName);
+    if ( nodeIndex >= 0 ) {
+      this.model.splice(nodeIndex, 1);
+      this.refreshModel();
+    }
   }
 
   public removeApplicationNode(domainName: string, applicationName: string): void {
-    // TODO!!
+    const domainNode = this.getDomainNode(domainName);
+    if ( domainNode ) {
+      const nodeIndex = this.getNodeIndex(domainNode.children, applicationName);
+      if ( nodeIndex >= 0 ) {
+        domainNode.children.splice(nodeIndex, 1);
+        domainNode.children = [...domainNode.children];
+        this.refreshModel();
+      }
+    }
   }
 
   public removeServiceNode(channel: string, domainName: string, applicationName: string, serviceName: string): void {
@@ -225,12 +237,15 @@ export class ServiceCatalogTableModel {
   }
 
   public getDomainNodes(): TreeNode[] {
+    /*
     const ret = [];
     for (let i = 0; i < this._model.length; i++) {
       const treeNode: TreeNode = this._model[i];
       ret.push(treeNode);
     }
     return ret;
+    */
+   return this._model;
   }
 
   public getApplicationNodes(): TreeNode[] {
@@ -329,6 +344,19 @@ export class ServiceCatalogTableModel {
 
   private refreshModel(): void {
     this._model = [...this.model];
+  }
+
+  private getDomainNodeIndex(domainName: string): number {
+    return this.getNodeIndex(this.getDomainNodes(), domainName);
+  }
+
+  private getNodeIndex(nodes: TreeNode[], nodeName:string): number {
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].data.name === nodeName ) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }
