@@ -16,6 +16,7 @@ import { ServiceCatalogEditorChangesEvent, EditingType } from './editors/service
 import { Domain, Application } from '@wa-motif-open-api/platform-service';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { ConfirmationService } from 'primeng/api';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -41,6 +42,9 @@ export class ServicesSectionComponent implements OnInit {
     faCompass = faCompass;
     faDesktop = faDesktop;
 
+    // Loading status
+    private _isBusy = false;
+    faCircleNotch = faCircleNotch;
 
     deleteButtonCaption = 'Delete selected Domain ';
     deleteButtonEnabled: boolean;
@@ -135,11 +139,13 @@ export class ServicesSectionComponent implements OnInit {
 
     public refreshData() {
         this.loading = true;
+        this._isBusy = true;
         this.serviceCatalogService.getServiceCatalog().subscribe(data => {
             this.logger.debug(LOG_TAG, 'getServiceCatalog done.');
             this.logger.trace(LOG_TAG, 'getServiceCatalog services: ', data);
             this.tableModel.loadData(data);
             this.loading = false;
+            this._isBusy = false;
         }, (error) => {
             this.logger.error(LOG_TAG, 'getServiceCatalog error: ', error);
             this.notificationCenter.post({
@@ -150,6 +156,7 @@ export class ServicesSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
+            this._isBusy = false;
         });
     }
 
@@ -633,6 +640,10 @@ export class ServicesSectionComponent implements OnInit {
 
     public get currentSelectedChannel(): string {
         return this.selectedNode.data.catalogEntry.channel;
+    }
+
+    public get isBusy(): boolean {
+        return this._isBusy;
     }
 
 
