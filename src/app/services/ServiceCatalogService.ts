@@ -7,8 +7,12 @@ import { DomainsService,
          Application,
          ApplicationCreate,
           } from '@wa-motif-open-api/platform-service';
-
-import { ServicesService,  Service, ServiceList, ServiceCreate, OperationsService, ServiceOperation } from '@wa-motif-open-api/catalog-service';
+import { ServicesService,
+    Service,
+    ServiceList,
+    ServiceCreate,
+    OperationsService,
+    ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { ApplicationsService as AppService } from '@wa-motif-open-api/catalog-service';
 
 import { Observable } from 'rxjs';
@@ -235,7 +239,7 @@ export class ServiceCatalogService {
                 description: description
             };
 
-            this.operationsService.createServiceOperation(channel, 
+            this.operationsService.createServiceOperation(channel,
                 domain, application, service, serviceOperation). subscribe((data: ServiceOperation) => {
                     observer.next(data);
                     observer.complete();
@@ -243,6 +247,60 @@ export class ServiceCatalogService {
                 observer.error(error);
             });
 
+        });
+    }
+
+
+    public deleteDomain(domainName: string): Observable<any> {
+        return new Observable((observer) => {
+            this.logger.debug(LOG_TAG, 'deleteDomain called for ', domainName);
+            this.domainService.deleteDomain(domainName).subscribe((data: Domain) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+        });
+    }
+
+    public deleteApplication(domainName: string, applicationName: string): Observable<any> {
+        return new Observable((observer) => {
+            this.logger.debug(LOG_TAG, 'deleteApplication called for ', domainName, applicationName);
+            this.applicationService.deleteApplication(domainName, applicationName).subscribe((data) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+        });
+    }
+
+    public deleteService(channel: string, domainName: string, applicationName: string, serviceName: string): Observable<any> {
+        return new Observable((observer) => {
+            this.logger.debug(LOG_TAG, 'deleteService called for ', domainName, applicationName, serviceName);
+            this.servicesService.deleteService(channel, domainName, applicationName, serviceName).subscribe((data) => {
+                observer.next(data);
+                observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
+        });
+    }
+
+    public deleteOperation(channel: string,
+        domainName: string,
+        applicationName: string,
+        serviceName: string,
+        operationName: string): Observable<any> {
+        return new Observable((observer) => {
+            this.logger.debug(LOG_TAG, 'deleteOperation called for ', domainName, applicationName, serviceName, operationName);
+            this.operationsService.deleteServiceOperation(channel,
+                domainName, applicationName, serviceName, operationName). subscribe((data) => {
+                    observer.next(data);
+                    observer.complete();
+            }, (error) => {
+                observer.error(error);
+            });
         });
     }
 
