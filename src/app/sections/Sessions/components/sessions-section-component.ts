@@ -78,7 +78,8 @@ export class SessionsSectionComponent implements OnInit {
                     title: "Load Applications",
                     message: "Error loading Applications:",
                     type: NotificationType.Error,
-                    error: error
+                    error: error,
+                    closable: true
                 });
     
             });
@@ -126,7 +127,8 @@ export class SessionsSectionComponent implements OnInit {
                 title: "Load Sessions",
                 message: "Error loading Sessions:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -211,7 +213,8 @@ export class SessionsSectionComponent implements OnInit {
                 title: "Close Session",
                 message: "Error closing session:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });

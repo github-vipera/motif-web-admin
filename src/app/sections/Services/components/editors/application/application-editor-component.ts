@@ -254,7 +254,8 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
                   title: 'Save Application Configuration',
                   message: 'Error saving application configuration:',
                   type: NotificationType.Error,
-                  error: error
+                  error: error,
+                  closable: true
               });
 
               observer.error(error);
@@ -356,7 +357,8 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
                   title: 'Load Application Configuration',
                   message: 'Error loading application configuration:',
                   type: NotificationType.Error,
-                  error: error
+                  error: error,
+                  closable: true
               });
 
               observer.error(error);

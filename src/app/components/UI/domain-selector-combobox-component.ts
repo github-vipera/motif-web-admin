@@ -47,7 +47,8 @@ export class DomainSelectorComboBoxComponent implements OnInit {
                 title: "Load Domains",
                 message: "Error loading domains:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         });
     } 

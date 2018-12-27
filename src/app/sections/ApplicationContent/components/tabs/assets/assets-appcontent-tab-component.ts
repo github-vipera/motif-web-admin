@@ -121,7 +121,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Get Assets",
                 message: "Error getting assets:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
             this.loading = false;
@@ -222,7 +223,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Update Bundle",
                 message: "Error updating bundle list:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -299,7 +301,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Asset Bundle Upload",
                 message: "Error reading asset bundle file:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         };
         reader.readAsText(file);
@@ -334,7 +337,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Upload Asset Bundle",
                 message: "Error uploading asset bundle:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         });
     }
@@ -388,7 +392,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Download Asset Bundle",
                 message: "Error downloading asset bundle:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -429,7 +434,8 @@ export class AssetsTabComponent implements OnInit {
                 title: "Publish Asset Bundle",
                 message: "Error publishing asset bundle:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });

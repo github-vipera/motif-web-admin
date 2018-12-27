@@ -130,7 +130,8 @@ export class ConfigurationSectionComponent implements OnInit {
                     title: "Load Configuration",
                     message: "Error loading configuration settings:",
                     type: NotificationType.Error,
-                    error: error
+                    error: error,
+                    closable: true
                 });
 
             });
@@ -227,7 +228,8 @@ export class ConfigurationSectionComponent implements OnInit {
                 title: "Export Configuration",
                 message: "Error exporting configuration:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -278,7 +280,8 @@ export class ConfigurationSectionComponent implements OnInit {
                 title: "Configuration Save",
                 message: "Error saving configuration settings:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -454,7 +457,8 @@ export class ConfigurationSectionComponent implements OnInit {
                 title: "Configuration Upload",
                 message: "Error reading configuration file:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
           };
@@ -494,7 +498,8 @@ export class ConfigurationSectionComponent implements OnInit {
                 title: "Configuration Upload",
                 message: "Error uploading configuration:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
             
         });

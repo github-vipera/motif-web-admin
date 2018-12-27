@@ -131,7 +131,8 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
             title: 'Save Operation Configuration',
             message: 'Error saving operation configuration:',
             type: NotificationType.Error,
-            error: error
+            error: error,
+            closable: true
         });
 
         observer.error(error);
@@ -173,7 +174,8 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
                 title: 'Load Application Configuration',
                 message: 'Error loading application configuration:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
             observer.error(error);

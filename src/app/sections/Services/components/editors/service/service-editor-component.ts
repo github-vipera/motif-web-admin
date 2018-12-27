@@ -132,7 +132,8 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
               title: 'Save Service Configuration',
               message: 'Error saving service configuration:',
               type: NotificationType.Error,
-              error: error
+              error: error,
+              closable: true
           });
 
           observer.error(error);
@@ -167,7 +168,8 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
                   title: 'Load Service Configuration',
                   message: 'Error loading service configuration:',
                   type: NotificationType.Error,
-                  error: error
+                  error: error,
+                  closable: true
               });
 
               observer.error(error);

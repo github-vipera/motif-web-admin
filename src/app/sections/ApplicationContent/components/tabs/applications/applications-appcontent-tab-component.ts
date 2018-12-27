@@ -129,7 +129,8 @@ export class ApplicationsTabComponent implements OnInit {
                 title: "Get Applications",
                 message: "Error getting applications:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
             this.loading = false;
@@ -227,7 +228,8 @@ export class ApplicationsTabComponent implements OnInit {
                 title: "Update Application",
                 message: "Error updating applications:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });

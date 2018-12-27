@@ -179,7 +179,8 @@ export class OAuth2SectionComponent implements OnInit {
         title: "Revoke Refresh Token",
         message: "Refresh token could not be removed.",
         type: NotificationType.Error,
-        error: error
+        error: error,
+        closable: true
       });
     })
   }

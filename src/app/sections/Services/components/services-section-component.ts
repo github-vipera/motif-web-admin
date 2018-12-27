@@ -147,7 +147,8 @@ export class ServicesSectionComponent implements OnInit {
                 title: 'Export Configuration',
                 message: 'Error exporting configuration:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         });
     }
@@ -331,7 +332,8 @@ export class ServicesSectionComponent implements OnInit {
                             title: 'Delete Operation',
                             message: 'Error deleting the operation:',
                             type: NotificationType.Error,
-                            error: error
+                            error: error,
+                            closable: true
                         });
 
                     });
@@ -369,7 +371,8 @@ export class ServicesSectionComponent implements OnInit {
                             title: 'Delete Service',
                             message: 'Error deleting the service:',
                             type: NotificationType.Error,
-                            error: error
+                            error: error,
+                            closable: true
                         });
 
                     });
@@ -403,7 +406,8 @@ export class ServicesSectionComponent implements OnInit {
                             title: 'Delete Application',
                             message: 'Error deleting the application:',
                             type: NotificationType.Error,
-                            error: error
+                            error: error,
+                            closable: true
                         });
 
                     });
@@ -437,7 +441,8 @@ export class ServicesSectionComponent implements OnInit {
                             title: 'Delete Domain',
                             message: 'Error deleting the domain:',
                             type: NotificationType.Error,
-                            error: error
+                            error: error,
+                            closable: true
                         });
 
                     });
@@ -506,7 +511,8 @@ export class ServicesSectionComponent implements OnInit {
                 title: 'Create New Operation',
                 message: 'Error creating the new operation:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -537,7 +543,8 @@ export class ServicesSectionComponent implements OnInit {
                 title: 'Create New Domain',
                 message: 'Error creating the new domain:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -569,7 +576,8 @@ export class ServicesSectionComponent implements OnInit {
                 title: 'Create New Application',
                 message: 'Error creating the new application:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -604,7 +612,8 @@ export class ServicesSectionComponent implements OnInit {
                 title: 'Create New Service',
                 message: 'Error creating the new service:',
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
@@ -625,5 +634,6 @@ export class ServicesSectionComponent implements OnInit {
     public get currentSelectedChannel(): string {
         return this.selectedNode.data.catalogEntry.channel;
     }
+
 
 }

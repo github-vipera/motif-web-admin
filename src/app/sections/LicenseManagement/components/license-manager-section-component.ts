@@ -62,7 +62,8 @@ export class LicenseManagerSectionComponent implements OnInit {
                 title: "Load Licenses",
                 message: "Error loading licenses:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         }))
     }
@@ -90,7 +91,8 @@ export class LicenseManagerSectionComponent implements OnInit {
                 title: "Revoke License",
                 message: "Error revoking license:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });

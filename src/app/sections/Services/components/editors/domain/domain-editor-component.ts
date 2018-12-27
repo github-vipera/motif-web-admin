@@ -78,7 +78,8 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                     title: 'Save Domain Configuration',
                     message: 'Error saving domain configuration:',
                     type: NotificationType.Error,
-                    error: error
+                    error: error,
+                    closable: true
                 });
 
                 observer.error(error);
@@ -118,7 +119,8 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
                     title: 'Load Domain Configuration',
                     message: 'Error loading domain configuration:',
                     type: NotificationType.Error,
-                    error: error
+                    error: error,
+                    closable: true
                 });
 
                 observer.error(error);

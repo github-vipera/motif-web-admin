@@ -76,7 +76,8 @@ export class LogSectionComponent implements OnInit {
                 title: "Tail Log",
                 message: "Error refreshing log:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
         });
     }
@@ -115,7 +116,8 @@ export class LogSectionComponent implements OnInit {
                     title: "Log Management",
                     message: "Error changing ROOT Log Level:",
                     type: NotificationType.Error,
-                    error: error
+                    error: error,
+                    closable: true
                 });
     
             })
@@ -170,7 +172,8 @@ export class LogSectionComponent implements OnInit {
                 title: "Download Log",
                 message: "Error downloading the Log file:",
                 type: NotificationType.Error,
-                error: error
+                error: error,
+                closable: true
             });
 
         });
