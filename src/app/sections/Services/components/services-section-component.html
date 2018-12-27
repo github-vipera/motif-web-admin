@@ -1,4 +1,5 @@
 <p-contextMenu #tableContextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]="'wc-context-menu'"></p-contextMenu>
+<wc-loading-overlay [visible]='isBusy'></wc-loading-overlay>
 
 <wa-services-section-newitem-dialog #newItemDialog (confirm)='onNewItemConfirm($event)'></wa-services-section-newitem-dialog>
 <wa-services-section-new-operation-dialog #newOperationDialog (confirm)='onNewServiceOperationConfirm($event)'></wa-services-section-new-operation-dialog>
@@ -29,8 +30,6 @@
   <kendo-splitter>
     <kendo-splitter-pane style="overflow: hidden;">
       <div #servicetableContainer style="height: 100%;">
-
-        <wc-loading-overlay [visible]='isBusy'></wc-loading-overlay>
 
         <p-treeTable #serviceTable
           [value]="tableModel.model"

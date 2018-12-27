@@ -1,3 +1,5 @@
+<wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
 <div>
     <wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
 
@@ -76,7 +78,6 @@
             </div>
 
             <!-- Grid -->
-            <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
             <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [scrollable]="true"
                 (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" (dataStateChange)="onStateChange($event)"

@@ -1,4 +1,5 @@
 <wc-dashboard-header [title]="'Plugins'"></wc-dashboard-header>
+<wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
 <div class="row spread">
 
@@ -18,7 +19,6 @@
 
 <div class="row fill">
 
-        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
         <kendo-grid #datagrid [data]="gridData"> 
 

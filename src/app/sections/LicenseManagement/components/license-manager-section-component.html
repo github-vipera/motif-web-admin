@@ -1,3 +1,4 @@
+<wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 <wc-dashboard-header [title]="'License Manager'"></wc-dashboard-header>
 
 <input type="file" id="xmlFileImport" name="xmlFileImport"  (input)="onUploadFileSelected($event)" #xmlFileImport>
@@ -22,7 +23,6 @@
 </div>
 
 <div class="row fill">
-        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
         <kendo-grid #datagrid [data]="_licenses" 
                 [navigable]="false"> 

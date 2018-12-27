@@ -1,3 +1,5 @@
+<wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
 <wc-dashboard-header [title]="'Log'"></wc-dashboard-header>
 
 <div class="row spread">
@@ -87,8 +89,6 @@
             </div>
 
         </div>
-
-        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
         <!-- Log Pane -->
         <label>Log <div class="cmd"><button class="small small-copy-button" data-copy="#output" (click)="onCopyToClipboardClicked()">

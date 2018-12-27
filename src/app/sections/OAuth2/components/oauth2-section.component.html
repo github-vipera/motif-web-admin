@@ -1,4 +1,5 @@
 <wc-dashboard-header [title]="'OAuth2 Management'"></wc-dashboard-header>
+<wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
 <div class="row spread">
     <div class="flex-toolbar" style="display:flex;align-items: center;">
@@ -12,7 +13,6 @@
 <div class="row fill">
 
     <div>
-        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
         <kendo-grid [data]="gridView" [columnMenu]="true" [resizable]="true" [reorderable]="true" [sort]="sort" (sortChange)="sortChange($event)" [sortable]="{ allowUnsort: true, mode: 'multiple' }"
             [scrollable]="true" [pageSize]="pageSize" [skip]="skip" [pageable]="{
