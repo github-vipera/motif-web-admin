@@ -1,3 +1,4 @@
+import { CatalogEntry } from './model';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { EventEmitter } from '@angular/core';
 import { Application, Domain } from '@wa-motif-open-api/platform-service';
@@ -225,7 +226,15 @@ export class ServiceCatalogTableModel {
   }
 
   public removeServiceNode(channel: string, domainName: string, applicationName: string, serviceName: string): void {
-    // TODO!!
+    const applicationNode = this.getApplicationNode(domainName, applicationName);
+    if ( applicationNode ) {
+      const nodeIndex = this.getNodeIndex(applicationNode.children, serviceName, channel);
+      if ( nodeIndex >= 0 ) {
+        applicationNode.children.splice(nodeIndex, 1);
+        applicationNode.children = [...applicationNode.children];
+        this.refreshModel();
+      }
+    }
   }
 
   public removeOperationNode(channel: string,
@@ -350,10 +359,16 @@ export class ServiceCatalogTableModel {
     return this.getNodeIndex(this.getDomainNodes(), domainName);
   }
 
-  private getNodeIndex(nodes: TreeNode[], nodeName:string): number {
+  private getNodeIndex(nodes: TreeNode[], nodeName:string, channel?: string): number {
     for (let i = 0; i < nodes.length; i++) {
       if (nodes[i].data.name === nodeName ) {
-        return i;
+        if (channel) {
+          if (nodes[i].data.catalogEntry.channel===channel){
+            return i;
+          }
+        } else {
+          return i;
+        }
       }
     }
     return -1;
