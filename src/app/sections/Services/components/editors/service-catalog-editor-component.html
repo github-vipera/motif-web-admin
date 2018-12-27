@@ -2,11 +2,8 @@
     <div class='wc-service-catalog-editor-title wc-truncate-text'>{{title}}</div>
     <div class='wc-service-catalog-editor-container'>
 
-        <div class='wc-service-catalog-editor-loading-overlay'
-             [class.wc-service-catalog-editor-loading-overlay-hidden]='!isBusy'>
-             <fa-icon [icon]="faCircleNotch" [spin]="true" class="wc-service-catalog-editor-loading-overlay-icon"></fa-icon>
-        </div>
-        
+        <wc-loading-overlay [visible]='isBusy'></wc-loading-overlay>
+
         <div class='wc-service-catalog-editor-namespace wc-truncate-text'>{{namespace}}</div>
 
         <div class='wc-service-catalog-editor-commands'>

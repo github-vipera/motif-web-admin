@@ -37,6 +37,8 @@ export class LogSectionComponent implements OnInit {
     public dataRecordType:string;
     public range = { start: null, end: null };
 
+    loading: boolean;
+
     @ViewChild('logPane') logPane:ElementRef;
     @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
 
@@ -66,9 +68,11 @@ export class LogSectionComponent implements OnInit {
 
     public onRefreshClicked():void {
         this.logger.debug(LOG_TAG ,"linesCount :", this.linesCount);
+        this.loading = true;
         this.logService.tailCurrentLog(this.linesCount).subscribe((logTail:LogTail)=>{
             this.tailLines = logTail.data;
             this.currentTailLinesCount = logTail.lines;
+            this.loading = false;
         }, (error)=>{
             this.logger.error(LOG_TAG ,"tailCurrentLog error:", error);
             this.notificationCenter.post({
@@ -79,6 +83,7 @@ export class LogSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
+            this.loading = false;
         });
     }
 

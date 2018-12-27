@@ -8,6 +8,7 @@ import { LogSectionComponent } from './components/log-section-component'
 import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { CommonsUIModule } from '../../components/CommonsUIModule';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
         DateInputsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        CommonsUIModule
     ],
     entryComponents:[
         LogSectionComponent

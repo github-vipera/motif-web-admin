@@ -47,6 +47,8 @@ export class OAuth2SectionComponent implements OnInit {
   public totalRecords = 0;
   public isFieldSortable = false;
 
+  loading: boolean;
+
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,
     private notificationCenter: NotificationCenter
@@ -80,6 +82,8 @@ export class OAuth2SectionComponent implements OnInit {
   private loadData(domain: string, pageIndex: number, pageSize: number) {
     if (this.domainSelector.selectedDomain) {
       this.logger.debug(LOG_TAG, "loadData pageIndex=", pageIndex, " pageSize=", pageSize);
+      
+      this.loading = true;
 
       let sort: MotifQuerySort = this.buildQuerySort();
 
@@ -98,9 +102,11 @@ export class OAuth2SectionComponent implements OnInit {
           total: results.totalRecords
         }
         this.currentPage = results.pageIndex;
+        this.loading = false;
 
       }, error => {
         this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
+        this.loading = false;
       });
     }
   }

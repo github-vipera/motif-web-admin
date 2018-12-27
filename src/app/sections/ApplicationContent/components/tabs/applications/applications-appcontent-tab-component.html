@@ -76,7 +76,9 @@
             </div>
 
             <!-- Grid -->
-            <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [loading]="loading" [scrollable]="true"
+            <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
+            <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [scrollable]="true"
                 (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" (dataStateChange)="onStateChange($event)"
                 (cellClose)="cellCloseHandler($event)" [resizable]="true" [reorderable]="true">
                 >

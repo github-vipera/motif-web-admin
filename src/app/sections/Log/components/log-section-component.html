@@ -88,6 +88,8 @@
 
         </div>
 
+        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
         <!-- Log Pane -->
         <label>Log <div class="cmd"><button class="small small-copy-button" data-copy="#output" (click)="onCopyToClipboardClicked()">
                     <fa-icon [icon]="faPaste" style="font-size: 18px;padding-left: 4px;"></fa-icon>

@@ -26,7 +26,10 @@
 </div>
 
 <div class="row fill">
-    <kendo-grid [data]="gridView" [columnMenu]="true" [loading]="loading" [scrollable]="true" [resizable]="true"
+
+        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
+    <kendo-grid [data]="gridView" [columnMenu]="true" [scrollable]="true" [resizable]="true"
         [reorderable]="true" [pageSize]="pageSize" [skip]="skip" [pageable]="{
         buttonCount: 5,
         info: true,

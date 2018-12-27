@@ -18,8 +18,9 @@
 
 <div class="row fill">
 
-        <kendo-grid #datagrid [data]="gridData" 
-                [loading]="loading"> 
+        <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+
+        <kendo-grid #datagrid [data]="gridData"> 
 
                 <kendo-grid-column
                     field="name" title="Name" >

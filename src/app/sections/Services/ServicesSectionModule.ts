@@ -7,7 +7,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { PluginRegistryServiceModule } from '@wa-motif-open-api/plugin-registry-service'
-import { CommonsUIModule } from '../../components/CommonsUIModule'
+import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { ServicesSectionComponent } from './components/services-section-component'
 import { WebAdminCommonServicesModule } from '../../services/WebAdminCommonServicesModule'
 import { TreeTableModule } from 'primeng/treetable';
