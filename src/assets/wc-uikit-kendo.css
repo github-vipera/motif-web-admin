@@ -182,7 +182,8 @@ kendo-popup {
     transform: translate(-8px, -6px) translate(-1px, -1.07142857em) translate(-12.5%, -9.375%) scale(0.75);
 }
 
-.k-widget, .k-block, .k-panel {
+
+.k-widget:not(.k-notification), .k-block, .k-panel {
     border-color: rgba(0, 0, 0, 0.08);
     background-color: transparent;
 }
