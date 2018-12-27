@@ -5,7 +5,7 @@ import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
-import { ServiceCatalogTableModel } from '../data/model';
+import { ServiceCatalogTableModel, CatalogEntry } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { MenuItem } from 'primeng/api';
@@ -209,6 +209,7 @@ export class ServicesSectionComponent implements OnInit {
 
     }
 
+    /*
     private updateMenuItemStatus(itemId: string, enabled: boolean, label?: string): void {
         const itemIndex = _.findIndex(this.menuItems, function(o: any) { return o.id === itemId; });
         if (itemIndex >= 0 ) {
@@ -218,13 +219,14 @@ export class ServicesSectionComponent implements OnInit {
             }
         }
     }
+    */
 
-
-    nodeUnselect(event) {
+    nodeUnselect(event: any) {
         this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
+        // nop
     }
 
-    public onFilterChange(event) {
+    public onFilterChange(event: any) {
         // TODO!!
     }
 
@@ -242,7 +244,9 @@ export class ServicesSectionComponent implements OnInit {
         } else if (event.context.editingType === EditingType.Application) {
             treeNode = this.tableModel.getApplicationNode(event.context.domainName, event.context.applicationName);
         } else if (event.context.editingType === EditingType.Operation) {
-            treeNode = this.tableModel.getOperationNode(event.context.domainName,
+            treeNode = this.tableModel.getOperationNode(
+                event.context.channel,
+                event.context.domainName,
                 event.context.applicationName,
                 event.context.serviceName,
                 event.context.operationName);
@@ -279,13 +283,168 @@ export class ServicesSectionComponent implements OnInit {
 
     private onDeleteSelectedNode(): void {
         console.log('OnDeleteSelected node: ', this.selectedNode.data);
+        this.handleDeleteRequest(this.selectedNode.data.catalogEntry);
+    }
+
+    private handleDeleteRequest(catalogEntry: CatalogEntry): void {
+        if (catalogEntry.operation) {
+            this.handleDeleteOperation(catalogEntry);
+        } else if (catalogEntry.service) {
+                this.handleDeleteService(catalogEntry);
+        } else if (catalogEntry.application) {
+                this.handleDeleteApplication(catalogEntry);
+        } else if (catalogEntry.domain) {
+                this.handleDeleteDomain(catalogEntry);
+        } else {
+            this.logger.warn(LOG_TAG, 'Unable to handle delete for: ', catalogEntry);
+        }
+    }
+
+    private handleDeleteOperation(catalogEntry: CatalogEntry): void {
         this.confirmationService.confirm({
-            message: 'Are you sure that you want to delete this action?',
+            message: 'Are you sure that you want to delete the operation ' + catalogEntry.operation + ' ?',
             accept: () => {
-                alert('onDeleteSelectedNode: ' + this.selectedNode.data.name);
+                this.serviceCatalogService.deleteOperation(catalogEntry.channel,
+                    catalogEntry.domain, catalogEntry.application, catalogEntry.service, catalogEntry.operation).subscribe((data) => {
+
+                        this.logger.debug(LOG_TAG, 'Operation deleted: ', data);
+
+                        this.tableModel.removeOperationNode(catalogEntry.channel,
+                            catalogEntry.domain,
+                            catalogEntry.application,
+                            catalogEntry.service,
+                            catalogEntry.operation);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteOperation',
+                            title: 'Delete Operation',
+                            message: 'Operation deleted successfully.',
+                            type: NotificationType.Success
+                        });
+
+                    }, (error) => {
+
+                        this.logger.error(LOG_TAG , 'Delete operation error: ', error);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteOperationError',
+                            title: 'Delete Operation',
+                            message: 'Error deleting the operation:',
+                            type: NotificationType.Error,
+                            error: error
+                        });
+
+                    });
             }
         });
     }
+
+    private handleDeleteService(catalogEntry: CatalogEntry): void {
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete the service ' + catalogEntry.service + ' ?',
+            accept: () => {
+                this.serviceCatalogService.deleteService(catalogEntry.channel,
+                    catalogEntry.domain, catalogEntry.application, catalogEntry.service).subscribe((data) => {
+
+                        this.logger.debug(LOG_TAG, 'Service deleted: ', data);
+
+                        this.tableModel.removeServiceNode(catalogEntry.channel,
+                             catalogEntry.domain,
+                             catalogEntry.application,
+                             catalogEntry.service);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteService',
+                            title: 'Delete Service',
+                            message: 'Service deleted successfully.',
+                            type: NotificationType.Success
+                        });
+
+                    }, (error) => {
+
+                        this.logger.error(LOG_TAG , 'Delete service error: ', error);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteServiceError',
+                            title: 'Delete Service',
+                            message: 'Error deleting the service:',
+                            type: NotificationType.Error,
+                            error: error
+                        });
+
+                    });
+            }
+        });
+    }
+
+    private handleDeleteApplication(catalogEntry: CatalogEntry): void {
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete the application ' + catalogEntry.application + ' ?',
+            accept: () => {
+                this.serviceCatalogService.deleteApplication(catalogEntry.domain, catalogEntry.application).subscribe((data) => {
+
+                        this.logger.debug(LOG_TAG, 'Application deleted: ', data);
+
+                        this.tableModel.removeApplicationNode(catalogEntry.domain, catalogEntry.application);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteApplication',
+                            title: 'Delete Application',
+                            message: 'Application deleted successfully.',
+                            type: NotificationType.Success
+                        });
+
+                    }, (error) => {
+
+                        this.logger.error(LOG_TAG , 'Delete application error: ', error);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteApplicationError',
+                            title: 'Delete Application',
+                            message: 'Error deleting the application:',
+                            type: NotificationType.Error,
+                            error: error
+                        });
+
+                    });
+            }
+        });
+     }
+
+    private handleDeleteDomain(catalogEntry: CatalogEntry): void {
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to delete the domain ' + catalogEntry.application + ' ?',
+            accept: () => {
+                this.serviceCatalogService.deleteApplication(catalogEntry.domain, catalogEntry.application).subscribe((data) => {
+
+                        this.logger.debug(LOG_TAG, 'Domain deleted: ', data);
+
+                        this.tableModel.removeDomainNode(catalogEntry.domain);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteDomain',
+                            title: 'Delete Domain',
+                            message: 'Domain deleted successfully.',
+                            type: NotificationType.Success
+                        });
+
+                    }, (error) => {
+
+                        this.logger.error(LOG_TAG , 'Delete domain error: ', error);
+
+                        this.notificationCenter.post({
+                            name: 'DeleteDomainError',
+                            title: 'Delete Domain',
+                            message: 'Error deleting the domain:',
+                            type: NotificationType.Error,
+                            error: error
+                        });
+
+                    });
+            }
+        });
+   }
+
 
     set selectedNode(node: TreeNode) {
         this._selectedNode = node;
@@ -329,7 +488,7 @@ export class ServicesSectionComponent implements OnInit {
 
                 this.logger.debug(LOG_TAG, 'New Operation added: ', operation);
 
-                this.tableModel.addOperationNode(event.domain, event.application, event.service, operation);
+                this.tableModel.addOperationNode(event.channel, event.domain, event.application, event.service, operation);
 
                 this.notificationCenter.post({
                     name: 'CreateNewOperation',
@@ -464,9 +623,7 @@ export class ServicesSectionComponent implements OnInit {
     }
 
     public get currentSelectedChannel(): string {
-        const serviceNode: TreeNode = this.tableModel.getServiceNode(this.currentSelectedDomain,
-            this.currentSelectedApplication, this.currentSelectedService);
-        return serviceNode.data.catalogEntry.channel;
+        return this.selectedNode.data.catalogEntry.channel;
     }
 
 }

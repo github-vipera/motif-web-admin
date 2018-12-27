@@ -5,6 +5,14 @@ import { TreeNode } from 'primeng/api';
 import { icon } from '@fortawesome/fontawesome-svg-core';
 import * as uuidv1 from 'uuid/v1';
 
+export interface CatalogEntry {
+  domain: string;
+  application?: string;
+  service?: string;
+  operation?: string;
+  channel?: string;
+}
+
 export class ServiceCatalogTableModel {
   private _model: TreeNode[] = [];
 
@@ -150,22 +158,25 @@ export class ServiceCatalogTableModel {
   }
 
   public getServiceNode(
+    channel: string,
     domainName: string,
     applicationName: string,
     serviceName: string
   ): TreeNode {
     const servicesNodes = this.getApplicationNode(domainName, applicationName)
       .children;
-    return this.getChildNodeByName(servicesNodes, serviceName);
+    return this.getChildNodeByName(servicesNodes, serviceName, channel);
   }
 
   public getOperationNode(
+    channel: string,
     domainName: string,
     applicationName: string,
     serviceName: string,
     operationName: string
   ): TreeNode {
     const operationsNodes = this.getServiceNode(
+      channel,
       domainName,
       applicationName,
       serviceName
@@ -175,15 +186,42 @@ export class ServiceCatalogTableModel {
 
   private getChildNodeByName(
     nodes: TreeNode[],
-    childNodeName: string
+    childNodeName: string,
+    channel?: string
   ): TreeNode {
     for (let i = 0; i < nodes.length; i++) {
       const treeNode: TreeNode = nodes[i];
       if (treeNode.data.name === childNodeName) {
-        return treeNode;
+        if (channel) {
+          if (treeNode.data.channel === channel){
+            return treeNode;
+          }
+        } else {
+          return treeNode;
+        }
       }
     }
     return null;
+  }
+
+  public removeDomainNode(domainName: string): void {
+    // TODO!!
+  }
+
+  public removeApplicationNode(domainName: string, applicationName: string): void {
+    // TODO!!
+  }
+
+  public removeServiceNode(channel: string, domainName: string, applicationName: string, serviceName: string): void {
+    // TODO!!
+  }
+
+  public removeOperationNode(channel: string,
+                             domainName: string,
+                             applicationName: string,
+                             serviceName: string,
+                             operationName: string): void {
+    // TODO!!
   }
 
   public getDomainNodes(): TreeNode[] {
@@ -227,19 +265,23 @@ export class ServiceCatalogTableModel {
     return domainNode;
   }
 
-  public addOperationNode(domainName: string, applicationName: string, serviceName: string, operation: ServiceOperation): TreeNode {
+  public addOperationNode(channel: string,
+    domainName: string,
+    applicationName: string,
+    serviceName: string,
+    operation: ServiceOperation): TreeNode {
     const operationNode: TreeNode = this.buildNode(
       operation.name,
       operation.description,
       'Operation',
-      null,
+      channel,
       true,
       domainName,
       applicationName,
       serviceName,
       operation.name
     );
-    const serviceNode: TreeNode = this.getServiceNode(domainName, applicationName, serviceName);
+    const serviceNode: TreeNode = this.getServiceNode(channel, domainName, applicationName, serviceName);
     if (serviceNode) {
       serviceNode.children = [...serviceNode.children, operationNode];
     }
