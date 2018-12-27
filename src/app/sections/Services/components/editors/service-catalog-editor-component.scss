@@ -62,3 +62,18 @@
     } 
 }
 
+.wc-service-catalog-editor-container {
+    overflow: hidden; 
+    height: 100%;
+}
+
+.wc-service-catalog-editor-main-container {
+    overflow: hidden; 
+    height: 100%;
+}
+
+.wc-service-catalog-editor-scrollable-content {
+    overflow-y: auto;
+    height: 100%;
+    padding: 8px;
+}
