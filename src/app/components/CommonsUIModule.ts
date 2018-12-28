@@ -16,6 +16,7 @@ import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
 import { MessageCategoriesComponent } from './MessageCategories/message-categories-component';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { MessageCategoriesComponent } from './MessageCategories/message-categori
         WebConsoleUIKitKendoProviderModule,
         NotificationModule,
         DroppableModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        LayoutModule
     ],
     entryComponents: [
         DomainSelectorComboBoxComponent, ConfirmationDialogComponent, FileDropPanelComponent
