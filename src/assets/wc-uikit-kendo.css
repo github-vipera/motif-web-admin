@@ -163,7 +163,8 @@ kendo-popup {
  }
 
  .k-textbox, .k-textbox, .k-textarea, .k-textarea, .k-input.k-textbox, .k-input.k-textbox {
-    background-color: #535454;
+    /*background-color: #535454;*/
+    background-color: #353a3e;
     color: white;
 }
 

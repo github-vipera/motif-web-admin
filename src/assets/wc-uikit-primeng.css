@@ -62,7 +62,8 @@
  * DIALOGS
  */
 .ui-dialog {
-    background: #343b40;
+	/*background: #343b40;*/
+	background: #36424a;
 }
 
 .ui-dialog .ui-dialog-titlebar {

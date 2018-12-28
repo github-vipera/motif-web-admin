@@ -28,6 +28,8 @@ export class NewItemDialogComponent implements OnInit {
     name: string;
     floatingLabel: string;
 
+    public defaultChannelItem: Channel = { name: 'Select a Channel...', code: null };
+
     channels: Channel[] = [
         { name: 'JSON', code: 'JSON'},
         { name: 'Browser', code: 'BROWSER'},
