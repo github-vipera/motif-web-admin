@@ -19,10 +19,17 @@
     </kendo-textbox-container>
     <label class="warning-label" *ngIf="nameEditingWarningDisplay">Invalid name</label>
 
-    <label class="combo-control-label">Type
-        <kendo-dropdownlist [data]="dataTypes" [(ngModel)]="type" style="width: 100%;"
-        [valuePrimitive]="false"></kendo-dropdownlist>
-    </label>
+    <kendo-dropdownlist 
+      style="width: 100%;padding-top:10px;"
+      [data]="dataTypes" 
+      [textField]="'name'"
+      [valueField]="'code'"
+      [(ngModel)]="type" 
+      [defaultItem]="defaultDataType"
+      (valueChange)="onTypeValueChange($event)"
+      [valuePrimitive]="false">
+    </kendo-dropdownlist>
+    <label class="warning-label" *ngIf="typeEditingWarningDisplay">Invalid data type</label>
 
   <label class="switch-control-label"> 
       Dynamic

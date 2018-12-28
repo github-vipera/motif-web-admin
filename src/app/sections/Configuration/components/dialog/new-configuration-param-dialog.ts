@@ -11,6 +11,11 @@ export interface NewParamDialogResult {
     value: string;
 }
 
+interface DataTypeItem {
+    name: string;
+    code: string;
+}
+
 @Component({
     selector: 'wa-configuration-section-new-config-param-dialog',
     styleUrls: ['./new-configuration-param-dialog.scss'],
@@ -18,22 +23,24 @@ export interface NewParamDialogResult {
 })
 export class NewConfigurationParamDialogComponent implements OnInit {
 
-    dataTypes: string[] = [
-        'java.lang.String',
-        'java.lang.Double',
-        'java.lang.Integer',
-        'java.lang.Long',
-        'java.lang.Boolean',
-        'password'
+    dataTypes: DataTypeItem[] = [
+        { name: 'java.lang.String', code: 'java.lang.String'},
+        { name: 'java.lang.Double', code: 'java.lang.Double'},
+        { name: 'java.lang.Integer', code: 'java.lang.Integer'},
+        { name: 'java.lang.Long', code: 'java.lang.Long'},
+        { name: 'java.lang.Boolean', code: 'java.lang.Boolean'},
+        { name: 'Password', code: 'password'}
     ];
+    defaultDataType: DataTypeItem = { name: 'Choose a data type...', code: null };
 
     display: boolean;
     name: string;
-    type: string;
+    type: DataTypeItem;
     dynamic: boolean;
     encrypted: boolean;
     value: string;
     _nameEditingWarningDisplay: boolean;
+    _typeEditingWarningDisplay: boolean;
 
     @Output() confirm: EventEmitter<NewParamDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -57,7 +64,7 @@ export class NewConfigurationParamDialogComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'prepare called');
         // empty the fields
         this.name = '';
-        this.type = '';
+        this.type = null;
         this.dynamic = false;
         this.encrypted = false;
         this.value = '';
@@ -75,7 +82,7 @@ export class NewConfigurationParamDialogComponent implements OnInit {
         this.display = false;
         const event: NewParamDialogResult = {
             name: this.name,
-            type: this.type,
+            type: this.type.code,
             dynamic: this.dynamic,
             encrypted: this.encrypted,
             value: this.value
@@ -83,9 +90,12 @@ export class NewConfigurationParamDialogComponent implements OnInit {
         this.confirm.emit(event);
     }
 
-
     get nameEditingWarningDisplay(): boolean {
         return this._nameEditingWarningDisplay;
+    }
+
+    get typeEditingWarningDisplay(): boolean {
+        return this._typeEditingWarningDisplay;
     }
 
     private validate(): boolean {
@@ -96,7 +106,17 @@ export class NewConfigurationParamDialogComponent implements OnInit {
         } else {
             this._nameEditingWarningDisplay = false;
         }
+        if (!this.type  || !this.type.code ) {
+            this._typeEditingWarningDisplay = true;
+            validate = false;
+        } else {
+            this._typeEditingWarningDisplay = false;
+        }
         return validate;
+    }
+
+    onTypeValueChange(event) {
+        this.validate();
     }
 
 }
