@@ -132,4 +132,19 @@
 	background: white;
 }
 	
+.ui-inputswitch {
+    width: 2.1em;
+    height: 1.3em;
+}
 
+.ui-inputswitch-slider:before {
+    left: 0.2em;
+	bottom: .2em;
+	height: 1em;
+    width: 1em;
+}
+
+.ui-inputswitch-checked .ui-inputswitch-slider:before {
+    -webkit-transform: translateX(0.7em);
+    transform: translateX(0.7em);
+}
