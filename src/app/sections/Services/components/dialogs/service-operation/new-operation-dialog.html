@@ -10,61 +10,69 @@
   <p-header> New Service Operation </p-header>
 
   <div style="min-width: 350px;display:flex;flex-direction: column;">
-    
     <kendo-textbox-container
       floatingLabel="Operation Name"
       style="width: 100%;"
     >
       <input kendoTextBox [(ngModel)]="name" required />
     </kendo-textbox-container>
-    <label class="warning-label" *ngIf="nameEditingWarningDisplay">Invalid name</label>
-
-    <kendo-textbox-container
-      floatingLabel="Description"
-      style="width: 100%;"
+    <label class="warning-label" *ngIf="nameEditingWarningDisplay"
+      >Invalid name</label
     >
+
+    <kendo-textbox-container floatingLabel="Description" style="width: 100%;">
       <input kendoTextBox [(ngModel)]="description" required />
     </kendo-textbox-container>
 
-    <kendo-textbox-container
-    floatingLabel="Plugin Name"
-    style="width: 100%;"
-  >
-    <input kendoTextBox [(ngModel)]="pluginName" required />
-  </kendo-textbox-container>
+    <kendo-textbox-container floatingLabel="Plugin Name" style="width: 100%;">
+      <input kendoTextBox [(ngModel)]="pluginName" required />
+    </kendo-textbox-container>
 
-  <label class="switch-control-label"> 
-    Secure
-  </label>
-  <p-inputSwitch [(ngModel)]="secure"></p-inputSwitch>
+    <div class="wc-new-op-form-block-container" >
+      <div class="wc-new-op-form-block">
+          <label class="switch-control-label"> Secure </label>
+          <p-inputSwitch [(ngModel)]="secure"></p-inputSwitch>
+      
+          <label class="switch-control-label"> Counted </label>
+          <p-inputSwitch [(ngModel)]="counted"></p-inputSwitch>
+      </div>
+      
+      <div class="wc-new-op-form-block">
+          <label class="switch-control-label"> Sessionless </label>
+          <p-inputSwitch [(ngModel)]="sessionLess"></p-inputSwitch>
 
+          <label class="switch-control-label"> Encrypted </label>
+          <p-inputSwitch [(ngModel)]="encrypted"></p-inputSwitch>
+      </div>
+    </div>
 
-  <label class="switch-control-label"> 
-      Counted
-  </label>
-  <p-inputSwitch [(ngModel)]="counted"></p-inputSwitch>
-
-  <label class="switch-control-label"> 
-      Sessionless
-  </label>
-  <p-inputSwitch [(ngModel)]="sessionLess"></p-inputSwitch>
-
-  <label class="switch-control-label"> 
-    Encrypted
-  </label>
-  <p-inputSwitch [(ngModel)]="encrypted"></p-inputSwitch>
-
-  <textarea kendoTextArea placeholder="Input Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="inputParams"></textarea>
-  <textarea kendoTextArea placeholder="Output Params (JSON)" style="width: 100%;height: 35px;margin-top:14px;" [(ngModel)]="outputParams"></textarea>
-
-
-</div>
+    <textarea
+      kendoTextArea
+      placeholder="Input Params (JSON)"
+      style="width: 100%;height: 35px;margin-top:14px;"
+      [(ngModel)]="inputParams"
+    ></textarea>
+    <textarea
+      kendoTextArea
+      placeholder="Output Params (JSON)"
+      style="width: 100%;height: 35px;margin-top:14px;"
+      [(ngModel)]="outputParams"
+    ></textarea>
+  </div>
 
   <p-footer>
     <kendo-buttongroup look="flat">
-      <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
-      <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Create</button>
+      <button kendoButton [toggleable]="false" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        kendoButton
+        [toggleable]="false"
+        [primary]="true"
+        (click)="onConfirm()"
+      >
+        Create
+      </button>
     </kendo-buttongroup>
   </p-footer>
-
 </p-dialog>
