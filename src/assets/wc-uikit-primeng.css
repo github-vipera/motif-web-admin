@@ -142,9 +142,23 @@
 	bottom: .2em;
 	height: 1em;
     width: 1em;
+    transition: .1s;
 }
 
 .ui-inputswitch-checked .ui-inputswitch-slider:before {
     -webkit-transform: translateX(0.7em);
     transform: translateX(0.7em);
 }
+
+/*
+.ui-inputswitch-slider:before {
+    position: absolute;
+    content: "";
+    height: 1.250em;
+    width: 1.250em;
+    left: .25em;
+    bottom: .25em;
+    border-radius: 50%;
+    transition: .1s;
+}
+*/
