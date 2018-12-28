@@ -19,8 +19,11 @@
     </kendo-textbox-container>
     <label class="warning-label" *ngIf="nameEditingWarningDisplay">Invalid name</label>
 
-    <p-dropdown *ngIf="isServiceEditing"  class="wa-services-section-newitem-dialog-channel-selector" placeholder="Select a Channel" [style]="{'width':'100%;background: #5d5f5f;padding-top:10px;'}" [options]="channels" [(ngModel)]="selectedChannel" optionLabel="name" appendTo="body" baseZIndex="999999"></p-dropdown>
+    <p-dropdown *ngIf="isServiceEditing"  class="wa-services-section-newitem-dialog-channel-selector" placeholder="Select a Channel" 
+    [style]="{ 'width':'100%', 'height':'30px', 'background': 'rgb(83, 84, 84)', 'padding-top':'6px', 'padding-left':'6px', 'color': '#ddd' }" 
+    [options]="channels" [(ngModel)]="selectedChannel" optionLabel="name" appendTo="body" baseZIndex="999999"></p-dropdown>
     <label class="warning-label" *ngIf="channelEditingWarningDisplay">You need to select a channel</label>
+
 
 </div>
 
