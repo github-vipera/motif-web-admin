@@ -236,3 +236,11 @@ kendo-popup {
 .k-dropdown-wrap .k-input {
     color: #ddd;
 }
+
+.k-textbox-container > .k-textbox {
+    border-radius: 4px;
+}
+
+.k-combobox .k-dropdown-wrap {
+    border-radius: 4px;
+}
