@@ -188,14 +188,14 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
   private toModel(operation: ServiceOperation): void {
     this.logger.debug(LOG_TAG, 'toModel called: ', operation);
     try {
-      this.getPropertyItem('description').value = operation.description;
-      this.getPropertyItem('encryptActive').value = operation.encryptActive;
-      this.getPropertyItem('counted').value = operation.counted;
-      this.getPropertyItem('pluginName').value = operation.pluginName;
-      this.getPropertyItem('secure').value = operation.secure;
-      this.getPropertyItem('sessionless').value = operation.sessionless;
-      this.getPropertyItem('inputParams').value = operation.inputParams;
-      this.getPropertyItem('outputParams').value = operation.outputParams;
+      this.applyValueToModel('description', operation.description);
+      this.applyValueToModel('encryptActive', operation.encryptActive);
+      this.applyValueToModel('counted', operation.counted);
+      this.applyValueToModel('pluginName', operation.pluginName);
+      this.applyValueToModel('secure', operation.secure);
+      this.applyValueToModel('sessionless', operation.sessionless);
+      this.applyValueToModel('inputParams', operation.inputParams);
+      this.applyValueToModel('outputParams', operation.outputParams);
     } catch (ex) {
       this.logger.error(LOG_TAG, 'toModel error: ', ex);
     }

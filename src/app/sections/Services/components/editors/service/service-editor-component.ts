@@ -196,12 +196,11 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     }
 
     private toModel(service: Service): void {
-      this.getPropertyItem('enabled').value = service.enabled;
-      this.getPropertyItem('category').value = service.category;
-      // this.getPropertyItem('channel').value = service.channel;
-      this.getPropertyItem('countersPlugin').value = service.countersPlugin;
-      this.getPropertyItem('thresholdActionsPlugin').value = service.thresholdActionsPlugin;
-      this.getPropertyItem('thresholdChecksPlugin').value = service.thresholdChecksPlugin;
+      this.applyValueToModel('enabled', service.enabled);
+      this.applyValueToModel('category', service.category);
+      this.applyValueToModel('countersPlugin', service.countersPlugin);
+      this.applyValueToModel('thresholdActionsPlugin', service.thresholdActionsPlugin);
+      this.applyValueToModel('thresholdChecksPlugin', service.thresholdChecksPlugin);
     }
 
 

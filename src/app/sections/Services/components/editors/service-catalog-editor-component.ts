@@ -162,6 +162,8 @@ export class ServiceCataglogEditorComponent implements OnInit {
             this._applicationEditor.discardChanges();
         } else if (this.editorContext.editingType === EditingType.Service) {
             this._serviceEditor.discardChanges();
+        } else if (this.editorContext.editingType === EditingType.Operation) {
+            this._operationEditor.discardChanges();
         }
     }
 

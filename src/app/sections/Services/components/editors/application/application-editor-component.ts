@@ -310,28 +310,30 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
   }
 
   private toModel(application: Application): void {
-    this.getPropertyItem('description').value = application.description;
-    this.getPropertyItem('offline').value = application.offline;
-    this.getPropertyItem('otpExpiry').value = application.otpExpiry;
-    this.getPropertyItem('otpFormat').value = application.otpFormat;
-    this.getPropertyItem('otpLength').value = application.otpLength;
-    this.getPropertyItem('otpReuse').value = application.otpReuse;
-    this.getPropertyItem('otpMaxFailures').value = application.otpMaxFailures;
-    this.getPropertyItem('allowMultipleSessions').value = application.allowMultipleSessions;
-    this.getPropertyItem('instanceKeyLength').value = application.instanceKeyLength;
-    this.getPropertyItem('allowMultipleInstall').value = application.allowMultipleInstall;
-    this.getPropertyItem('passwordHistory').value = application.passwordHistory;
-    this.getPropertyItem('passwordExpiry').value = application.passwordExpiry;
-    this.getPropertyItem('passwordFormat').value = application.passwordFormat;
-    this.getPropertyItem('passwordMaxFailures').value = application.passwordMaxFailures;
-    this.getPropertyItem('registerUser').value = application.registerUser;
-    this.getPropertyItem('registerPasswd').value = application.registerPasswd;
-    this.getPropertyItem('needsActivation').value = application.needsActivation;
-    this.getPropertyItem('verifyClientIp').value = application.verifyClientIp;
-    this.getPropertyItem('viperaSerialFormat').value = application.viperaSerialFormat;
-    this.getPropertyItem('viperaSerialLength').value = application.viperaSerialLength;
-    this.getPropertyItem('userIdFormat').value = application.userIdFormat;
-    this.getPropertyItem('userIdLength').value = application.userIdLength;
+    this.applyValueToModel('description', application.description);
+    this.applyValueToModel('offline', application.offline);
+    this.applyValueToModel('category', application.category);
+    this.applyValueToModel('otpExpiry', application.otpExpiry);
+    this.applyValueToModel('otpFormat', application.otpFormat);
+    this.applyValueToModel('otpLength', application.otpLength);
+    this.applyValueToModel('otpReuse', application.otpReuse);
+    this.applyValueToModel('otpMaxFailures', application.otpMaxFailures);
+    this.applyValueToModel('allowMultipleSessions', application.allowMultipleSessions);
+    this.applyValueToModel('instanceKeyLength', application.instanceKeyLength);
+    this.applyValueToModel('allowMultipleInstall', application.allowMultipleInstall);
+    this.applyValueToModel('passwordHistory', application.passwordHistory);
+    this.applyValueToModel('passwordExpiry', application.passwordExpiry);
+    this.applyValueToModel('passwordFormat', application.passwordFormat);
+    this.applyValueToModel('passwordMaxFailures', application.passwordMaxFailures);
+    this.applyValueToModel('registerUser', application.registerUser);
+    this.applyValueToModel('registerPasswd', application.registerPasswd);
+    this.applyValueToModel('needsActivation', application.needsActivation);
+    this.applyValueToModel('verifyClientIp', application.verifyClientIp);
+    this.applyValueToModel('viperaSerialFormat', application.viperaSerialFormat);
+    this.applyValueToModel('viperaSerialLength', application.viperaSerialLength);
+    this.applyValueToModel('userIdFormat', application.userIdFormat);
+    this.applyValueToModel('userIdLength', application.userIdLength);
+
   }
 
   private refreshApplicationInfo(domainName: string, applicationName: string): Observable<any> {

@@ -75,6 +75,12 @@ export abstract class BaseEditorComponent  {
         return null;
     }
 
+    protected applyValueToModel(field: string, value: any) {
+        this.getPropertyItem(field).value = value;
+        this.getPropertyItem(field).valueChanged = false;
+      }
+
+
     protected getChangedProperties(): WCPropertyEditorItem[] {
         const ret = [];
         for (let i = 0; i < this.propertyModel.items.length; i++) {
