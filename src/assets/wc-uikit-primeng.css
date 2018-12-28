@@ -115,3 +115,21 @@
 .ui-placeholder {
 	color: #888888 !important;
 }
+
+/* Switch Button */
+.ui-inputswitch .ui-inputswitch-slider 
+{
+	background-color: #7a7b7b
+}
+
+.ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider 
+{
+	background-color: #62ce39
+}
+
+.ui-inputswitch-slider:before
+{
+	background: white;
+}
+	
+
