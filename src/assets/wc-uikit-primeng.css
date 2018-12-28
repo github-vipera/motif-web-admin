@@ -98,3 +98,19 @@
     height: 95% !important;
 }
 
+.wa-ng-combo-box 
+{ 
+	height: 30px;
+	background : rgb(83, 84, 84);
+	padding-top: 6px;
+	padding-left:6px;
+	color: #ddd;
+}
+
+.ui-dropdown label.ui-dropdown-label  {
+	color: #ddd;
+}
+
+.ui-placeholder {
+	color: #888888 !important;
+}
