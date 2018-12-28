@@ -59,6 +59,7 @@
 
 .switch-control-label {
   padding-top:12px;
+  padding-bottom:4px;
   display:flex;
   flex-direction: column;
 }

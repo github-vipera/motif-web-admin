@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
@@ -10,6 +11,7 @@ import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
 import { NewConfigurationParamDialogComponent } from './components/dialog/new-configuration-param-dialog'
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
     imports: [
@@ -21,9 +23,11 @@ import { NewConfigurationParamDialogComponent } from './components/dialog/new-co
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
         CommonsUIModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        InputSwitchModule,
+        FormsModule
     ],
-    entryComponents:[
+    entryComponents: [
         ConfigurationSectionComponent
     ],
     declarations: [
