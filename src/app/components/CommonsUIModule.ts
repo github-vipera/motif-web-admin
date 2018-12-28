@@ -15,8 +15,8 @@ import { AfterValueChangedDirective } from './UI/after-value-change-directive';
 import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
-import { MessageCategoriesComponent } from './MessageCategories/message-categories-component';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponent } from './MessageCategories/index';
 
 @NgModule({
     imports: [
@@ -41,7 +41,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
         FileDropPanelComponent,
         AfterValueChangedDirective,
         LoadingOverlayComponent,
-        MessageCategoriesComponent
+        MessageCategoriesComponent, CategoryPaneComponent, MessagesPaneComponent
     ],
     exports: [ DomainSelectorComboBoxComponent,
         ConfirmationDialogComponent,
