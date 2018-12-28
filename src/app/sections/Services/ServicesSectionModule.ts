@@ -18,7 +18,6 @@ import { ApplicationEditorComponent } from './components/editors/application/app
 import { ServiceEditorComponent } from './components/editors/service/service-editor-component';
 import { OperationEditorComponent } from './components/editors/operation/operation-editor-component';
 import { DialogModule } from 'primeng/dialog';
-import { OfflineMessagesSettingsComponent } from './components/editors/commons/offline_messages/offline-messages-settings-component'
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenubarModule } from 'primeng/menubar';
@@ -28,6 +27,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { MessageCategoriesDialogComponent } from './components/dialogs/message-categories/message-categories-dialog';
 
 @NgModule({
     imports: [
@@ -62,10 +62,10 @@ import { ConfirmationService } from 'primeng/api';
         DomainEditorComponent,
         ApplicationEditorComponent,
         ServiceEditorComponent,
-        OfflineMessagesSettingsComponent,
         OperationEditorComponent,
         NewItemDialogComponent,
-        NewOperationDialogComponent
+        NewOperationDialogComponent,
+        MessageCategoriesDialogComponent
     ],
     exports: [ ServicesSectionComponent ],
     providers: [ ConfirmationService  ]

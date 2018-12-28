@@ -91,6 +91,13 @@ export abstract class BaseEditorComponent  {
         return ret;
     }
 
+    protected commitAllChanges(): void {
+        const items = this.propertyModel.items;
+        for (let i = 0; i < items.length; i++) {
+            items[i].valueChanged = false;
+        }
+    }
+
     abstract doRefreshData(editorContext: EditorContext): Observable<any>;
 
     abstract doSaveChanges(editorContext: EditorContext): Observable<any>;

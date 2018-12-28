@@ -15,6 +15,7 @@ import { AfterValueChangedDirective } from './UI/after-value-change-directive';
 import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
+import { MessageCategoriesComponent } from './MessageCategories/message-categories-component';
 
 @NgModule({
     imports: [
@@ -37,13 +38,15 @@ import { DialogModule } from 'primeng/dialog';
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         AfterValueChangedDirective,
-        LoadingOverlayComponent
+        LoadingOverlayComponent,
+        MessageCategoriesComponent
     ],
     exports: [ DomainSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         LoadingOverlayComponent,
-        AfterValueChangedDirective ],
+        AfterValueChangedDirective,
+        MessageCategoriesComponent ],
     providers: [
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
     ]

@@ -1,13 +1,13 @@
 import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem,  MinitButtonClickEvent } from 'web-console-ui-kit';
-import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
 import { ApplicationsService, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
+import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -19,8 +19,8 @@ const LOG_TAG = '[ServicesSectionApplicationEditor]';
 })
 export class ApplicationEditorComponent  extends BaseEditorComponent implements OnInit {
 
-    @ViewChild('offlineMessagesEditor') offlineMessagesEditor: OfflineMessagesSettingsComponent;
-
+    @ViewChild('offlineMessagesDialog') offlineMessagesDialog: MessageCategoriesDialogComponent;
+  
     @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
     private _currentApplication: Application;
@@ -36,11 +36,10 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
             value: 'Vipera platform secure'
           },
           {
-            name: 'Offline',
-            field: 'offline',
+            name: 'Online',
+            field: 'online',
             type: WCPropertyEditorItemType.Boolean,
-            value: false,
-            linkTo: ['category']
+            value: false
           },
           {
             name: 'Offline Message',
@@ -213,7 +212,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
       // TODO!!
-      this.offlineMessagesEditor.show();
+      this.offlineMessagesDialog.show();
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {
@@ -240,7 +239,9 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
                   title: 'Save Application Configuration',
                   message: 'Application configuration changed successfully.',
                   type: NotificationType.Success
-              });
+              }); 
+
+              this.commitAllChanges();
 
               observer.next({});
               observer.complete();
@@ -275,7 +276,13 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     const changedProps: Property[] = [];
     for (let i = 0 ; i < changedProperties.length; i++) {
       const changedProperty = changedProperties[i];
-      if ((changedProperty.field !== 'description') && (changedProperty.field !== 'category')) {
+      if (changedProperty.field === 'online')  {
+        const property = {
+          key : 'offline',
+          value: '' + !(changedProperty.value)
+        };
+        changedProps.push(property);
+      } else if ((changedProperty.field !== 'description') && (changedProperty.field !== 'category')) {
         const property = {
           key : changedProperty.field,
           value: changedProperty.value
@@ -311,7 +318,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
   private toModel(application: Application): void {
     this.applyValueToModel('description', application.description);
-    this.applyValueToModel('offline', application.offline);
+    this.applyValueToModel('online', !(application.offline));
     this.applyValueToModel('category', application.category);
     this.applyValueToModel('otpExpiry', application.otpExpiry);
     this.applyValueToModel('otpFormat', application.otpFormat);
@@ -333,7 +340,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     this.applyValueToModel('viperaSerialLength', application.viperaSerialLength);
     this.applyValueToModel('userIdFormat', application.userIdFormat);
     this.applyValueToModel('userIdLength', application.userIdLength);
-
+    this.getPropertyItem('category').disabled = !application.offline;
   }
 
   private refreshApplicationInfo(domainName: string, applicationName: string): Observable<any> {
@@ -370,5 +377,15 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
       });
   }
 
+  onPropertyChanged(event): any {
+    this.logger.debug(LOG_TAG, 'onPropertyChanged:', event);
+    if ( event.item.field === 'enabled' ) {
+      this.handleOfflineProperties(event.newValue);
+    }
+  }
+
+  private handleOfflineProperties(enabled: boolean) {
+    this.getPropertyItem('category').disabled = enabled;
+  }
 
 }

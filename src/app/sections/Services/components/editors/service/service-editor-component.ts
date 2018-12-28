@@ -1,13 +1,13 @@
 import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem,  MinitButtonClickEvent } from 'web-console-ui-kit';
-import { OfflineMessagesSettingsComponent } from '../commons/offline_messages/offline-messages-settings-component'
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
 import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
+import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 
 const LOG_TAG = '[ServicesSectionServiceEditor]';
 
@@ -18,7 +18,7 @@ const LOG_TAG = '[ServicesSectionServiceEditor]';
 })
 export class ServiceEditorComponent extends BaseEditorComponent implements OnInit {
 
-    @ViewChild('offlineMessagesEditor') offlineMessagesEditor: OfflineMessagesSettingsComponent;
+    @ViewChild('offlineMessagesDialog') offlineMessagesDialog: MessageCategoriesDialogComponent;
 
     @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
@@ -29,7 +29,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     public serviceModel: WCPropertyEditorModel = {
         items: [
           {
-            name: 'Enabled',
+            name: 'Online',
             field: 'enabled',
             type: WCPropertyEditorItemType.Boolean,
             value: true
@@ -86,7 +86,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
       // TODO!!
-      this.offlineMessagesEditor.show();
+      this.offlineMessagesDialog.show();
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {
@@ -119,6 +119,8 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
                 message: 'Service configuration changed successfully.',
                 type: NotificationType.Success
             });
+
+            this.commitAllChanges();
 
             observer.next({});
             observer.complete();
@@ -201,9 +203,18 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
       this.applyValueToModel('countersPlugin', service.countersPlugin);
       this.applyValueToModel('thresholdActionsPlugin', service.thresholdActionsPlugin);
       this.applyValueToModel('thresholdChecksPlugin', service.thresholdChecksPlugin);
+      this.getPropertyItem('category').disabled = service.enabled;
     }
 
+    onPropertyChanged(event): any {
+      this.logger.debug(LOG_TAG, 'onPropertyChanged:', event);
+      if ( event.item.field === 'enabled' ) {
+        this.handleOfflineProperties(event.newValue);
+      }
+    }
 
-
+    private handleOfflineProperties(enabled: boolean) {
+      this.getPropertyItem('category').disabled = enabled;
+    }
 
 }
