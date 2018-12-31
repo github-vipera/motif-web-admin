@@ -1,5 +1,4 @@
-import { LocaleMapping } from './../../data/model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { Message, MessageCategory, LocaleMapping } from '../../data/model';
 import { SystemService } from '@wa-motif-open-api/platform-service';
@@ -16,6 +15,7 @@ export class MessagesPaneComponent implements OnInit  {
     private _category: MessageCategory;
     private _domain: string;
     private _localeMapping: LocaleMapping = new LocaleMapping();
+    @Output() selectionChange: EventEmitter<Message> = new EventEmitter<Message>();
 
     data: Message[] = [];
 
@@ -58,7 +58,8 @@ export class MessagesPaneComponent implements OnInit  {
     }
 
     onSelectionChange(event){
-        // TODO!!
+        this.logger.debug(LOG_TAG , 'onSelectionChange: ', event);
+        this.selectionChange.emit(event.selectedRows[0].dataItem);
     }
 
     @Input()
