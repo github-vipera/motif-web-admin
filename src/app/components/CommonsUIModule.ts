@@ -16,7 +16,6 @@ import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponent } from './MessageCategories/index';
 
 @NgModule({
     imports: [
@@ -40,21 +39,19 @@ import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponen
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         AfterValueChangedDirective,
-        LoadingOverlayComponent,
-        MessageCategoriesComponent, CategoryPaneComponent, MessagesPaneComponent
+        LoadingOverlayComponent
     ],
     exports: [ DomainSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         LoadingOverlayComponent,
-        AfterValueChangedDirective,
-        MessageCategoriesComponent ],
+        AfterValueChangedDirective],
     providers: [
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
     ]
-    
+
   })
   export class CommonsUIModule { }
-  
+
 
 

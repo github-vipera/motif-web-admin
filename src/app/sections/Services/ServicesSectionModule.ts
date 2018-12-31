@@ -28,6 +28,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageCategoriesDialogComponent } from './components/dialogs/message-categories/message-categories-dialog';
+import { MessageCategoriesModule } from '../../components/MessageCategoriesModule';
+
 
 @NgModule({
     imports: [
@@ -51,7 +53,8 @@ import { MessageCategoriesDialogComponent } from './components/dialogs/message-c
         MenubarModule,
         DropdownModule,
         InputSwitchModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        MessageCategoriesModule
     ],
     entryComponents: [
         ServicesSectionComponent

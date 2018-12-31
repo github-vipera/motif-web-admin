@@ -1,4 +1,15 @@
-<div class='wa-offline-messages-pane-title'>Categories</div>
 <div>
-    TODO!!
+ <span class='wa-offline-messages-pane-title'>Categories</span>
+
+  <kendo-grid [data]="data">
+    <kendo-grid-column field="Name" title="name" width="40">
+    </kendo-grid-column>
+  </kendo-grid>
+
+  <kendo-buttongroup>
+        <button kendoButton [toggleable]="true" [icon]="'bold'"></button>
+        <button kendoButton [toggleable]="true" [icon]="'italic'"></button>
+        <button kendoButton [toggleable]="true" [icon]="'underline'"></button>
+    </kendo-buttongroup>
+
 </div>

@@ -1,15 +1,24 @@
 <p-dialog
   #newItemDialog
+  focusOnShow="true"
   [(visible)]="display"
   [modal]="true"
   [responsive]="true"
-  [style]="{ width: '450px', minWidth: '400px' }"
-  [minY]="70"
+  [contentStyle]="{'height':'78%'}"
+  [style]="{ width: '600px', maxWidth: '600px',  height: '400px', minHeight: '400px'}"
   [baseZIndex]="10000"
+  [resizable]="false"
 >
   <p-header> Offline Messages </p-header>
 
+  <div style="height: 300px;">
+    <wa-message-categories-component></wa-message-categories-component>
+  </div>
+
+  <!--
+  <span>Hello World</span>
   <wa-message-categories-component></wa-message-categories-component>
+  -->
 
   <p-footer>
     <kendo-buttongroup look="flat">

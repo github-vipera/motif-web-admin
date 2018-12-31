@@ -5,7 +5,7 @@ const LOG_TAG = '[MessagesPaneComponent]';
 
 @Component({
     selector: 'wa-message-categories-messages-pane',
-    styleUrls: [ './messages-pane-component.scss' ],
+    styleUrls: [ './messages-pane-component.scss', '../../message-categories-component-shared.scss' ],
     templateUrl: './messages-pane-component.html'
 })
 export class MessagesPaneComponent implements OnInit  {

@@ -5,7 +5,7 @@ const LOG_TAG = '[MessageCategoriesComponent]';
 
 @Component({
     selector: 'wa-message-categories-component',
-    styleUrls: [ './message-categories-component.scss' ],
+    styleUrls: [ './message-categories-component.scss', './message-categories-component-shared.scss' ],
     templateUrl: './message-categories-component.html'
 })
 export class MessageCategoriesComponent implements OnInit  {
