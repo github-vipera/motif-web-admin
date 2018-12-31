@@ -1,6 +1,7 @@
+import { LocaleMapping } from './../../data/model';
 import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { Message, MessageCategory } from '../../data/model';
+import { Message, MessageCategory, LocaleMapping } from '../../data/model';
 import { SystemService } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[MessagesPaneComponent]';
@@ -14,7 +15,7 @@ export class MessagesPaneComponent implements OnInit  {
 
     private _category: MessageCategory;
     private _domain: string;
-
+    private _localeMapping: LocaleMapping = new LocaleMapping();
 
     data: Message[] = [];
 
@@ -31,8 +32,12 @@ export class MessagesPaneComponent implements OnInit  {
         if (this._category && this._domain){
             this.logger.debug(LOG_TAG , 'reloadMessages for ', this._domain, this._category.name);
             this.systemService.getSystemMessages(this._domain, this._category.name).subscribe((data) => {
-                this.logger.debug(LOG_TAG , 'reloadMessages: ', data);
                 this.data = data;
+                for (let i = 0; i < data.length; i++) {
+                    const message = this.data[i];
+                    message.localeName = this._localeMapping.findByCode(message.locale);
+                }
+                this.logger.debug(LOG_TAG , 'reloadMessages: ', data);
             }, (error) => {
                 this.logger.error(LOG_TAG , 'reloadMessages error: ', error);
             });
@@ -66,5 +71,6 @@ export class MessagesPaneComponent implements OnInit  {
     get domain(): string {
         return this._domain;
     }
+
 
 }
