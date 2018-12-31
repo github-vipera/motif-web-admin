@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
+import { MessageCategorySelectionEvent } from '../../../../../components/MessageCategories/message-categories-component';
 
 const LOG_TAG = '[MessageCategoriesDialogComponent]';
 
@@ -30,5 +31,8 @@ export class MessageCategoriesDialogComponent implements OnInit {
         this.display = false;
     }
 
+    onSelectionChange(event: MessageCategorySelectionEvent) {
+        this.logger.debug(LOG_TAG, 'onSelectionChange: ', event);
+    }
 
 }

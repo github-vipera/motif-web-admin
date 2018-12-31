@@ -12,7 +12,7 @@
   <p-header> Offline Messages </p-header>
 
   <div style="height: 300px;">
-    <wa-message-categories-component [domain]="domain"></wa-message-categories-component>
+    <wa-message-categories-component [domain]="domain" (selectionChange)="onSelectionChange($event)"></wa-message-categories-component>
   </div>
 
   <!--
