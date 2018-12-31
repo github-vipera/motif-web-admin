@@ -3,22 +3,24 @@ import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponen
 import { LoggerModule } from 'web-console-core';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
-
+import { CommonsUIModule } from './CommonsUIModule';
+import { LocaleNamePipe } from './MessageCategories/data/model';
 
 @NgModule({
     imports: [
         LoggerModule,
         LayoutModule,
-        WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule
+        WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, CommonsUIModule
     ],
     entryComponents: [
     ],
     declarations: [
-        MessageCategoriesComponent, CategoryPaneComponent, MessagesPaneComponent
+        MessageCategoriesComponent, CategoryPaneComponent, MessagesPaneComponent, LocaleNamePipe
     ],
-    exports: [ 
+    exports: [
         MessageCategoriesComponent ],
     providers: [
+
     ]
   })
   export class MessageCategoriesModule { }

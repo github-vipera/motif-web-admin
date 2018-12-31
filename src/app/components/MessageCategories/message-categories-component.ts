@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { Message, MessageCategory } from './data/model';
+import { SystemCategory, SystemMessage } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[MessageCategoriesComponent]';
 
@@ -18,8 +18,8 @@ export interface MessageCategorySelectionEvent {
 })
 export class MessageCategoriesComponent implements OnInit  {
 
-    @Output() public selectedCategory: MessageCategory;
-    @Output() public selectedMessage: Message;
+    @Output() public selectedCategory: SystemCategory;
+    @Output() public selectedMessage: SystemMessage;
     @Output() public selectionChange: EventEmitter<MessageCategorySelectionEvent> = new EventEmitter();
 
     private _domain: string;
@@ -32,12 +32,12 @@ export class MessageCategoriesComponent implements OnInit  {
         this.logger.debug(LOG_TAG , 'Initializing...');
     }
 
-    onCategorySelection(category: MessageCategory) {
+    onCategorySelection(category: SystemCategory) {
         this.logger.debug(LOG_TAG, 'On category selected: ', category);
         this.selectedCategory = category;
     }
 
-    onMessageSelectionChange(message: Message) {
+    onMessageSelectionChange(message: SystemMessage) {
         this.logger.debug(LOG_TAG, 'On message selected: ', message);
         this.selectedMessage = message;
         this.emitSelectionEvent();

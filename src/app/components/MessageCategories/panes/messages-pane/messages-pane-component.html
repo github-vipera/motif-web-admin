@@ -6,7 +6,11 @@
       [selectable]="true"
       (selectionChange)="onSelectionChange($event)">
       >
-    <kendo-grid-column field="localeName" title="Locale"> </kendo-grid-column>
+    <kendo-grid-column field="localeName" title="Locale">
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <span>{{ dataItem.locale | localeName }}</span>
+        </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column field="message" title="Message"> </kendo-grid-column>
   </kendo-grid>
 

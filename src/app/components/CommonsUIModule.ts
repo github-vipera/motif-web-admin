@@ -16,6 +16,7 @@ import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { LocalesMappingService } from './Commons/locales-mapping-service';
 
 @NgModule({
     imports: [
@@ -47,7 +48,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
         LoadingOverlayComponent,
         AfterValueChangedDirective],
     providers: [
-        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter
+        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesMappingService
     ]
 
   })

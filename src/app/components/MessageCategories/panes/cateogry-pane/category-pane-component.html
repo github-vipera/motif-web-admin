@@ -1,15 +1,18 @@
 <div style="display: flex;flex-direction: column;height: 100%;">
   <span class="wa-offline-messages-pane-title">Categories</span>
 
-  <kendo-grid [data]="data" style="flex-grow: 2;border:none;padding-top: 4px;" 
+  <kendo-grid #grid [data]="data" style="flex-grow: 2;border:none;padding-top: 4px;" 
     [hideHeader]="true"
     [selectable]="true"
+    (add)="addHandler($event)"
+    (keydown)="onKeydown(grid, $event)"
+    (cellClose)="cellCloseHandler($event)"
     (selectionChange)="onSelectionChange($event)">
     <kendo-grid-column field="name" title="Name"> </kendo-grid-column>
   </kendo-grid> 
 
   <kendo-buttongroup style="justify-content: flex-end;">
-    <button kendoButton [toggleable]="false" [icon]="'plus'" title="Add Category"></button>
+    <button kendoButton [toggleable]="false" [icon]="'plus'" title="Add Category" (click)="addNewClicked()"></button>
     <button kendoButton [toggleable]="false" [icon]="'minus'" title="Remove Category"></button>
   </kendo-buttongroup>
 </div>

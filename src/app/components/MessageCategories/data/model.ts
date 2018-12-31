@@ -1,10 +1,8 @@
 import * as _ from 'lodash';
+import { Pipe, PipeTransform } from '@angular/core';
+import { LocalesMappingService } from '../../Commons/locales-mapping-service';
 
-export interface MessageCategory {
-    name: string;
-}
-
-
+/*
 export interface Message {
     message: string;
     locale: string;
@@ -15,7 +13,9 @@ export interface Locale {
     code: string;
     name: string;
 }
+*/
 
+/*
 export class LocaleMapping {
 
     private _mapping: Locale[] = [
@@ -39,4 +39,25 @@ export class LocaleMapping {
     }
 
 }
+*/
 
+/*
+ * Raise the value exponentially
+ * Takes an exponent argument that defaults to 1.
+ * Usage:
+ *   value | exponentialStrength:exponent
+ * Example:
+ *   {{ 2 | exponentialStrength:10 }}
+ *   formats to: 1024
+*/
+@Pipe({name: 'localeName'})
+export class LocaleNamePipe implements PipeTransform {
+
+    constructor(private localesMappingService: LocalesMappingService) {
+    }
+
+    transform(value: string): string {
+        return this.localesMappingService.findByCode(value);
+    }
+
+}
