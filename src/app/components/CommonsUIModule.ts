@@ -13,7 +13,7 @@ import { FileDropPanelComponent } from './UI/file-drop-panel-component';
 import { DroppableModule } from '@ctrl/ngx-droppable';
 import { AfterValueChangedDirective } from './UI/after-value-change-directive';
 import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { LocalesMappingService } from './Commons/locales-mapping-service';
