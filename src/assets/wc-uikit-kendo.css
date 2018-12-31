@@ -244,3 +244,7 @@ kendo-popup {
 .k-combobox .k-dropdown-wrap {
     border-radius: 4px;
 }
+
+.k-grid-content {
+    overflow-y: auto;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
+import { Message, MessageCategory } from './data/model';
 
 const LOG_TAG = '[MessageCategoriesComponent]';
 
@@ -10,12 +11,19 @@ const LOG_TAG = '[MessageCategoriesComponent]';
 })
 export class MessageCategoriesComponent implements OnInit  {
 
+    public selectedCategory: MessageCategory;
+
     constructor(private logger: NGXLogger) {
 
     }
 
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
+    }
+
+    onCategorySelection(category: MessageCategory) {
+        this.logger.debug(LOG_TAG, 'On category selected: ', category);
+        this.selectedCategory = category;
     }
 
 }

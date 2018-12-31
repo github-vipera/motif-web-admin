@@ -1,15 +1,15 @@
-<div>
- <span class='wa-offline-messages-pane-title'>Categories</span>
+<div style="display: flex;flex-direction: column;height: 100%;">
+  <span class="wa-offline-messages-pane-title">Categories</span>
 
-  <kendo-grid [data]="data">
-    <kendo-grid-column field="Name" title="name" width="40">
-    </kendo-grid-column>
-  </kendo-grid>
+  <kendo-grid [data]="data" style="flex-grow: 2;border:none;padding-top: 4px;" 
+    [hideHeader]="true"
+    [selectable]="true"
+    (selectionChange)="onSelectionChange($event)">
+    <kendo-grid-column field="name" title="Name"> </kendo-grid-column>
+  </kendo-grid> 
 
-  <kendo-buttongroup>
-        <button kendoButton [toggleable]="true" [icon]="'bold'"></button>
-        <button kendoButton [toggleable]="true" [icon]="'italic'"></button>
-        <button kendoButton [toggleable]="true" [icon]="'underline'"></button>
-    </kendo-buttongroup>
-
+  <kendo-buttongroup style="justify-content: flex-end;">
+    <button kendoButton [toggleable]="false" [icon]="'plus'" title="Add Category"></button>
+    <button kendoButton [toggleable]="false" [icon]="'minus'" title="Remove Category"></button>
+  </kendo-buttongroup>
 </div>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
+import { Message, MessageCategory } from '../../data/model';
 
 const LOG_TAG = '[MessagesPaneComponent]';
 
@@ -10,12 +11,32 @@ const LOG_TAG = '[MessagesPaneComponent]';
 })
 export class MessagesPaneComponent implements OnInit  {
 
+    private _category: MessageCategory;
+
+    data: Message[] = [
+        {name: 'Server Down', id: 'server_down', locale: 'eng' }
+    ];
+
     constructor(private logger: NGXLogger) {
 
     }
 
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
+    }
+
+    @Input()
+    set category(category: MessageCategory) {
+        this._category = category;
+        this.logger.debug(LOG_TAG , 'Category changed: ', this._category);
+    }
+
+    get category(): MessageCategory {
+        return this._category;
+    }
+
+    onSelectionChange(event){
+        // TODO!!
     }
 
 }
