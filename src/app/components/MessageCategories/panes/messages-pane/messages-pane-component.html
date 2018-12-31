@@ -3,12 +3,11 @@
 
   <kendo-grid [data]="data" 
       style="flex-grow: 2;border:none;padding-top: 4px;" 
-      [hideHeader]="true"
       [selectable]="true"
       (selectionChange)="onSelectionChange($event)">
       >
     <kendo-grid-column field="locale" title="Locale"> </kendo-grid-column>
-    <kendo-grid-column field="name" title="Name"> </kendo-grid-column>
+    <kendo-grid-column field="message" title="Message"> </kendo-grid-column>
   </kendo-grid>
 
   <kendo-buttongroup style="justify-content: flex-end;">

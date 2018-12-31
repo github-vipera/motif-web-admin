@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { MessageCategory } from '../../data/model';
-import { SystemService } from  '@wa-motif-open-api/platform-service';
+import { SystemService } from '@wa-motif-open-api/platform-service';
 
 
 const LOG_TAG = '[CategoryPaneComponent]';
@@ -36,6 +36,8 @@ export class CategoryPaneComponent implements OnInit  {
             }, (error) => {
                 this.logger.error(LOG_TAG , 'reloadCategories error: ', error);
             });
+        } else {
+            this.data = [];
         }
     }
 
@@ -45,7 +47,7 @@ export class CategoryPaneComponent implements OnInit  {
     }
 
     @Input()
-    set domai(domain: string) {
+    set domain(domain: string) {
         this._domain = domain;
         this.reloadCategories();
     }

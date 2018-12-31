@@ -4,7 +4,6 @@ export interface MessageCategory {
 
 
 export interface Message {
-    id: string;
-    name: string;
+    message: string;
     locale: string;
 }

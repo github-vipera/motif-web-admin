@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { Message, MessageCategory } from '../../data/model';
+import { SystemService } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[MessagesPaneComponent]';
 
@@ -15,11 +16,10 @@ export class MessagesPaneComponent implements OnInit  {
     private _domain: string;
 
 
-    data: Message[] = [
-        {name: 'Server Down', id: 'server_down', locale: 'eng' }
-    ];
+    data: Message[] = [];
 
-    constructor(private logger: NGXLogger) {
+    constructor(private logger: NGXLogger,
+        private systemService: SystemService) {
 
     }
 
@@ -27,10 +27,24 @@ export class MessagesPaneComponent implements OnInit  {
         this.logger.debug(LOG_TAG , 'Initializing...');
     }
 
-    
+    private reloadMessages() {
+        if (this._category && this._domain){
+            this.logger.debug(LOG_TAG , 'reloadMessages for ', this._domain, this._category.name);
+            this.systemService.getSystemMessages(this._domain, this._category.name).subscribe((data) => {
+                this.logger.debug(LOG_TAG , 'reloadMessages: ', data);
+                this.data = data;
+            }, (error) => {
+                this.logger.error(LOG_TAG , 'reloadMessages error: ', error);
+            });
+        } else {
+            this.data = [];
+        }
+    }
+
     @Input()
     set category(category: MessageCategory) {
         this._category = category;
+        this.reloadMessages();
         this.logger.debug(LOG_TAG , 'Category changed: ', this._category);
     }
 
@@ -43,8 +57,10 @@ export class MessagesPaneComponent implements OnInit  {
     }
 
     @Input()
-    set domai(domain: string) {
+    set domain(domain: string) {
         this._domain = domain;
+        this._category = null;
+        this.reloadMessages();
     }
 
     get domain(): string {
