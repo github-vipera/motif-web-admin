@@ -15,15 +15,10 @@
     <wa-message-categories-component [domain]="domain" (selectionChange)="onSelectionChange($event)"></wa-message-categories-component>
   </div>
 
-  <!--
-  <span>Hello World</span>
-  <wa-message-categories-component></wa-message-categories-component>
-  -->
-
   <p-footer>
     <kendo-buttongroup look="flat">
       <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
-      <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Create</button>
+      <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Select</button>
     </kendo-buttongroup>
   </p-footer>
 
