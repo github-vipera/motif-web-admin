@@ -211,8 +211,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
-      // TODO!!
-      this.offlineMessagesDialog.show();
+      this.offlineMessagesDialog.show(this.editorContext.domainName);
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {

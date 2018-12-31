@@ -85,8 +85,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
-      // TODO!!
-      this.offlineMessagesDialog.show();
+      this.offlineMessagesDialog.show(this.editorContext.domainName);
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {

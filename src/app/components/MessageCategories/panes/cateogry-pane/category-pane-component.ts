@@ -1,6 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { MessageCategory } from '../../data/model';
+import { SystemService } from  '@wa-motif-open-api/platform-service';
+
 
 const LOG_TAG = '[CategoryPaneComponent]';
 
@@ -11,21 +13,30 @@ const LOG_TAG = '[CategoryPaneComponent]';
 })
 export class CategoryPaneComponent implements OnInit  {
 
-    data: MessageCategory[] = [
-        {name: 'Server Down', id: 'server_down' },
-        {name: 'Server Restarting', id: 'server_restarting' },
-        {name: 'Maintenance Mode', id: 'maintenance' },
-        {name: 'Server Down 2', id: 'server_down2' }
-    ];
+    data: MessageCategory[] = [];
 
     @Output() selectionChange: EventEmitter<MessageCategory> = new EventEmitter<MessageCategory>();
+    private _domain: string;
 
-    constructor(private logger: NGXLogger) {
 
+    constructor(private logger: NGXLogger,
+        private systemService: SystemService) {
     }
 
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
+        this.reloadCategories();
+    }
+
+    private reloadCategories(): void {
+        if (this._domain) {
+            this.systemService.getSystemCategories(this._domain).subscribe((data) => {
+                this.logger.debug(LOG_TAG , 'reloadCategories: ', data);
+                this.data = data;
+            }, (error) => {
+                this.logger.error(LOG_TAG , 'reloadCategories error: ', error);
+            });
+        }
     }
 
     onSelectionChange(event){
@@ -33,4 +44,13 @@ export class CategoryPaneComponent implements OnInit  {
         this.selectionChange.emit(event.selectedRows[0].dataItem);
     }
 
+    @Input()
+    set domai(domain: string) {
+        this._domain = domain;
+        this.reloadCategories();
+    }
+
+    get domain(): string {
+        return this._domain;
+    }
 }

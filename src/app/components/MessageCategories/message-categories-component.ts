@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { Message, MessageCategory } from './data/model';
 
@@ -13,6 +13,10 @@ export class MessageCategoriesComponent implements OnInit  {
 
     public selectedCategory: MessageCategory;
 
+    private _domain: string;
+
+
+
     constructor(private logger: NGXLogger) {
 
     }
@@ -24,6 +28,15 @@ export class MessageCategoriesComponent implements OnInit  {
     onCategorySelection(category: MessageCategory) {
         this.logger.debug(LOG_TAG, 'On category selected: ', category);
         this.selectedCategory = category;
+    }
+
+    @Input()
+    set domain(domain: string) {
+        this._domain = domain;
+    }
+
+    get domain(): string {
+        return this._domain;
     }
 
 }

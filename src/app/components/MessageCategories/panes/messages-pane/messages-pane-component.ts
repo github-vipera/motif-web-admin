@@ -12,6 +12,8 @@ const LOG_TAG = '[MessagesPaneComponent]';
 export class MessagesPaneComponent implements OnInit  {
 
     private _category: MessageCategory;
+    private _domain: string;
+
 
     data: Message[] = [
         {name: 'Server Down', id: 'server_down', locale: 'eng' }
@@ -25,6 +27,7 @@ export class MessagesPaneComponent implements OnInit  {
         this.logger.debug(LOG_TAG , 'Initializing...');
     }
 
+    
     @Input()
     set category(category: MessageCategory) {
         this._category = category;
@@ -37,6 +40,15 @@ export class MessagesPaneComponent implements OnInit  {
 
     onSelectionChange(event){
         // TODO!!
+    }
+
+    @Input()
+    set domai(domain: string) {
+        this._domain = domain;
+    }
+
+    get domain(): string {
+        return this._domain;
     }
 
 }

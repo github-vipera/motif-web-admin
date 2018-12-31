@@ -13,6 +13,7 @@ const LOG_TAG = '[MessageCategoriesDialogComponent]';
 export class MessageCategoriesDialogComponent implements OnInit {
 
     display: boolean;
+    domain: string;
 
     constructor(private logger: NGXLogger) {}
 
@@ -20,7 +21,8 @@ export class MessageCategoriesDialogComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
-    public show(): void {
+    public show(domain: string): void {
+        this.domain = domain;
         this.display = true;
     }
 
