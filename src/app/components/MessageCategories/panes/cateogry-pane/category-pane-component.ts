@@ -14,6 +14,7 @@ import {
   EditServiceConfiguration
 } from '../../../Grid/edit.service';
 import { GridComponent } from '@progress/kendo-angular-grid';
+import {ConfirmationService} from 'primeng/api';
 
 const LOG_TAG = '[CategoryPaneComponent]';
 
@@ -30,6 +31,7 @@ export class CategoryPaneComponent implements OnInit {
 
   @Output() selectionChange: EventEmitter<SystemCategory> = new EventEmitter<SystemCategory>();
   private _domain: string;
+  private _selectedCategory: SystemCategory;
 
   private editService: EditService = new EditService();
   private editServiceConfiguration: EditServiceConfiguration = {
@@ -45,7 +47,8 @@ export class CategoryPaneComponent implements OnInit {
   constructor(
     private logger: NGXLogger,
     private systemService: SystemService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
@@ -72,7 +75,8 @@ export class CategoryPaneComponent implements OnInit {
 
   onSelectionChange(event) {
     this.logger.debug(LOG_TAG, 'onSelectionChange: ', event);
-    this.selectionChange.emit(event.selectedRows[0].dataItem);
+    this._selectedCategory = event.selectedRows[0].dataItem;
+    this.selectionChange.emit(this._selectedCategory);
   }
 
   @Input()
@@ -89,6 +93,17 @@ export class CategoryPaneComponent implements OnInit {
     return this.formBuilder.group({
       name: dataItem.name
     });
+  }
+
+  removeClicked(): void {
+    if (this._selectedCategory){
+      this.confirmationService.confirm({
+        message: 'Are you sure you want to remove the selected category ' + this._selectedCategory.name + ' ?',
+        accept: () => {
+            //Actual logic to perform a confirmation
+        }
+      });
+    }
   }
 
   addNewClicked(): void {

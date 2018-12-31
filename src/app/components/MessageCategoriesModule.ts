@@ -5,11 +5,13 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from './CommonsUIModule';
 import { LocaleNamePipe } from './MessageCategories/data/model';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     imports: [
         LoggerModule,
         LayoutModule,
+        ConfirmDialogModule,
         WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, CommonsUIModule
     ],
     entryComponents: [
