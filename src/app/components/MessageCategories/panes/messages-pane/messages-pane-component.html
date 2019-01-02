@@ -4,11 +4,14 @@
   <kendo-grid #grid [data]="data" 
       style="flex-grow: 2;border:none;padding-top: 4px;" 
       [selectable]="true"
+      [resizable]="true"
       (selectionChange)="onSelectionChange($event)"
       (keydown)="onKeydown(grid, $event)"
       (cellClose)="cellCloseHandler($event)"
     >
-    <kendo-grid-column field="locale" title="Locale">
+    <kendo-grid-column field="locale" title="Locale"
+        [width]="70"
+        [minResizableWidth]="50">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <span>{{ dataItem.locale | localeName }}</span>
         </ng-template>

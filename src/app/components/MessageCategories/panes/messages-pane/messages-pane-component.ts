@@ -50,6 +50,7 @@ export class MessagesPaneComponent implements OnInit {
   data: SystemMessagesList = [];
 
   locales: string[];
+  availableLocales: string[];
 
   private editService: EditService = new EditService();
   private editServiceConfiguration: EditServiceConfiguration = {
@@ -92,6 +93,9 @@ export class MessagesPaneComponent implements OnInit {
             this.logger.debug(LOG_TAG, 'reloadMessages: ', data);
             this._selectedMessage = null;
             this.selectionChange.emit(this._selectedMessage);
+
+            this.availableLocales = this.buildRemainLocales();
+
             },
           error => {
             this.logger.error(LOG_TAG, 'reloadMessages error: ', error);
@@ -257,6 +261,8 @@ export class MessagesPaneComponent implements OnInit {
             type: NotificationType.Success
         });
 
+        this.availableLocales = this.buildRemainLocales();
+
         this.closeEditor();
 
     }, (error) => {
@@ -278,7 +284,7 @@ export class MessagesPaneComponent implements OnInit {
   }
 
   public get canAdd(): boolean {
-    return this._category !== null && this._domain !== null;
+    return (this._category !== null && this._domain !== null && this.availableLocales.length > 0);
   }
 
   public get canRemove(): boolean {
