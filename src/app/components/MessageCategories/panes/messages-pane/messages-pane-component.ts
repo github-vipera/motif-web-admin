@@ -18,7 +18,7 @@ import {
   NotificationCenter,
   NotificationType
 } from '../../../../components/Commons/notification-center';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   EditService,
   EditServiceConfiguration
@@ -71,14 +71,14 @@ export class MessagesPaneComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logger.debug(LOG_TAG, "Initializing...");
+    this.logger.debug(LOG_TAG, 'Initializing...');
   }
 
   private reloadMessages() {
     if (this._category && this._domain) {
       this.logger.debug(
         LOG_TAG,
-        "reloadMessages for ",
+        'reloadMessages for ',
         this._domain,
         this._category.name
       );
@@ -90,10 +90,10 @@ export class MessagesPaneComponent implements OnInit {
             for (let i = 0; i < data.length; i++) {
               const message = this.data[i];
             }
-            this.logger.debug(LOG_TAG, "reloadMessages: ", data);
+            this.logger.debug(LOG_TAG, 'reloadMessages: ', data);
           },
           error => {
-            this.logger.error(LOG_TAG, "reloadMessages error: ", error);
+            this.logger.error(LOG_TAG, 'reloadMessages error: ', error);
           }
         );
     } else {
@@ -105,7 +105,7 @@ export class MessagesPaneComponent implements OnInit {
   set category(category: SystemCategory) {
     this._category = category;
     this.reloadMessages();
-    this.logger.debug(LOG_TAG, "Category changed: ", this._category);
+    this.logger.debug(LOG_TAG, 'Category changed: ', this._category);
   }
 
   get category(): SystemCategory {
@@ -113,7 +113,7 @@ export class MessagesPaneComponent implements OnInit {
   }
 
   onSelectionChange(event) {
-    this.logger.debug(LOG_TAG, "onSelectionChange: ", event);
+    this.logger.debug(LOG_TAG, 'onSelectionChange: ', event);
     this._selectedMessage = event.selectedRows[0].dataItem;
     this.selectionChange.emit(this._selectedMessage);
   }
@@ -133,10 +133,7 @@ export class MessagesPaneComponent implements OnInit {
    * Trgiggered by the button
    */
   addNewClicked(): void {
-    this.formGroup = this.createFormGroup({
-      message: "New Message",
-      locale: "en"
-    });
+    this.formGroup = this.createFormGroup();
     this._grid.addRow(this.formGroup);
   }
 
@@ -147,9 +144,9 @@ export class MessagesPaneComponent implements OnInit {
     if (this._selectedMessage) {
       this.confirmationService.confirm({
         message:
-          "Are you sure you want to remove the selected message for Locale '" +
+          'Are you sure you want to remove the selected message for Locale \'' +
           this._selectedMessage.locale +
-          "' ?",
+          '\' ?',
         accept: () => {
           this.removeMessage(this._selectedMessage);
         }
@@ -157,11 +154,11 @@ export class MessagesPaneComponent implements OnInit {
     }
   }
 
-  public createFormGroup(dataItem: any): FormGroup {
+  public createFormGroup(): FormGroup {
     this.locales = this.buildRemainLocales();
     return this.formBuilder.group({
-      localeName: "",
-      message: dataItem.message
+      'locale': new FormControl('en'),
+      'message': new FormControl('New Message')
     });
   }
 
@@ -169,15 +166,14 @@ export class MessagesPaneComponent implements OnInit {
    * Triggered by the grid component
    */
   public onKeydown(sender: any, e: any) {
-    console.log("onKeydown " + e.key);
 
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       this.closeEditor();
       // Stop parent form from submitting
       e.preventDefault();
     }
 
-    if (e.key !== "Enter") {
+    if (e.key !== 'Enter') {
       return;
     }
     if (!this.formGroup || !this.formGroup.valid) {
@@ -217,6 +213,7 @@ export class MessagesPaneComponent implements OnInit {
 
   private createNewMessage(message: SystemMessage): void {
     // TODO!!
+    this.logger.debug(LOG_TAG, 'createNewMessage: ', message);
     alert('createNewMessage TODO!!');
   }
 

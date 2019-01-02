@@ -8,19 +8,20 @@
       (keydown)="onKeydown(grid, $event)"
       (cellClose)="cellCloseHandler($event)"
     >
-    <kendo-grid-column field="localeName" title="Locale">
+    <kendo-grid-column field="locale" title="Locale">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <span>{{ dataItem.locale | localeName }}</span>
         </ng-template>
         <ng-template kendoGridEditTemplate
           let-dataItem="dataItem"
           let-formGroup="formGroup">
-          <kendo-dropdownlist #namesDropDown
+          <kendo-dropdownlist #localesDropDown
             [data]="locales"
-            textField="name"
-            valueField="code"
-            [formControl]="formGroup.get('LocaleName')"
-          >
+            [textField]="'name'"
+            [valueField]="'code'"
+            [formControl]="formGroup.get('locale')"
+            [valuePrimitive]="true"
+            >
           </kendo-dropdownlist>
       </ng-template>
 
