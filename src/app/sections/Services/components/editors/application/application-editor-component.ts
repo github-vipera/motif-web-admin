@@ -8,6 +8,7 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { ApplicationsService, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
+import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -46,7 +47,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
             field: 'category',
             type: WCPropertyEditorItemType.List,
             value: '',
-            listValues: ['Uno', 'Due', 'Tre', 'Quattro', 'Cinque'],
+            listValues: [],
             disabled: true,
             miniCommand: true,
             miniCommandCaption: 'Setup...'
@@ -197,7 +198,8 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
     constructor(public logger: NGXLogger,
       public applicationService: ApplicationsService,
-      public notificationCenter: NotificationCenter) {
+      public notificationCenter: NotificationCenter,
+      private systemService: SystemService) {
         super(logger, notificationCenter);
         this.setModel(this.applicationModel);
     }
@@ -214,7 +216,8 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
       this.offlineMessagesDialog.show(this.editorContext.domainName);
     }
 
-    doRefreshData(editorContext: EditorContext): Observable<any> {
+  doRefreshData(editorContext: EditorContext): Observable<any> {
+      this.reloadCategories();
       return this.refreshApplicationInfo(editorContext.domainName, editorContext.applicationName);
   }
 
@@ -378,13 +381,25 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
   onPropertyChanged(event): any {
     this.logger.debug(LOG_TAG, 'onPropertyChanged:', event);
-    if ( event.item.field === 'enabled' ) {
+    if ( event.item.field === 'online' ) {
       this.handleOfflineProperties(event.newValue);
     }
   }
 
   private handleOfflineProperties(enabled: boolean) {
     this.getPropertyItem('category').disabled = enabled;
+  }
+
+  reloadCategories() {
+    this.systemService.getSystemCategories(this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
+      const categories = [];
+      for (let i = 0; i < data.length; i++){
+        categories.push(data[i].name);
+      }
+      this.getPropertyItem('category').listValues = categories;
+    }, (error) => {
+      this.logger.error(LOG_TAG, 'doRefreshData get category list error:', error);
+    });
   }
 
 }

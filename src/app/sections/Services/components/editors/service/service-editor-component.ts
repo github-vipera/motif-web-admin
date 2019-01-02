@@ -8,7 +8,7 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
-import { SystemService, SystemCategoryCreate, SystemCategoriesList, SystemCategory } from '@wa-motif-open-api/platform-service';
+import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[ServicesSectionServiceEditor]';
 
@@ -40,7 +40,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
             field: 'category',
             type: WCPropertyEditorItemType.List,
             value: '',
-            listValues: ['Uno', 'Due', 'Tre', 'Quattro', 'Cinque'],
+            listValues: [],
             disabled: true,
             miniCommand: true,
             miniCommandCaption: 'Setup...'
