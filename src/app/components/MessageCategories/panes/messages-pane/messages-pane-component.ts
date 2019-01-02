@@ -284,7 +284,7 @@ export class MessagesPaneComponent implements OnInit {
   }
 
   public get canAdd(): boolean {
-    return (this._category !== null && this._domain !== null && this.availableLocales.length > 0);
+    return (this._category !== null && this._domain !== null && this.availableLocales && this.availableLocales.length > 0);
   }
 
   public get canRemove(): boolean {
@@ -308,6 +308,10 @@ export class MessagesPaneComponent implements OnInit {
         ret.push( this.localesService.getLocaleByCode(message.locale) );
     }
     return ret;
+  }
+
+  public reset(): void {
+    this.data = [];
   }
 
 }

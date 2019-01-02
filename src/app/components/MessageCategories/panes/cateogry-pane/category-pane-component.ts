@@ -239,4 +239,9 @@ export class CategoryPaneComponent implements OnInit {
   public get canRemove(): boolean {
     return (this._selectedCategory != null);
   }
+
+  public reset(): void {
+    this.data = [];
+  }
+
 }

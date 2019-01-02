@@ -1,6 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { SystemCategory, SystemMessage } from '@wa-motif-open-api/platform-service';
+import { CategoryPaneComponent } from './panes/cateogry-pane/category-pane-component';
+import { MessagesPaneComponent } from './panes/messages-pane/messages-pane-component';
 
 const LOG_TAG = '[MessageCategoriesComponent]';
 
@@ -21,6 +23,9 @@ export class MessageCategoriesComponent implements OnInit  {
     @Output() public selectedCategory: SystemCategory;
     @Output() public selectedMessage: SystemMessage;
     @Output() public selectionChange: EventEmitter<MessageCategorySelectionEvent> = new EventEmitter();
+
+    @ViewChild('messagesPane') _messagesPane: MessagesPaneComponent;
+    @ViewChild('categoriesPane') _categoriesPane: CategoryPaneComponent;
 
     private _domain: string;
 
@@ -63,4 +68,8 @@ export class MessageCategoriesComponent implements OnInit  {
         return this._domain;
     }
 
+    public reset(): void {
+        this._messagesPane.reset();
+        this._categoriesPane.reset();
+    }
 }

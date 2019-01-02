@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { MessageCategorySelectionEvent } from '../../../../../components/MessageCategories/message-categories-component';
+import { MessageCategoriesComponent, MessageCategorySelectionEvent } from '../../../../../components/MessageCategories/message-categories-component';
 
 const LOG_TAG = '[MessageCategoriesDialogComponent]';
 
@@ -15,6 +15,8 @@ export class MessageCategoriesDialogComponent implements OnInit {
 
     display: boolean;
     domain: string;
+
+    @ViewChild('messageCategories') _messageCategories: MessageCategoriesComponent;
 
     constructor(private logger: NGXLogger) {}
 
@@ -35,4 +37,11 @@ export class MessageCategoriesDialogComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'onSelectionChange: ', event);
     }
 
+    onCancel() {
+        this.hide();
+    }
+
+    onConfirm() {
+        this.hide();
+    }
 }
