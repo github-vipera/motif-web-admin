@@ -14,7 +14,8 @@ import {
   EditServiceConfiguration
 } from '../../../Grid/edit.service';
 import { GridComponent } from '@progress/kendo-angular-grid';
-import {ConfirmationService} from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
 
 const LOG_TAG = '[CategoryPaneComponent]';
 
@@ -48,7 +49,8 @@ export class CategoryPaneComponent implements OnInit {
     private logger: NGXLogger,
     private systemService: SystemService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private notificationCenter: NotificationCenter
   ) {}
 
   ngOnInit() {
@@ -63,7 +65,9 @@ export class CategoryPaneComponent implements OnInit {
           this.logger.debug(LOG_TAG, 'reloadCategories: ', data);
           this.data = data;
           this.editService.read(this.data, this.editServiceConfiguration);
-        },
+          this._selectedCategory = null;
+          this.selectionChange.emit(this._selectedCategory);
+              },
         error => {
           this.logger.error(LOG_TAG, 'reloadCategories error: ', error);
         }
@@ -96,14 +100,44 @@ export class CategoryPaneComponent implements OnInit {
   }
 
   removeClicked(): void {
-    if (this._selectedCategory){
+    if (this._selectedCategory) {
       this.confirmationService.confirm({
         message: 'Are you sure you want to remove the selected category ' + this._selectedCategory.name + ' ?',
         accept: () => {
-            //Actual logic to perform a confirmation
+          this.removeCategory(this._selectedCategory);
         }
       });
     }
+  }
+
+  private removeCategory(category: SystemCategory): void {
+    this.systemService.deleteSystemCategory(this._domain, this._selectedCategory.name).subscribe( (data) => {
+
+      this.logger.debug(LOG_TAG , 'System Category removed: ', category);
+
+      this.notificationCenter.post({
+          name: 'RemoveSystemCategorySuccess',
+          title: 'System Category Delete',
+          message: 'The system category has been deleted successfully.',
+          type: NotificationType.Success
+      });
+
+      this.reloadCategories();
+
+    }, (error) => {
+
+      this.logger.error(LOG_TAG , 'removecategory error: ', error);
+
+      this.notificationCenter.post({
+          name: 'RemoveSystemCategoryError',
+          title: 'System Category Delete',
+          message: 'Error deleting System Category:',
+          type: NotificationType.Error,
+          error: error,
+          closable: true
+      });
+
+    });
   }
 
   addNewClicked(): void {

@@ -43,7 +43,7 @@ export class MessageCategoriesComponent implements OnInit  {
         this.emitSelectionEvent();
     }
 
-    private emitSelectionEvent(){
+    private emitSelectionEvent() {
         if (this._domain && this.selectedCategory && this.selectedMessage) {
             this.selectionChange.emit({
                 domain: this._domain,
