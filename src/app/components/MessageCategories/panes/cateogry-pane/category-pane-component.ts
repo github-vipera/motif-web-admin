@@ -31,8 +31,8 @@ export class CategoryPaneComponent implements OnInit {
   data: SystemCategoriesList = [];
 
   @Output() selectionChange: EventEmitter<SystemCategory> = new EventEmitter<SystemCategory>();
-  private _domain: string;
-  private _selectedCategory: SystemCategory;
+  private _domain: string = null;
+  private _selectedCategory: SystemCategory = null;
 
   private editService: EditService = new EditService();
   private editServiceConfiguration: EditServiceConfiguration = {
@@ -236,5 +236,9 @@ export class CategoryPaneComponent implements OnInit {
     this._grid.closeRow(this.editedRowIndex);
     this.editedRowIndex = undefined;
     this.formGroup = undefined;
+  }
+
+  public get canRemove(): boolean {
+    return (this._selectedCategory != null);
   }
 }
