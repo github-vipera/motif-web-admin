@@ -8,6 +8,7 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
+import { SystemService, SystemCategoryCreate, SystemCategoriesList, SystemCategory } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[ServicesSectionServiceEditor]';
 
@@ -24,7 +25,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
     private _currentService: Service;
 
-    public offlineMessages: string[] = ['uno', 'due', 'tre'];
+    public offlineMessages: string[] = [];
 
     public serviceModel: WCPropertyEditorModel = {
         items: [
@@ -70,7 +71,8 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
       constructor(public logger: NGXLogger,
         private servicesService: ServicesService,
-        public notificationCenter: NotificationCenter) {
+        public notificationCenter: NotificationCenter,
+        private systemService: SystemService) {
           super(logger, notificationCenter);
           this.setModel(this.serviceModel);
       }
@@ -88,7 +90,21 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
       this.offlineMessagesDialog.show(this.editorContext.domainName);
     }
 
+    reloadCategories() {
+      this.systemService.getSystemCategories(this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
+        const categories = [];
+        for (let i = 0; i < data.length; i++){
+          categories.push(data[i].name);
+        }
+        this.getPropertyItem('category').listValues = categories;
+      }, (error) => {
+        this.logger.error(LOG_TAG, 'doRefreshData get category list error:', error);
+      });
+    }
+
     doRefreshData(editorContext: EditorContext): Observable<any> {
+      this.reloadCategories();
+
       return this.refreshServiceInfo(editorContext.domainName,
         editorContext.applicationName,
         editorContext.serviceName,
@@ -214,6 +230,12 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
     private handleOfflineProperties(enabled: boolean) {
       this.getPropertyItem('category').disabled = enabled;
+    }
+
+    onCategorySelected(categoryName: string) {
+      this.logger.debug(LOG_TAG, 'onCategorySelected:', categoryName);
+      this.reloadCategories();
+      this.getPropertyItem('category').value = categoryName;
     }
 
 }

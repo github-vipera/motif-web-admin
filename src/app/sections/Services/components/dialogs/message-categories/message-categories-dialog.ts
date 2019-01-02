@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { MessageCategoriesComponent, MessageCategorySelectionEvent } from '../../../../../components/MessageCategories/message-categories-component';
 
@@ -15,6 +15,8 @@ export class MessageCategoriesDialogComponent implements OnInit {
 
     display: boolean;
     domain: string;
+
+    @Output() categorySelect: EventEmitter<string> = new EventEmitter();
 
     @ViewChild('messageCategories') _messageCategories: MessageCategoriesComponent;
 
@@ -42,6 +44,16 @@ export class MessageCategoriesDialogComponent implements OnInit {
     }
 
     onConfirm() {
-        this.hide();
+        if (this._messageCategories.selectedCategory.name){
+            this.categorySelect.emit(this._messageCategories.selectedCategory.name);
+            this.hide();
+        }
+    }   
+
+    public get canSelect(): boolean {
+        // tslint:disable-next-line:max-line-length
+        return (this._messageCategories && this._messageCategories.selectedCategory !== null && this._messageCategories.selectedCategory !== undefined);
     }
+
+
 }
