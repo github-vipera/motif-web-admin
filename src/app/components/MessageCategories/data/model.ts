@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Pipe, PipeTransform } from '@angular/core';
-import { LocalesMappingService } from '../../Commons/locales-mapping-service';
+import { LocalesService } from '../../Commons/locales-service';
 
 /*
 export interface Message {
@@ -53,11 +53,11 @@ export class LocaleMapping {
 @Pipe({name: 'localeName'})
 export class LocaleNamePipe implements PipeTransform {
 
-    constructor(private localesMappingService: LocalesMappingService) {
+    constructor(private localesMappingService: LocalesService) {
     }
 
     transform(value: string): string {
-        return this.localesMappingService.findByCode(value);
+        return this.localesMappingService.mapCode(value);
     }
 
 }

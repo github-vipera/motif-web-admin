@@ -12,6 +12,18 @@
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <span>{{ dataItem.locale | localeName }}</span>
         </ng-template>
+        <ng-template kendoGridEditTemplate
+          let-dataItem="dataItem"
+          let-formGroup="formGroup">
+          <kendo-dropdownlist #namesDropDown
+            [data]="locales"
+            textField="name"
+            valueField="code"
+            [formControl]="formGroup.get('LocaleName')"
+          >
+          </kendo-dropdownlist>
+      </ng-template>
+
     </kendo-grid-column>
     <kendo-grid-column field="message" title="Message"> </kendo-grid-column>
   </kendo-grid>
