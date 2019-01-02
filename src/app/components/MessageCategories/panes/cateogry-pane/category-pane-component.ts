@@ -174,8 +174,6 @@ export class CategoryPaneComponent implements OnInit {
    * Triggered by the grid component
    */
   public onKeydown(sender: any, e: any) {
-      console.log('onKeydown ' + e.key);
-
       if (e.key === 'Escape') {
         this.closeEditor();
           // Stop parent form from submitting

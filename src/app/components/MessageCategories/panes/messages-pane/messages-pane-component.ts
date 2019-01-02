@@ -11,6 +11,7 @@ import {
   SystemService,
   SystemCategory,
   SystemMessage,
+  SystemMessageCreate,
   SystemMessagesList
 } from '@wa-motif-open-api/platform-service';
 import { ConfirmationService } from 'primeng/api';
@@ -52,14 +53,14 @@ export class MessagesPaneComponent implements OnInit {
 
   private editService: EditService = new EditService();
   private editServiceConfiguration: EditServiceConfiguration = {
-    idField: "locale",
-    dirtyField: "isDirty",
-    isNewField: "isNew"
+    idField: 'locale',
+    dirtyField: 'isDirty',
+    isNewField: 'isNew'
   };
   public formGroup: FormGroup;
   private editedRowIndex: number;
 
-  @ViewChild("grid") _grid: GridComponent;
+  @ViewChild('grid') _grid: GridComponent;
 
   constructor(
     private logger: NGXLogger,
@@ -87,11 +88,11 @@ export class MessagesPaneComponent implements OnInit {
         .subscribe(
           (data: SystemMessagesList) => {
             this.data = data;
-            for (let i = 0; i < data.length; i++) {
-              const message = this.data[i];
-            }
+            this.editService.read(this.data, this.editServiceConfiguration);
             this.logger.debug(LOG_TAG, 'reloadMessages: ', data);
-          },
+            this._selectedMessage = null;
+            this.selectionChange.emit(this._selectedMessage);
+            },
           error => {
             this.logger.error(LOG_TAG, 'reloadMessages error: ', error);
           }
@@ -212,9 +213,42 @@ export class MessagesPaneComponent implements OnInit {
   }
 
   private createNewMessage(message: SystemMessage): void {
-    // TODO!!
     this.logger.debug(LOG_TAG, 'createNewMessage: ', message);
-    alert('createNewMessage TODO!!');
+    const systemMessageCreate: SystemMessageCreate = {
+        locale: message.locale,
+        message: message.message
+    };
+    // tslint:disable-next-line:max-line-length
+    this.systemService.createSystemMessage(this._domain, this._category.name, systemMessageCreate).subscribe((newMessage: SystemMessage) => {
+        this.logger.debug(LOG_TAG, 'createNewMessage success: ', newMessage);
+
+        this.editService.create(message);
+
+        this.notificationCenter.post({
+            name: 'CreateSystemMessageSuccess',
+            title: 'Create System Message',
+            message: 'The system message has been created successfully.',
+            type: NotificationType.Success
+        });
+
+        this.closeEditor();
+
+    }, (error) => {
+
+        this.logger.error(LOG_TAG, 'createNewMessage error: ', error);
+
+        this.notificationCenter.post({
+            name: 'CreateSystemMessageError',
+            title: 'Create System Message',
+            message: 'Error creating System Message:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
+
+        this.closeEditor();
+
+    });
   }
 
   public get canAdd(): boolean {
