@@ -99,6 +99,9 @@ export class CategoryPaneComponent implements OnInit {
     });
   }
 
+  /**
+   * triggered by the button
+   */
   removeClicked(): void {
     if (this._selectedCategory) {
       this.confirmationService.confirm({
@@ -110,6 +113,9 @@ export class CategoryPaneComponent implements OnInit {
     }
   }
 
+  /**
+   * Remove the given category
+   */
   private removeCategory(category: SystemCategory): void {
     this.systemService.deleteSystemCategory(this._domain, this._selectedCategory.name).subscribe( (data) => {
 
@@ -140,6 +146,9 @@ export class CategoryPaneComponent implements OnInit {
     });
   }
 
+  /**
+   * Trgiggered by the button
+   */
   addNewClicked(): void {
     this.formGroup = this.createFormGroup({
         name: 'New Category'
@@ -161,6 +170,9 @@ export class CategoryPaneComponent implements OnInit {
     }
   }
 
+  /**
+   * Triggered by the grid component
+   */
   public onKeydown(sender: any, e: any) {
       console.log('onKeydown ' + e.key);
 
@@ -193,10 +205,29 @@ export class CategoryPaneComponent implements OnInit {
     };
     this.systemService.createSystemCategory(this._domain, systemCategoryCreate).subscribe((data) => {
         this.logger.debug(LOG_TAG, 'createSystemCategory success: ', data);
+
         this.editService.create(newCategory);
+
+        this.notificationCenter.post({
+            name: 'CreateSystemCategorySuccess',
+            title: 'Create System Category',
+            message: 'The system category has been created successfully.',
+            type: NotificationType.Success
+        });
+
         this.closeEditor();
     }, (error) => {
         this.logger.error(LOG_TAG, 'createSystemCategory error: ', error);
+
+        this.notificationCenter.post({
+            name: 'CreateSystemCategoryError',
+            title: 'Create System Category',
+            message: 'Error creating System Category:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
+
         this.closeEditor();
     });
   }
