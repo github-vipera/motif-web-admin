@@ -1,11 +1,13 @@
 <div style="display: flex;flex-direction: column;height: 100%;">
   <span class="wa-offline-messages-pane-title">Messages</span>
 
-  <kendo-grid [data]="data" 
+  <kendo-grid #grid [data]="data" 
       style="flex-grow: 2;border:none;padding-top: 4px;" 
       [selectable]="true"
-      (selectionChange)="onSelectionChange($event)">
-      >
+      (selectionChange)="onSelectionChange($event)"
+      (keydown)="onKeydown(grid, $event)"
+      (cellClose)="cellCloseHandler($event)"
+    >
     <kendo-grid-column field="localeName" title="Locale">
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <span>{{ dataItem.locale | localeName }}</span>
@@ -15,7 +17,8 @@
   </kendo-grid>
 
   <kendo-buttongroup style="justify-content: flex-end;">
-    <button kendoButton [toggleable]="false" [icon]="'plus'" title="Add Message"></button>
-    <button kendoButton [toggleable]="false" [icon]="'minus'" title="Remove Message"></button>
+    <button kendoButton [toggleable]="false" [icon]="'plus'" title="Add Message" (click)="addNewClicked()" [disabled]="!canAdd"></button>
+    <button kendoButton [toggleable]="false" [icon]="'minus'" title="Remove Message" (click)="removeClicked()" [disabled]="!canRemove"></button>
   </kendo-buttongroup>
 </div>
+

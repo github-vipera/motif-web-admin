@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { SystemService, SystemCategoryCreate, SystemCategoriesList, SystemCategory } from '@wa-motif-open-api/platform-service';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   EditService,
   EditServiceConfiguration
