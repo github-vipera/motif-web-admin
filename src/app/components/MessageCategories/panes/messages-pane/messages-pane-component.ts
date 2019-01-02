@@ -208,8 +208,34 @@ export class MessagesPaneComponent implements OnInit {
   }
 
   private removeMessage(message: SystemMessage): void {
-    // TODO!!
-    alert('removeMessage TODO!!');
+    this.logger.debug(LOG_TAG, 'removeMessage: ', message);
+    this.systemService.deleteSystemMessage(this._domain, this._category.name, message.locale).subscribe( (data) => {
+
+        this.logger.debug(LOG_TAG , 'System Message removed: ', message);
+
+        this.notificationCenter.post({
+            name: 'RemoveSystemMessageSuccess',
+            title: 'System Message Delete',
+            message: 'The system message has been deleted successfully.',
+            type: NotificationType.Success
+        });
+
+        this.reloadMessages();
+
+    }, (error) => {
+
+        this.logger.error(LOG_TAG , 'removeMessage error: ', error);
+
+        this.notificationCenter.post({
+            name: 'RemoveSystemMessageError',
+            title: 'System Message Delete',
+            message: 'Error deleting System Message:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
+
+    });
   }
 
   private createNewMessage(message: SystemMessage): void {
