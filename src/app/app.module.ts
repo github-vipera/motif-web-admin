@@ -21,6 +21,7 @@ import { LogSectionModule } from './sections/Log/LogSectionModule'
 import { ApplicationContentSectionModule } from './sections/ApplicationContent/ApplicationContentSectionModule'
 import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
 import { ServicesSectionModule } from './sections/Services/ServicesSectionModule'
+import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     ApplicationContentSectionModule,
     PluginsSectionModule,
     ServicesSectionModule,
+    AccessControlSectionModule,
     LayoutModule
     
   ],
