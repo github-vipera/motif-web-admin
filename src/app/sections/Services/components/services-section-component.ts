@@ -495,8 +495,8 @@ export class ServicesSectionComponent implements OnInit {
             event.secure,
             event.counted,
             event.sessionless,
-            event.inputParams,
-            event.outputParams).subscribe((operation: ServiceOperation) => {
+            (event.inputParams ? btoa(event.inputParams) : null),
+            (event.outputParams ? btoa(event.outputParams) : null)).subscribe((operation: ServiceOperation) => {
 
                 this.logger.debug(LOG_TAG, 'New Operation added: ', operation);
 

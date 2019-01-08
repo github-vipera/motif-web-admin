@@ -112,8 +112,8 @@ export class NewOperationDialogComponent implements OnInit {
             counted: this.counted,
             secure: this.secure,
             sessionless: this.sessionLess,
-            inputParams: this.inputParams,
-            outputParams: this.outputParams,
+            inputParams: (this.inputParams.length > 0 ? this.inputParams : null),
+            outputParams: (this.outputParams.length > 0 ? this.inputParams : null),
             encrypted : this.encrypted,
             channel: this.channel
         };

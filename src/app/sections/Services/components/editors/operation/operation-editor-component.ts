@@ -1,3 +1,4 @@
+import { LogLevel } from '@wa-motif-open-api/log-service';
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
@@ -119,6 +120,8 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
               type: NotificationType.Success
           });
 
+          this.updateModel(properties);
+
           observer.next({});
           observer.complete();
 
@@ -185,6 +188,24 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
     });
   }
 
+  private updateModel(operationProps: ServiceOperationProperties): void {
+    this.logger.debug(LOG_TAG, 'updateModel called: ', operationProps);
+    try {
+      this.applyValueToModel('description', operationProps.description);
+      this.applyValueToModel('encryptActive', operationProps.encryptActive);
+      this.applyValueToModel('counted', operationProps.counted);
+      this.applyValueToModel('pluginName', operationProps.pluginName);
+      this.applyValueToModel('secure', operationProps.secure);
+      this.applyValueToModel('sessionless', operationProps.sessionless);
+      // tslint:disable-next-line:max-line-length
+      this.applyValueToModel('inputParams', (operationProps.inputParams && operationProps.inputParams.length > 0 ) ? atob(operationProps.inputParams) : null);
+      // tslint:disable-next-line:max-line-length
+      this.applyValueToModel('outputParams', (operationProps.outputParams && operationProps.outputParams.length > 0) ? atob(operationProps.outputParams) : null);
+    } catch (ex) {
+      this.logger.error(LOG_TAG, 'toModel error: ', ex);
+    }
+  }
+
   private toModel(operation: ServiceOperation): void {
     this.logger.debug(LOG_TAG, 'toModel called: ', operation);
     try {
@@ -209,8 +230,10 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
       pluginName : this.getPropertyItem('pluginName').value,
       secure : this.getPropertyItem('secure').value,
       sessionless : this.getPropertyItem('sessionless').value,
-      inputParams : this.getPropertyItem('inputParams').value,
-      outputParams : this.getPropertyItem('outputParams').value
+      // tslint:disable-next-line:max-line-length
+      inputParams : ( (this.getPropertyItem('inputParams').value && (this.getPropertyItem('inputParams').value.length > 0)) ? btoa(this.getPropertyItem('inputParams').value) : null),
+      // tslint:disable-next-line:max-line-length
+      outputParams : ( (this.getPropertyItem('outputParams').value && (this.getPropertyItem('outputParams').value.length > 0)) ? btoa(this.getPropertyItem('outputParams').value) : null)
     };
     return ret;
   }
