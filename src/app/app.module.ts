@@ -11,6 +11,7 @@ import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
 import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 // Motif Web Admin Modules
 import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
@@ -22,8 +23,7 @@ import { ApplicationContentSectionModule } from './sections/ApplicationContent/A
 import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
 import { ServicesSectionModule } from './sections/Services/ServicesSectionModule'
 import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
-import { LayoutModule } from '@progress/kendo-angular-layout';
-
+import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
 
 
 const appRoutes: Routes = [
@@ -57,11 +57,11 @@ const appRoutes: Routes = [
     PluginsSectionModule,
     ServicesSectionModule,
     AccessControlSectionModule,
-    LayoutModule
-    
+    LayoutModule,
+    UtilitiesSectionModule
   ],
   providers: [ 
-    { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH }, 
+    { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH },
     { provide: WC_OAUTH_BASE_PATH, useValue: environment.OAUTH_BAS_PATH },
     WebAdminModulesProvider
   ],
@@ -72,7 +72,7 @@ const appRoutes: Routes = [
 export class AppModule { 
 
   constructor(private logger: NGXLogger){
-    this.logger.info("AppModule" ,"Starting application");
+    this.logger.info('AppModule' , 'Starting application');
   }
 
 }
