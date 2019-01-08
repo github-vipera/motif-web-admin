@@ -5,6 +5,7 @@ import { LoggerModule } from 'web-console-core';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { UtilitiesSectionComponent } from './components/utilities-section-component';
+import { OTPUtilityComponent } from './components/tabs/otp/utilities-otp-tab-component';
 
 @NgModule({
     imports: [
@@ -16,11 +17,11 @@ import { UtilitiesSectionComponent } from './components/utilities-section-compon
         WebConsoleUIKitKendoProviderModule,
         CommonsUIModule
     ],
-    entryComponents:[
+    entryComponents: [
         UtilitiesSectionComponent
     ],
     declarations: [
-        UtilitiesSectionComponent
+        UtilitiesSectionComponent, OTPUtilityComponent
     ],
     exports: [ UtilitiesSectionComponent ],
     providers: [
