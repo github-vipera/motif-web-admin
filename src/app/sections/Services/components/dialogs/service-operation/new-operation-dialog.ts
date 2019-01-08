@@ -41,6 +41,8 @@ export class NewOperationDialogComponent implements OnInit {
     inputParams: string;
     outputParams: string;
     _nameEditingWarningDisplay: boolean;
+    _inputJsonWarningDisplay: boolean;
+    _outputJsonWarningDisplay: boolean;
     domain: string;
     application: string;
     service: string;
@@ -128,6 +130,14 @@ export class NewOperationDialogComponent implements OnInit {
         return this._nameEditingWarningDisplay;
     }
 
+    get inputJsonWarningDisplay(): boolean {
+        return this._inputJsonWarningDisplay;
+    }
+
+    get outputJsonWarningDisplay(): boolean {
+        return this._outputJsonWarningDisplay;
+    }
+
     private validate(): boolean {
         let validate = true;
         if (!this.name  || this.name === '') {
@@ -136,7 +146,28 @@ export class NewOperationDialogComponent implements OnInit {
         } else {
             this._nameEditingWarningDisplay = false;
         }
+        if (this.inputParams && this.inputParams.length > 0 && !this.validateJson(this.inputParams))  {
+            validate = false;
+            this._inputJsonWarningDisplay = true;
+        } else {
+            this._inputJsonWarningDisplay = false;
+        }
+        if (this.outputParams && this.outputParams.length > 0 && !this.validateJson(this.outputParams))  {
+            validate = false;
+            this._outputJsonWarningDisplay = true;
+        } else {
+            this._outputJsonWarningDisplay = false;
+        }
         return validate;
     }
 
+    private validateJson(jsonValue: string): boolean {
+        try {
+            const jsonObj = JSON.parse(jsonValue);
+            return true;
+        } catch (ex) {
+            console.log('validation error: ', ex);
+            return false;
+        }
+    }
 }
