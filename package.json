@@ -47,6 +47,7 @@
     "@wa-motif-open-api/auth-access-control-service": "0.0.9",
     "@wa-motif-open-api/catalog-service": "0.0.9",
     "@wa-motif-open-api/configuration-service": "^0.0.9",
+    "@wa-motif-open-api/datarecords-service": "0.0.9",
     "@wa-motif-open-api/license-management-service": "^0.0.9",
     "@wa-motif-open-api/log-service": "^0.0.9",
     "@wa-motif-open-api/oauth2-service": "^0.0.9",
