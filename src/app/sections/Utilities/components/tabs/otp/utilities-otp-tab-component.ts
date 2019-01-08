@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
+import { Domain, Application } from '@wa-motif-open-api/platform-service';
 
 const LOG_TAG = '[OTPUtilityComponent]';
 
@@ -10,6 +11,9 @@ const LOG_TAG = '[OTPUtilityComponent]';
 })
 export class OTPUtilityComponent implements OnInit {
 
+    public application: Application;
+    public domain: Domain;
+
     constructor(private logger: NGXLogger) {}
 
     /**
@@ -17,6 +21,16 @@ export class OTPUtilityComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG, 'Initializing...');
+    }
+
+    onDomainSelected(domain: Domain) {
+        this.domain = domain;
+        this.logger.debug(LOG_TAG, 'onDomainSelected: ', this.domain);
+    }
+
+    onApplicationSelected(application: Application) {
+        this.application = application;
+        this.logger.debug(LOG_TAG, 'onApplicationSelected: ', this.application);
     }
 
 }
