@@ -44,8 +44,9 @@ export class SessionsSectionComponent implements OnInit {
 
     public applicationsList: ApplicationsList = [];
     public _selectedApplication: Application; //combo box selection
+    @Input() public selectedDomain: Domain;
 
-    public loading: boolean = false;
+    public loading: false;
 
     private _sessionRows: SessionRow[] = [];
 
@@ -53,14 +54,14 @@ export class SessionsSectionComponent implements OnInit {
         private securityService: SecurityService,
         private notificationCenter: NotificationCenter,
         private applicationsService: ApplicationsService) {
-        this.logger.debug(LOG_TAG, "Opening...");
+        this.logger.debug(LOG_TAG, 'Opening...');
     }
 
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG, "Initializing...");
+        this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
 
@@ -71,17 +72,16 @@ export class SessionsSectionComponent implements OnInit {
             this.applicationsService.getApplications(this.domainSelector.selectedDomain.name).subscribe(data => {
                 this.applicationsList = data;
             }, error => {
-                this.logger.error(LOG_TAG, "refreshApplicationsList error:", error);
+                this.logger.error(LOG_TAG, 'refreshApplicationsList error:', error);
 
                 this.notificationCenter.post({
-                    name:"RefreshApplicationsListError",
-                    title: "Load Applications",
-                    message: "Error loading Applications:",
+                    name:'RefreshApplicationsListError',
+                    title: 'Load Applications',
+                    message: 'Error loading Applications:',
                     type: NotificationType.Error,
                     error: error,
                     closable: true
                 });
-    
             });
         } else {
             this.applicationsList = [];
@@ -176,10 +176,10 @@ export class SessionsSectionComponent implements OnInit {
      * Reload the list of the current sessions
      */
     public refreshData(): void {
-        this.logger.debug(LOG_TAG, "refreshData domain=", this.domainSelector.selectedDomain, " application=" + this._selectedApplication + " currentPage=", this.currentPage, " pageSize=", this.pageSize);
-        this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
+        this.loadData(this.selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
     }
 
+    /*
     public onDomainSelected(domain: Domain) {
         this.refreshApplicationsList();
         if (this.domainSelector.selectedDomain) {
@@ -190,6 +190,7 @@ export class SessionsSectionComponent implements OnInit {
             this.loadData(null, null, 1, this.pageSize);
         }
     }
+    */
 
     onDeleteOKPressed(dataItem: any): void {
         this.logger.debug(LOG_TAG, "onDeleteOKPressed dataItem=", dataItem);
