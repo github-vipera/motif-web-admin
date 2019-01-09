@@ -13,15 +13,16 @@ import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
-const LOG_TAG = "[SessionsSection]";
+
+const LOG_TAG = '[SessionsSection]';
 
 @Component({
     selector: 'wa-sessions-section',
     styleUrls: ['./sessions-section.component.scss'],
     templateUrl: './sessions-section.component.html'
 })
-@PluginView("Sessions", {
-    iconName: "ico-sessions"
+@PluginView('Sessions', {
+    iconName: 'ico-sessions'
 })
 export class SessionsSectionComponent implements OnInit {
 
@@ -29,7 +30,7 @@ export class SessionsSectionComponent implements OnInit {
     @ViewChild('applicationsCombo') _appComboBox: ComboBoxComponent;
     @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
-    //Grid Options
+    // Grid Options
     public gridConfiguration: WCGridConfiguration;
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
@@ -43,10 +44,10 @@ export class SessionsSectionComponent implements OnInit {
     public isFieldSortable = false;
 
     public applicationsList: ApplicationsList = [];
-    public _selectedApplication: Application; //combo box selection
+    public _selectedApplication: Application; // combo box selection
     @Input() public selectedDomain: Domain;
 
-    public loading: false;
+    public loading = false;
 
     private _sessionRows: SessionRow[] = [];
 
@@ -64,45 +65,23 @@ export class SessionsSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
-
-    public refreshApplicationsList(): void {
-        this._appComboBox.value = null;
-        this._selectedApplication = undefined;
-        if (this.domainSelector.selectedDomain) {
-            this.applicationsService.getApplications(this.domainSelector.selectedDomain.name).subscribe(data => {
-                this.applicationsList = data;
-            }, error => {
-                this.logger.error(LOG_TAG, 'refreshApplicationsList error:', error);
-
-                this.notificationCenter.post({
-                    name:'RefreshApplicationsListError',
-                    title: 'Load Applications',
-                    message: 'Error loading Applications:',
-                    type: NotificationType.Error,
-                    error: error,
-                    closable: true
-                });
-            });
-        } else {
-            this.applicationsList = [];
-        }
-    }
-
     private loadData(domain: Domain, application: Application, pageIndex: number, pageSize: number) {
-        this.logger.debug(LOG_TAG, "loadData domain='" + domain + "' application='" + application + "' pageIndex=", pageIndex, " pageSize=", pageSize);
+        // tslint:disable-next-line:max-line-length
+        this.logger.debug(LOG_TAG, 'loadData domain=\'' + domain + '\' application=\'' + application + '\' pageIndex=', pageIndex, ' pageSize=', pageSize);
 
         this.loading = true;
 
-        let sort: MotifQuerySort = this.buildQuerySort();
+        const sort: MotifQuerySort = this.buildQuerySort();
 
-        let domainName = (domain ? domain.name : null);
-        let applicationName = (application ? application.name : null);
+        const domainName = (domain ? domain.name : null);
+        const applicationName = (application ? application.name : null);
 
-        this.securityService.getSessions(null, null, domainName, applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response) => {
+        this.securityService.getSessions(null, null, domainName, 
+            applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response) => {
 
-            let results: MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
+            const results: MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
 
-            this.logger.debug(LOG_TAG, "Query results:", results);
+            this.logger.debug(LOG_TAG, 'Query results:', results);
 
             this._sessionRows = _.forEach(results.data, function (element) {
                 element.lastAccess = new Date(element.lastAccess);
@@ -114,18 +93,18 @@ export class SessionsSectionComponent implements OnInit {
             this.gridView = {
                 data: this._sessionRows,
                 total: results.totalRecords
-            }
+            };
 
             this.loading = false;
 
         }, error => {
-            this.logger.error(LOG_TAG, "getRefreshTokenList failed: ", error);
+            this.logger.error(LOG_TAG, 'getRefreshTokenList failed: ', error);
             this.loading = false;
 
             this.notificationCenter.post({
-                name:"LoadSessionsError",
-                title: "Load Sessions",
-                message: "Error loading Sessions:",
+                name: 'LoadSessionsError',
+                title: 'Load Sessions',
+                message: 'Error loading Sessions:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
@@ -135,10 +114,10 @@ export class SessionsSectionComponent implements OnInit {
     }
 
     public pageChange({ skip, take }: PageChangeEvent): void {
-        this.logger.debug(LOG_TAG, "pageChange skip=", skip, " take=", take);
+        this.logger.debug(LOG_TAG, 'pageChange skip=', skip, ' take=', take);
         this.skip = skip;
         this.pageSize = take;
-        let newPageIndex = this.calculatePageIndex(skip, take);
+        const newPageIndex = this.calculatePageIndex(skip, take);
         this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, newPageIndex, this.pageSize);
     }
 
@@ -147,14 +126,14 @@ export class SessionsSectionComponent implements OnInit {
     }
 
     private buildQuerySort(): MotifQuerySort {
-        this.logger.debug(LOG_TAG, "buildQuerySort: ", this.sort);
-        let querySort = new MotifQuerySort();
+        this.logger.debug(LOG_TAG, 'buildQuerySort: ', this.sort);
+        const querySort = new MotifQuerySort();
         if (this.sort) {
             for (let i = 0; i < this.sort.length; i++) {
-                let sortInfo = this.sort[i];
-                if (sortInfo.dir && sortInfo.dir === "asc") {
+                const sortInfo = this.sort[i];
+                if (sortInfo.dir && sortInfo.dir === 'asc') {
                     querySort.orderAscendingBy(sortInfo.field);
-                } else if (sortInfo.dir && sortInfo.dir === "desc") {
+                } else if (sortInfo.dir && sortInfo.dir === 'desc') {
                     querySort.orderDescendingBy(sortInfo.field);
                 }
             }
@@ -179,40 +158,28 @@ export class SessionsSectionComponent implements OnInit {
         this.loadData(this.selectedDomain, this._selectedApplication, this.currentPage, this.pageSize);
     }
 
-    /*
-    public onDomainSelected(domain: Domain) {
-        this.refreshApplicationsList();
-        if (this.domainSelector.selectedDomain) {
-            this.logger.debug(LOG_TAG, "selectedDomain domain=", this.domainSelector.selectedDomain.name);
-            this.loadData(this.domainSelector.selectedDomain, this._selectedApplication, 1, this.pageSize);
-        } else {
-            this.logger.debug(LOG_TAG, "selectedDomain domain=no selection");
-            this.loadData(null, null, 1, this.pageSize);
-        }
-    }
-    */
 
     onDeleteOKPressed(dataItem: any): void {
-        this.logger.debug(LOG_TAG, "onDeleteOKPressed dataItem=", dataItem);
+        this.logger.debug(LOG_TAG, 'onDeleteOKPressed dataItem=', dataItem);
         this.securityService.closeSession(dataItem.id).subscribe((data) => {
-            this.logger.debug(LOG_TAG, "onDeleteOKPressed OK:", data);
+            this.logger.debug(LOG_TAG, 'onDeleteOKPressed OK:', data);
             this.refreshData();
 
 
             this.notificationCenter.post({
-                name:"CloseSessionSuccess",
-                title: "Close Session",
-                message: "Session closed successfully.",
+                name:'CloseSessionSuccess',
+                title: 'Close Session',
+                message: 'Session closed successfully.',
                 type: NotificationType.Success
             });
 
         }, (error) => {
-            this.logger.error(LOG_TAG, "onDeleteOKPressed error:", error);
+            this.logger.error(LOG_TAG, 'onDeleteOKPressed error:', error);
 
             this.notificationCenter.post({
-                name:"CloseSessionError",
-                title: "Close Session",
-                message: "Error closing session:",
+                name: 'CloseSessionError',
+                title: 'Close Session',
+                message: 'Error closing session:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
@@ -225,5 +192,5 @@ export class SessionsSectionComponent implements OnInit {
         this.refreshData();
     }
 
-  
+
 }
