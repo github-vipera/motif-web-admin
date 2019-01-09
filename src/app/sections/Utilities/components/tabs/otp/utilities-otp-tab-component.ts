@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { Application } from '@wa-motif-open-api/platform-service';
-import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faCube } from '@fortawesome/free-solid-svg-icons';
 import { OTPDataSourceComponent } from './otp-data-source-component';
 import { OtpService, Otp, OtpCreate } from '@wa-motif-open-api/otp-service'
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
@@ -16,7 +16,7 @@ const LOG_TAG = '[OTPUtilityComponent]';
 })
 export class OTPUtilityComponent implements OnInit {
 
-    public faArrowAltCircleRight = faArrowAltCircleRight;
+    public faCube = faCube;
     public application: Application;
     public dataSource: OTPDataSourceComponent;
 
@@ -43,12 +43,16 @@ export class OTPUtilityComponent implements OnInit {
     }
 
 
-    onSendClicked(): void {
-        this.logger.debug(LOG_TAG, 'onSendClicked: ', this.dataSource.domain, this.application, this.dataSource.user);
-        this.createOtp();
+    onCreateClicked(): void {
+        this.logger.debug(LOG_TAG, 'onCreateClicked: ', this.dataSource.domain, this.application, this.dataSource.user);
+        this.createOTP();
     }
 
-    private createOtp(): void {
+    onRefreshClicked(): void {
+        this.dataSource.reload();
+    }
+
+    private createOTP(): void {
         const otpCreate: OtpCreate = {
             application: this.application.name
         };
@@ -78,4 +82,37 @@ export class OTPUtilityComponent implements OnInit {
         });
     }
 
+    onDeleteOKPressed(item: Otp): void {
+        this.logger.debug(LOG_TAG, 'onDeleteOKPressed: ', item);
+        this.deleteOTP(parseInt(item.id, 10));
+    }
+
+    private deleteOTP(otpId: number): void {
+        this.logger.debug(LOG_TAG, 'deleteOTP: ', otpId);
+        this.otpService.deleteOtp(otpId).subscribe( (data) => {
+            this.logger.debug(LOG_TAG, 'deleteOTP done: ', otpId);
+
+            this.notificationCenter.post({
+                name: 'DeleteOTPSuccess',
+                title: 'Delete OTP',
+                message: 'OTP deleted successfully.',
+                type: NotificationType.Success
+            });
+
+            this.dataSource.reload();
+
+        }, (error) => {
+            this.logger.error(LOG_TAG, 'deleteOTP error: ', error);
+
+            this.notificationCenter.post({
+                name: 'DeleteOTPError',
+                title: 'Delete OTP',
+                message: 'Error deleting OTP:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+
+        });
+    }
 }

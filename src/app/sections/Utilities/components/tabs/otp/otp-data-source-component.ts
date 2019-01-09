@@ -51,9 +51,15 @@ export class OTPDataSourceComponent implements OnInit {
         if (this._domain && this.user) {
             this.otpService.getOtpList(this._domain.name, this._user.userId).subscribe( (list: OTPList) => {
                 this.logger.debug(LOG_TAG, 'refreshData done: ', list);
-                this._data = list;
+
+                this._data = _.forEach(list, function (element) {
+                    if (element.created) {
+                        element.created = new Date(element.created);
+                    }
+                });
                 this.dataChanged.emit(this);
                 this.logger.debug(LOG_TAG, 'refreshData done: ', list);
+
             }, (error) => {
                 this.logger.error(LOG_TAG, 'refreshData error: ', error);
                 this.error.emit(error);
