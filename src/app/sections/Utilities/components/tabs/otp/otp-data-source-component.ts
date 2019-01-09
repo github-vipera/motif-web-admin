@@ -28,14 +28,14 @@ export class OTPDataSourceComponent implements OnInit {
     public set user(user: User) {
         this.logger.debug(LOG_TAG, 'set user: ', user);
         this._user = user;
-        this.refreshData();
+        this.reload();
     }
 
     @Input('domain')
     public set domain(domain: Domain) {
         this.logger.debug(LOG_TAG, 'set domain: ', domain);
         this._domain = domain;
-        this.refreshData();
+        this.reload();
     }
 
     public get user(): User {
@@ -46,7 +46,7 @@ export class OTPDataSourceComponent implements OnInit {
         return this._domain;
     }
 
-    private refreshData(): void {
+    public reload(): void {
         this.logger.debug(LOG_TAG, 'refreshData called...');
         if (this._domain && this.user) {
             this.otpService.getOtpList(this._domain.name, this._user.userId).subscribe( (list: OTPList) => {
