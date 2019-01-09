@@ -1,4 +1,3 @@
-import { LogLevel } from '@wa-motif-open-api/log-service';
 import { Component, OnInit } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
@@ -11,6 +10,7 @@ import { OperationsService, ServiceOperation, ServiceOperationProperties } from 
 const LOG_TAG = '[OperationSectionServiceEditor]';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'wa-services-operation-editor',
     styleUrls: ['./operation-editor-component.scss'],
     templateUrl: './operation-editor-component.html'

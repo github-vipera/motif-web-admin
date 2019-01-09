@@ -1,7 +1,8 @@
 import { OnInit, Input, EventEmitter } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { OtpService, OTPEntity, OTPList } from '@wa-motif-open-api/otp-service'
+import { OtpService, OTPList } from '@wa-motif-open-api/otp-service';
 import { Domain, User } from '@wa-motif-open-api/platform-service';
+import * as _ from 'lodash';
 
 const LOG_TAG = '[OTPdataSourceComponent]';
 
