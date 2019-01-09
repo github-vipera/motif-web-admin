@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { Domain, Application, User } from '@wa-motif-open-api/platform-service';
-import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = '[OTPUtilityComponent]';
 
@@ -13,7 +13,7 @@ const LOG_TAG = '[OTPUtilityComponent]';
 })
 export class OTPUtilityComponent implements OnInit {
 
-    public faCoffee = faCoffee;
+    public faArrowAltCircleRight = faArrowAltCircleRight;
     public application: Application;
     public domain: Domain;
     public user: User;

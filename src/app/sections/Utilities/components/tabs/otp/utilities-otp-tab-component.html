@@ -24,12 +24,23 @@
 
             <kendo-buttongroup look="flat">
                 <button kendoButton [toggleable]="false" (click)="onSendClicked()" style="margin-top: 20%;">
-                    <fa-icon [icon]="faCoffee"></fa-icon>Send
+                        <fa-icon [icon]="faArrowAltCircleRight" class="left-icon-button"></fa-icon>Send
                 </button>
             </kendo-buttongroup>
-
         </div>
 
+        <div class="flex-cmd">
+            <kendo-buttongroup look="flat">
+                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()">Refresh</button>
+            </kendo-buttongroup>
+        </div>
+
+    </div>
+
+    <div class="row fill">
+        <div>
+            TODO!!
+        </div>
     </div>
 
 
