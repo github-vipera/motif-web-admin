@@ -51,6 +51,7 @@
     "@wa-motif-open-api/license-management-service": "^0.0.9",
     "@wa-motif-open-api/log-service": "^0.0.9",
     "@wa-motif-open-api/oauth2-service": "^0.0.9",
+    "@wa-motif-open-api/otp-service": "0.0.9",
     "@wa-motif-open-api/platform-service": "^0.0.9",
     "@wa-motif-open-api/plugin-registry-service": "0.0.9",
     "@wa-motif-open-api/security-service": "^0.0.9",
