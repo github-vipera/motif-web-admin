@@ -65,41 +65,50 @@ export class OTPUtilityComponent implements OnInit {
   }
 
   private createOTP(): void {
-    const otpCreate: OtpCreate = {
-      application: this.application.name
-    };
-    this.otpService
-      .createOtp(
-        this.dataSource.domain.name,
-        this.dataSource.user.userId,
-        otpCreate
-      )
-      .subscribe(
-        (otp: Otp) => {
-          this.logger.debug(LOG_TAG, 'createOtp done: ', otp);
+    if (this.dataSource.domain && this.dataSource.user && this.application){
+      const otpCreate: OtpCreate = {
+        application: this.application.name
+      };
+      this.otpService
+        .createOtp(
+          this.dataSource.domain.name,
+          this.dataSource.user.userId,
+          otpCreate
+        )
+        .subscribe(
+          (otp: Otp) => {
+            this.logger.debug(LOG_TAG, 'createOtp done: ', otp);
 
-          this.notificationCenter.post({
-            name: 'CreateOTPSuccess',
-            title: 'Create OTP',
-            message: 'OTP created successfully.',
-            type: NotificationType.Success
-          });
+            this.notificationCenter.post({
+              name: 'CreateOTPSuccess',
+              title: 'Create OTP',
+              message: 'OTP created successfully.',
+              type: NotificationType.Success
+            });
 
-          this.dataSource.reload();
-        },
-        error => {
-          this.logger.error(LOG_TAG, 'createOtp error: ', error);
+            this.dataSource.reload();
+          },
+          error => {
+            this.logger.error(LOG_TAG, 'createOtp error: ', error);
 
-          this.notificationCenter.post({
-            name: 'CreateOTPError',
-            title: 'Create OTP',
-            message: 'Error creating OTP:',
-            type: NotificationType.Error,
-            error: error,
-            closable: true
-          });
-        }
-      );
+            this.notificationCenter.post({
+              name: 'CreateOTPError',
+              title: 'Create OTP',
+              message: 'Error creating OTP:',
+              type: NotificationType.Error,
+              error: error,
+              closable: true
+            });
+          }
+        );
+    } else {
+      this.notificationCenter.post({
+        name: 'CreateOTPWarn',
+        title: 'Create OTP',
+        message: 'You need to specify Doman, Application and User correctly.',
+        type: NotificationType.Warning
+      });
+    }
   }
 
   onDeleteOKPressed(item: Otp): void {
