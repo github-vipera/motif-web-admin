@@ -15,13 +15,19 @@
                 ></wc-application-selector-combobox>
             </div>
             
-        </div>
+            <div style="margin-left: 40px;margin-right:10px;width:60%;max-width: 400px;min-width: 250px;">
+                <label>User</label>
+                <wc-user-selector-combobox #userSelector [domain]="(domain ? domain.name : null)"
+                [(ngModel)]="user"
+                ></wc-user-selector-combobox>
+            </div>
 
-
-        <div class="flex-cmd">
             <kendo-buttongroup look="flat">
-                <button kendoButton [toggleable]="false" [icon]="'refresh'" (click)="onRefreshClicked()" [disabled]="!canRefresh">Refresh</button>
+                <button kendoButton [toggleable]="false" (click)="onSendClicked()" style="margin-top: 20%;">
+                    <fa-icon [icon]="faCoffee"></fa-icon>Send
+                </button>
             </kendo-buttongroup>
+
         </div>
 
     </div>

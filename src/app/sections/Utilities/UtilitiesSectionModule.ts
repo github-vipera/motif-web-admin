@@ -6,6 +6,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { UtilitiesSectionComponent } from './components/utilities-section-component';
 import { OTPUtilityComponent } from './components/tabs/otp/utilities-otp-tab-component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { OTPUtilityComponent } from './components/tabs/otp/utilities-otp-tab-com
         WebConsoleUIKitCoreModule,
         WebConsoleUIKitDataModule,
         WebConsoleUIKitKendoProviderModule,
-        CommonsUIModule
+        CommonsUIModule,
+        FontAwesomeModule
     ],
     entryComponents: [
         UtilitiesSectionComponent
