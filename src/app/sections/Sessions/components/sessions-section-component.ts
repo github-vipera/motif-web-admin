@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core'
 import { NGXLogger } from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
@@ -12,6 +12,7 @@ import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 
 const LOG_TAG = '[SessionsSection]';
@@ -24,7 +25,7 @@ const LOG_TAG = '[SessionsSection]';
 @PluginView('Sessions', {
     iconName: 'ico-sessions'
 })
-export class SessionsSectionComponent implements OnInit {
+export class SessionsSectionComponent implements OnInit, OnDestroy {
 
     @ViewChild(GridComponent) _grid: GridComponent;
     @ViewChild('applicationsCombo') _appComboBox: ComboBoxComponent;
@@ -46,6 +47,7 @@ export class SessionsSectionComponent implements OnInit {
     public applicationsList: ApplicationsList = [];
     public _selectedApplication: Application; // combo box selection
     @Input() public selectedDomain: Domain;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     public loading = false;
 
@@ -65,6 +67,23 @@ export class SessionsSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.gridConfiguration = null;
+        this.sort = null;
+        this.groups = null;
+        this.gridView = null;
+        this.applicationsList = null;
+        this._selectedApplication = null;
+        this._sessionRows = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     private loadData(domain: Domain, application: Application, pageIndex: number, pageSize: number) {
         // tslint:disable-next-line:max-line-length
         this.logger.debug(LOG_TAG, 'loadData domain=\'' + domain + '\' application=\'' + application + '\' pageIndex=', pageIndex, ' pageSize=', pageSize);
@@ -76,7 +95,7 @@ export class SessionsSectionComponent implements OnInit {
         const domainName = (domain ? domain.name : null);
         const applicationName = (application ? application.name : null);
 
-        this.securityService.getSessions(null, null, domainName, 
+        this._subHandler.add(this.securityService.getSessions(null, null, domainName, 
             applicationName, null, null, pageIndex, pageSize, 'response').subscribe((response) => {
 
             const results: MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
@@ -110,7 +129,7 @@ export class SessionsSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     public pageChange({ skip, take }: PageChangeEvent): void {
@@ -161,13 +180,13 @@ export class SessionsSectionComponent implements OnInit {
 
     onDeleteOKPressed(dataItem: any): void {
         this.logger.debug(LOG_TAG, 'onDeleteOKPressed dataItem=', dataItem);
-        this.securityService.closeSession(dataItem.id).subscribe((data) => {
+        this._subHandler.add(this.securityService.closeSession(dataItem.id).subscribe((data) => {
             this.logger.debug(LOG_TAG, 'onDeleteOKPressed OK:', data);
             this.refreshData();
 
 
             this.notificationCenter.post({
-                name:'CloseSessionSuccess',
+                name: 'CloseSessionSuccess',
                 title: 'Close Session',
                 message: 'Session closed successfully.',
                 type: NotificationType.Success
@@ -185,7 +204,7 @@ export class SessionsSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     public onRefreshClicked(): void {

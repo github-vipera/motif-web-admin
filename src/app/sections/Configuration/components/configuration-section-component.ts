@@ -88,12 +88,11 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.logger.debug(LOG_TAG , 'ngOnDestroy ', this.elem);
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
         this.freeMem();
     }
 
     freeMem() {
-        // TODO!! document.body.removeChild(this.elem.nativeElement);
         this.servicesList = null;
         this.view = null;
         this.editDataItem = null;
