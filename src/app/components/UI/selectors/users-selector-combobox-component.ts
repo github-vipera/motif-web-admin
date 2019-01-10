@@ -3,6 +3,7 @@ import { NGXLogger} from 'web-console-core'
 import { NotificationCenter, NotificationType } from '../../Commons/notification-center'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UsersService, User, UsersList } from '@wa-motif-open-api/platform-service';
+import { Subscription } from 'rxjs/Subscription';
 
 const LOG_TAG = '[UsersSelectorComboBoxComponent]';
 
@@ -31,6 +32,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
     private _domain: string = null;
     @Output() userSelected: EventEmitter<User> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
+    private _subscription: Subscription;
 
     constructor(private logger: NGXLogger,
         private usersService: UsersService,
@@ -58,6 +60,9 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
         this._domain = null;
         this.userSelected = null;
         this.selectionCancelled = null;
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
     }
 
     /**
@@ -66,7 +71,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
     public refreshUsersList(): void {
         this.logger.debug(LOG_TAG, 'refreshUsersList domain=', this._domain);
         if (this._domain) {
-            this.usersService.getUsersList(this._domain).subscribe( (data: UsersList) => {
+            const subscription = this.usersService.getUsersList(this._domain).subscribe( (data: UsersList) => {
                 this.usersList = data;
                 }, error => {
                     this.logger.debug(LOG_TAG , 'refreshUsersList error:', error);
@@ -79,6 +84,11 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
                         closable: true
                     });
                 });
+            if (this._subscription) {
+                this._subscription.add(subscription);
+            } else {
+                this._subscription = subscription;
+            }
         } else {
             this.usersList = [];
         }

@@ -108,7 +108,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
         return this._selectedDomain;
     }
 
-    propagateChange:any = () => {};
+    propagateChange: any = () => {};
 
     writeValue(value: any) {
         if ( value ) {
