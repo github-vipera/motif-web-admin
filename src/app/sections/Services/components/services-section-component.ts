@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Renderer2, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
@@ -17,6 +17,7 @@ import { Domain, Application } from '@wa-motif-open-api/platform-service';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { ConfirmationService } from 'primeng/api';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -30,7 +31,7 @@ const LOG_TAG = '[ServicesSection]';
 @PluginView('Services', {
     iconName: 'ico-services'
 })
-export class ServicesSectionComponent implements OnInit {
+export class ServicesSectionComponent implements OnInit, OnDestroy {
 
     // Menus
     menuItems: MenuItem[];
@@ -66,6 +67,8 @@ export class ServicesSectionComponent implements OnInit {
     private _addServiceMenuItem: MenuItem;
     private _addOperationMenuItem: MenuItem;
     private _addMenuItem: MenuItem;
+
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
@@ -132,6 +135,25 @@ export class ServicesSectionComponent implements OnInit {
         this.refreshData();
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this._currentRowElement = null;
+        this._deleteMenuItem = null;
+        this._addDomainMenuItem = null;
+        this._addApplicationMenuItem = null;
+        this._addServiceMenuItem = null;
+        this._addOperationMenuItem = null;
+        this._addMenuItem = null;
+        this.tableModel.close();
+        this.tableModel = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     public onRefreshClicked(): void {
         this.logger.debug(LOG_TAG, 'Refresh clicked');
         this.refreshData();
@@ -140,7 +162,7 @@ export class ServicesSectionComponent implements OnInit {
     public refreshData() {
         this.loading = true;
         this._isBusy = true;
-        this.serviceCatalogService.getServiceCatalog().subscribe(data => {
+        this._subHandler.add(this.serviceCatalogService.getServiceCatalog().subscribe(data => {
             this.logger.debug(LOG_TAG, 'getServiceCatalog done.');
             this.logger.trace(LOG_TAG, 'getServiceCatalog services: ', data);
             this.tableModel.loadData(data);
@@ -157,7 +179,7 @@ export class ServicesSectionComponent implements OnInit {
                 closable: true
             });
             this._isBusy = false;
-        });
+        }));
     }
 
     nodeSelect(node: TreeNode) {
@@ -312,7 +334,7 @@ export class ServicesSectionComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete the operation ' + catalogEntry.operation + ' ?',
             accept: () => {
-                this.serviceCatalogService.deleteOperation(catalogEntry.channel,
+                this._subHandler.add(this.serviceCatalogService.deleteOperation(catalogEntry.channel,
                     catalogEntry.domain, catalogEntry.application, catalogEntry.service, catalogEntry.operation).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Operation deleted: ', data);
@@ -343,7 +365,7 @@ export class ServicesSectionComponent implements OnInit {
                             closable: true
                         });
 
-                    });
+                    }));
             }
         });
     }
@@ -352,7 +374,7 @@ export class ServicesSectionComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete the service ' + catalogEntry.service + ' ?',
             accept: () => {
-                this.serviceCatalogService.deleteService(catalogEntry.channel,
+                this._subHandler.add(this.serviceCatalogService.deleteService(catalogEntry.channel,
                     catalogEntry.domain, catalogEntry.application, catalogEntry.service).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Service deleted: ', data);
@@ -382,7 +404,7 @@ export class ServicesSectionComponent implements OnInit {
                             closable: true
                         });
 
-                    });
+                    }));
             }
         });
     }
@@ -391,7 +413,8 @@ export class ServicesSectionComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete the application ' + catalogEntry.application + ' ?',
             accept: () => {
-                this.serviceCatalogService.deleteApplication(catalogEntry.domain, catalogEntry.application).subscribe((data) => {
+                this._subHandler.add(this.serviceCatalogService.deleteApplication(
+                    catalogEntry.domain, catalogEntry.application).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Application deleted: ', data);
 
@@ -417,7 +440,7 @@ export class ServicesSectionComponent implements OnInit {
                             closable: true
                         });
 
-                    });
+                    }));
             }
         });
      }
@@ -426,7 +449,7 @@ export class ServicesSectionComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to delete the domain ' + catalogEntry.domain + ' ?',
             accept: () => {
-                this.serviceCatalogService.deleteDomain(catalogEntry.domain).subscribe((data) => {
+                this._subHandler.add(this.serviceCatalogService.deleteDomain(catalogEntry.domain).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Domain deleted: ', data);
 
@@ -452,7 +475,7 @@ export class ServicesSectionComponent implements OnInit {
                             closable: true
                         });
 
-                    });
+                    }));
             }
         });
    }
@@ -484,7 +507,7 @@ export class ServicesSectionComponent implements OnInit {
 
     onNewServiceOperationConfirm(event: NewOperationDialogResult): void {
         this.logger.debug(LOG_TAG, 'createNewOperation called for: ', event);
-        this.serviceCatalogService.createNewOperation(event.channel,
+        this._subHandler.add(this.serviceCatalogService.createNewOperation(event.channel,
             event.domain,
             event.application,
             event.service,
@@ -522,13 +545,13 @@ export class ServicesSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     private createNewDomain(domainName: string): void {
         this.logger.debug(LOG_TAG, 'createNewDomain called for: ', domainName);
 
-        this.serviceCatalogService.createNewDomain(domainName).subscribe((newDomain: Domain) => {
+        this._subHandler.add(this.serviceCatalogService.createNewDomain(domainName).subscribe((newDomain: Domain) => {
 
             this.logger.debug(LOG_TAG, 'New domain added: ', newDomain);
 
@@ -554,14 +577,15 @@ export class ServicesSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     private createNewApplication(domainName: string, applicationName: string): void {
 
         this.logger.debug(LOG_TAG, 'createNewApplication called for: ', domainName, applicationName);
 
-        this.serviceCatalogService.createNewApplication(domainName, applicationName).subscribe((newApplication: Application) => {
+        this._subHandler.add(this.serviceCatalogService.createNewApplication(
+            domainName, applicationName).subscribe((newApplication: Application) => {
 
             this.logger.debug(LOG_TAG, 'New application added: ', newApplication);
 
@@ -587,7 +611,7 @@ export class ServicesSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     private createNewService(domain: string,
@@ -597,7 +621,8 @@ export class ServicesSectionComponent implements OnInit {
 
         this.logger.debug(LOG_TAG, 'createNewService called for: ', domain, application, serviceName, channel);
 
-        this.serviceCatalogService.createNewService(domain, application, serviceName, channel).subscribe((newService: Service) => {
+        this._subHandler.add(this.serviceCatalogService.createNewService(
+            domain, application, serviceName, channel).subscribe((newService: Service) => {
 
             this.logger.debug(LOG_TAG, 'New service added: ', newService);
 
@@ -623,7 +648,7 @@ export class ServicesSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     public get currentSelectedDomain(): string {

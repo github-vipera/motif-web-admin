@@ -23,6 +23,10 @@ export class ServiceCatalogTableModel {
     this.rebuildModel(serviceCatalog);
   }
 
+  public close() {
+    this._model = null;
+  }
+
   private buildNode(
     name: string,
     description: string,

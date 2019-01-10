@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
@@ -6,6 +6,7 @@ import { NotificationCenter, NotificationType } from '../../../../../components/
 import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ServicesSectionDomainEditor]';
 
@@ -14,7 +15,9 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
     styleUrls: ['./domain-editor-component.scss'],
     templateUrl: './domain-editor-component.html'
 })
-export class DomainEditorComponent extends BaseEditorComponent implements OnInit {
+export class DomainEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
+
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     public domainModel: WCPropertyEditorModel = {
         items: [
@@ -43,6 +46,18 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy');
+        this.freeMem();
+      }
+
+    freeMem() {
+        this.domainModel = null;
+        this._currentDomain = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     doRefreshData(editorContext: EditorContext): Observable<any> {
         return this.refreshDomainInfo(editorContext.domainName);
     }
@@ -54,7 +69,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
 
             const propertyItem: WCPropertyEditorItem = this.getPropertyItem('description');
 
-            this.domainService.updateDomain(this._currentDomain.name,
+            this._subHandler.add(this.domainService.updateDomain(this._currentDomain.name,
                     { 'description' : propertyItem.value }).subscribe((data) => {
 
                         this.logger.debug(LOG_TAG, 'Current domain: ', this._currentDomain);
@@ -84,7 +99,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
 
                 observer.error(error);
 
-            });
+            }));
         });
 
     }
@@ -93,7 +108,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
         return new Observable((observer) => {
 
             this.logger.debug(LOG_TAG, 'Selected domain: ', domainName);
-            this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
+            this._subHandler.add(this.domainService.getDomain(domainName).subscribe((domain: Domain) => {
                 this._currentDomain = domain;
                 this.propertyModel = {
                     items: [
@@ -125,7 +140,7 @@ export class DomainEditorComponent extends BaseEditorComponent implements OnInit
 
                 observer.error(error);
 
-            });
+            }));
 
         });
     }

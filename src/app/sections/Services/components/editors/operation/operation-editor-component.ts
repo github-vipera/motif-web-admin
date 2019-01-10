@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
@@ -6,6 +6,7 @@ import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { OperationsService, ServiceOperation, ServiceOperationProperties } from '@wa-motif-open-api/catalog-service';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[OperationSectionServiceEditor]';
 
@@ -15,8 +16,9 @@ const LOG_TAG = '[OperationSectionServiceEditor]';
     styleUrls: ['./operation-editor-component.scss'],
     templateUrl: './operation-editor-component.html'
 })
-export class OperationEditorComponent extends BaseEditorComponent implements OnInit {
+export class OperationEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
 
+  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     public operationModel: WCPropertyEditorModel = {
         items: [
@@ -87,6 +89,19 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
       this.logger.debug(LOG_TAG, 'Initializing...');
   }
 
+  ngOnDestroy() {
+    this.logger.debug(LOG_TAG , 'ngOnDestroy');
+    this.freeMem();
+  }
+
+  freeMem() {
+      this.operationModel = null;
+      this._currentOperation = null;
+      this._subHandler.unsubscribe();
+      this._subHandler = null;
+  }
+
+
   doRefreshData(editorContext: EditorContext): Observable<any> {
     this.logger.debug(LOG_TAG, 'doRefreshData called for context:' , editorContext);
     return this.refreshOperationInfo(editorContext.domainName,
@@ -106,7 +121,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
       const properties: ServiceOperationProperties = this.fromModel();
 
       this.logger.debug(LOG_TAG, 'operation update: ', properties);
-      this.operationsService.updateServiceOperation(this.editorContext.channel,
+      this._subHandler.add(this.operationsService.updateServiceOperation(this.editorContext.channel,
         this.editorContext.domainName,
         this.editorContext.applicationName,
         this.editorContext.serviceName, this.editorContext.operationName, properties).subscribe( (data) => {
@@ -140,7 +155,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
 
         observer.error(error);
 
-      });
+      }));
 
     });
   }
@@ -154,7 +169,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
 
         this.logger.debug(LOG_TAG, 'refreshOperationInfo called. Selected domain and application ',
         domainName, applicationName, serviceName, operationName, channel);
-        this.operationsService.getServiceOperation(channel,
+        this._subHandler.add(this.operationsService.getServiceOperation(channel,
            domainName,
            applicationName,
            serviceName,
@@ -183,7 +198,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
 
             observer.error(error);
 
-        });
+        }));
 
     });
   }

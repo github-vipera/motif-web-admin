@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Output, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem,  MinitButtonClickEvent } from 'web-console-ui-kit';
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
@@ -9,6 +9,7 @@ import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ServicesSectionServiceEditor]';
 
@@ -17,7 +18,9 @@ const LOG_TAG = '[ServicesSectionServiceEditor]';
     styleUrls: ['./service-editor-component.scss'],
     templateUrl: './service-editor-component.html'
 })
-export class ServiceEditorComponent extends BaseEditorComponent implements OnInit {
+export class ServiceEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
+
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     @ViewChild('offlineMessagesDialog') offlineMessagesDialog: MessageCategoriesDialogComponent;
 
@@ -85,13 +88,28 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
+    ngOnDestroy() {
+      this.logger.debug(LOG_TAG , 'ngOnDestroy');
+      this.freeMem();
+    }
+
+    freeMem() {
+        this.offlineMessages = null;
+        this._currentService = null;
+        this.serviceModel = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
+
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
       this.offlineMessagesDialog.show(this.editorContext.domainName);
     }
 
     reloadCategories() {
-      this.systemService.getSystemCategories(this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
+      this._subHandler.add(this.systemService.getSystemCategories(
+        this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
         const categories = [];
         for (let i = 0; i < data.length; i++){
           categories.push(data[i].name);
@@ -99,7 +117,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
         this.getPropertyItem('category').listValues = categories;
       }, (error) => {
         this.logger.error(LOG_TAG, 'doRefreshData get category list error:', error);
-      });
+      }));
     }
 
     doRefreshData(editorContext: EditorContext): Observable<any> {
@@ -121,7 +139,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
         const serviceUpdate: ServiceUpdate = this.fromModel();
 
         this.logger.debug(LOG_TAG, 'operation update: ', serviceUpdate);
-        this.servicesService.updateService(this.editorContext.channel,
+        this._subHandler.add(this.servicesService.updateService(this.editorContext.channel,
           this.editorContext.domainName,
           this.editorContext.applicationName,
           this.editorContext.serviceName, serviceUpdate).subscribe( (data) => {
@@ -155,7 +173,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
           observer.error(error);
 
-        });
+        }));
 
       });
     }
@@ -165,7 +183,8 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
         this.logger.debug(LOG_TAG, 'refreshServiceInfo for ', domainName, applicationName, serviceName, channel);
 
-        this.servicesService.getService(channel, domainName, applicationName, serviceName).subscribe((service: Service) => {
+        this._subHandler.add(this.servicesService.getService(channel, 
+          domainName, applicationName, serviceName).subscribe((service: Service) => {
 
           this._currentService = service;
 
@@ -191,7 +210,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
               observer.error(error);
 
-        });
+        }));
 
       });
     }

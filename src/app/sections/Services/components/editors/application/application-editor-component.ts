@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Output, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem,  MinitButtonClickEvent } from 'web-console-ui-kit';
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
@@ -9,6 +9,7 @@ import { ApplicationsService, Application, ApplicationUpdate, Property } from '@
 import { EditorContext } from '../service-catalog-editor-context';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -18,15 +19,16 @@ const LOG_TAG = '[ServicesSectionApplicationEditor]';
     styleUrls: ['./application-editor-component.scss'],
     templateUrl: './application-editor-component.html'
 })
-export class ApplicationEditorComponent  extends BaseEditorComponent implements OnInit {
+export class ApplicationEditorComponent  extends BaseEditorComponent implements OnInit, OnDestroy {
 
     @ViewChild('offlineMessagesDialog') offlineMessagesDialog: MessageCategoriesDialogComponent;
   
     @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
     private _currentApplication: Application;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
-    public offlineMessages: string[] = ['uno', 'due', 'tre'];
+    public offlineMessages: string[] = [];
 
     public applicationModel: WCPropertyEditorModel = {
         items: [
@@ -211,6 +213,19 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
         this.logger.debug(LOG_TAG, 'Initializing...');
     }
 
+    ngOnDestroy() {
+      this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+      this.freeMem();
+    }
+
+    freeMem() {
+        this.applicationModel = null;
+        this._currentApplication = null;
+        this.offlineMessages = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     onMiniButtonClick(event: MinitButtonClickEvent): void {
       this.logger.debug(LOG_TAG, 'onMiniButtonClick:', event);
       this.offlineMessagesDialog.show(this.editorContext.domainName);
@@ -230,7 +245,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
           this.logger.debug(LOG_TAG, 'application update: ', updatedApplication);
 
-          this.applicationService.updateApplication(this.editorContext.domainName,
+          this._subHandler.add(this.applicationService.updateApplication(this.editorContext.domainName,
             this.editorContext.applicationName,
             updatedApplication).subscribe((data) => {
 
@@ -263,7 +278,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
               observer.error(error);
 
-            });
+            }));
 
       });
   }
@@ -349,7 +364,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
       return new Observable((observer) => {
 
           this.logger.debug(LOG_TAG, 'Selected domain and application ', domainName, applicationName);
-          this.applicationService.getApplication(domainName, applicationName).subscribe((application: Application) => {
+          this._subHandler.add(this.applicationService.getApplication(domainName, applicationName).subscribe((application: Application) => {
               this._currentApplication = application;
 
               this.toModel(application);
@@ -374,7 +389,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
               observer.error(error);
 
-          });
+          }));
 
       });
   }
@@ -391,7 +406,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
   }
 
   reloadCategories() {
-    this.systemService.getSystemCategories(this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
+    this._subHandler.add(this.systemService.getSystemCategories(this.editorContext.domainName).subscribe( (data: SystemCategoriesList) => {
       const categories = [];
       for (let i = 0; i < data.length; i++){
         categories.push(data[i].name);
@@ -399,7 +414,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
       this.getPropertyItem('category').listValues = categories;
     }, (error) => {
       this.logger.error(LOG_TAG, 'doRefreshData get category list error:', error);
-    });
+    }));
   }
 
 }
