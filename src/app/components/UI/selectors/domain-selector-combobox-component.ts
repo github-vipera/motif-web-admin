@@ -3,7 +3,7 @@ import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[DomainSelectorComboBoxComponent]';
 
@@ -31,7 +31,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     public _selectedDomain: Domain; // combo box selection
     @Output() domainSelected: EventEmitter<Domain> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
-    private _subscription: Subscription;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private domainsService: DomainsService,
@@ -58,16 +58,15 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
         this._selectedDomain = null;
         this.domainSelected = null;
         this.selectionCancelled = null;
-        if (this._subscription) {
-            this._subscription.unsubscribe();
-        }
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
     }
 
     /**
      * Get the list of the available Domains
      */
     public refreshDomainList(): void {
-        const subscription = this.domainsService.getDomains().subscribe( data => {
+        this._subHandler.add(this.domainsService.getDomains().subscribe( data => {
            this.domainList = data;
         }, error => {
             this.logger.debug(LOG_TAG, 'refreshDomainList error:', error);
@@ -79,12 +78,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
                 error: error,
                 closable: true
             });
-        });
-        if (this._subscription) {
-            this._subscription.add(subscription);
-        } else {
-            this._subscription = subscription;
-        }
+        }));
     }
 
     /**

@@ -3,7 +3,7 @@ import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ApplicationSelectorComboBoxComponent]';
 
@@ -32,7 +32,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     private _domain: string = null;
     @Output() applicationSelected: EventEmitter<Application> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
-    private _subscription: Subscription;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private applicationService: ApplicationsService,
@@ -60,9 +60,8 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
         this._domain = null;
         this.applicationSelected = null;
         this.selectionCancelled = null;
-        if (this._subscription) {
-            this._subscription.unsubscribe();
-        }
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
     }
 
     /**
@@ -71,7 +70,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     public refreshApplicationList(): void {
         this.logger.debug(LOG_TAG, 'refreshApplicationList domain=', this._domain);
         if (this._domain) {
-            const subscription =  this.applicationService.getApplications(this._domain).subscribe(data => {
+            this._subHandler.add(this.applicationService.getApplications(this._domain).subscribe(data => {
                 this.applicationsList = data;
                 }, error => {
                     this.logger.debug(LOG_TAG , 'refreshApplicationList error:', error);
@@ -83,12 +82,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
                         error: error,
                         closable: true
                     });
-                });
-            if (this._subscription) {
-                this._subscription.add(subscription);
-            } else {
-                this._subscription = subscription;
-            }
+                }));
         } else {
             this.applicationsList = [];
         }
