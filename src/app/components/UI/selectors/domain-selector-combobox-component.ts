@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from '../../components/Commons/notification-center';
+import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 const LOG_TAG = '[DomainSelectorComboBoxComponent]';
 
@@ -30,6 +31,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     public _selectedDomain: Domain; // combo box selection
     @Output() domainSelected: EventEmitter<Domain> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
+    private _subscription: Subscription;
 
     constructor(private logger: NGXLogger,
         private domainsService: DomainsService,
@@ -56,6 +58,9 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
         this._selectedDomain = null;
         this.domainSelected = null;
         this.selectionCancelled = null;
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
     }
 
     /**
@@ -64,9 +69,8 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     public refreshDomainList(): void {
         const subscription = this.domainsService.getDomains().subscribe( data => {
            this.domainList = data;
-           subscription.unsubscribe(); // is it necessary?
         }, error => {
-            this.logger.debug(LOG_TAG ,'refreshDomainList error:', error);
+            this.logger.debug(LOG_TAG, 'refreshDomainList error:', error);
             this.notificationCenter.post({
                 name: 'RefreshDomainListError',
                 title: 'Load Domains',
@@ -75,8 +79,12 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
                 error: error,
                 closable: true
             });
-            subscription.unsubscribe(); // is it necessary?
         });
+        if (this._subscription) {
+            this._subscription.add(subscription);
+        } else {
+            this._subscription = subscription;
+        }
     }
 
     /**

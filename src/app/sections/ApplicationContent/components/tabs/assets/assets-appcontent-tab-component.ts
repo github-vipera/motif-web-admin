@@ -9,7 +9,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { Observable } from 'rxjs/Observable';
 import { DataResult } from '@progress/kendo-data-query';
-import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/domain-selector-combobox-component';
+import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/selectors/domain-selector-combobox-component';
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { map } from 'rxjs/operators/map';

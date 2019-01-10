@@ -9,7 +9,7 @@ import { WCSlideDownPanelComponent } from 'web-console-ui-kit'
 import { Oauth2Service, OAuthRequest, RefreshTokenList, AccessTokenList } from '@wa-motif-open-api/oauth2-service'
 import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
-import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
+import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component'
 import { Domain } from '@wa-motif-open-api/platform-service'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 

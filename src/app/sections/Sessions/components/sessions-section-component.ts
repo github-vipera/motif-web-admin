@@ -10,7 +10,7 @@ import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
 import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
-import { DomainSelectorComboBoxComponent } from '../../../components/UI/domain-selector-combobox-component'
+import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component'
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
 
 

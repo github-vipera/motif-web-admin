@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
-import { NGXLogger} from 'web-console-core'
-import { NotificationCenter, NotificationType } from '../Commons/notification-center'
+import { NGXLogger} from 'web-console-core';
+import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
