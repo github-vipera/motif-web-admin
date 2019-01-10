@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import { NotificationCenter, NotificationType } from '../Commons/notification-center'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -24,7 +24,7 @@ export const WC_USERS_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     `,
     providers: [WC_USERS_SELECTOR_CONTROL_VALUE_ACCESSOR]
 })
-export class UsersSelectorComboBoxComponent implements OnInit {
+export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     public usersList: UsersList = [];
     public _selectedUser: User;
@@ -44,6 +44,20 @@ export class UsersSelectorComboBoxComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
         this.refreshUsersList();
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.usersList = null;
+        this._selectedUser = null;
+        this._domain = null;
+        this.userSelected = null;
+        this.selectionCancelled = null;
     }
 
     /**

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { SettingsService, ConfigurationsService, SettingUpdate, SettingCreate } from '@wa-motif-open-api/configuration-service';
@@ -27,7 +27,7 @@ const LOG_TAG = '[ConfigurationSection]';
   @PluginView('Configuration', {
     iconName: 'ico-configuration'
   })
-export class ConfigurationSectionComponent implements OnInit {
+export class ConfigurationSectionComponent implements OnInit, OnDestroy {
 
     faFileImport = faFileImport;
     faDownload = faDownload;
@@ -69,7 +69,8 @@ export class ConfigurationSectionComponent implements OnInit {
         public editService: EditService,
         private formBuilder: FormBuilder,
         private renderer: Renderer,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: NotificationCenter,
+        private elem: ElementRef) {
             this.editService.init();
             this.logger.debug(LOG_TAG , 'Opening...');
     }
@@ -83,6 +84,20 @@ export class ConfigurationSectionComponent implements OnInit {
         this.refreshServiceList();
 
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ', this.elem);
+        this.freeMem();
+    }
+
+    freeMem() {
+        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.servicesList = null;
+        this.view = null;
+        this.editDataItem = null;
+        this._selectedService = null;
+        this._editServiceConfig = null;
     }
 
     /**

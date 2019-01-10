@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
 import { NotificationCenter, NotificationType } from '../Commons/notification-center'
 import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
@@ -24,7 +24,7 @@ export const WC_APPLICATION_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     `,
     providers: [WC_APPLICATION_SELECTOR_CONTROL_VALUE_ACCESSOR]
 })
-export class ApplicationSelectorComboBoxComponent implements OnInit {
+export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     public applicationsList: ApplicationsList = [];
     public _selectedApplication: Application;
@@ -44,6 +44,20 @@ export class ApplicationSelectorComboBoxComponent implements OnInit {
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
         this.refreshApplicationList();
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.applicationsList = null;
+        this._selectedApplication = null;
+        this._domain = null;
+        this.applicationSelected = null;
+        this.selectionCancelled = null;
     }
 
     /**

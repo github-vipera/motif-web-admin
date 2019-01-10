@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../components/Commons/notification-center';
@@ -24,7 +24,7 @@ export const WC_DOMAIN_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     `,
     providers: [WC_DOMAIN_SELECTOR_CONTROL_VALUE_ACCESSOR]
 })
-export class DomainSelectorComboBoxComponent implements OnInit {
+export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     public domainList: DomainsList = [];
     public _selectedDomain: Domain; // combo box selection
@@ -45,24 +45,39 @@ export class DomainSelectorComboBoxComponent implements OnInit {
         this.refreshDomainList();
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.domainList = null;
+        this._selectedDomain = null;
+        this.domainSelected = null;
+        this.selectionCancelled = null;
+    }
+
     /**
      * Get the list of the available Domains
      */
     public refreshDomainList(): void {
-        this.domainsService.getDomains().subscribe( data => {
-        this.domainList = data;
+        const subscription = this.domainsService.getDomains().subscribe( data => {
+           this.domainList = data;
+           subscription.unsubscribe(); // is it necessary?
         }, error => {
             this.logger.debug(LOG_TAG ,'refreshDomainList error:', error);
             this.notificationCenter.post({
-                name:'RefreshDomainListError',
+                name: 'RefreshDomainListError',
                 title: 'Load Domains',
                 message: 'Error loading domains:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
             });
+            subscription.unsubscribe(); // is it necessary?
         });
-    } 
+    }
 
     /**
      * Set the selcted domain
