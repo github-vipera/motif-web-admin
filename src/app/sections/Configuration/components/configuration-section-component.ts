@@ -99,6 +99,7 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
         this._selectedService = null;
         this._editServiceConfig = null;
         this._subHandler.unsubscribe();
+        this._subHandler = null;
     }
 
     /**

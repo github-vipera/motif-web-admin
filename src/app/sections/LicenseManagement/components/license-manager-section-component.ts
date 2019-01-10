@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Renderer, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer, ElementRef, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { LicenseService, LicenseList, License } from '@wa-motif-open-api/license-management-service';
 import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[LicenseManagerSection]';
 
@@ -16,7 +17,7 @@ const LOG_TAG = '[LicenseManagerSection]';
   @PluginView('License Manager', {
     iconName: 'ico-key'
 })
-export class LicenseManagerSectionComponent implements OnInit {
+export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
 
     faFileImport = faFileImport;
     faDownload = faDownload;
@@ -24,6 +25,8 @@ export class LicenseManagerSectionComponent implements OnInit {
     public _licenses: LicenseList = [];
     public loading: boolean;
     @ViewChild('xmlFileImport') xmlFileImportEl: ElementRef;
+
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private licenseManager: LicenseService,
@@ -39,10 +42,20 @@ export class LicenseManagerSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG , 'Initializing...');
         this.refreshData();
     }
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this._licenses = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
 
     public refreshData(): void {
         this.loading = true;
-        this.licenseManager.listLicenses().subscribe((data) => {
+        this._subHandler.add(this.licenseManager.listLicenses().subscribe((data) => {
             this._licenses = data;
 
             this._licenses = _.forEach(data, function(element) {
@@ -65,7 +78,7 @@ export class LicenseManagerSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
-        }));
+        })));
     }
 
     public onRefreshClicked(): void {
@@ -78,7 +91,7 @@ export class LicenseManagerSectionComponent implements OnInit {
 
     private deleteLicense(license: License): void {
         this.logger.debug(LOG_TAG , 'Revoking license: ', license);
-        this.licenseManager.deleteLicense(license.productName, license.productVersion).subscribe((data) => {
+        this._subHandler.add(this.licenseManager.deleteLicense(license.productName, license.productVersion).subscribe((data) => {
             this.logger.info(LOG_TAG , 'License revoke success:', data);
             this.notificationCenter.post({
                 name: 'RevokeLicenseSuccess',
@@ -99,7 +112,7 @@ export class LicenseManagerSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     /**
@@ -159,7 +172,7 @@ export class LicenseManagerSectionComponent implements OnInit {
             message: 'Uploading license...',
             type: NotificationType.Info
         });
-        this.licenseManager.uploadLicense(blob).subscribe((data) => {
+        this._subHandler.add(this.licenseManager.uploadLicense(blob).subscribe((data) => {
             this.logger.info(LOG_TAG , 'Import license done:', data);
             this.notificationCenter.post({
                 name: 'UploadLicense',
@@ -178,6 +191,6 @@ export class LicenseManagerSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
-        });
+        }));
     }
 }
