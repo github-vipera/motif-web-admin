@@ -16,7 +16,6 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { NewConfigurationParamDialogComponent, NewParamDialogResult } from './dialog/new-configuration-param-dialog';
-import { Subscription } from 'rxjs/Subscription';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ConfigurationSection]';
