@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import * as _ from 'lodash';
 import { fas, faCoffee, faAdjust, faBatteryHalf,
@@ -18,6 +18,7 @@ import { ConfirmationDialogComponent } from '../../../../../components/Confirmat
 import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component';
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 
 const LOG_TAG = '[AssetsAppContentSection]';
@@ -27,7 +28,7 @@ const LOG_TAG = '[AssetsAppContentSection]';
     styleUrls: ['./assets-appcontent-tab-component.scss'],
     templateUrl: './assets-appcontent-tab-component.html'
 })
-export class AssetsTabComponent implements OnInit {
+export class AssetsTabComponent implements OnInit, OnDestroy {
 
     faCloudUploadAlt = faCloudUploadAlt;
     faDownload = faDownload;
@@ -58,6 +59,7 @@ export class AssetsTabComponent implements OnInit {
 
     private _editServiceConfig: EditServiceConfiguration = { idField: 'name', dirtyField: 'dirty', isNewField: 'isNew' };
     public editService: EditService;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     // Buttons
     public canRefresh = false;
@@ -81,6 +83,24 @@ export class AssetsTabComponent implements OnInit {
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.gridView = null;
+        this.view = null;
+        this._editServiceConfig = null;
+        this.editService = null;
+        this.editDataItem = null;
+        this.changes = null;
+        this.gridState = null;
+        this.editDataItem = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     /**
      * Triggered by the grid component
      * @param state
@@ -102,7 +122,7 @@ export class AssetsTabComponent implements OnInit {
 
     public loadData(domain: Domain): void {
         this.loading = true;
-        this.assetsService.getAssets(this.domainSelector.selectedDomain.name).subscribe((data) => {
+        this._subHandler.add(this.assetsService.getAssets(this.domainSelector.selectedDomain.name).subscribe((data) => {
             this.logger.debug(LOG_TAG, 'Assets for domain=' + domain.name + ': ', data);
 
             data = _.forEach(data, function (element) {
@@ -127,7 +147,7 @@ export class AssetsTabComponent implements OnInit {
             });
 
             this.loading = false;
-        });
+        }));
 
         this.setOptions(true, true, true, true);
     }
@@ -207,7 +227,7 @@ export class AssetsTabComponent implements OnInit {
     onSaveClicked(): void {
         this.logger.debug(LOG_TAG, 'onSaveClicked');
 
-        this.saveAllChanges().subscribe((responses) => {
+        this._subHandler.add(this.saveAllChanges().subscribe((responses) => {
             this.refreshData();
             this.logger.debug(LOG_TAG, 'Bundles updated successfully: ', responses);
 
@@ -230,7 +250,7 @@ export class AssetsTabComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
 
     }
 
@@ -328,7 +348,7 @@ export class AssetsTabComponent implements OnInit {
             type: NotificationType.Info
         });
 
-        this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, file).subscribe((event) => {
+        this._subHandler.add(this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, file).subscribe((event) => {
             this.refreshData();
             this.logger.debug(LOG_TAG, 'Asset Bundle uploaded successfully: ', event);
 
@@ -350,7 +370,7 @@ export class AssetsTabComponent implements OnInit {
                 error: error,
                 closable: true
             });
-        });
+        }));
     }
 
     onPublishClicked(dataItem) {
@@ -376,7 +396,8 @@ export class AssetsTabComponent implements OnInit {
             type: NotificationType.Info
         });
 
-        this.assetsService.downloadAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe((data) => {
+        this._subHandler.add(this.assetsService.downloadAsset(
+            this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe((data) => {
             this.logger.debug(LOG_TAG, 'Asset downloaded successfully: ', data);
 
             const blob = new Blob([data], { type: 'application/zip' });
@@ -406,7 +427,7 @@ export class AssetsTabComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     private doPublishAssetsBundle(dataItem): void {
@@ -423,7 +444,7 @@ export class AssetsTabComponent implements OnInit {
             published: !dataItem.published
         };
 
-        this.assetsService.updateAsset(this.domainSelector.selectedDomain.name,
+        this._subHandler.add(this.assetsService.updateAsset(this.domainSelector.selectedDomain.name,
              dataItem.name, dataItem.version, bundleUpdate).subscribe((data) => {
             this.logger.debug(LOG_TAG, 'Asset published successfully: ', data);
 
@@ -449,6 +470,6 @@ export class AssetsTabComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 }

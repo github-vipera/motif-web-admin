@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import * as _ from 'lodash';
-import { DomainsService, Domain } from '@wa-motif-open-api/platform-service'
+import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
 import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service';
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/selectors/domain-selector-combobox-component';
@@ -16,16 +16,18 @@ import { ConfirmationDialogComponent } from '../../../../../components/Confirmat
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
-const LOG_TAG = "[ApplicationsAppContentSection]";
+
+const LOG_TAG = '[ApplicationsAppContentSection]';
 
 @Component({
     selector: 'wa-appcontent-applications-tab',
     styleUrls: [ './applications-appcontent-tab-component.scss' ],
     templateUrl: './applications-appcontent-tab-component.html'
   })
-export class ApplicationsTabComponent implements OnInit {
-    
+export class ApplicationsTabComponent implements OnInit, OnDestroy {
+
     faCoffee = faCoffee;
     faMobile = faMobile;
     faMobileAlt = faMobileAlt;
@@ -37,63 +39,77 @@ export class ApplicationsTabComponent implements OnInit {
         take: 10
     };
     public changes: any = {};
-    public editDataItem:MobileApplicaton;
+    public editDataItem: MobileApplicaton;
 
     public gridView: DataResult;
-    public loading:boolean;
+    public loading: boolean;
 
-    //Buttons
-    public canSave:boolean = false;
-    public canRefresh:boolean = false;
-    public canExport:boolean = true;
-    public canAddProperty:boolean = false;
-    
-    public newMobileApp:EngineCreate = {
-        downloadUrl:null,
-        forbiddenVersion:null,
-        latestVersion:null,
-        name:null
+    // Buttons
+    public canSave = false;
+    public canRefresh = false;
+    public canExport = true;
+    public canAddProperty = false;
+
+    public newMobileApp: EngineCreate = {
+        downloadUrl: null,
+        forbiddenVersion: null,
+        latestVersion: null,
+        name: null
     };
 
 
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
-    @ViewChild(ConfirmationDialogComponent) confirmationDialog : ConfirmationDialogComponent;
-    @ViewChild('exportSlideDown') exportSlideDown:ElementRef;
+    @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
+    @ViewChild('exportSlideDown') exportSlideDown: ElementRef;
 
-    private _editServiceConfig:EditServiceConfiguration = { idField:"name" , dirtyField:"dirty", isNewField:"isNew"};
+    private _editServiceConfig: EditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew' };
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
-    constructor(private logger: NGXLogger, 
-        private domainsService:DomainsService,
-        private engineService:EnginesService,
+    constructor(private logger: NGXLogger,
+        private domainsService: DomainsService,
+        private engineService: EnginesService,
         private formBuilder: FormBuilder,
         public editService: EditService,
-        private renderer2:Renderer2,
+        private renderer2: Renderer2,
         private notificationCenter: NotificationCenter
-        ){
+        ) {
             this.editService.init();
-        this.logger.debug(LOG_TAG ,"Opening...");
-    } 
-    
+        this.logger.debug(LOG_TAG, 'Opening...');
+    }
+
     /**
      * Angular ngOnInit
      */
     ngOnInit() {
-        this.logger.debug(LOG_TAG ,"Initializing...");
+        this.logger.debug(LOG_TAG , 'Initializing...');
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.gridView = null;
+        this.view = null;
+        this.editDataItem = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
     }
 
     /**
      * Triggered by the grid component
-     * @param state 
+     * @param state
      */
     public onStateChange(state: State) {
         this.gridState = state;
-        this.logger.debug(LOG_TAG ,"onStateChange: ", state);
+        this.logger.debug(LOG_TAG , 'onStateChange: ', state);
     }
 
-    
-    public onDomainSelected(domain:Domain){
-        if (domain){
+
+    public onDomainSelected(domain: Domain) {
+        if (domain) {
             this.loadData(domain);
             this.setOptions(true, true, true, true);
         }  else {
@@ -102,44 +118,44 @@ export class ApplicationsTabComponent implements OnInit {
         }
     }
 
-    public loadData(domain:Domain):void {
+    public loadData(domain: Domain): void {
         this.loading = true;
-        this.engineService.getEngines(domain.name).subscribe((data)=>{
-            this.logger.debug(LOG_TAG, "Engines for domain="+ domain.name+ ": ", data);
+        this._subHandler.add(this.engineService.getEngines(domain.name).subscribe((data) => {
+            this.logger.debug(LOG_TAG, 'Engines for domain=' + domain.name + ': ', data);
 
             data = _.forEach(data, function(element) {
-                if (element.lastAppCheck){
+                if (element.lastAppCheck) {
                     element.lastAppCheck = new Date(element.lastAppCheck);
                 }
-                if (element.created){
+                if (element.created) {
                     element.created = new Date(element.created);
                 }
             });
 
-            this.logger.debug(LOG_TAG ,"reloadConfigurationParamsForService done: ", data);
+            this.logger.debug(LOG_TAG , 'reloadConfigurationParamsForService done: ', data);
             this.editService.cancelChanges();
             this.editService.read(data, this._editServiceConfig);
             this.loading = false;
 
-        }, (error)=>{
-            this.logger.error(LOG_TAG, "Load Engines for domain="+ domain.name+ " error: ", error);
+        }, (error) => {
+            this.logger.error(LOG_TAG, 'Load Engines for domain=' + domain.name + ' error: ', error);
 
             this.notificationCenter.post({
-                name:"GetApplicationsError",
-                title: "Get Applications",
-                message: "Error getting applications:",
+                name: 'GetApplicationsError',
+                title: 'Get Applications',
+                message: 'Error getting applications:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
             });
 
             this.loading = false;
-        });
+        }));
         this.setOptions(true, true, true, true);
     }
 
-    public onDeleteOKPressed(mobileApplication:EngineCreate){
-        this.logger.debug(LOG_TAG ,'onDeleteOKPressed for item: ', mobileApplication);
+    public onDeleteOKPressed(mobileApplication: EngineCreate) {
+        this.logger.debug(LOG_TAG , 'onDeleteOKPressed for item: ', mobileApplication);
         this.editService.remove(mobileApplication);
     }
 
@@ -147,20 +163,20 @@ export class ApplicationsTabComponent implements OnInit {
         // NOP
     }
 
-    public refreshData(){
-        if (this.domainSelector.selectedDomain){
+    public refreshData() {
+        if (this.domainSelector.selectedDomain) {
             this.loadData(this.domainSelector.selectedDomain);
         }
     }
 
         /**
      * Enable or disable buttons
-     * @param canSave 
-     * @param canRefresh 
-     * @param canExport 
-     * @param canAddProperty 
+     * @param canSave
+     * @param canRefresh
+     * @param canExport
+     * @param canAddProperty
      */
-    private setOptions(canSave:boolean, canRefresh:boolean, canExport:boolean, canAddProperty:boolean) : void {
+    private setOptions(canSave: boolean, canRefresh: boolean, canExport: boolean, canAddProperty: boolean): void {
         this.canSave = canSave;
         this.canRefresh = canRefresh;
         this.canExport = canExport;
@@ -170,7 +186,7 @@ export class ApplicationsTabComponent implements OnInit {
     /**
      * User selection on click
      * triggered by the grid
-     * @param param0 
+     * @param param0
      */
     public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }): void {
         if (!isEdited) {
@@ -196,7 +212,7 @@ export class ApplicationsTabComponent implements OnInit {
      * Prepare edit form for inline editing
      */
     public createFormGroupForEdit(mobileApp: MobileApplicaton): FormGroup {
-        this.logger.debug(LOG_TAG,"createFormGroupForEdit:", mobileApp.name);
+        this.logger.debug(LOG_TAG, 'createFormGroupForEdit:', mobileApp.name);
         return this.formBuilder.group({
             'name': mobileApp.name,
             'downloadUrl': mobileApp.downloadUrl,
@@ -208,82 +224,82 @@ export class ApplicationsTabComponent implements OnInit {
     /**
      * Button event
      */
-    onSaveClicked():void {
-        this.saveAllChanges().subscribe((responses)=>{
+    onSaveClicked(): void {
+        this._subHandler.add(this.saveAllChanges().subscribe((responses) => {
             this.refreshData();
-            this.logger.debug(LOG_TAG,"Applications updated successfully: ", responses);
+            this.logger.debug(LOG_TAG, 'Applications updated successfully: ', responses);
 
             this.notificationCenter.post({
-                name:"UpdateApplicationSuccess",
-                title: "Update Application",
-                message: "The application has been successfully updated.",
+                name: 'UpdateApplicationSuccess',
+                title: 'Update Application',
+                message: 'The application has been successfully updated.',
                 type: NotificationType.Success
             });
 
-        }, (error)=>{
-            this.logger.debug(LOG_TAG ,"Error saving applications: ", error);
+        }, (error) => {
+            this.logger.debug(LOG_TAG , 'Error saving applications: ', error);
 
             this.notificationCenter.post({
-                name:"UpdateApplicationError",
-                title: "Update Application",
-                message: "Error updating applications:",
+                name: 'UpdateApplicationError',
+                title: 'Update Application',
+                message: 'Error updating applications:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
             });
 
-        });
+        }));
     }
 
     /**
      * Save all pending chenges remotely
      */
-    private saveAllChanges():Observable<any[]> {
-        this.logger.debug(LOG_TAG,"Saving all changes...");
+    private saveAllChanges(): Observable<any[]> {
+        this.logger.debug(LOG_TAG, 'Saving all changes...');
 
-        let itemsToAdd = this.editService.createdItems;
-        let itemsToUpdate = this.editService.updatedItems;
-        let itemsToRemove = this.editService.deletedItems;
-        
-        this.logger.debug(LOG_TAG,"To add:", itemsToAdd);
-        this.logger.debug(LOG_TAG,"To update:", itemsToUpdate);
-        this.logger.debug(LOG_TAG,"To remove:", itemsToRemove);
-        
-        let responses = [];
-        let i = 0;  
+        const itemsToAdd = this.editService.createdItems;
+        const itemsToUpdate = this.editService.updatedItems;
+        const itemsToRemove = this.editService.deletedItems;
 
-        //Add new
-        for (i=0;i<itemsToAdd.length;i++){
-            let newMobileApp:EngineCreate = {
+        this.logger.debug(LOG_TAG, 'To add:', itemsToAdd);
+        this.logger.debug(LOG_TAG, 'To update:', itemsToUpdate);
+        this.logger.debug(LOG_TAG, 'To remove:', itemsToRemove);
+
+        const responses = [];
+        let i = 0;
+
+        // Add new
+        for (i = 0; i < itemsToAdd.length; i++) {
+            const newMobileApp: EngineCreate = {
                 name :  itemsToAdd[i].name,
-                downloadUrl :  ""+itemsToAdd[i].downloadUrl,
-                forbiddenVersion :  ""+itemsToAdd[i].forbiddenVersion,
+                downloadUrl :  '' + itemsToAdd[i].downloadUrl,
+                forbiddenVersion :  '' + itemsToAdd[i].forbiddenVersion,
                 latestVersion :  itemsToAdd[i].latestVersion
             };
-            let response = this.engineService.createEngine(this.domainSelector.selectedDomain.name, newMobileApp);
+            const response = this.engineService.createEngine(this.domainSelector.selectedDomain.name, newMobileApp);
             responses.push(response);
         }
 
-        //Remove deleted
-        for (i=0;i<itemsToRemove.length;i++){
-            let appNameToDelete = itemsToRemove[i].name;
-            let response = this.engineService.deleteEngine(this.domainSelector.selectedDomain.name,appNameToDelete);
+        // Remove deleted
+        for (i = 0; i < itemsToRemove.length; i++) {
+            const appNameToDelete = itemsToRemove[i].name;
+            const response = this.engineService.deleteEngine(this.domainSelector.selectedDomain.name, appNameToDelete);
             responses.push(response);
         }
 
-        //Update existing
-        for (i=0;i<itemsToUpdate.length;i++){
-            let modifiedAppName = itemsToUpdate[i].name;
-            let modifiedApp : EngineUpdate = {
+        // Update existing
+        for (i = 0; i < itemsToUpdate.length; i++) {
+            const modifiedAppName = itemsToUpdate[i].name;
+            const modifiedApp: EngineUpdate = {
                 latestVersion : itemsToUpdate[i].latestVersion,
-                forbiddenVersion : ""+itemsToUpdate[i].forbiddenVersion,
-                downloadUrl : ""+itemsToUpdate[i].downloadUrl
+                forbiddenVersion : '' + itemsToUpdate[i].forbiddenVersion,
+                downloadUrl : '' + itemsToUpdate[i].downloadUrl
             };
-            let response = this.engineService.updateEngine(this.domainSelector.selectedDomain.name, modifiedAppName, modifiedApp);
+            const response = this.engineService.updateEngine(this.domainSelector.selectedDomain.name, modifiedAppName, modifiedApp);
             responses.push(response);
         }
 
-        this.logger.debug(LOG_TAG,"Waiting for all changes commit.");
+        this.logger.debug(LOG_TAG, 'Waiting for all changes commit.');
         return forkJoin(responses);
 
     }
@@ -291,11 +307,12 @@ export class ApplicationsTabComponent implements OnInit {
     /**
      * Button event
      */
-    public onRefreshClicked():void {
-        if (this.editService.hasChanges()){
-            this.confirmationDialog.open("Pending Changes",
-                "Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?",
-                { "action" : "refresh" });
+    public onRefreshClicked(): void {
+        if (this.editService.hasChanges()) {
+            this.confirmationDialog.open('Pending Changes',
+                // tslint:disable-next-line:max-line-length
+                'Attention, in the configuration there are unsaved changes. Proceeding with the refresh these changes will be lost. Do you want to continue?',
+                { 'action' : 'refresh' });
         } else {
             this.refreshData();
         }
@@ -304,11 +321,12 @@ export class ApplicationsTabComponent implements OnInit {
     /**
      * Button Event
      */
-    onDiscardClicked():void {
-        if (this.editService.hasChanges()){
-            this.confirmationDialog.open("Pending Changes",
-                "Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?",
-                { "action" : "discardChanges" });
+    onDiscardClicked(): void {
+        if (this.editService.hasChanges()) {
+            this.confirmationDialog.open('Pending Changes',
+                // tslint:disable-next-line:max-line-length
+                'Attention, in the configuration there are unsaved changes. Proceeding all these changes will be lost. Do you want to continue?',
+                { 'action' : 'discardChanges' });
         } else {
             this.refreshData();
         }
@@ -317,79 +335,79 @@ export class ApplicationsTabComponent implements OnInit {
         /**
      * Event emitted by the editor form
      */
-    onEditCancel():void {
-        this.logger.debug(LOG_TAG ,"On Edit Cancelled");
+    onEditCancel(): void {
+        this.logger.debug(LOG_TAG , 'On Edit Cancelled');
         this.editDataItem = undefined;
     }
 
     /**
      * Triggered by the new Property Editor Dialog
-     * @param event 
+     * @param event
      */
-    onEditCommit(newMobileApp:MobileApplicaton):void {
-        this.logger.debug(LOG_TAG ,"onEditCommit new row:", newMobileApp);
+    onEditCommit(newMobileApp: MobileApplicaton): void {
+        this.logger.debug(LOG_TAG , 'onEditCommit new row:', newMobileApp);
         this.editService.create(newMobileApp);
     }
 
     /**
      * Event emitted by the confirmation dialog
-     * @param userData 
+     * @param userData
      */
-    onConfirmationOK(userData):void {
-        this.logger.debug(LOG_TAG ,"onConfirmationOK for:", userData);
+    onConfirmationOK(userData): void {
+        this.logger.debug(LOG_TAG , 'onConfirmationOK for:', userData);
 
-        if (userData && userData.action==="refresh"){
+        if (userData && userData.action === 'refresh') {
             this.refreshData();
-        } 
-        if (userData && userData.action==="discardChanges"){
+        }
+        if (userData && userData.action === 'discardChanges') {
             this.editService.cancelChanges();
         }
     }
 
-    onConfirmationCancel(event):void {
-        //nop
+    onConfirmationCancel(event): void {
+        // nop
     }
 
     /**
      * Show the new App panel
      */
-    onMobileAppClicked():void{
+    onMobileAppClicked(): void {
         this.newMobileApp = {
-            downloadUrl:null,
-            forbiddenVersion:null,
-            latestVersion:null,
-            name:null
+            downloadUrl: null,
+            forbiddenVersion: null,
+            latestVersion: null,
+            name: null
         };
         this.slideDownAddMobileAppPanel(true);
     }
 
     /**
-     * 
+     *
      * @param show Show/Hide the new Application Pane
      */
-    private slideDownAddMobileAppPanel(show:boolean):void {
-        if (show){
+    private slideDownAddMobileAppPanel(show: boolean): void {
+        if (show) {
             this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
         } else {
             this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
-        } 
+        }
     }
 
     /**
      * New app cancelled
      */
-    onMobileApplicationAddCancel():void{
+    onMobileApplicationAddCancel(): void {
         this.slideDownAddMobileAppPanel(false);
     }
-    
+
     /**
      * New app creation confirmed
      */
-    onMobileApplicationAddConfirm():void {
-        this.logger.debug(LOG_TAG ,"onEditCommit new row:", this.newMobileApp);
+    onMobileApplicationAddConfirm(): void {
+        this.logger.debug(LOG_TAG , 'onEditCommit new row:', this.newMobileApp);
         this.editService.create(this.newMobileApp);
         this.slideDownAddMobileAppPanel(false);
     }
 
-  
+
 }
