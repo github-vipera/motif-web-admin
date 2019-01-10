@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { Application } from '@wa-motif-open-api/platform-service';
 import { faCube } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,7 @@ import {
   NotificationCenter,
   NotificationType
 } from '../../../../../components/Commons/notification-center';
+import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[OTPUtilityComponent]';
 
@@ -17,10 +18,11 @@ const LOG_TAG = '[OTPUtilityComponent]';
   styleUrls: ['./utilities-otp-tab-component.scss'],
   templateUrl: './utilities-otp-tab-component.html'
 })
-export class OTPUtilityComponent implements OnInit {
+export class OTPUtilityComponent implements OnInit, OnDestroy {
   public faCube = faCube;
   public application: Application;
   public dataSource: OTPDataSourceComponent;
+  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
   constructor(
     private logger: NGXLogger,
@@ -49,6 +51,20 @@ export class OTPUtilityComponent implements OnInit {
     this.logger.debug(LOG_TAG, 'Initializing...');
   }
 
+  ngOnDestroy() {
+    this.logger.debug(LOG_TAG , 'ngOnDestroy');
+    this.freeMem();
+  }
+
+  freeMem() {
+      this.application = null;
+      this.dataSource.close();
+      this.dataSource = null;
+      this._subHandler.unsubscribe();
+      this._subHandler = null;
+  }
+
+
   onCreateClicked(): void {
     this.logger.debug(
       LOG_TAG,
@@ -69,7 +85,7 @@ export class OTPUtilityComponent implements OnInit {
       const otpCreate: OtpCreate = {
         application: this.application.name
       };
-      this.otpService
+      this._subHandler.add(this.otpService
         .createOtp(
           this.dataSource.domain.name,
           this.dataSource.user.userId,
@@ -100,7 +116,7 @@ export class OTPUtilityComponent implements OnInit {
               closable: true
             });
           }
-        );
+        ));
     } else {
       this.notificationCenter.post({
         name: 'CreateOTPWarn',
@@ -118,7 +134,7 @@ export class OTPUtilityComponent implements OnInit {
 
   private deleteOTP(otpId: number): void {
     this.logger.debug(LOG_TAG, 'deleteOTP: ', otpId);
-    this.otpService.deleteOtp(otpId).subscribe(
+    this._subHandler.add(this.otpService.deleteOtp(otpId).subscribe(
       data => {
         this.logger.debug(LOG_TAG, 'deleteOTP done: ', otpId);
 
@@ -143,6 +159,6 @@ export class OTPUtilityComponent implements OnInit {
           closable: true
         });
       }
-    );
+    ));
   }
 }
