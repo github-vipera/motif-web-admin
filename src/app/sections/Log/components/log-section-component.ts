@@ -10,6 +10,7 @@ import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-sol
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[LogSection]';
 
@@ -21,7 +22,7 @@ const LOG_TAG = '[LogSection]';
   @PluginView('Log', {
     iconName: 'ico-log'
 })
-export class LogSectionComponent implements OnInit {
+export class LogSectionComponent implements OnInit, OnDestroy {
 
     faFileImport = faFileImport;
     faDownload = faDownload;
@@ -42,6 +43,8 @@ export class LogSectionComponent implements OnInit {
 
     @ViewChild('logPane') logPane: ElementRef;
     @ViewChild('exportSlideDown') exportSlideDown: ElementRef;
+
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private notificationCenter: NotificationCenter,
@@ -69,10 +72,23 @@ export class LogSectionComponent implements OnInit {
         this.refreshData();
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.tailLines = null;
+        this.logLevels = null;
+        this.dataRecordTypes = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     public onRefreshClicked(): void {
         this.logger.debug(LOG_TAG , 'linesCount :', this.linesCount);
         this.loading = true;
-        this.logService.tailCurrentLog(this.linesCount).subscribe((logTail: LogTail) => {
+        this._subHandler.add(this.logService.tailCurrentLog(this.linesCount).subscribe((logTail: LogTail) => {
             this.tailLines = logTail.data;
             this.currentTailLinesCount = logTail.lines;
             this.loading = false;
@@ -87,7 +103,7 @@ export class LogSectionComponent implements OnInit {
                 closable: true
             });
             this.loading = false;
-        });
+        }));
     }
 
     public onCopyToClipboardClicked(): void {
@@ -106,7 +122,7 @@ export class LogSectionComponent implements OnInit {
         if (logLevel) {
             this._rootLogLevel = logLevel;
             this.logger.debug(LOG_TAG , 'Changing ROOT log level :', logLevel);
-            this.logService.setRootLogLevel(this._rootLogLevel).subscribe((data) => {
+            this._subHandler.add(this.logService.setRootLogLevel(this._rootLogLevel).subscribe((data) => {
                 this.logger.debug(LOG_TAG , 'Changed ROOT log level :', data);
 
                 this.notificationCenter.post({
@@ -128,7 +144,7 @@ export class LogSectionComponent implements OnInit {
                     closable: true
                 });
 
-            });
+            }));
         }
     }
 
@@ -155,7 +171,7 @@ export class LogSectionComponent implements OnInit {
         });
 
 
-        this.logService.downloadCurrentLog().subscribe((data) => {
+        this._subHandler.add(this.logService.downloadCurrentLog().subscribe((data) => {
             this.logger.debug(LOG_TAG , 'Export done.', data);
 
             const blob = new Blob([data], {type: 'application/zip'});
@@ -187,7 +203,7 @@ export class LogSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     public onExportClicked(): void {
@@ -219,7 +235,7 @@ export class LogSectionComponent implements OnInit {
     }
 
     private loadDatarecordsTypes(): void {
-        this.datarecordsService.getDatarecordsTypes().subscribe((data) => {
+        this._subHandler.add(this.datarecordsService.getDatarecordsTypes().subscribe((data) => {
             this.logger.debug(LOG_TAG , 'loadDatarecordsTypes: ', data);
             this.dataRecordTypes = data;
         }, (error) => {
@@ -234,7 +250,7 @@ export class LogSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
 }
