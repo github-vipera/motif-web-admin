@@ -545,3 +545,11 @@ div .editor.slidedown {
 input {
 	border-radius: 4px;
 }
+
+.right-icon-button {
+	padding-left: 4px;
+}
+
+.left-icon-button {
+	padding-right: 4px;
+}

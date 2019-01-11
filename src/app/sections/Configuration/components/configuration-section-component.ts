@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { SettingsService, ConfigurationsService, SettingUpdate, SettingCreate } from '@wa-motif-open-api/configuration-service';
@@ -16,6 +16,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { NewConfigurationParamDialogComponent, NewParamDialogResult } from './dialog/new-configuration-param-dialog';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = '[ConfigurationSection]';
 
@@ -27,7 +28,7 @@ const LOG_TAG = '[ConfigurationSection]';
   @PluginView('Configuration', {
     iconName: 'ico-configuration'
   })
-export class ConfigurationSectionComponent implements OnInit {
+export class ConfigurationSectionComponent implements OnInit, OnDestroy {
 
     faFileImport = faFileImport;
     faDownload = faDownload;
@@ -42,7 +43,6 @@ export class ConfigurationSectionComponent implements OnInit {
 
 
     // Data binding
-    public servicesList: MotifServicesList = []; // the list of available services
     public loading = false;
     public editDataItem: ConfigurationRow;
 
@@ -61,7 +61,7 @@ export class ConfigurationSectionComponent implements OnInit {
     // internal
     private _selectedService: MotifService; // the combobox selection
     private _editServiceConfig: EditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew'};
-
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private settingsService: SettingsService,
@@ -69,7 +69,8 @@ export class ConfigurationSectionComponent implements OnInit {
         public editService: EditService,
         private formBuilder: FormBuilder,
         private renderer: Renderer,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: NotificationCenter,
+        private elem: ElementRef) {
             this.editService.init();
             this.logger.debug(LOG_TAG , 'Opening...');
     }
@@ -79,10 +80,21 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
-        // Reload the list of available configurable services
-        this.refreshServiceList();
-
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.view = null;
+        this.editDataItem = null;
+        this._selectedService = null;
+        this._editServiceConfig = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
     }
 
     /**
@@ -94,19 +106,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG , 'onStateChange: ', state);
     }
 
-    /**
-     * Reload the list of availbale configurable services
-     */
-    public refreshServiceList(): void {
-        this.logger.debug(LOG_TAG , 'refreshServiceList called.');
-        this.settingsService.getServices().subscribe((response) => {
-            this.servicesList = response;
-            this.logger.debug(LOG_TAG , 'refreshServiceList done: ', response);
-        }, (error) => {
-            this.servicesList = [];
-            this.logger.error(LOG_TAG , 'refreshServiceList error: ', error);
-        });
-    }
+
 
     /**
      * Reload the list of parameters for a given service
@@ -116,7 +116,7 @@ export class ConfigurationSectionComponent implements OnInit {
         this.logger.debug(LOG_TAG, 'Reloading paramters for service:', service);
         if (service) {
             this.loading = true;
-            this.settingsService.getSettings(service.name).subscribe((data) => {
+            this._subHandler.add(this.settingsService.getSettings(service.name).subscribe((data) => {
                 this.logger.debug(LOG_TAG , 'reloadConfigurationParamsForService done: ', data);
                 this.editService.cancelChanges();
                 this.editService.read(data, this._editServiceConfig);
@@ -134,7 +134,7 @@ export class ConfigurationSectionComponent implements OnInit {
                     closable: true
                 });
 
-            });
+            }));
         } else {
             this.editService.read([], this._editServiceConfig);
         }
@@ -205,7 +205,7 @@ export class ConfigurationSectionComponent implements OnInit {
      * Export current configuration
      */
     private exportConfigurationFile(): void {
-        this.configurationService.downloadXml().subscribe((data) => {
+        this._subHandler.add(this.configurationService.downloadXml().subscribe((data) => {
             this.logger.debug(LOG_TAG , 'Export done:', data);
 
             const fileName = 'motif_configuration_' + new Date().getTime() + '.xml';
@@ -231,8 +231,7 @@ export class ConfigurationSectionComponent implements OnInit {
                 error: error,
                 closable: true
             });
-
-        });
+        }));
     }
 
     /**
@@ -262,7 +261,7 @@ export class ConfigurationSectionComponent implements OnInit {
      */
     onSaveClicked(): void {
         this.logger.debug(LOG_TAG , 'Save clicked');
-        this.saveAllChanges().subscribe((responses) => {
+        this._subHandler.add(this.saveAllChanges().subscribe((responses) => {
             this.reloadConfigurationParams();
             this.logger.debug(LOG_TAG, 'Settings saved successfully: ', responses);
 
@@ -285,8 +284,8 @@ export class ConfigurationSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
-        }
+        }));
+    }
 
     /**
      * Save all pending chenges remotely
@@ -477,7 +476,7 @@ export class ConfigurationSectionComponent implements OnInit {
             type: NotificationType.Info
         });
 
-        this.configurationService.uploadXml(blob, false).subscribe((data) => {
+        this._subHandler.add(this.configurationService.uploadXml(blob, false).subscribe((data) => {
             this.logger.info(LOG_TAG , 'Import xml done:', data);
 
             this.notificationCenter.post({
@@ -501,7 +500,7 @@ export class ConfigurationSectionComponent implements OnInit {
                 closable: true
             });
 
-        });
+        }));
     }
 
     onAddNewPropertyConfirmed(dialogResult: NewParamDialogResult) {

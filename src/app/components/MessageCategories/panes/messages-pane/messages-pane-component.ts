@@ -4,7 +4,8 @@ import {
   Input,
   EventEmitter,
   Output,
-  ViewChild
+  ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import {
@@ -27,6 +28,7 @@ import {
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { LocalesService, Locale } from '../../../../components/Commons/locales-service';
 import * as _ from 'lodash';
+import { SubscriptionHandler } from '../../../Commons/subscription-handler';
 
 const LOG_TAG = '[MessagesPaneComponent]';
 
@@ -38,7 +40,7 @@ const LOG_TAG = '[MessagesPaneComponent]';
   ],
   templateUrl: './messages-pane-component.html'
 })
-export class MessagesPaneComponent implements OnInit {
+export class MessagesPaneComponent implements OnInit, OnDestroy {
 
   private _category: SystemCategory = null;
   private _domain: string = null;
@@ -63,6 +65,8 @@ export class MessagesPaneComponent implements OnInit {
 
   @ViewChild('grid') _grid: GridComponent;
 
+  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+
   constructor(
     private logger: NGXLogger,
     private systemService: SystemService,
@@ -76,6 +80,24 @@ export class MessagesPaneComponent implements OnInit {
     this.logger.debug(LOG_TAG, 'Initializing...');
   }
 
+  ngOnDestroy() {
+      this.logger.debug(LOG_TAG , 'ngOnDestroy');
+      this.freeMem();
+  }
+
+  freeMem() {
+      this.formGroup = null;
+      this.editService = null;
+      this.locales = null;
+      this.availableLocales = null;
+      this.data = null;
+      this._category = null;
+      this._domain = null;
+      this._selectedMessage = null;
+      this._subHandler.unsubscribe();
+      this._subHandler = null;
+  }
+
   private reloadMessages() {
     if (this._category && this._domain) {
       this.logger.debug(
@@ -84,7 +106,7 @@ export class MessagesPaneComponent implements OnInit {
         this._domain,
         this._category.name
       );
-      this.systemService
+      this._subHandler.add(this.systemService
         .getSystemMessages(this._domain, this._category.name)
         .subscribe(
           (data: SystemMessagesList) => {
@@ -100,7 +122,7 @@ export class MessagesPaneComponent implements OnInit {
           error => {
             this.logger.error(LOG_TAG, 'reloadMessages error: ', error);
           }
-        );
+        ));
     } else {
       this.data = [];
     }
@@ -213,7 +235,8 @@ export class MessagesPaneComponent implements OnInit {
 
   private removeMessage(message: SystemMessage): void {
     this.logger.debug(LOG_TAG, 'removeMessage: ', message);
-    this.systemService.deleteSystemMessage(this._domain, this._category.name, message.locale).subscribe( (data) => {
+    this._subHandler.add(this.systemService.deleteSystemMessage(this._domain, 
+      this._category.name, message.locale).subscribe( (data) => {
 
         this.logger.debug(LOG_TAG , 'System Message removed: ', message);
 
@@ -239,7 +262,7 @@ export class MessagesPaneComponent implements OnInit {
             closable: true
         });
 
-    });
+    }));
   }
 
   private createNewMessage(message: SystemMessage): void {
@@ -249,7 +272,7 @@ export class MessagesPaneComponent implements OnInit {
         message: message.message
     };
     // tslint:disable-next-line:max-line-length
-    this.systemService.createSystemMessage(this._domain, this._category.name, systemMessageCreate).subscribe((newMessage: SystemMessage) => {
+    this._subHandler.add(this.systemService.createSystemMessage(this._domain, this._category.name, systemMessageCreate).subscribe((newMessage: SystemMessage) => {
         this.logger.debug(LOG_TAG, 'createNewMessage success: ', newMessage);
 
         this.editService.create(message);
@@ -280,7 +303,7 @@ export class MessagesPaneComponent implements OnInit {
 
         this.closeEditor();
 
-    });
+    }));
   }
 
   public get canAdd(): boolean {

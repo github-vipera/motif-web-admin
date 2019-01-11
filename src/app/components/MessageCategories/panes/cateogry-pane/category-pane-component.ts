@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Output,
   Input,
-  ViewChild
+  ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { SystemService, SystemCategoryCreate, SystemCategoriesList, SystemCategory } from '@wa-motif-open-api/platform-service';
@@ -16,6 +17,7 @@ import {
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { ConfirmationService } from 'primeng/api';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
+import { SubscriptionHandler } from '../../../Commons/subscription-handler';
 
 const LOG_TAG = '[CategoryPaneComponent]';
 
@@ -27,7 +29,7 @@ const LOG_TAG = '[CategoryPaneComponent]';
   ],
   templateUrl: './category-pane-component.html'
 })
-export class CategoryPaneComponent implements OnInit {
+export class CategoryPaneComponent implements OnInit, OnDestroy {
   data: SystemCategoriesList = [];
 
   @Output() selectionChange: EventEmitter<SystemCategory> = new EventEmitter<SystemCategory>();
@@ -45,6 +47,8 @@ export class CategoryPaneComponent implements OnInit {
 
   @ViewChild('grid') _grid: GridComponent;
 
+  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+
   constructor(
     private logger: NGXLogger,
     private systemService: SystemService,
@@ -58,9 +62,24 @@ export class CategoryPaneComponent implements OnInit {
     this.reloadCategories();
   }
 
+  ngOnDestroy() {
+    this.logger.debug(LOG_TAG , 'ngOnDestroy');
+    this.freeMem();
+  }
+
+  freeMem() {
+      this.data = null;
+      this._selectedCategory = null;
+      this.editService = null;
+      this.editServiceConfiguration = null;
+      this.formGroup = null;
+      this._subHandler.unsubscribe();
+      this._subHandler = null;
+  }
+
   private reloadCategories(): void {
     if (this._domain) {
-      this.systemService.getSystemCategories(this._domain).subscribe(
+      this._subHandler.add(this.systemService.getSystemCategories(this._domain).subscribe(
         (data: SystemCategoriesList)  => {
           this.logger.debug(LOG_TAG, 'reloadCategories: ', data);
           this.data = data;
@@ -71,7 +90,7 @@ export class CategoryPaneComponent implements OnInit {
         error => {
           this.logger.error(LOG_TAG, 'reloadCategories error: ', error);
         }
-      );
+      ));
     } else {
       this.data = [];
     }
@@ -117,7 +136,7 @@ export class CategoryPaneComponent implements OnInit {
    * Remove the given category
    */
   private removeCategory(category: SystemCategory): void {
-    this.systemService.deleteSystemCategory(this._domain, this._selectedCategory.name).subscribe( (data) => {
+    this._subHandler.add(this.systemService.deleteSystemCategory(this._domain, this._selectedCategory.name).subscribe( (data) => {
 
       this.logger.debug(LOG_TAG , 'System Category removed: ', category);
 
@@ -143,7 +162,7 @@ export class CategoryPaneComponent implements OnInit {
           closable: true
       });
 
-    });
+    }));
   }
 
   /**
@@ -201,7 +220,7 @@ export class CategoryPaneComponent implements OnInit {
     const systemCategoryCreate: SystemCategoryCreate = {
         name: newCategory.name
     };
-    this.systemService.createSystemCategory(this._domain, systemCategoryCreate).subscribe((data) => {
+    this._subHandler.add(this.systemService.createSystemCategory(this._domain, systemCategoryCreate).subscribe((data) => {
         this.logger.debug(LOG_TAG, 'createSystemCategory success: ', data);
 
         this.editService.create(newCategory);
@@ -227,7 +246,7 @@ export class CategoryPaneComponent implements OnInit {
         });
 
         this.closeEditor();
-    });
+    }));
   }
 
   private closeEditor() {

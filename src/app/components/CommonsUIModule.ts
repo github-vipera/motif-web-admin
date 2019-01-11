@@ -3,7 +3,10 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'web-console-core';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
-import { DomainSelectorComboBoxComponent } from './UI/domain-selector-combobox-component';
+import { DomainSelectorComboBoxComponent } from './UI/selectors/domain-selector-combobox-component';
+import { ApplicationSelectorComboBoxComponent } from './UI/selectors/application-selector-combobox-component';
+import { UsersSelectorComboBoxComponent } from './UI/selectors/users-selector-combobox-component';
+import { ServicesSelectorComboBoxComponent } from './UI/selectors/services-selector-combobox-component';
 import { ToasterUtilsService } from './UI/toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service';
@@ -37,12 +40,18 @@ import { LocalesService } from './Commons/locales-service';
     ],
     declarations: [
         DomainSelectorComboBoxComponent,
+        ApplicationSelectorComboBoxComponent,
+        UsersSelectorComboBoxComponent,
+        ServicesSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         AfterValueChangedDirective,
         LoadingOverlayComponent
     ],
     exports: [ DomainSelectorComboBoxComponent,
+        ApplicationSelectorComboBoxComponent,
+        UsersSelectorComboBoxComponent,
+        ServicesSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         LoadingOverlayComponent,

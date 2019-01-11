@@ -52,12 +52,20 @@
       style="width: 100%;height: 35px;margin-top:14px;"
       [(ngModel)]="inputParams"
     ></textarea>
+    <label class="warning-label" *ngIf="inputJsonWarningDisplay"
+      >Invalid JSON Array</label
+    >
+
     <textarea
       kendoTextArea
       placeholder="Output Params (JSON)"
       style="width: 100%;height: 35px;margin-top:14px;"
       [(ngModel)]="outputParams"
     ></textarea>
+    <label class="warning-label" *ngIf="outputJsonWarningDisplay"
+    >Invalid JSON Array</label
+  >
+
   </div>
 
   <p-footer>

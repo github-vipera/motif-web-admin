@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service';
 import { SafeStyle } from '@angular/platform-browser';
 import { process, State } from '@progress/kendo-data-query';
+import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
@@ -24,12 +25,13 @@ const LOG_TAG = '[PluginsSection]';
   @PluginView('Plugins', {
     iconName: 'ico-plugins'
 })
-export class PluginsSectionComponent implements OnInit {
+export class PluginsSectionComponent implements OnInit, OnDestroy {
 
     public data: PluginList;
     public gridData: GridDataResult; // = process(sampleProducts, this.state);
     public loading: boolean;
     private filterValue: string;
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     public state: State = {
     };
@@ -48,6 +50,18 @@ export class PluginsSectionComponent implements OnInit {
         this.refreshData();
     }
 
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+        this.data = null;
+        this.gridData = null;
+        this._subHandler.unsubscribe();
+        this._subHandler = null;
+    }
+
     public onRefreshClicked(): void {
         this.logger.debug(LOG_TAG , 'Refresh clicked');
         this.refreshData();
@@ -55,7 +69,7 @@ export class PluginsSectionComponent implements OnInit {
 
     public refreshData() {
         this.loading = true;
-        this.registryService.getPlugins(true, 'REGISTERED').subscribe((data: PluginList) => {
+        this._subHandler.add(this.registryService.getPlugins(true, 'REGISTERED').subscribe((data: PluginList) => {
             this.data = data;
             this.displayData();
             this.loading = false;
@@ -64,7 +78,7 @@ export class PluginsSectionComponent implements OnInit {
             // console.error("refreshData error: ", error);
             this.gridData = process([], this.state);
             this.loading = false;
-        });
+        }));
     }
 
     public statusColorCode(plugin: Plugin): SafeStyle {
