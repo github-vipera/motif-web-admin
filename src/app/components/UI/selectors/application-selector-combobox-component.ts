@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service';
@@ -19,7 +20,7 @@ export const WC_APPLICATION_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     styles: [
     ],
     template: `
-    <kendo-combobox style="width:100%;" [data]="applicationsList"
+    <kendo-combobox #combobox style="width:100%;" [data]="applicationsList"
     [allowCustom]="false" [valueField]="'name'" [textField]="'name'"
     [(ngModel)]="selectedApplication"></kendo-combobox>
     `,
@@ -33,6 +34,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     @Output() applicationSelected: EventEmitter<Application> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    @ViewChild('combobox') combobox: ComboBoxComponent;
 
     constructor(private logger: NGXLogger,
         private applicationService: ApplicationsService,
@@ -99,6 +101,11 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
         return this._domain;
     }
 
+    public reset(): void {
+        if (this.combobox){
+            this.combobox.reset();
+        }
+    }
 
     /**
      * Set the selcted application
@@ -111,6 +118,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
             this.applicationSelected.emit(this._selectedApplication);
             this.propagateChange(application);
         } else {
+            this.combobox.reset();
             this.logger.debug(LOG_TAG, 'selectedDomain domain=no selection');
             this.selectionCancelled.emit();
             this.propagateChange(null);
@@ -120,7 +128,6 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     public get selectedApplication(): Application {
         return this._selectedApplication;
     }
-
 
     propagateChange: any = () => {};
 

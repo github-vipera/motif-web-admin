@@ -1,3 +1,4 @@
+import { ApplicationSelectorComboBoxComponent } from './../../../../../../components/UI/selectors/application-selector-combobox-component';
 import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { Application } from '@wa-motif-open-api/platform-service';
@@ -24,6 +25,7 @@ export class NewOtpDialogComponent implements OnInit {
     @Input('domain') domain: string;
     @Output() confirm: EventEmitter<NewOtpDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
+    @ViewChild('applicationSelector') applicationSelector: ApplicationSelectorComboBoxComponent;
 
     constructor(private logger: NGXLogger) {}
 
@@ -45,6 +47,7 @@ export class NewOtpDialogComponent implements OnInit {
         // empty the fields
         this.application = null;
         this.scope = '';
+        this.applicationSelector.reset();
      }
 
     onCancel(): void {
