@@ -11,6 +11,7 @@ import { NotificationCenter, NotificationType } from '../../../components/Common
 import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { formatDate } from '@angular/common';
 
 const LOG_TAG = '[LogSection]';
 
@@ -207,7 +208,6 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     }
 
     public onExportClicked(): void {
-        // this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
         this.slideDownExportPanel(true);
     }
 
@@ -228,10 +228,48 @@ export class LogSectionComponent implements OnInit, OnDestroy {
         }
     }
 
+    private convertDate(date: Date): string {
+        return formatDate(date, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+    }
+
     private exportDataRecords(): void {
         this.logger.debug(LOG_TAG , 'exportDataRecords: ', this.dataRecordType, this.range.start, this.range.end);
-        alert('TODO!! exportDataRecords');
-        //this.datarecordsService.exportDatarecords()
+        this.notificationCenter.post({
+            name: 'ExportDataRecordsProgress',
+            title: 'DataRecords Export',
+            message: 'Exporting datarecords...',
+            type: NotificationType.Info,
+            closable: false
+        });
+        const startDate = this.convertDate(this.range.start);
+        const endDate = this.convertDate(this.range.end);
+        this.logger.debug(LOG_TAG , 'exportDataRecords: ', this.dataRecordType, startDate, endDate);
+        this._subHandler.add(this.datarecordsService.exportDatarecords(this.dataRecordType, null, null, null, 
+            this.range.start, this.range.end ).subscribe( (data) => {
+                this.logger.debug(LOG_TAG , 'exportDataRecords done: ', data);
+
+                this.notificationCenter.post({
+                    name: 'ExportDataRecordsSuccess',
+                    title: 'DataRecords Export',
+                    message: 'Datarecords exported successfully.',
+                    type: NotificationType.Success,
+                    closable: false
+                });
+        
+        }, (error) => {
+
+            this.logger.error(LOG_TAG , 'exportDataRecords error: ', error);
+
+            this.notificationCenter.post({
+                name: 'ExportDataRecordsError',
+                title: 'DataRecord Export',
+                message: 'Error exporting datarecords:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+
+        }));
     }
 
     private loadDatarecordsTypes(): void {
