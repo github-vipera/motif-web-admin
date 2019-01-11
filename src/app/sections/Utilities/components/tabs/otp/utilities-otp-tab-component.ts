@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
-import { Application } from '@wa-motif-open-api/platform-service';
-import { faCube } from '@fortawesome/free-solid-svg-icons';
+import { Application, Domain, User } from '@wa-motif-open-api/platform-service';
+import { faCube, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { OTPDataSourceComponent } from './otp-data-source-component';
 import { OtpService, Otp, OtpCreate } from '@wa-motif-open-api/otp-service';
 import {
@@ -9,6 +9,7 @@ import {
   NotificationType
 } from '../../../../../components/Commons/notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { NewOtpDialogComponent, NewOtpDialogResult } from './dialog/new-otp-dialog';
 
 const LOG_TAG = '[OTPUtilityComponent]';
 
@@ -20,15 +21,18 @@ const LOG_TAG = '[OTPUtilityComponent]';
 })
 export class OTPUtilityComponent implements OnInit, OnDestroy {
   public faCube = faCube;
+  public faPlusCircle = faPlusCircle;
   public application: Application;
   public dataSource: OTPDataSourceComponent;
   private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  @ViewChild('newOtpDialog') newOtpDialog: NewOtpDialogComponent;
 
   constructor(
     private logger: NGXLogger,
     private otpService: OtpService,
-    private notificationCenter: NotificationCenter
-  ) {
+    private notificationCenter: NotificationCenter,
+    private renderer2: Renderer2
+    ) {
     this.dataSource = new OTPDataSourceComponent(logger, otpService);
 
     this.dataSource.error.subscribe(error => {
@@ -66,6 +70,19 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
 
 
   onCreateClicked(): void {
+    if (this.dataSource.domain && this.dataSource.user){
+      this.newOtpDialog.show();
+    } else {
+      this.notificationCenter.post({
+        name: 'NewOTPClicked',
+        title: 'Create New OTP',
+        message: 'Before proceeding you need to choose a Domain and the User.',
+        type: NotificationType.Warning,
+        closable: false
+      });
+
+    }
+      /*
     this.logger.debug(
       LOG_TAG,
       'onCreateClicked: ',
@@ -74,21 +91,23 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
       this.dataSource.user
     );
     this.createOTP();
+    */
   }
 
   onRefreshClicked(): void {
     this.dataSource.reload();
   }
 
-  private createOTP(): void {
-    if (this.dataSource.domain && this.dataSource.user && this.application){
+  private createOTP(domain: Domain, user: User, application: Application, scope?: string): void {
+    if (domain && user && application){
       const otpCreate: OtpCreate = {
-        application: this.application.name
+        application: application.name,
+        scope: scope
       };
       this._subHandler.add(this.otpService
         .createOtp(
-          this.dataSource.domain.name,
-          this.dataSource.user.userId,
+          domain.name,
+          user.userId,
           otpCreate
         )
         .subscribe(
@@ -121,7 +140,7 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
       this.notificationCenter.post({
         name: 'CreateOTPWarn',
         title: 'Create OTP',
-        message: 'You need to specify Doman, Application and User correctly.',
+        message: 'You need to specify Domain, Application and User correctly.',
         type: NotificationType.Warning
       });
     }
@@ -161,4 +180,10 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
       }
     ));
   }
+
+  onNewOtpConfirm(event: NewOtpDialogResult): void {
+    this.logger.debug(LOG_TAG, 'onNewOtpConfirm: ', event);
+    this.createOTP(this.dataSource.domain, this.dataSource.user, event.application, event.scope);
+  }
+
 }

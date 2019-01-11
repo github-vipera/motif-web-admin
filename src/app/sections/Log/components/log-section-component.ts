@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer, ElementRef, Renderer2} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef, Renderer2} from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { LogService, LogLevel, LogTail } from '@wa-motif-open-api/log-service';

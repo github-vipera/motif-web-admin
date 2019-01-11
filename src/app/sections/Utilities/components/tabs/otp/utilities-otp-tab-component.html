@@ -1,3 +1,5 @@
+<wa-utilities-otp-component-new-otp-dialog  #newOtpDialog (confirm)="onNewOtpConfirm($event)" [domain]="(dataSource.domain ? dataSource.domain.name : null)"></wa-utilities-otp-component-new-otp-dialog>
+
 <div>
 
     <div class="row spread">
@@ -8,13 +10,15 @@
                 <wc-domain-selector-combobox #domainSelector [(ngModel)]="dataSource.domain"></wc-domain-selector-combobox>
             </div>
 
+            <!--
             <div style="margin-left: 40px;margin-right:10px;width:60%;max-width: 400px;min-width: 250px;">
                 <label>Application</label>
                 <wc-application-selector-combobox #applicationSelector [domain]="(dataSource.domain ? dataSource.domain.name : null)"
                 [(ngModel)]="application"
                 ></wc-application-selector-combobox>
             </div>
-            
+            -->
+                        
             <div style="margin-left: 40px;margin-right:10px;width:60%;max-width: 400px;min-width: 250px;">
                 <label>User</label>
                 <wc-user-selector-combobox #userSelector [domain]="(dataSource.domain ? dataSource.domain.name : null)"
@@ -23,8 +27,8 @@
             </div>
 
             <kendo-buttongroup look="flat">
-                <button kendoButton [toggleable]="false" (click)="onCreateClicked()" style="margin-top: 20%;">
-                        <fa-icon [icon]="faCube" class="left-icon-button"></fa-icon>Create
+                <button kendoButton [toggleable]="false" (click)="onCreateClicked()" style="margin-top: 10%;">
+                        <fa-icon [icon]="faPlusCircle" class="left-icon-button"></fa-icon>Create New OTP
                 </button>
             </kendo-buttongroup>
         </div>
@@ -38,6 +42,7 @@
     </div>
 
     <div class="row fill">
+        
         <div>
             
             <kendo-grid [data]="dataSource.data" [scrollable]="true" [resizable]="true"

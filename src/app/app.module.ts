@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { WebAdminModulesProvider } from './web-admin-modules-provider.module';
-import { RouterModule, Routes } from '@angular/router'
+import { RouterModule, Routes, RouteReuseStrategy } from '@angular/router'
 import { WebConsoleComponent, AuthGuard, WebConsoleCoreModule } from 'web-console-core'
 import { WebConsoleLoginComponent } from 'web-console-login'
 import { ToolBarModule } from '@progress/kendo-angular-toolbar';
@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { CustomRouteReuseStrategy } from './CustomRouteReuseStrategy'
 
 // Motif Web Admin Modules
 import { ConfigurationSectionModule } from './sections/Configuration/ConfigurationSectionModule'
@@ -24,7 +25,7 @@ import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
 import { ServicesSectionModule } from './sections/Services/ServicesSectionModule'
 import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
 import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
-
+//import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -37,7 +38,7 @@ const appRoutes: Routes = [
     AppComponent
   ],
   imports: [
-    BrowserModule,  
+    BrowserModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
@@ -58,9 +59,10 @@ const appRoutes: Routes = [
     ServicesSectionModule,
     AccessControlSectionModule,
     LayoutModule,
-    UtilitiesSectionModule
+    UtilitiesSectionModule/*,
+    MemoryLeakSectionModule*/
   ],
-  providers: [ 
+  providers: [
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH },
     { provide: WC_OAUTH_BASE_PATH, useValue: environment.OAUTH_BAS_PATH },
     WebAdminModulesProvider
@@ -69,7 +71,7 @@ const appRoutes: Routes = [
   entryComponents: [
   ]
 })
-export class AppModule { 
+export class AppModule {
 
   constructor(private logger: NGXLogger){
     this.logger.info('AppModule' , 'Starting application');

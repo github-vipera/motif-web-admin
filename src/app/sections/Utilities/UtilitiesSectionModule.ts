@@ -6,7 +6,9 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { UtilitiesSectionComponent } from './components/utilities-section-component';
 import { OTPUtilityComponent } from './components/tabs/otp/utilities-otp-tab-component';
+import { NewOtpDialogComponent } from './components/tabs/otp/dialog/new-otp-dialog';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
     imports: [
@@ -17,13 +19,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         WebConsoleUIKitDataModule,
         WebConsoleUIKitKendoProviderModule,
         CommonsUIModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        DialogModule
     ],
     entryComponents: [
         UtilitiesSectionComponent
     ],
     declarations: [
-        UtilitiesSectionComponent, OTPUtilityComponent
+        UtilitiesSectionComponent, OTPUtilityComponent, NewOtpDialogComponent
     ],
     exports: [ UtilitiesSectionComponent ],
     providers: [
