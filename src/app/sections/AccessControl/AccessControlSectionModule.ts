@@ -6,6 +6,8 @@ import { AuthAccessControlServiceModule } from '@wa-motif-open-api/auth-access-c
 import { AccessControlSectionComponent } from './components/access-control-section.component'
 import { PlatformServiceModule } from '@wa-motif-open-api/platform-service'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
+import { GridContextMenuComponent } from './components/grid-context-menu.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
 
 @NgModule({
     imports: [
@@ -22,7 +24,7 @@ import { CommonsUIModule } from '../../components/CommonsUIModule'
         AccessControlSectionComponent
     ],
     declarations: [
-        AccessControlSectionComponent
+        AccessControlSectionComponent, GridContextMenuComponent, UsersListComponent
     ],
     exports: [ AccessControlSectionComponent ],
     providers: [ 
