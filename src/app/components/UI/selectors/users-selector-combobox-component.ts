@@ -75,6 +75,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
         if (this._domain) {
             this._subHandler.add(this.usersService.getUsersList(this._domain).subscribe( (data: UsersList) => {
                 this.usersList = data;
+                this.data = this.usersList;
                 }, error => {
                     this.logger.debug(LOG_TAG , 'refreshUsersList error:', error);
                     this.notificationCenter.post({

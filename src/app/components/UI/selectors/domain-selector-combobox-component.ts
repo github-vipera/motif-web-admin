@@ -71,6 +71,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     public refreshDomainList(): void {
         this._subHandler.add(this.domainsService.getDomains().subscribe( data => {
            this.domainList = data;
+           this.data = this.domainList;
         }, error => {
             this.logger.debug(LOG_TAG, 'refreshDomainList error:', error);
             this.notificationCenter.post({

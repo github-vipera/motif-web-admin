@@ -20,7 +20,7 @@ export const WC_APPLICATION_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     styles: [
     ],
     template: `
-    <kendo-combobox #combobox style="width:100%;" [data]="applicationsList"
+    <kendo-combobox #combo style="width:100%;" [data]="data"   [filterable]="true" (filterChange)="handleFilter($event)"
     [allowCustom]="false" [valueField]="'name'" [textField]="'name'"
     [(ngModel)]="selectedApplication"></kendo-combobox>
     `,
@@ -28,13 +28,14 @@ export const WC_APPLICATION_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
 
+    public data: ApplicationsList = [];
     public applicationsList: ApplicationsList = [];
     public _selectedApplication: Application;
     private _domain: string = null;
     @Output() applicationSelected: EventEmitter<Application> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
-    @ViewChild('combobox') combobox: ComboBoxComponent;
+    @ViewChild('combo') combo: ComboBoxComponent;
 
     constructor(private logger: NGXLogger,
         private applicationService: ApplicationsService,
@@ -74,6 +75,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
         if (this._domain) {
             this._subHandler.add(this.applicationService.getApplications(this._domain).subscribe(data => {
                 this.applicationsList = data;
+                this.data = this.applicationsList;
                 }, error => {
                     this.logger.debug(LOG_TAG , 'refreshApplicationList error:', error);
                     this.notificationCenter.post({
@@ -142,5 +144,13 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     }
 
     registerOnTouched(fn: () => void): void { }
+
+    handleFilter(value) {
+        if (value.length >= 3) {
+            this.data = this.applicationsList.filter((s) => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+        } else {
+            this.combo.toggle(false);
+        }
+    }
 
 }
