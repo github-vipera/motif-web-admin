@@ -248,6 +248,12 @@ export class LogSectionComponent implements OnInit, OnDestroy {
             this.range.start, this.range.end ).subscribe( (data) => {
                 this.logger.debug(LOG_TAG , 'exportDataRecords done: ', data);
 
+                const blob = new Blob([data], {type: 'application/zip'});
+                const fileName = 'motif_datarecords_' + new Date().getTime() + '.zip';
+                this.logger.debug(LOG_TAG , 'Saving to: ', blob);
+                saveAs(blob, fileName);
+                this.logger.debug(LOG_TAG , 'Log saved: ', fileName);
+
                 this.notificationCenter.post({
                     name: 'ExportDataRecordsSuccess',
                     title: 'DataRecords Export',
