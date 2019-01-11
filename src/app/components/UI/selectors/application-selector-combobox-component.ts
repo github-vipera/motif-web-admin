@@ -57,7 +57,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.data = null;
         this.applicationsList = null;
         this._selectedApplication = null;
         this._domain = null;
@@ -149,6 +149,9 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
         if (value.length >= 3) {
             this.data = this.applicationsList.filter((s) => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
         } else {
+            if (value.length===0){
+                this.data = this.applicationsList;
+            }
             this.combo.toggle(false);
         }
     }

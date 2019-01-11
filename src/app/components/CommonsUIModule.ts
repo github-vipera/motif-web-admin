@@ -6,6 +6,7 @@ import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKe
 import { DomainSelectorComboBoxComponent } from './UI/selectors/domain-selector-combobox-component';
 import { ApplicationSelectorComboBoxComponent } from './UI/selectors/application-selector-combobox-component';
 import { UsersSelectorComboBoxComponent } from './UI/selectors/users-selector-combobox-component';
+import { ServicesSelectorComboBoxComponent } from './UI/selectors/services-selector-combobox-component';
 import { ToasterUtilsService } from './UI/toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service';
@@ -41,6 +42,7 @@ import { LocalesService } from './Commons/locales-service';
         DomainSelectorComboBoxComponent,
         ApplicationSelectorComboBoxComponent,
         UsersSelectorComboBoxComponent,
+        ServicesSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         AfterValueChangedDirective,
@@ -49,6 +51,7 @@ import { LocalesService } from './Commons/locales-service';
     exports: [ DomainSelectorComboBoxComponent,
         ApplicationSelectorComboBoxComponent,
         UsersSelectorComboBoxComponent,
+        ServicesSelectorComboBoxComponent,
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         LoadingOverlayComponent,

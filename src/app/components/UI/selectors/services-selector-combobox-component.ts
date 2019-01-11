@@ -1,43 +1,44 @@
+import { LogLevel } from '@wa-motif-open-api/log-service';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
-import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform-service';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { SubscriptionHandler } from '../../Commons/subscription-handler';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import { SettingsService, ServiceList, Service } from '@wa-motif-open-api/configuration-service';
 
 const LOG_TAG = '[DomainSelectorComboBoxComponent]';
 
-export const WC_DOMAIN_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
+export const WC_SERVICES_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => DomainSelectorComboBoxComponent),
+    useExisting: forwardRef(() => ServicesSelectorComboBoxComponent),
     multi: true
 };
 
 @Component({
     // tslint:disable-next-line:component-selector
-    selector: 'wc-domain-selector-combobox',
+    selector: 'wc-services-selector-combobox',
     styles: [
     ],
     template: `
     <kendo-combobox #combo style="width:100%;" [data]="data"   [filterable]="true" (filterChange)="handleFilter($event)"
     [allowCustom]="false" [valueField]="'name'" 
-    [textField]="'name'" [(ngModel)]="selectedDomain"></kendo-combobox>
+    [textField]="'name'" [(ngModel)]="selectedService"></kendo-combobox>
     `,
-    providers: [WC_DOMAIN_SELECTOR_CONTROL_VALUE_ACCESSOR]
+    providers: [WC_SERVICES_SELECTOR_CONTROL_VALUE_ACCESSOR]
 })
-export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
+export class ServicesSelectorComboBoxComponent implements OnInit, OnDestroy {
 
-    public data: DomainsList = [];
-    public domainList: DomainsList = [];
-    public _selectedDomain: Domain; // combo box selection
-    @Output() domainSelected: EventEmitter<Domain> = new EventEmitter();
+    public data: ServiceList = [];
+    public servicesList: ServiceList = [];
+    public _selectedService: Service; // combo box selection
+    @Output() serviceSelected: EventEmitter<Service> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
     @ViewChild('combo') combo: ComboBoxComponent;
 
     constructor(private logger: NGXLogger,
-        private domainsService: DomainsService,
+        private settingsService: SettingsService,
         private notificationCenter: NotificationCenter) {
             this.logger.debug(LOG_TAG, 'Creating...');
     }
@@ -47,7 +48,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG, 'Initializing...');
-        this.refreshDomainList();
+        this.refreshServiceList();
     }
 
     ngOnDestroy() {
@@ -57,9 +58,9 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     freeMem() {
         this.data = null;
-        this.domainList = null;
-        this._selectedDomain = null;
-        this.domainSelected = null;
+        this.servicesList = null;
+        this._selectedService = null;
+        this.serviceSelected = null;
         this.selectionCancelled = null;
         this._subHandler.unsubscribe();
         this._subHandler = null;
@@ -68,16 +69,16 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     /**
      * Get the list of the available Domains
      */
-    public refreshDomainList(): void {
-        this._subHandler.add(this.domainsService.getDomains().subscribe( data => {
-           this.domainList = data;
-           this.data = this.domainList;
+    public refreshServiceList(): void {
+        this._subHandler.add(this.settingsService.getServices().subscribe( (data: ServiceList) => {
+           this.servicesList = data;
+           this.data = this.servicesList;
         }, error => {
-            this.logger.debug(LOG_TAG, 'refreshDomainList error:', error);
+            this.logger.debug(LOG_TAG, 'refreshServiceList error:', error);
             this.notificationCenter.post({
-                name: 'RefreshDomainListError',
-                title: 'Load Domains',
-                message: 'Error loading domains:',
+                name: 'RefreshServiceListError',
+                title: 'Load Services',
+                message: 'Error loading services:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
@@ -89,28 +90,28 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
      * Set the selcted domain
      */
     @Input()
-    public set selectedDomain(domain: Domain) {
-        this._selectedDomain = domain;
-        if (this._selectedDomain){
-            this.logger.debug(LOG_TAG, 'selectedDomain domain=', this._selectedDomain.name);
-            this.domainSelected.emit(this._selectedDomain);
-            this.propagateChange(domain);
+    public set selectedService(service: Service) {
+        this._selectedService = service;
+        if (this._selectedService){
+            this.logger.debug(LOG_TAG, 'selectedService service=', this._selectedService.name);
+            this.serviceSelected.emit(this._selectedService);
+            this.propagateChange(service);
         } else {
-            this.logger.debug(LOG_TAG, 'selectedDomain domain=no selection');
+            this.logger.debug(LOG_TAG, 'selectedService service=no selection');
             this.selectionCancelled.emit();
             this.propagateChange(null);
         }
     }
 
-    public get selectedDomain(): Domain {
-        return this._selectedDomain;
+    public get selectedService(): Service {
+        return this._selectedService;
     }
 
     propagateChange: any = () => {};
 
     writeValue(value: any) {
         if ( value ) {
-         this._selectedDomain = value;
+         this._selectedService = value;
         }
     }
 
@@ -122,10 +123,10 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     handleFilter(value) {
         if (value.length >= 3) {
-            this.data = this.domainList.filter((s) => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+            this.data = this.servicesList.filter((s) => s.name.toLowerCase().indexOf(value.toLowerCase()) !== -1);
         } else {
             if (value.length===0){
-                this.data = this.domainList;
+                this.data = this.servicesList;
             }
             this.combo.toggle(false);
         }

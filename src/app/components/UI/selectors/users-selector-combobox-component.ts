@@ -57,7 +57,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        // TODO!! document.body.removeChild(this.elem.nativeElement);
+        this.data = null;
         this.usersList = null;
         this._selectedUser = null;
         this._domain = null;
@@ -144,6 +144,9 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
         if (value.length >= 3) {
             this.data = this.usersList.filter((s) => s.userId.toLowerCase().indexOf(value.toLowerCase()) !== -1);
         } else {
+            if (value.length===0){
+                this.data = this.usersList;
+            }
             this.combo.toggle(false);
         }
     }
