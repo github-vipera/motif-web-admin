@@ -320,7 +320,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         this.logger.debug(LOG_TAG, 'doUploadNewAssetBundle : ', file);
         const reader = new FileReader();
         reader.onloadend = (data) => {
-            this.uploadAssetBundle(reader.result, file.name);
+            this.uploadAssetBundle(reader.result as ArrayBuffer, file.name);
         };
         reader.onerror = (error) => {
             this.logger.error(LOG_TAG, 'doUploadNewAssetBundle error: ', error);

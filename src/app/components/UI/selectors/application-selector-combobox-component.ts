@@ -104,8 +104,8 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
     }
 
     public reset(): void {
-        if (this.combobox){
-            this.combobox.reset();
+        if (this.combo){
+            this.combo.reset();
         }
     }
 
@@ -120,7 +120,7 @@ export class ApplicationSelectorComboBoxComponent implements OnInit, OnDestroy {
             this.applicationSelected.emit(this._selectedApplication);
             this.propagateChange(application);
         } else {
-            this.combobox.reset();
+            this.combo.reset();
             this.logger.debug(LOG_TAG, 'selectedDomain domain=no selection');
             this.selectionCancelled.emit();
             this.propagateChange(null);
