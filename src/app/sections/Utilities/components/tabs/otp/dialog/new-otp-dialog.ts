@@ -59,7 +59,7 @@ export class NewOtpDialogComponent implements OnInit {
         this.display = false;
         const event: NewOtpDialogResult = {
             application: this.application,
-            scope: this.scope
+            scope: (this.scope.length > 0 ? this.scope : null)
         };
         this.confirm.emit(event);
     }

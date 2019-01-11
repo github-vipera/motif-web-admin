@@ -3,7 +3,7 @@ import { NGXLogger } from 'web-console-core';
 import { Application, Domain, User } from '@wa-motif-open-api/platform-service';
 import { faCube, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { OTPDataSourceComponent } from './otp-data-source-component';
-import { OtpService, Otp, OtpCreate } from '@wa-motif-open-api/otp-service';
+import { OtpService, Otp, OtpCreate, OtpEntity } from '@wa-motif-open-api/otp-service';
 import {
   NotificationCenter,
   NotificationType
@@ -104,6 +104,7 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
         application: application.name,
         scope: scope
       };
+      this.logger.debug(LOG_TAG, 'createOtp with: ', otpCreate);
       this._subHandler.add(this.otpService
         .createOtp(
           domain.name,
@@ -146,9 +147,9 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteOKPressed(item: Otp): void {
+  onDeleteOKPressed(item: OtpEntity): void {
     this.logger.debug(LOG_TAG, 'onDeleteOKPressed: ', item);
-    this.deleteOTP(parseInt(item.id, 10));
+    this.deleteOTP(item.id);
   }
 
   private deleteOTP(otpId: number): void {
