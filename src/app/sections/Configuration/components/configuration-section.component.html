@@ -11,7 +11,7 @@
     <div class="flex-toolbar" style="display:flex;align-items: center;">
        <div style="margin-right:10px;width:60%;max-width: 400px;min-width: 250px;">
             <label>Service</label>
-            <kendo-combobox [data]="servicesList" [allowCustom]="false" [valueField]="'name'" [textField]="'name'" [(ngModel)]="selectedService" style="width:100%;"></kendo-combobox>
+            <wc-services-selector-combobox [(ngModel)]="selectedService"></wc-services-selector-combobox>
         </div>
         
         <div>

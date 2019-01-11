@@ -43,7 +43,6 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
 
 
     // Data binding
-    public servicesList: MotifServicesList = []; // the list of available services
     public loading = false;
     public editDataItem: ConfigurationRow;
 
@@ -81,9 +80,6 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
      */
     ngOnInit() {
         this.logger.debug(LOG_TAG , 'Initializing...');
-        // Reload the list of available configurable services
-        this.refreshServiceList();
-
         this.view = this.editService.pipe(map(data => process(data, this.gridState)));
     }
 
@@ -93,7 +89,6 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        this.servicesList = null;
         this.view = null;
         this.editDataItem = null;
         this._selectedService = null;
@@ -111,19 +106,7 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
         this.logger.debug(LOG_TAG , 'onStateChange: ', state);
     }
 
-    /**
-     * Reload the list of availbale configurable services
-     */
-    public refreshServiceList(): void {
-        this.logger.debug(LOG_TAG , 'refreshServiceList called.');
-        this._subHandler.add(this.settingsService.getServices().subscribe((response) => {
-            this.servicesList = response;
-            this.logger.debug(LOG_TAG , 'refreshServiceList done: ', response);
-        }, (error) => {
-            this.servicesList = [];
-            this.logger.error(LOG_TAG , 'refreshServiceList error: ', error);
-        }));
-    }
+
 
     /**
      * Reload the list of parameters for a given service
