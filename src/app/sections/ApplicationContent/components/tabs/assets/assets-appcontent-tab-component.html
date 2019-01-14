@@ -91,7 +91,10 @@
                 <kendo-grid-command-column title="" width="100" class="wc-grid-command-column">
                         <ng-template kendoGridCellTemplate let-dataItem>
                             <div style="display:flex;justify-content: center" offset="-10">
-                                <button style="width: 24px;height: 24px;" (click)="onPublishClicked(dataItem)" kendoButton [look]="'flat'" alt="Publish" title="Publish/Unpublish" class="k-button"><fa-icon [icon]="faEye" style="font-size: 0.9rem;"></fa-icon></button>
+                                <button style="width: 24px;height: 24px;" (click)="onPublishClicked(dataItem)" kendoButton [look]="'flat'" alt="Publish" title="Publish/Unpublish" class="k-button">
+                                    <fa-icon *ngIf="dataItem.published"  [icon]="faEyeSlash" style="font-size: 0.9rem;"></fa-icon>
+                                    <fa-icon *ngIf="!dataItem.published"  [icon]="faEye" style="font-size: 0.9rem;"></fa-icon>
+                                </button>
                                 <button style="width: 24px;height: 24px;" (click)="onDownloadClicked(dataItem)" kendoButton [look]="'flat'" alt="Download" title="Download" class="k-button"><fa-icon [icon]="faDownload" style="font-size: 0.9rem;"></fa-icon></button>
                             </div>
                         </ng-template>
