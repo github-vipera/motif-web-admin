@@ -1,24 +1,26 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+//        [contentStyle]="{ 'width': '680px', 'max-with': '680px', 'min-width': '680px', 'height': '460px', 'min-height':'460px','max-height': '460px', 'overflow-y':'hidden' }" 
+
+
 @Component({
-    selector: 'wc-confirmation-dialog',
+    selector: 'wc-service-catalog-selector-dialog',
     styles: [
       'input[type=text] { width: 100%; }'
     ],
     template: `
     <p-dialog
-        #newItemDialog
         [(visible)]="opened"
         [modal]="true"
+        [resizable]="false"
         [responsive]="true"
-        [style]="{ width: '300px', minWidth: '300px', minHeight:'250px' }"
-        [minY]="70"
         [baseZIndex]="10000"
+        [closeOnEscape]="true"
+        [contentStyle]="{ 'width': '680px', 'max-with': '680px', 'min-width': '680px', 'height': '460px', 'min-height':'460px','max-height': '460px', 
+        'overflow': 'hidden' }" 
         >
             <p-header>{{title}}</p-header>
-            <div>
-                {{message}}
-            </div>
+                <wa-service-catalog-selector></wa-service-catalog-selector>
             <p-footer>
             <kendo-buttongroup look="flat">
               <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
@@ -29,13 +31,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
     `
 })
-export class ConfirmationDialogComponent {
+export class ServiceCatalogSelectorDialogComponent {
 
     public opened = false;
-    @Input() title = 'Alert';
+    @Input() title = 'Select Service Catalog Item';
     @Input() message = '';
     @Input() cancelText = 'Cancel';
-    @Input() confirmText = 'Confirm';
+    @Input() confirmText = 'Select';
     userData:any;
 
     @Output() cancel: EventEmitter<any> = new EventEmitter();
@@ -51,9 +53,8 @@ export class ConfirmationDialogComponent {
         this.cancel.emit();
     }
 
-    public open(title: string, message: string, userData?: any) {
+    public open(title: string, userData?: any) {
         this.title = title;
-        this.message = message;
         this.userData = userData;
         this.opened = true;
     }

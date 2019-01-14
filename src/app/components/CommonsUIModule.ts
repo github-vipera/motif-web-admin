@@ -55,7 +55,8 @@ import { LocalesService } from './Commons/locales-service';
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         LoadingOverlayComponent,
-        AfterValueChangedDirective],
+        AfterValueChangedDirective
+    ],
     providers: [
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesService
     ]

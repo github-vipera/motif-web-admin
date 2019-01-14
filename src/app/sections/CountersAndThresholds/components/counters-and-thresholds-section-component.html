@@ -1,0 +1,22 @@
+<wc-dashboard-header [title]="'Counters and Thresholds'"></wc-dashboard-header>
+
+<div class="row spread">
+<button (click)="ontestClick()">Click Me!</button>
+</div>
+
+
+<wc-service-catalog-selector-dialog #entitySelector></wc-service-catalog-selector-dialog>
+
+<!--
+    <div class="row fill">
+        <wa-service-catalog-selector></wa-service-catalog-selector>
+    </div>
+-->
+
+<!--
+<wa-service-catalog-selector 
+    (nodeSelection)="onNodeSelection($event)"
+    (nodeDoubleClick)= "onNodeDboubleClick($event)"
+    [dataFilter]="{ channel:'JSON' }"></wa-service-catalog-selector>
+
+    -->
