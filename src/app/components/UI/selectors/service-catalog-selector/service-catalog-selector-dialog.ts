@@ -12,11 +12,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     <p-dialog
         [(visible)]="opened"
         [modal]="true"
-        [resizable]="false"
+        [resizable]="true"
         [responsive]="true"
         [baseZIndex]="10000"
         [closeOnEscape]="true"
-        [contentStyle]="{ 'width': '680px', 'max-with': '680px', 'min-width': '680px', 'height': '460px', 'min-height':'460px','max-height': '460px', 
+        [contentStyle]="{ 'width': '800px', 'max-with': '800px', 'min-width': '800px', 'height': '500px', 'min-height':'500px','max-height': '500px', 
         'overflow': 'hidden' }" 
         >
             <p-header>{{title}}</p-header>
