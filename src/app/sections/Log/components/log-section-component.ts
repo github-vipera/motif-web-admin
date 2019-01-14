@@ -229,7 +229,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     }
 
     private convertDate(date: Date): string {
-        return formatDate(date, 'yyyy/MM/dd hh:mm:ss', 'en-US');
+        return formatDate(date, 'yyyy/MM/dd HH:mm:ss', 'en-US');
     }
 
     private exportDataRecords(): void {
@@ -245,7 +245,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
         const endDate = this.convertDate(this.range.end);
         this.logger.debug(LOG_TAG , 'exportDataRecords: ', this.dataRecordType, startDate, endDate);
         this._subHandler.add(this.datarecordsService.exportDatarecords(this.dataRecordType, null, null, null, 
-            this.range.start, this.range.end ).subscribe( (data) => {
+            startDate, endDate ).subscribe( (data) => {
                 this.logger.debug(LOG_TAG , 'exportDataRecords done: ', data);
 
                 const blob = new Blob([data], {type: 'application/zip'});
