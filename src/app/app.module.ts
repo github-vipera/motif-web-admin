@@ -25,6 +25,7 @@ import { PluginsSectionModule } from './sections/Plugins/PluginsSectionModule'
 import { ServicesSectionModule } from './sections/Services/ServicesSectionModule'
 import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
 import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
+import { CountersAndThresholdsSectionModule } from './sections/CountersAndThresholds/CountersAndThresholdsSectionModule';
 //import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
 const appRoutes: Routes = [
@@ -59,8 +60,9 @@ const appRoutes: Routes = [
     ServicesSectionModule,
     AccessControlSectionModule,
     LayoutModule,
-    UtilitiesSectionModule/*,
-    MemoryLeakSectionModule*/
+    UtilitiesSectionModule,
+    CountersAndThresholdsSectionModule
+    /*,MemoryLeakSectionModule*/
   ],
   providers: [
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH },
