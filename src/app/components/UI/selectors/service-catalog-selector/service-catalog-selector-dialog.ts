@@ -20,11 +20,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         'overflow': 'hidden' }" 
         >
             <p-header>{{title}}</p-header>
-                <wa-service-catalog-selector></wa-service-catalog-selector>
+                <div style="height:500px;">
+                    <wa-service-catalog-selector></wa-service-catalog-selector>
+                </div>
             <p-footer>
             <kendo-buttongroup look="flat">
               <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
-              <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Confirm</button>
+              <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Select</button>
             </kendo-buttongroup>
           </p-footer>
         </p-dialog>
