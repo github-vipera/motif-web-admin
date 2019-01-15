@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
 import { CounterInfosComponent } from './components/counter-infos/counter-infos-component';
 import { CountersThresholdsServiceModule } from '@wa-motif-open-api/counters-thresholds-service';
+import { CounterInfoDetailsComponent } from './components/counter-infos/details/counter-info-details-component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import { CountersThresholdsServiceModule } from '@wa-motif-open-api/counters-thr
         CountersAndThresholdsSectionComponent
     ],
     declarations: [
-        CountersAndThresholdsSectionComponent, CounterInfosComponent
+        CountersAndThresholdsSectionComponent, CounterInfosComponent, CounterInfoDetailsComponent
     ],
     exports: [ CountersAndThresholdsSectionComponent ],
     providers: [

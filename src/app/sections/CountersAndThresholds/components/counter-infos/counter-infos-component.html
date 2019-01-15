@@ -56,12 +56,18 @@
             </ng-template>
     </kendo-grid-column>
 
+    <!--
     <ng-template kendoGridDetailTemplate let-dataItem>
             <div class="counter-info-row-details">
               <p><strong>Function:</strong><a>{{dataItem.fn}}</a></p>
               <p><strong>Function Params:</strong><a>{{dataItem.fnParams}}</a></p>
             </div>
     </ng-template>
+    -->
+
+    <div *kendoGridDetailTemplate="let dataItem">
+            <wa-counter-info-details [dataItem]="dataItem"></wa-counter-info-details>
+    </div>
 
 </kendo-grid>
 
