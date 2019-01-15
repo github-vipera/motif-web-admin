@@ -29,5 +29,13 @@
         (commandCancel)="onCommandCancel($event)"
         (actionStatusChange)="onActionStatusChange($event)"
         ></wc-grid-editor-command>
+        <wc-grid-editor-command #cmd4
+        [commandId]="'cmd4'"
+        [title]="'Download'" 
+        [commandIcon]="'assets/img/icons.svg#ico-download'"
+        (commandClick)="onCommandClick($event)"
+        (commandCancel)="onCommandCancel($event)"
+        (actionStatusChange)="onActionStatusChange($event)"
+        ></wc-grid-editor-command>
 </div>
 
