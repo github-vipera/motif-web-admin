@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '
 import { NGXLogger} from 'web-console-core';
 import * as _ from 'lodash';
 import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
-import { EnginesService , Engine, EngineCreate, EngineList, EngineUpdate } from '@wa-motif-open-api/app-content-service';
+import { EnginesService , EngineCreate, EngineUpdate } from '@wa-motif-open-api/app-content-service';
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/selectors/domain-selector-combobox-component';
 import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';

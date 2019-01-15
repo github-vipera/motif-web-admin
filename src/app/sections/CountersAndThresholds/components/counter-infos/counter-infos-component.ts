@@ -4,6 +4,7 @@ import { NotificationCenter, NotificationType } from './../../../../components/C
 import { CountersService, CounterInfoEntityList } from '@wa-motif-open-api/counters-thresholds-service';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import { CounterInfosModel } from './data/model';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = '[ServiceCatalogSelectorComponent]';
 
@@ -18,7 +19,8 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     loading = false;
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
     private tableModel: CounterInfosModel;
-
+    faEdit = faEdit;
+    
     constructor(
         private logger: NGXLogger,
         private notificationCenter: NotificationCenter,

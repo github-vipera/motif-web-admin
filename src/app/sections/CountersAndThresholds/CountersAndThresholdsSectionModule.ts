@@ -1,3 +1,4 @@
+import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -22,7 +23,8 @@ import { CounterInfoDetailsComponent } from './components/counter-infos/details/
         CommonsUIModule,
         FontAwesomeModule,
         DialogModule,
-        ServiceCatalogSelectorModule
+        ServiceCatalogSelectorModule,
+        GridEditorCommandsGroupModule
     ],
     entryComponents: [
         CountersAndThresholdsSectionComponent
