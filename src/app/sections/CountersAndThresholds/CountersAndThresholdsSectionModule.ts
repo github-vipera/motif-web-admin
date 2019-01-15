@@ -1,17 +1,18 @@
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
 import { LoggerModule } from 'web-console-core';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { CountersAndThresholdsSectionComponent } from './components/counters-and-thresholds-section-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
+import { CounterInfosComponent } from './components/counter-infos/counter-infos-component';
+import { CountersThresholdsServiceModule } from '@wa-motif-open-api/counters-thresholds-service';
 
 @NgModule({
     imports: [
-        SecurityServiceModule,
+        CountersThresholdsServiceModule,
         GridModule,
         LoggerModule,
         WebConsoleUIKitCoreModule,
@@ -26,7 +27,7 @@ import { DialogModule } from 'primeng/dialog';
         CountersAndThresholdsSectionComponent
     ],
     declarations: [
-        CountersAndThresholdsSectionComponent
+        CountersAndThresholdsSectionComponent, CounterInfosComponent
     ],
     exports: [ CountersAndThresholdsSectionComponent ],
     providers: [

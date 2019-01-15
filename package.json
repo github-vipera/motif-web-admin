@@ -49,6 +49,7 @@
     "@wa-motif-open-api/auth-access-control-service": "^0.1.0",
     "@wa-motif-open-api/catalog-service": "^0.1.0",
     "@wa-motif-open-api/configuration-service": "^0.1.0",
+    "@wa-motif-open-api/counters-thresholds-service": "^0.1.0",
     "@wa-motif-open-api/datarecords-service": "^0.1.0",
     "@wa-motif-open-api/license-management-service": "^0.1.0",
     "@wa-motif-open-api/log-service": "^0.1.0",

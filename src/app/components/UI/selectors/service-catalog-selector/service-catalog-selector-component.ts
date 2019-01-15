@@ -70,7 +70,7 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        // TODO!!
+        this.tableModel.close();
     }
 
     set selectedNode(node: TreeNode) {
@@ -150,9 +150,9 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
         }, (error) => {
             this.logger.error(LOG_TAG, 'getServiceCatalog error: ', error);
             this.notificationCenter.post({
-                name: 'ConfigurationExportError',
-                title: 'Export Configuration',
-                message: 'Error exporting configuration:',
+                name: 'GetServiceCatalogError',
+                title: 'Get Service catalog',
+                message: 'Error getting service catalog:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true

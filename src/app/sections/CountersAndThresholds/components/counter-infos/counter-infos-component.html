@@ -1,0 +1,14 @@
+<kendo-grid #datagrid [data]="tableModel.data"> 
+
+    <kendo-grid-column
+        field="name" title="Name" width="150">
+    </kendo-grid-column>
+
+    <kendo-grid-column field="description" title="Description">
+        </kendo-grid-column>
+
+        <kendo-grid-column
+        field="created" title="Created" width="150" format="{0:dd/MM/yyyy HH:mm:ss}">
+    </kendo-grid-column>
+
+</kendo-grid>

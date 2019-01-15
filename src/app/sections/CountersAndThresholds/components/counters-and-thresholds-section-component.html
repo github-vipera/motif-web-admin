@@ -3,9 +3,11 @@
 <div class="row spread">
 <button (click)="ontestClick()">Click Me!</button>
 </div>
-
-
 <wc-service-catalog-selector-dialog #entitySelector (select)="onEntrySelected($event)"></wc-service-catalog-selector-dialog>
+
+<div class="row fill">
+    <wa-counter-infos-component></wa-counter-infos-component>
+</div>
 
 <!--
     <div class="row fill">

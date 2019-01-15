@@ -1,4 +1,5 @@
-import { ServiceCatalogSelectorDialogComponent, ServiceCatalogNode, SelectionEvent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
+import { NotificationCenter } from './../../../components/Commons/notification-center';
+import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
@@ -15,7 +16,8 @@ const LOG_TAG = '[CountersAndThresholdsSection]';
 })
 export class CountersAndThresholdsSectionComponent implements OnInit {
 
-    constructor(private logger: NGXLogger) {}
+    constructor(private logger: NGXLogger, 
+        private notificationCenter: NotificationCenter) {}
 
     @ViewChild('entitySelector') _entitySelector: ServiceCatalogSelectorDialogComponent;
 
@@ -28,14 +30,6 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
 
     ontestClick() {
         this._entitySelector.open('Select an Entity');
-    }
-
-    onNodeSelection(event){
-        this.logger.debug(LOG_TAG, 'onNodeSelection: ', event);
-    }
-
-    onNodeDboubleClick(event) {
-        this.logger.debug(LOG_TAG, 'onNodeDboubleClick: ', event);
     }
 
     onEntrySelected(selectionEvent: SelectionEvent) {

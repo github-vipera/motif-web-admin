@@ -1,9 +1,7 @@
 import { CatalogEntry } from './model';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
-import { EventEmitter } from '@angular/core';
 import { Application, Domain } from '@wa-motif-open-api/platform-service';
 import { TreeNode } from 'primeng/api';
-import { icon } from '@fortawesome/fontawesome-svg-core';
 import * as uuidv1 from 'uuid/v1';
 
 export interface DataFilter {
