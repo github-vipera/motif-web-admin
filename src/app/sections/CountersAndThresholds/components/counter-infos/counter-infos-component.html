@@ -1,14 +1,78 @@
-<kendo-grid #datagrid [data]="tableModel.data"> 
+<kendo-grid #datagrid [data]="tableModel.data">
 
-    <kendo-grid-column
-        field="name" title="Name" width="150">
+  <kendo-grid-column field="name" title="Name" width="150">
+  </kendo-grid-column>
+
+  <kendo-grid-column field="description" title="Description">
+  </kendo-grid-column>
+
+  <kendo-grid-column field="pattern" title="Pattern">
     </kendo-grid-column>
 
-    <kendo-grid-column field="description" title="Description">
-        </kendo-grid-column>
+  <kendo-grid-column
+    field="created"
+    title="Created"
+    width="150"
+    format="{0:dd/MM/yyyy HH:mm:ss}"
+  >
+  </kendo-grid-column>
 
-        <kendo-grid-column
-        field="created" title="Created" width="150" format="{0:dd/MM/yyyy HH:mm:ss}">
+    <kendo-grid-column field="enabled" title="Status" width="150" minResizableWidth="140">
+            <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                    <wc-grid-editor 
+                    [question]="'Enable ?'" 
+                    [rowIndex]="rowIndex" 
+                    [columnIndex]="columnIndex" 
+                    [column]="column" 
+                    [value]="dataItem[column.field]" 
+                    [dataItem]="dataItem"
+                    [buttonClass]="''" 
+                    [mainClass]="'wc-table-delete-command'"
+                    (onConfirmation)="onDeleteOKPressed(dataItem)">
+                    <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
+                            ENABLED
+                        </span>
+                        <span *ngIf="!dataItem.enabled" class="badge badge-status  badge-disabled">
+                                DISABLED
+                        </span>
+                    </wc-grid-editor>
+            </ng-template>
     </kendo-grid-column>
+
+    <kendo-grid-column title="" width="150" minResizableWidth="140">
+            <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                    <wc-grid-editor 
+                    [question]="'Delete ?'" 
+                    [rowIndex]="rowIndex" 
+                    [columnIndex]="columnIndex" 
+                    [column]="column" 
+                    [value]="dataItem[column.field]" 
+                    [dataItem]="dataItem"
+                    [buttonClass]="''" 
+                    [mainClass]="'wc-table-delete-command'"
+                    (onConfirmation)="onDeleteOKPressed(dataItem)">
+                        <svg data-id="no"><use xlink:href="assets/img/icons.svg#ico-no"></use></svg>
+                    </wc-grid-editor>
+            </ng-template>
+    </kendo-grid-column>
+
+    <ng-template kendoGridDetailTemplate let-dataItem>
+            <div class="counter-info-row-details">
+              <p><strong>Function:</strong><a>{{dataItem.fn}}</a></p>
+              <p><strong>Function Params:</strong><a>{{dataItem.fnParams}}</a></p>
+            </div>
+    </ng-template>
 
 </kendo-grid>
+
+<!--
+"enabled": true,
+"fn": "addAmount",
+"fnParams": "{ \"period\": \"D\", \"type\": 1 }",
+"channel": "REST",
+"domain": "Default",
+"application": "vipera",
+"service": "appcont",
+"operation": "appcheck",
+"serviceContext": "rest",
+-->
