@@ -11,4 +11,18 @@ export class GridEditorCommandsGroupComponent {
     @Input() public visible: boolean;
 
     constructor() {}
+
+    onCommandClick(event) {
+        console.log(">>>>>> onCommandClick:", event);
+    }
+
+    onCommandConfirm(event){
+        console.log(">>>>>> onCommandConfirm:", event);
+    }
+
+    onCommandCancel(event){
+        console.log(">>>>>> onCommandCancel:", event);
+    }
+
+
 }

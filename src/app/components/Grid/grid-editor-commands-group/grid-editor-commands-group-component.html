@@ -1,7 +1,26 @@
 <div class="grid-edit-commands-group">
-    <wc-grid-editor-command [title]="'Edit'" [commandIcon]="'assets/img/icons.svg#ico-edit'"></wc-grid-editor-command>
-    <wc-grid-editor-command [hasConfirmation]="true" [title]="'Delete'" [confirmationTitle]="'Delete ?'" [commandIcon]="'assets/img/icons.svg#ico-no'"></wc-grid-editor-command>
-    <wc-grid-editor-command [hasConfirmation]="true" [title]="'Publish'" [confirmationTitle]="'Publish ?'" [commandIcon]="'assets/img/icons.svg#ico-publish'"></wc-grid-editor-command>
+    <wc-grid-editor-command [title]="'Edit'" 
+        [commandIcon]="'assets/img/icons.svg#ico-edit'"
+        (commandClick)="onCommandClick($event)"
+        (commandCancel)="onCommandCancel($event)"
+        ></wc-grid-editor-command>
+    <wc-grid-editor-command [hasConfirmation]="true" 
+        [title]="'Delete'"
+         [confirmationTitle]="'Delete ?'" 
+         [commandIcon]="'assets/img/icons.svg#ico-no'"
+         (commandClick)="onCommandClick($event)"
+         (commandConfirm)="onCommandConfirm($event)"
+         (commandCancel)="onCommandCancel($event)"
+         ></wc-grid-editor-command>
+    <wc-grid-editor-command 
+        [hasConfirmation]="true" 
+        [title]="'Publish'" 
+        [confirmationTitle]="'Publish ?'" 
+        [commandIcon]="'assets/img/icons.svg#ico-publish'"
+        (commandClick)="onCommandClick($event)"
+        (commandConfirm)="onCommandConfirm($event)"
+        (commandCancel)="onCommandCancel($event)"
+        ></wc-grid-editor-command>
 </div>
 
 <!--
