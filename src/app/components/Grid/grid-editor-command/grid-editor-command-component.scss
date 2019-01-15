@@ -35,11 +35,15 @@ input[type=checkbox] + label:before {
 }
 
 .grid-edit-command-state-disabled-true {
-    opacity: 0.2;
+    opacity: 0.6;
+    transform:scale(0.6);
+    transition-duration: 400ms;
 }
 
 .grid-edit-command-state-disabled-false {
     opacity: 1;
+    transform:scale(1);
+    transition-duration: 400;
 }
 
 //    input[type=checkbox] + label:before {content:''; width:1rem; height:1rem; margin-right:.5rem; border:1px solid #666;}
