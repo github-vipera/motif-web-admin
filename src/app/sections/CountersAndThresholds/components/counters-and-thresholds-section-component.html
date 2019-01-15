@@ -5,7 +5,7 @@
 </div>
 
 
-<wc-service-catalog-selector-dialog #entitySelector></wc-service-catalog-selector-dialog>
+<wc-service-catalog-selector-dialog #entitySelector (select)="onEntrySelected($event)"></wc-service-catalog-selector-dialog>
 
 <!--
     <div class="row fill">

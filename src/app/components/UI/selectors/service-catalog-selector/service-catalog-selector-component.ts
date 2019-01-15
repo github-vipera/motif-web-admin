@@ -82,6 +82,15 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
         return this._selectedNode;
     }
 
+    get selectedServiceCatalogEntry(): ServiceCatalogNode {
+        const treeNode = this.selectedNode;
+        if (treeNode){
+            return this.buildServiceCatalogNode(treeNode);
+        } else {
+            return null;
+        }
+    }
+
     nodeSelect(node: TreeNode) {
         this.logger.debug(LOG_TAG, 'Node selected: ', node);
         

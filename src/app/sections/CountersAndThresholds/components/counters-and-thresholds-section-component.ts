@@ -1,4 +1,4 @@
-import { ServiceCatalogSelectorDialogComponent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
+import { ServiceCatalogSelectorDialogComponent, ServiceCatalogNode, SelectionEvent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
@@ -36,5 +36,9 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
 
     onNodeDboubleClick(event) {
         this.logger.debug(LOG_TAG, 'onNodeDboubleClick: ', event);
+    }
+
+    onEntrySelected(selectionEvent: SelectionEvent) {
+        this.logger.debug(LOG_TAG, 'onEntrySelected: ', selectionEvent);
     }
 }

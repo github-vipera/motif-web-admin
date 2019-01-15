@@ -1,7 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { ServiceCatalogSelectorComponent, ServiceCatalogNode } from './service-catalog-selector-component';
 
-//        [contentStyle]="{ 'width': '680px', 'max-with': '680px', 'min-width': '680px', 'height': '460px', 'min-height':'460px','max-height': '460px', 'overflow-y':'hidden' }" 
+export { ServiceCatalogNode } from './service-catalog-selector-component';
 
+export interface SelectionEvent {
+    catalogEntry: ServiceCatalogNode;
+    userData?: any;
+}
 
 @Component({
     selector: 'wc-service-catalog-selector-dialog',
@@ -21,12 +26,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         >
             <p-header>{{title}}</p-header>
                 <div style="height:500px;">
-                    <wa-service-catalog-selector></wa-service-catalog-selector>
+                    <wa-service-catalog-selector #serviceSelector></wa-service-catalog-selector>
                 </div>
             <p-footer>
             <kendo-buttongroup look="flat">
               <button kendoButton [toggleable]="false" (click)="onCancel();">Cancel</button>
-              <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirm();">Select</button>
+              <button kendoButton [toggleable]="false" [primary]="true" (click)="onConfirmSelection();" [disabled]="!canSelect">Select</button>
             </kendo-buttongroup>
           </p-footer>
         </p-dialog>
@@ -35,6 +40,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ServiceCatalogSelectorDialogComponent {
 
+    @ViewChild('serviceSelector') _serviceSelector: ServiceCatalogSelectorComponent;
     public opened = false;
     @Input() title = 'Select Service Catalog Item';
     @Input() message = '';
@@ -43,11 +49,15 @@ export class ServiceCatalogSelectorDialogComponent {
     userData:any;
 
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Output() confirm: EventEmitter<any> = new EventEmitter();
+    @Output() select: EventEmitter<SelectionEvent> = new EventEmitter();
 
-    public onConfirm(): void {
+    public onConfirmSelection(): void {
         this.opened = false;
-        this.confirm.emit(this.userData);
+        const selectedNode: ServiceCatalogNode = this._serviceSelector.selectedServiceCatalogEntry;
+        this.select.emit({
+            catalogEntry: selectedNode,
+            userData: this.userData
+        });
     }
 
     public onCancel(): void {
@@ -59,6 +69,10 @@ export class ServiceCatalogSelectorDialogComponent {
         this.title = title;
         this.userData = userData;
         this.opened = true;
+    }
+
+    get canSelect(): boolean {
+        return (this._serviceSelector.selectedNode != null);
     }
 
 
