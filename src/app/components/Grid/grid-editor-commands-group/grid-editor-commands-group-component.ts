@@ -12,7 +12,8 @@ export class GridEditorCommandsGroupComponent {
     @ViewChild('cmd2') cmd2: GridEditorCommandComponent;
     @ViewChild('cmd3') cmd3: GridEditorCommandComponent;
 
-    @Input() public visible: boolean;
+    @Input() public contentStyle: string;
+    @Input() public alignMode = 'center';
 
     constructor() {}
 

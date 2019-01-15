@@ -1,7 +1,6 @@
 .grid-edit-commands-group {
     display: flex;
-    justify-content: flex-end;
-    
+
     input[type=checkbox] {
         display: none !important;
     }
@@ -39,5 +38,18 @@ wc-grid-editor-command {
     padding-left: 2px;
     padding-right: 2px;
 }
+
+.grid-edit-commands-group-end-align {
+    justify-content: flex-end;
+} 
+
+.grid-edit-commands-group-center-align {
+    justify-content: center;
+} 
+
+.grid-edit-commands-group-start-align {
+    justify-content: start;
+} 
+
 
 //    input[type=checkbox] + label:before {content:''; width:1rem; height:1rem; margin-right:.5rem; border:1px solid #666;}
