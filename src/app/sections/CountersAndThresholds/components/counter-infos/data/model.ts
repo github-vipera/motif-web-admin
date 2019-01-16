@@ -1,7 +1,6 @@
 import { CountersAndThresholdUtils } from './../../../commons/CountersAndThresholdUtils';
 import { CounterInfoEntityList, CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import * as _ from 'lodash';
-import { String, StringBuilder } from 'typescript-string-operations';
 
 export class CounterInfosModel {
 

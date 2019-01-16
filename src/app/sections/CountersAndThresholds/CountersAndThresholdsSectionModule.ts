@@ -1,3 +1,4 @@
+import { ThresholdsComponent } from './components/thresholds/thresholds-component';
 import { CounterInfoEditDialogComponent } from './components/dialogs/new-counter-info-edit-dialog/counter-info-edit-dialog-component';
 import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
@@ -33,7 +34,11 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         CountersAndThresholdsSectionComponent
     ],
     declarations: [
-        CountersAndThresholdsSectionComponent, CounterInfosComponent, CounterInfoDetailsComponent, CounterInfoEditDialogComponent
+        CountersAndThresholdsSectionComponent, 
+        CounterInfosComponent, 
+        CounterInfoDetailsComponent, 
+        CounterInfoEditDialogComponent,
+        ThresholdsComponent
     ],
     exports: [ CountersAndThresholdsSectionComponent ],
     providers: [
