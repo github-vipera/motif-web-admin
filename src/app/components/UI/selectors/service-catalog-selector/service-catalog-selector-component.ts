@@ -61,7 +61,6 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.tableModel = new ServiceCatalogTableModel();
-        //this.reloadData()
     }
 
     ngOnDestroy() {
@@ -146,6 +145,7 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     }
 
     public reloadData() {
+        this.logger.debug(LOG_TAG, 'reloadData called');
         this.loading = true;
         this._subHandler.add(this.serviceCatalogService.getServiceCatalog().subscribe(data => {
             this.logger.debug(LOG_TAG, 'getServiceCatalog done.');
@@ -168,7 +168,6 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
 
     @Input() set dataFilter(dataFilter: DataFilter) {
         this._dataFilter = dataFilter;
-        this.reloadData();
     }
 
 }

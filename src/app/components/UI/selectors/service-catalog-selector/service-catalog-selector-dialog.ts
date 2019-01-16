@@ -52,6 +52,7 @@ export class ServiceCatalogSelectorDialogComponent {
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Output() select: EventEmitter<SelectionEvent> = new EventEmitter();
 
+    
     public onConfirmSelection(): void {
         this.opened = false;
         const selectedNode: ServiceCatalogNode = this._serviceSelector.selectedServiceCatalogEntry;

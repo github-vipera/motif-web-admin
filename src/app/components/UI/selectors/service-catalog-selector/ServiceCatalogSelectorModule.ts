@@ -1,3 +1,4 @@
+import { CommonsUIModule } from './../../../CommonsUIModule';
 import { WebAdminCommonServicesModule } from './../../../../services/WebAdminCommonServicesModule';
 import { LoggerModule } from 'web-console-core';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 @NgModule({
     imports: [
       TreeTableModule,
+      CommonsUIModule,
       LoggerModule,
       WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule,
       WebAdminCommonServicesModule,
