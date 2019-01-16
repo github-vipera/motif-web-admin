@@ -2,7 +2,8 @@ import { NotificationCenter } from './../../../components/Commons/notification-c
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
-import { CounterInfoEditDialogComponent, EditType } from './dialogs/new-counter-info-dialog/counter-info-editodialog-component';
+import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
+import { CounterInfoEditDialogComponent, EditType } from './dialogs/new-counter-info-edit-dialog/counter-info-edit-dialog-component';
 
 const LOG_TAG = '[CountersAndThresholdsSection]';
 
