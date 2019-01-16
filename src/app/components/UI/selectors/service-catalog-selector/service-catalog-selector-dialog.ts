@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ServiceCatalogSelectorComponent, ServiceCatalogNode } from './service-catalog-selector-component';
 export { ServiceCatalogNode } from './service-catalog-selector-component';
+import { DataFilter } from './data/model';
 export { DataFilter, CatalogEntry } from './data/model';
 
 export interface SelectionEvent {
@@ -81,4 +82,4 @@ export class ServiceCatalogSelectorDialogComponent {
     }
 
 
-}
+} 

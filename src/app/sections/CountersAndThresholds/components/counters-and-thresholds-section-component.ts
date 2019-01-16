@@ -32,7 +32,7 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
     }
 
     ontestClick() {
-        this.counterInfoDialog.show(EditType.New);
+        this.counterInfoDialog.show(EditType.New, 'testname', 'testdesc', true, 'currentPattern', 'testfunction', 'testparams');
     }
 
     onEntrySelected(selectionEvent: SelectionEvent) {

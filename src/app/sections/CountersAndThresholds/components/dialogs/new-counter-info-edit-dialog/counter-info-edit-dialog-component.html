@@ -8,20 +8,20 @@
   [baseZIndex]="10000"
 >
   <p-header> New Counter Info </p-header>
-
+  
   <div style="min-width: 350px;display:flex;flex-direction: column;">
     <kendo-textbox-container
       floatingLabel="Counter Name"
       style="width: 100%;"
     >
-      <input kendoTextBox [(ngModel)]="name" required />
+      <input kendoTextBox [(ngModel)]="name" required [attr.disabled]="currentEditType=== EditType.Update ? 'disabled' : null"/>
     </kendo-textbox-container>
     <label class="warning-label" *ngIf="nameEditingWarningDisplay"
       >Invalid name</label
     >
 
     <kendo-textbox-container floatingLabel="Description" style="width: 100%;">
-      <input kendoTextBox [(ngModel)]="description" required />
+      <input kendoTextBox [(ngModel)]="description" required/>
     </kendo-textbox-container>
 
     <label class="switch-control-label"> 
@@ -33,7 +33,7 @@
         <input kendoTextBox [(ngModel)]="pattern" required disabled/>
       </kendo-textbox-container>
       <kendo-buttongroup look="flat" class="flex-cmd" style="padding-top: 4px;">
-          <button kendoButton [toggleable]="false" (click)="onPatternSelec()">
+          <button kendoButton [toggleable]="false" (click)="onPatternSelec()" [attr.disabled]="currentEditType=== EditType.Update ? 'disabled' : null">
             Select...
           </button>
         </kendo-buttongroup>

@@ -1,4 +1,4 @@
-import { CounterInfoEditDialogComponent } from './components/dialogs/new-counter-info-dialog/counter-info-editodialog-component';
+import { CounterInfoEditDialogComponent } from './components/dialogs/new-counter-info-edit-dialog/counter-info-edit-dialog-component';
 import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';

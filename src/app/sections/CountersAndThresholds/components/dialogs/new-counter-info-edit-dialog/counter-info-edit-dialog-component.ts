@@ -1,4 +1,4 @@
-import { CountersAndThresholdUtils } from './../../../commons/CountersAndThresholdUtils';
+import { CountersAndThresholdUtils } from '../../../commons/CountersAndThresholdUtils';
 import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
@@ -23,10 +23,12 @@ export interface CounterInfoDialogResult {
 
 @Component({
     selector: 'wa-counters-thresholds-counterinfo-edit-dialog',
-    styleUrls: ['./counter-info-editodialog-component.scss'],
-    templateUrl: './counter-info-editodialog-component.html'
+    styleUrls: ['./counter-info-edit-dialog-component.scss'],
+    templateUrl: './counter-info-edit-dialog-component.html'
 })
 export class CounterInfoEditDialogComponent implements OnInit {
+
+    EditType = EditType; // export enum to make it available into the component template
 
     @ViewChild('entitySelector') _entitySelector: ServiceCatalogSelectorDialogComponent;
 
