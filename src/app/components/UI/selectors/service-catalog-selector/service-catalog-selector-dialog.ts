@@ -60,6 +60,7 @@ export class ServiceCatalogSelectorDialogComponent {
             catalogEntry: selectedNode,
             userData: this.userData
         });
+        this._serviceSelector.clear();
     }
 
     public onCancel(): void {
