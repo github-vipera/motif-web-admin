@@ -1,3 +1,4 @@
+import { GridEditorCommandsConfig } from './../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from './../../../../components/Commons/notification-center';
@@ -20,6 +21,34 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
     private tableModel: CounterInfosModel;
     faEdit = faEdit;
+    
+    commands: GridEditorCommandsConfig = [
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-edit',
+            commandId: 'cmd1',
+            title: 'Edit'
+        },
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-no',
+            commandId: 'cmd2',
+            title: 'Delete',
+            hasConfirmation: true,
+            confirmationTitle: 'Delete ?' 
+        },
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-publish',
+            commandId: 'cmd3',
+            title: 'Publish',
+            hasConfirmation: true,
+            confirmationTitle: 'Publish ?' 
+        },
+        {
+            commandIcon: 'assets/img/icons.svg#ico-download',
+            commandId: 'cmd4',
+            title: 'Download',
+            hasConfirmation: false
+        }
+    ];
     
     constructor(
         private logger: NGXLogger,

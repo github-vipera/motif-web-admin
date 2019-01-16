@@ -1,41 +1,15 @@
 <div class="grid-edit-commands-group grid-edit-commands-group-{{alignMode}}-align {{contentStyle}}">
-    <wc-grid-editor-command #cmd1
-        [commandId]="'cmd1'"
-        [title]="'Edit'" 
-        [commandIcon]="'assets/img/icons.svg#ico-edit'"
-        (commandClick)="onCommandClick($event)"
-        (commandCancel)="onCommandCancel($event)"
-        (actionStatusChange)="onActionStatusChange($event)"
-        ></wc-grid-editor-command>
-    <wc-grid-editor-command #cmd2
-        [commandId]="'cmd2'"
-        [hasConfirmation]="true" 
-        [title]="'Delete'"
-        [confirmationTitle]="'Delete ?'" 
-        [commandIcon]="'assets/img/icons.svg#ico-no'"
-        (commandClick)="onCommandClick($event)"
-        (commandConfirm)="onCommandConfirm($event)"
-        (commandCancel)="onCommandCancel($event)"
-        (actionStatusChange)="onActionStatusChange($event)"
-        ></wc-grid-editor-command>
-    <wc-grid-editor-command #cmd3 
-        [commandId]="'cmd3'"
-        [hasConfirmation]="true" 
-        [title]="'Publish'" 
-        [confirmationTitle]="'Publish ?'" 
-        [commandIcon]="'assets/img/icons.svg#ico-publish'"
-        (commandClick)="onCommandClick($event)"
-        (commandConfirm)="onCommandConfirm($event)"
-        (commandCancel)="onCommandCancel($event)"
-        (actionStatusChange)="onActionStatusChange($event)"
-        ></wc-grid-editor-command>
-        <wc-grid-editor-command #cmd4
-        [commandId]="'cmd4'"
-        [title]="'Download'" 
-        [commandIcon]="'assets/img/icons.svg#ico-download'"
-        (commandClick)="onCommandClick($event)"
-        (commandCancel)="onCommandCancel($event)"
-        (actionStatusChange)="onActionStatusChange($event)"
-        ></wc-grid-editor-command>
-</div>
 
+        <wc-grid-editor-command *ngFor="let command of commands"
+            #cmd1
+            [commandId]="command.commandId"
+            [title]="command.title" 
+            [hasConfirmation]="command.hasConfirmation" 
+            [confirmationTitle]="command.confirmationTitle" 
+            [commandIcon]="command.commandIcon"
+            (commandClick)="onCommandClick($event)"
+            (commandCancel)="onCommandCancel($event)"
+            (actionStatusChange)="onActionStatusChange($event)">
+        </wc-grid-editor-command>
+    
+</div>
