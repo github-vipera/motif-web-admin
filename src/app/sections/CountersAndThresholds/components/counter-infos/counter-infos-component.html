@@ -1,4 +1,5 @@
-<kendo-grid #datagrid [data]="tableModel.data">
+<kendo-grid #datagrid [data]="tableModel.data" [selectable]="selectableSettings" (selectionChange)="onSelectionChange($event)"
+>
 
   <kendo-grid-column field="name" title="Name" width="150">
   </kendo-grid-column>
@@ -27,8 +28,8 @@
                     [value]="dataItem[column.field]" 
                     [dataItem]="dataItem"
                     [buttonClass]="''" 
-                    [mainClass]="'wc-table-delete-command'"
-                    (onConfirmation)="onDeleteOKPressed(dataItem)">
+                    (onConfirmation)="onDeleteOKPressed(dataItem)"
+                    [mainClass]="'wc-table-delete-command'">
                     <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
                             ENABLED
                         </span>
@@ -44,7 +45,6 @@
                         <wc-grid-editor-commands-group [commands]="commands" [alignMode]="'end'"></wc-grid-editor-commands-group>
                 </ng-template>
         </kendo-grid-column>
-
 
     <div *kendoGridDetailTemplate="let dataItem">
             <wa-counter-info-details [dataItem]="dataItem"></wa-counter-info-details>

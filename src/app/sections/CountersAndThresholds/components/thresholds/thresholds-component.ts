@@ -7,7 +7,7 @@ import { SubscriptionHandler } from 'src/app/components/Commons/subscription-han
 import { ThresholdsInfosModel } from './data/model'; 
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
-const LOG_TAG = '[ServiceCatalogSelectorComponent]';
+const LOG_TAG = '[ThresholdsComponent]';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -62,26 +62,33 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
     reloadData() {
         this.logger.debug(LOG_TAG, 'reloadData called');
         this.loading = true;
-        this._subHandler.add(this.countersService.getThresholdInfoList(this._counterInfo).subscribe( (data: ThresholdInfoEntityList) => {
-            this.logger.debug(LOG_TAG, 'getThresholdInfoList done: ', data);
-            this.tableModel.loadData(data);
-            this.loading = false;
-        }, (error) => {
-            this.logger.error(LOG_TAG, 'getThresholdInfoList error: ', error);
-            this.notificationCenter.post({
-                name: 'GetThresholdsListError',
-                title: 'Get Thresholds List',
-                message: 'Error getting thresholds list:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-            this.loading = false;
-        }));
+        if (this._counterInfo){
+            this._subHandler.add(this.countersService.getThresholdInfoList(this._counterInfo).subscribe( (data: ThresholdInfoEntityList) => {
+                this.logger.debug(LOG_TAG, 'getThresholdInfoList done: ', data);
+                this.tableModel.loadData(data);
+                this.loading = false;
+            }, (error) => {
+                this.logger.error(LOG_TAG, 'getThresholdInfoList error: ', error);
+                this.notificationCenter.post({
+                    name: 'GetThresholdsListError',
+                    title: 'Get Thresholds List',
+                    message: 'Error getting thresholds list:',
+                    type: NotificationType.Error,
+                    error: error,
+                    closable: true
+                });
+                this.loading = false;
+            }));
+        } else {
+            this.tableModel.close();
+        }
+
     }
 
     @Input() public set counterInfo(counterInfo: string) {
+        this.logger.debug(LOG_TAG, 'set counterInfo:', counterInfo);
         this._counterInfo = counterInfo;
+        this.reloadData();
     }
 
     public get counterInfo(): string {

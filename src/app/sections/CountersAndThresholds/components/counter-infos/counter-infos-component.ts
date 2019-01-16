@@ -6,8 +6,14 @@ import { CountersService, CounterInfoEntityList } from '@wa-motif-open-api/count
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import { CounterInfosModel } from './data/model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { SelectableSettings } from '@progress/kendo-angular-grid';
 
-const LOG_TAG = '[ServiceCatalogSelectorComponent]';
+const LOG_TAG = '[CounterInfosComponent]';
+
+export interface SelectionEvent {
+    counterInfoName: string;
+    data: any
+}
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -21,7 +27,16 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
     private tableModel: CounterInfosModel;
     faEdit = faEdit;
+    selectedCounterInfo: string;
+
+    @Output() selectionChange : EventEmitter<SelectionEvent> = new EventEmitter();
     
+    public selectableSettings: SelectableSettings = {
+        mode: 'single',
+        enabled: true,
+        checkboxOnly: false
+    }
+
     commands: GridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-edit',
@@ -76,6 +91,21 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
             });
             this.loading = false;
         }));
+    }
+
+    onSelectionChange(event) {
+        this.logger.debug(LOG_TAG, 'onSelectionChange event: ', event);
+        let data = null;
+        if (event.selectedRows.length>0){
+            this.selectedCounterInfo = event.selectedRows[0].dataItem.name;
+            data = event.selectedRows[0].dataItem;
+        } else {
+            this.selectedCounterInfo = null;
+        }
+        this.selectionChange.emit({
+            counterInfoName: this.selectedCounterInfo,
+            data: data
+        });
     }
 
 }

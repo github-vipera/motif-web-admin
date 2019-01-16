@@ -5,11 +5,11 @@
 </div>
 
 <div class="row fill">
-    <wa-counter-infos-component></wa-counter-infos-component>
+    <wa-counter-infos-component (selectionChange)="onCounterInfoSelectionChange($event)"></wa-counter-infos-component>
 </div>
 
 <div class="row fill">
-    <wa-threshols-component></wa-threshols-component>
+    <wa-threshols-component [counterInfo]="selectedCounterInfo"></wa-threshols-component>
 </div>
 
 <wa-counters-thresholds-counterinfo-edit-dialog #counterInfoDialog></wa-counters-thresholds-counterinfo-edit-dialog>
