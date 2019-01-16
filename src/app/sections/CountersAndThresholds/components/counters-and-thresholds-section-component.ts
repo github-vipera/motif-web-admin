@@ -1,5 +1,4 @@
 import { NotificationCenter } from './../../../components/Commons/notification-center';
-import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
@@ -32,7 +31,6 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
     }
 
     ontestClick() {
-        //this._entitySelector.open('Select an Entity');
         this.counterInfoDialog.show(EditType.New);
     }
 

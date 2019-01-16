@@ -24,49 +24,29 @@
       <input kendoTextBox [(ngModel)]="description" required />
     </kendo-textbox-container>
 
-    <!--
-    <kendo-textbox-container floatingLabel="Plugin Name" style="width: 100%;">
-      <input kendoTextBox [(ngModel)]="pluginName" required />
-    </kendo-textbox-container>
+    <label class="switch-control-label"> 
+        Enabled
+    </label>
+    <p-inputSwitch [(ngModel)]="enabled"></p-inputSwitch>
 
-    <div class="wc-new-op-form-block-container" >
-      <div class="wc-new-op-form-block">
-          <label class="switch-control-label"> Secure </label>
-          <p-inputSwitch [(ngModel)]="secure"></p-inputSwitch>
-      
-          <label class="switch-control-label"> Counted </label>
-          <p-inputSwitch [(ngModel)]="counted"></p-inputSwitch>
-      </div>
-      
-      <div class="wc-new-op-form-block">
-          <label class="switch-control-label"> Sessionless </label>
-          <p-inputSwitch [(ngModel)]="sessionLess"></p-inputSwitch>
+    <kendo-textbox-container floatingLabel="Pattern" style="width: 100%;">
+        <input kendoTextBox [(ngModel)]="pattern" required disabled/>
+      </kendo-textbox-container>
+      <kendo-buttongroup look="flat" class="flex-cmd" style="padding-top: 4px;">
+          <button kendoButton [toggleable]="false" (click)="onPatternSelec()">
+            Select...
+          </button>
+        </kendo-buttongroup>
+    
+      <kendo-textbox-container floatingLabel="Counting Function" style="width: 100%;">
+        <input kendoTextBox [(ngModel)]="fn" required />
+      </kendo-textbox-container>
 
-          <label class="switch-control-label"> Encrypted </label>
-          <p-inputSwitch [(ngModel)]="encrypted"></p-inputSwitch>
-      </div>
-    </div>
-
-    <textarea
-      kendoTextArea
-      placeholder="Input Params (JSON)"
-      style="width: 100%;height: 35px;margin-top:14px;"
-      [(ngModel)]="inputParams"
-    ></textarea>
-    <label class="warning-label" *ngIf="inputJsonWarningDisplay"
-      >Invalid JSON Array</label
-    >
-
-    <textarea
-      kendoTextArea
-      placeholder="Output Params (JSON)"
-      style="width: 100%;height: 35px;margin-top:14px;"
-      [(ngModel)]="outputParams"
-    ></textarea>
-    <label class="warning-label" *ngIf="outputJsonWarningDisplay"
-    >Invalid JSON Array</label
-  >
-  -->
+      <kendo-textbox-container floatingLabel="Counting Function Params" style="width: 100%;">
+          <input kendoTextBox [(ngModel)]="fnParams" required />
+        </kendo-textbox-container>
+  
+    
 
   </div>
 
@@ -86,3 +66,6 @@
     </kendo-buttongroup>
   </p-footer>
 </p-dialog>
+
+
+<wc-service-catalog-selector-dialog #entitySelector [dataFilter]="{ 'channel': 'JSON'}" (select)="onEntrySelected($event)"></wc-service-catalog-selector-dialog>

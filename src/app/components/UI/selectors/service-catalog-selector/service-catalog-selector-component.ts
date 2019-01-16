@@ -61,7 +61,7 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.tableModel = new ServiceCatalogTableModel();
-        this.reloadData()
+        //this.reloadData()
     }
 
     ngOnDestroy() {
@@ -138,6 +138,11 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     nodeUnselect(event: any) {
         this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
         // nop
+    }
+
+    public clear() {
+        this.logger.debug(LOG_TAG, 'Clear invoked');
+        this.tableModel.close();
     }
 
     public reloadData() {

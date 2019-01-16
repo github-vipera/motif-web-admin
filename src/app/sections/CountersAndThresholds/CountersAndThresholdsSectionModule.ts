@@ -12,10 +12,12 @@ import { DialogModule } from 'primeng/dialog';
 import { CounterInfosComponent } from './components/counter-infos/counter-infos-component';
 import { CountersThresholdsServiceModule } from '@wa-motif-open-api/counters-thresholds-service';
 import { CounterInfoDetailsComponent } from './components/counter-infos/details/counter-info-details-component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
     imports: [
         CountersThresholdsServiceModule,
+        InputSwitchModule,
         GridModule,
         LoggerModule,
         WebConsoleUIKitCoreModule,

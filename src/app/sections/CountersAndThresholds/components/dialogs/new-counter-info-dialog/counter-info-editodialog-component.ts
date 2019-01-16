@@ -1,5 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { CountersAndThresholdUtils } from './../../../commons/CountersAndThresholdUtils';
+import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
+import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 
 const LOG_TAG = '[NewCounterInfoDialogComponent]';
 
@@ -25,6 +27,8 @@ export interface CounterInfoDialogResult {
     templateUrl: './counter-info-editodialog-component.html'
 })
 export class CounterInfoEditDialogComponent implements OnInit {
+
+    @ViewChild('entitySelector') _entitySelector: ServiceCatalogSelectorDialogComponent;
 
     display: boolean;
     private _currentEditType:EditType;
@@ -151,5 +155,19 @@ export class CounterInfoEditDialogComponent implements OnInit {
             return false;
         }
     }
+
+    onPatternSelec() {
+        this._entitySelector.open('Select an Entity');
+    }
+
+    onEntrySelected(event: SelectionEvent){
+        this.logger.debug(LOG_TAG, 'onEntrySelected:', event);
+        this.pattern = CountersAndThresholdUtils.buildServiceCatalogEntryPattern(event.catalogEntry.channel,
+            event.catalogEntry.domain,
+            event.catalogEntry.application,
+            event.catalogEntry.service,
+            event.catalogEntry.operation);
+            this.logger.debug(LOG_TAG, 'Current pattern selected :', this.pattern);
+        }
 
 }

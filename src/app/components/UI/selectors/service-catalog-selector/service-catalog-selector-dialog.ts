@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ServiceCatalogSelectorComponent, ServiceCatalogNode } from './service-catalog-selector-component';
-
 export { ServiceCatalogNode } from './service-catalog-selector-component';
+export { DataFilter, CatalogEntry } from './data/model';
 
 export interface SelectionEvent {
     catalogEntry: ServiceCatalogNode;
@@ -26,7 +26,7 @@ export interface SelectionEvent {
         >
             <p-header>{{title}}</p-header>
                 <div style="height:500px;">
-                    <wa-service-catalog-selector #serviceSelector></wa-service-catalog-selector>
+                    <wa-service-catalog-selector #serviceSelector [dataFilter]="dataFilter"></wa-service-catalog-selector>
                 </div>
             <p-footer>
             <kendo-buttongroup look="flat">
@@ -46,6 +46,7 @@ export class ServiceCatalogSelectorDialogComponent {
     @Input() message = '';
     @Input() cancelText = 'Cancel';
     @Input() confirmText = 'Select';
+    @Input() dataFilter: DataFilter;
     userData:any;
 
     @Output() cancel: EventEmitter<any> = new EventEmitter();
@@ -63,12 +64,14 @@ export class ServiceCatalogSelectorDialogComponent {
     public onCancel(): void {
         this.opened = false;
         this.cancel.emit();
+        this._serviceSelector.clear();
     }
 
     public open(title: string, userData?: any) {
         this.title = title;
         this.userData = userData;
         this.opened = true;
+        this._serviceSelector.reloadData();
     }
 
     get canSelect(): boolean {
