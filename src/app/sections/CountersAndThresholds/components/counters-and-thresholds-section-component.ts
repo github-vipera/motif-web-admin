@@ -3,6 +3,7 @@ import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from './../../.
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
+import { CounterInfoEditDialogComponent, EditType } from './dialogs/new-counter-info-dialog/counter-info-editodialog-component';
 
 const LOG_TAG = '[CountersAndThresholdsSection]';
 
@@ -15,6 +16,8 @@ const LOG_TAG = '[CountersAndThresholdsSection]';
     iconName: 'ico-thresholds'
 })
 export class CountersAndThresholdsSectionComponent implements OnInit {
+
+    @ViewChild('counterInfoDialog') counterInfoDialog: CounterInfoEditDialogComponent;
 
     constructor(private logger: NGXLogger, 
         private notificationCenter: NotificationCenter) {}
@@ -29,7 +32,8 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
     }
 
     ontestClick() {
-        this._entitySelector.open('Select an Entity');
+        //this._entitySelector.open('Select an Entity');
+        this.counterInfoDialog.show(EditType.New);
     }
 
     onEntrySelected(selectionEvent: SelectionEvent) {

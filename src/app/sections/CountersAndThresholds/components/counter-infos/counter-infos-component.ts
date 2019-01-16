@@ -34,19 +34,6 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
             title: 'Delete',
             hasConfirmation: true,
             confirmationTitle: 'Delete ?' 
-        },
-        { 
-            commandIcon: 'assets/img/icons.svg#ico-publish',
-            commandId: 'cmd3',
-            title: 'Publish',
-            hasConfirmation: true,
-            confirmationTitle: 'Publish ?' 
-        },
-        {
-            commandIcon: 'assets/img/icons.svg#ico-download',
-            commandId: 'cmd4',
-            title: 'Download',
-            hasConfirmation: false
         }
     ];
     

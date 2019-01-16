@@ -17,7 +17,7 @@
   >
   </kendo-grid-column>
 
-    <kendo-grid-column field="enabled" title="Status" width="150" minResizableWidth="140">
+    <kendo-grid-column field="enabled" title="Status">
             <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
                     <wc-grid-editor 
                     [question]="'Enable ?'" 
@@ -40,37 +40,11 @@
     </kendo-grid-column>
 
         <kendo-grid-column title="">
-                        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                                <wc-grid-editor-commands-group [commands]="commands" [alignMode]="'end'"></wc-grid-editor-commands-group>
-                        </ng-template>
-                </kendo-grid-column>
-    
-<!--
-        <kendo-grid-column title="" width="130" minResizableWidth="130">
                 <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                       <wc-grid-editor 
-                        [question]="'Delete ?'" 
-                        [rowIndex]="rowIndex" 
-                        [columnIndex]="columnIndex" 
-                        [column]="column" 
-                        [value]="dataItem[column.field]" 
-                        [dataItem]="dataItem"
-                        [buttonClass]="''" 
-                        [mainClass]="'wc-table-delete-command'"
-                        (onConfirmation)="onDeleteOKPressed(dataItem)">
-                            <svg data-id="no"><use xlink:href="assets/img/icons.svg#ico-no"></use></svg>
-                        </wc-grid-editor>
+                        <wc-grid-editor-commands-group [commands]="commands" [alignMode]="'end'"></wc-grid-editor-commands-group>
                 </ng-template>
         </kendo-grid-column>
--->
 
-    <!--
-    <kendo-grid-column title="" width="50" minResizableWidth="50">
-        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-            <fa-icon [icon]="faEdit"></fa-icon></button>
-        </ng-template>
-    </kendo-grid-column>
-    -->
 
     <div *kendoGridDetailTemplate="let dataItem">
             <wa-counter-info-details [dataItem]="dataItem"></wa-counter-info-details>

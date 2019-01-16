@@ -1,3 +1,4 @@
+import { CounterInfoEditDialogComponent } from './components/dialogs/new-counter-info-dialog/counter-info-editodialog-component';
 import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
@@ -30,7 +31,7 @@ import { CounterInfoDetailsComponent } from './components/counter-infos/details/
         CountersAndThresholdsSectionComponent
     ],
     declarations: [
-        CountersAndThresholdsSectionComponent, CounterInfosComponent, CounterInfoDetailsComponent
+        CountersAndThresholdsSectionComponent, CounterInfosComponent, CounterInfoDetailsComponent, CounterInfoEditDialogComponent
     ],
     exports: [ CountersAndThresholdsSectionComponent ],
     providers: [
