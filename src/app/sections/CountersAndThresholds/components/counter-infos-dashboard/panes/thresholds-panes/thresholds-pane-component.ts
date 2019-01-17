@@ -2,6 +2,7 @@ import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-servic
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const LOG_TAG = '[CounterInfosDashboard]';
 
@@ -12,6 +13,8 @@ const LOG_TAG = '[CounterInfosDashboard]';
     templateUrl: './thresholds-pane-component.html'
 })
 export class ThresholdsPaneComponent implements OnInit, OnDestroy {
+
+    faPlusCircle = faPlusCircle;
 
     @Input() counterInfo: CounterInfoEntity;
 
@@ -35,5 +38,8 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
         
     }
 
+    onRefreshClicked(): void {
+        
+    }
 
 }

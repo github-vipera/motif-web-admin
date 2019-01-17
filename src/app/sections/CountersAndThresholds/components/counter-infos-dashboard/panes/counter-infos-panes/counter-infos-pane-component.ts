@@ -2,7 +2,7 @@ import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-servic
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faFileImport, faDownload, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SelectionEvent } from '../../../counter-infos/counter-infos-component'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -24,6 +24,7 @@ export const WC_COUNTER_INFO_PANE_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
+    faPlusCircle = faPlusCircle;
     faDownload = faDownload;
     faFileImport = faFileImport;
     private _selectedCounterInfo: CounterInfoEntity;
