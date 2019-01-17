@@ -5,6 +5,7 @@ import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
 import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { SelectionEvent as CounterInfoSelectionEvent } from './counter-infos/counter-infos-component'
+import { ThresholdEditDialogComponent } from './dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
 
 const LOG_TAG = '[CountersAndThresholdsSection]';
 
@@ -19,6 +20,7 @@ const LOG_TAG = '[CountersAndThresholdsSection]';
 export class CountersAndThresholdsSectionComponent implements OnInit {
 
     @ViewChild('counterInfoDialog') counterInfoDialog: CounterInfoEditDialogComponent;
+    @ViewChild('thresoldInfoDialog') thresholdDialog: ThresholdEditDialogComponent;
 
     selectedCounterInfo: string;
 
@@ -36,6 +38,10 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
 
     ontestClick() {
         this.counterInfoDialog.show(EditType.New, 'testname', 'testdesc', true, 'currentPattern', 'testfunction', 'testparams');
+    }
+
+    ontest2Click() {
+        this.thresholdDialog.show(EditType.New);
     }
 
     onEntrySelected(selectionEvent: SelectionEvent) {

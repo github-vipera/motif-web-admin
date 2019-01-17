@@ -1,7 +1,8 @@
 <wc-dashboard-header [title]="'Counters and Thresholds'"></wc-dashboard-header>
 
 <div class="row spread">
-<button (click)="ontestClick()">Click Me!</button>
+<button (click)="ontestClick()">Edit Counter</button>
+<button (click)="ontest2Click()">Edit Threshold</button>
 </div>
 
 <div class="row fill">
@@ -13,7 +14,7 @@
 </div>
 
 <wa-counters-thresholds-counterinfo-edit-dialog #counterInfoDialog></wa-counters-thresholds-counterinfo-edit-dialog>
-
+<wa-counters-thresholds-threshold-edit-dialog #thresoldInfoDialog></wa-counters-thresholds-threshold-edit-dialog>
 <!--
     <div class="row fill">
         <wa-service-catalog-selector></wa-service-catalog-selector>

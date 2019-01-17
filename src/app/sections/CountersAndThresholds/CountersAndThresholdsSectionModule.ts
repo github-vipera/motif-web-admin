@@ -1,3 +1,4 @@
+import { ThresholdEditDialogComponent } from './components/dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
 import { CounterInfoEditDialogComponent } from './components/dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { ThresholdDetailsComponent } from './components/thresholds/details/threshold-details-component';
 import { ThresholdsComponent } from './components/thresholds/thresholds-component';
@@ -40,6 +41,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         CounterInfoDetailsComponent, 
         ThresholdDetailsComponent,
         CounterInfoEditDialogComponent,
+        ThresholdEditDialogComponent,
         ThresholdsComponent
     ],
     exports: [ CountersAndThresholdsSectionComponent ],

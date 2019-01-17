@@ -10,7 +10,7 @@ export enum EditType {
     Update
 }
 
-export interface CounterInfoDialogResult {
+export interface ThresholdDialogResult {
     name: string;
     description: string;
     enabled: boolean;
@@ -20,13 +20,12 @@ export interface CounterInfoDialogResult {
     editType: EditType;
 }
 
-
 @Component({
-    selector: 'wa-counters-thresholds-counterinfo-edit-dialog',
-    styleUrls: ['./counter-info-edit-dialog-component.scss'],
-    templateUrl: './counter-info-edit-dialog-component.html'
+    selector: 'wa-counters-thresholds-threshold-edit-dialog',
+    styleUrls: ['./threshold-edit-dialog-component.scss'],
+    templateUrl: './threshold-edit-dialog-component.html'
 })
-export class CounterInfoEditDialogComponent implements OnInit {
+export class ThresholdEditDialogComponent implements OnInit {
 
     EditType = EditType; // export enum to make it available into the component template
 
@@ -44,7 +43,7 @@ export class CounterInfoEditDialogComponent implements OnInit {
     fn: string;
     fnParams: string;
 
-    @Output() confirm: EventEmitter<CounterInfoDialogResult> = new EventEmitter();
+    @Output() confirm: EventEmitter<ThresholdDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
 
     constructor(private logger: NGXLogger) {}
@@ -110,7 +109,7 @@ export class CounterInfoEditDialogComponent implements OnInit {
             return;
         }
         this.display = false;
-        const event: CounterInfoDialogResult = {
+        const event: ThresholdDialogResult = {
             name: this.name,
             description: this.description,
             enabled: this.enabled,
@@ -171,7 +170,6 @@ export class CounterInfoEditDialogComponent implements OnInit {
             event.catalogEntry.operation);
             this.logger.debug(LOG_TAG, 'Current pattern selected :', this.pattern);
         }
-
     public get titlePart(): string {
         if (this._currentEditType === EditType.New){
             return 'New';
@@ -181,5 +179,5 @@ export class CounterInfoEditDialogComponent implements OnInit {
             return 'n.d.'
         }
     }
-    
+
 }
