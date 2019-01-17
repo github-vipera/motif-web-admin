@@ -1,3 +1,5 @@
+import { CounterInfosPaneComponent } from './components/counter-infos-dashboard/panes/counter-infos-panes/counter-infos-pane-component';
+import { ThresholdsPaneComponent } from './components/counter-infos-dashboard/panes/thresholds-panes/thresholds-pane-component';
 import { CounterInfosDashboardComponent } from './components/counter-infos-dashboard/counter-infos-dashboard-component';
 import { ThresholdEditDialogComponent } from './components/dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
 import { CounterInfoEditDialogComponent } from './components/dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
@@ -44,7 +46,10 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         CounterInfoEditDialogComponent,
         ThresholdEditDialogComponent,
         ThresholdsComponent,
-        CounterInfosDashboardComponent
+        CounterInfosDashboardComponent,
+        ThresholdsPaneComponent,
+        CounterInfosPaneComponent
+
     ],
     exports: [ CountersAndThresholdsSectionComponent ],
     providers: [

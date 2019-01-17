@@ -48,6 +48,8 @@ export class ThresholdEditDialogComponent implements OnInit {
     actionParams: string;
     deny: boolean;
 
+    private _nameEditingWarningDisplay: boolean;
+
     @Output() confirm: EventEmitter<ThresholdDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
 
@@ -196,4 +198,8 @@ export class ThresholdEditDialogComponent implements OnInit {
         }
     }
 
+    public get nameEditingWarningDisplay(): boolean {
+        return this._nameEditingWarningDisplay;
+    }
+    
 }

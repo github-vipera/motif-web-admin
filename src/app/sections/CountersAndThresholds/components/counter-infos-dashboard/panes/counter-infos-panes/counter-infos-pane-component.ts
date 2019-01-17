@@ -1,0 +1,75 @@
+import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
+import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef } from '@angular/core';
+import { NGXLogger} from 'web-console-core';
+import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { SelectionEvent } from '../../../counter-infos/counter-infos-component'
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+const LOG_TAG = '[CounterInfosPaneComponent]';
+
+export const WC_COUNTER_INFO_PANE_CONTROL_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => CounterInfosPaneComponent),
+    multi: true
+};
+
+
+@Component({
+    // tslint:disable-next-line:component-selector
+    selector: 'wa-counter-infos-pane-component',
+    styleUrls: ['./counter-infos-pane-component.scss'],
+    templateUrl: './counter-infos-pane-component.html',
+    providers: [WC_COUNTER_INFO_PANE_CONTROL_VALUE_ACCESSOR]
+})
+export class CounterInfosPaneComponent implements OnInit, OnDestroy {
+
+    faDownload = faDownload;
+    faFileImport = faFileImport;
+    private _selectedCounterInfo: CounterInfoEntity;
+
+    @Output() selectionChange:EventEmitter<CounterInfoEntity> = new EventEmitter<CounterInfoEntity>();
+
+    constructor(
+        private logger: NGXLogger,
+        private notificationCenter: NotificationCenter
+    ) {}
+
+    ngOnInit() {
+    }
+
+    ngOnDestroy() {
+        this.logger.debug(LOG_TAG , 'ngOnDestroy ');
+        this.freeMem();
+    }
+
+    freeMem() {
+    }
+
+    onCounterInfoSelectionChange(selectionEvent: SelectionEvent){
+        this.logger.debug(LOG_TAG , 'onCounterInfoSelectionChange ', selectionEvent);
+        this._selectedCounterInfo = selectionEvent.data;
+        this.propagateChange(this._selectedCounterInfo);
+        this.selectionChange.emit(selectionEvent.data);
+    }
+
+    public get selectedCounterInfo(): CounterInfoEntity {
+        return this._selectedCounterInfo;
+    }
+    
+
+    propagateChange: any = () => {};
+
+    writeValue(value: any) {
+        if ( value ) {
+         this._selectedCounterInfo = value;
+        }
+    }
+
+    registerOnChange(fn) {
+        this.propagateChange = fn;
+    }
+
+    registerOnTouched(fn: () => void): void { }
+
+}

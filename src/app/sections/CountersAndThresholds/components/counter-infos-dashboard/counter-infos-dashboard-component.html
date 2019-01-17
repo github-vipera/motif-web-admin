@@ -1,82 +1,15 @@
 <div class="row fill">
+
   <kendo-splitter orientation="vertical" style="border: none;">
+    
     <kendo-splitter-pane>
+        <wa-counter-infos-pane-component [(ngModel)]="selectedCounterInfo"></wa-counter-infos-pane-component>
+      </kendo-splitter-pane>
+      
+      <kendo-splitter-pane>
+          <wa-thresholds-pane-component [counterInfo]="selectedCounterInfo"></wa-thresholds-pane-component>
+        </kendo-splitter-pane>
 
-      <div class="row spread">
-        <div class="flex-toolbar" style="display:flex;align-items: center;">
-          <div>
-            <kendo-buttongroup look="flat">
-              <button
-                kendoButton
-                [toggleable]="false"
-                [icon]="'save'"
-                (click)="onAddNewCounterInfoClicked()"
-              >
-                Add New
-              </button>
-            </kendo-buttongroup>
-          </div>
-        </div>
+    </kendo-splitter>
 
-        <div class="flex-cmd">
-          <kendo-buttongroup look="flat">
-            <button
-              kendoButton
-              [toggleable]="false"
-              (click)="onExportClicked()"
-            >
-              <fa-icon [icon]="faDownload"></fa-icon>Export
-            </button>
-            <button
-              kendoButton
-              kendofileselect
-              tyle="file"
-              [toggleable]="false"
-              (click)="onImportClicked()"
-            >
-              <fa-icon [icon]="faFileImport"></fa-icon>Import
-            </button>
-            <button
-              kendoButton
-              [toggleable]="false"
-              [icon]="'refresh'"
-              (click)="onRefreshClicked()"
-              [disabled]="!canRefresh"
-            >
-              Refresh
-            </button>
-          </kendo-buttongroup>
-        </div>
-      </div>
-
-      <wa-counter-infos-component
-        (selectionChange)="onCounterInfoSelectionChange($event)"
-      ></wa-counter-infos-component>
-    </kendo-splitter-pane>
-
-    <kendo-splitter-pane>
-      <label class="tab-sub-section-label">Thresholds</label>
-
-      <div class="row spread">
-          <div class="flex-toolbar" style="display:flex;align-items: center;">
-            <div>
-              <kendo-buttongroup look="flat">
-                <button
-                  kendoButton
-                  [toggleable]="false"
-                  [icon]="'save'"
-                  (click)="onAddNewThresholdClicked()"
-                >
-                  Add New
-                </button>
-              </kendo-buttongroup>
-            </div>
-          </div>
-        </div>
-  
-      <wa-threshols-component
-        [counterInfo]="selectedCounterInfo"
-      ></wa-threshols-component>
-    </kendo-splitter-pane>
-  </kendo-splitter>
 </div>

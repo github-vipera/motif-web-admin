@@ -1,0 +1,20 @@
+<div class="row spread">
+    <div class="flex-toolbar" style="display:flex;align-items: center;">
+      <div>
+        <kendo-buttongroup look="flat">
+          <button
+            kendoButton
+            [toggleable]="false"
+            [icon]="'save'"
+            (click)="onAddNewThresholdClicked()"
+          >
+            Add New
+          </button>
+        </kendo-buttongroup>
+      </div>
+    </div>
+  </div>
+
+<wa-threshols-component
+  [counterInfo]="(counterInfo?counterInfo.name:null)"
+></wa-threshols-component>

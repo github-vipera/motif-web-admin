@@ -44,6 +44,8 @@ export class CounterInfoEditDialogComponent implements OnInit {
     fn: string;
     fnParams: string;
 
+    private _nameEditingWarningDisplay: boolean;
+
     @Output() confirm: EventEmitter<CounterInfoDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
 
@@ -180,6 +182,10 @@ export class CounterInfoEditDialogComponent implements OnInit {
         } else {
             return 'n.d.'
         }
+    }
+
+    public get nameEditingWarningDisplay(): boolean {
+        return this._nameEditingWarningDisplay;
     }
     
 }

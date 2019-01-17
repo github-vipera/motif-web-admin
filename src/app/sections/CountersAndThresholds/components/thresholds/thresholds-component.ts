@@ -20,7 +20,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
 
     loading = false;
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
-    private tableModel: ThresholdsInfosModel;
+    public tableModel: ThresholdsInfosModel;
     faEdit = faEdit;
     private _counterInfo: string;
 

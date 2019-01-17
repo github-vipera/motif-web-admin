@@ -22,7 +22,7 @@ export class CounterInfosDashboardComponent implements OnInit, OnDestroy {
 
     faDownload = faDownload;
     faFileImport = faFileImport;
-    selectedCounterInfo: string;
+    selectedCounterInfo: any;
 
     constructor(
         private logger: NGXLogger,

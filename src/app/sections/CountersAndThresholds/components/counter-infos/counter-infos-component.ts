@@ -25,7 +25,7 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
 
     loading = false;
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
-    private tableModel: CounterInfosModel;
+    public tableModel: CounterInfosModel;
     faEdit = faEdit;
     selectedCounterInfo: string;
 
