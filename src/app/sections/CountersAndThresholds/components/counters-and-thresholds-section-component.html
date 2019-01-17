@@ -1,5 +1,29 @@
 <wc-dashboard-header [title]="'Counters and Thresholds'"></wc-dashboard-header>
 
+<input type="radio" name="tabs" id="tab-1-cmd" checked="">
+<input type="radio" name="tabs" id="tab-2-cmd">
+
+<div class="tabs">
+    <label for="tab-1-cmd">
+        <svg data-id="configuration"><use xlink:href="assets/img/icons.svg#ico-counter"></use></svg> 
+        <div class="tab-title">Counter Infos</div>
+    </label>
+    <label for="tab-2-cmd">
+        <svg data-id="platform"><use xlink:href="assets/img/icons.svg#ico-list-progress"></use></svg> 
+        <div class="tab-title">Counters</div>
+    </label>
+</div>
+
+<div class="tab" id="tab-1">
+        <wa-counter-infos-component (selectionChange)="onCounterInfoSelectionChange($event)"></wa-counter-infos-component>
+    </div>
+
+
+<div class="tab" id="tab-2">
+        <wa-threshols-component [counterInfo]="selectedCounterInfo"></wa-threshols-component>
+</div>
+
+<!--
 <div class="row spread">
 <button (click)="ontestClick()">Edit Counter</button>
 <button (click)="ontest2Click()">Edit Threshold</button>
@@ -15,16 +39,5 @@
 
 <wa-counters-thresholds-counterinfo-edit-dialog #counterInfoDialog></wa-counters-thresholds-counterinfo-edit-dialog>
 <wa-counters-thresholds-threshold-edit-dialog #thresoldInfoDialog></wa-counters-thresholds-threshold-edit-dialog>
-<!--
-    <div class="row fill">
-        <wa-service-catalog-selector></wa-service-catalog-selector>
-    </div>
 -->
 
-<!--
-<wa-service-catalog-selector 
-    (nodeSelection)="onNodeSelection($event)"
-    (nodeDoubleClick)= "onNodeDboubleClick($event)"
-    [dataFilter]="{ channel:'JSON' }"></wa-service-catalog-selector>
-
-    -->
