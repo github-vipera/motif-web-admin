@@ -43,10 +43,11 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
         private logger: NGXLogger,
         private notificationCenter: NotificationCenter,
         private countersService: CountersService
-    ) {}
+    ) {
+        this.tableModel = new ThresholdsInfosModel();
+    }
 
     ngOnInit() {
-        this.tableModel = new ThresholdsInfosModel();
         this.reloadData();
     }
 
