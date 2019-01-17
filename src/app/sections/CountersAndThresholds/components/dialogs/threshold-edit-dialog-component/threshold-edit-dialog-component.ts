@@ -14,9 +14,11 @@ export interface ThresholdDialogResult {
     name: string;
     description: string;
     enabled: boolean;
-    pattern: string;
     fn: string;
     fnParams: string;
+    deny: boolean;
+    action: string;
+    actionParams: string;
     editType: EditType;
 }
 
@@ -42,6 +44,9 @@ export class ThresholdEditDialogComponent implements OnInit {
     pattern: string;
     fn: string;
     fnParams: string;
+    action: string;
+    actionParams: string;
+    deny: boolean;
 
     @Output() confirm: EventEmitter<ThresholdDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -56,10 +61,12 @@ export class ThresholdEditDialogComponent implements OnInit {
                  name?: string,
                  description?: string, 
                  enabled?: boolean, 
-                 pattern?: string,
+                 deny?: boolean,
                 fn?: string, 
-                fnParams?: string): void {
-        this.prepare(editType, name, description, enabled, pattern, fn, fnParams);
+                fnParams?: string,
+                action?: string, 
+                actionParams?: string): void {
+        this.prepare(editType, name, description, enabled, deny, fn, fnParams, action, actionParams);
         this.display = true;
     }
 
@@ -75,9 +82,11 @@ export class ThresholdEditDialogComponent implements OnInit {
         name: string,
         description: string, 
         enabled: boolean, 
-        pattern: string,
+        deny: boolean,
         fn: string, 
-        fnParams: string): void {
+        fnParams: string,
+        action: string, 
+        actionParams: string): void {
         this.logger.debug(LOG_TAG, 'prepare for:', editType);
         this._currentEditType = editType;
         if (editType === EditType.New) {
@@ -88,13 +97,18 @@ export class ThresholdEditDialogComponent implements OnInit {
             this.pattern = '';
             this.fn = '';
             this.fnParams = '';
+            this.action = '';
+            this.actionParams = '';
+            this.deny = false;
         } else {
             this.name = name;
             this.description = description;
             this.enabled = enabled;
-            this.pattern = pattern;
             this.fn = fn;
             this.fnParams = fnParams;
+            this.action = action;
+            this.actionParams = actionParams;
+            this.deny = deny;
         }
         this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Update');
     }
@@ -113,7 +127,9 @@ export class ThresholdEditDialogComponent implements OnInit {
             name: this.name,
             description: this.description,
             enabled: this.enabled,
-            pattern: this.pattern,
+            action: this.action,
+            actionParams: this.actionParams,
+            deny: this.deny,
             fn: this.fn,
             fnParams: this.fnParams,
             editType: this._currentEditType 
