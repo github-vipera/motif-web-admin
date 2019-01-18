@@ -42,7 +42,12 @@
 
         <kendo-grid-column title="">
                 <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                        <wc-grid-editor-commands-group [commands]="commands" [alignMode]="'end'"></wc-grid-editor-commands-group>
+                        <wc-grid-editor-commands-group 
+                                [commands]="commands" 
+                                [alignMode]="'end'" 
+                                (commandConfirm)="onCommandConfirm($event)"
+                                (commandClick)="onCommandClick($event)"
+                                ></wc-grid-editor-commands-group>
                 </ng-template>
         </kendo-grid-column>
 

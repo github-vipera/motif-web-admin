@@ -113,6 +113,14 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
         // TODO!!
     }
 
-    
+    onCommandConfirm(event) {
+        this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
+        
+    }
+
+    onCommandClick(event){
+        this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
+    }
+
 
 }

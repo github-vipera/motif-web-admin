@@ -1,6 +1,7 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { GridEditorCommandComponent, GridEditorCommandComponentEvent } from '../grid-editor-command/grid-editor-command-component';
 
+export { GridEditorCommandComponentEvent } from '../grid-editor-command/grid-editor-command-component';
 
 export interface GridEditorCommandConfig {
     commandId: string;
@@ -24,26 +25,27 @@ export class GridEditorCommandsGroupComponent {
     @Input() public contentStyle: string;
     @Input() public alignMode = 'center';
 
+    @Output() commandClick:EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter<GridEditorCommandComponentEvent>();
+    @Output() commandConfirm:EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter<GridEditorCommandComponentEvent>();
+    @Output() commandCancel:EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter<GridEditorCommandComponentEvent>();
+    @Output() actionStatusChange:EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter<GridEditorCommandComponentEvent>();
+
     constructor() {}
 
     onCommandClick(event: GridEditorCommandComponentEvent) {
-        console.log(">>>>>> onCommandClick:", event);
-        // TODO!!! Emit
+        this.commandClick.emit(event);
     }
 
     onCommandConfirm(event: GridEditorCommandComponentEvent) {
-        console.log(">>>>>> onCommandConfirm:", event);
-        // TODO!!! Emit
+        this.commandConfirm.emit(event);
     }
 
     onCommandCancel(event: GridEditorCommandComponentEvent) {
-        console.log(">>>>>> onCommandCancel:", event);
-        // TODO!!! Emit
+        this.commandCancel.emit(event);
     }
 
     onActionStatusChange(event: GridEditorCommandComponentEvent) {
-        console.log(">>>>>> onActionStatusChange:", event);
-        // TODO!!! Emit
+        this.actionStatusChange.emit(event);
     }
 
 
