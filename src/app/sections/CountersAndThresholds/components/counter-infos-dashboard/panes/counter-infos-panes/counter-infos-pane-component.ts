@@ -5,7 +5,7 @@ import { CounterInfoEntity, CountersService, CounterInfo, CounterInfoUpdatableFi
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { faFileImport, faDownload, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faFileImport, faDownload, faPlusCircle, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 import { SelectionEvent, CounterInfosComponent } from '../../../counter-infos/counter-infos-component'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
@@ -106,7 +106,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
                 title: 'New Counter Info',
                 message: 'The new Counter Info has been successfuly create.',
                 type: NotificationType.Success,
-                closable: true
+                closable: false
             });
 
             this._counterInfosComponent.reloadData();
@@ -126,11 +126,36 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
     private updateCounterInfo(event: CounterInfoDialogResult){
         //counterInfoUpdatableFields?: CounterInfoUpdatableFields
-        const fields: CounterInfoUpdatableFields = null;
+        const fields: CounterInfoUpdatableFields = {
+            description: event.description,
+            enabled: event.enabled,
+            fn: event.fn,
+            fnParams: event.fnParams
+        };
         this._subHandler.add(this.countersService.updateCounterInfo(event.name, fields).subscribe( (data) => {
-            //TODO!!
+            this.logger.debug(LOG_TAG , 'updateCounterInfo done: ', data);
+
+            this.notificationCenter.post({
+                name: 'UpdateCounterInfoSuccess',
+                title: 'Update Counter Info',
+                message: 'The new Counter Info has been successfuly updated.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._counterInfosComponent.reloadData();
         }, (error) => {
-            //TODO!!
+            this.logger.error(LOG_TAG , 'UpdateCounterInfoSuccess error: ', error);
+
+            this.notificationCenter.post({
+                name: 'UpdateCounterInfoError',
+                title: 'Update Counter Info',
+                message: 'Error updating the new Counter Info:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+
         }));
     }
 

@@ -119,7 +119,7 @@ export class CounterInfoEditDialogComponent implements OnInit {
             this.operation = null;
             this.channel = null;
         }
-        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Edit');
+        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Update');
     }
 
     onCancel(): void {
@@ -208,7 +208,7 @@ export class CounterInfoEditDialogComponent implements OnInit {
         if (this._currentEditType === EditType.New){
             return 'New';
         } else if (this._currentEditType === EditType.Update){
-            return 'Update';
+            return 'Edit';
         } else {
             return 'n.d.'
         }

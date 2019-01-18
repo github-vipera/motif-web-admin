@@ -112,7 +112,7 @@ export class ThresholdEditDialogComponent implements OnInit {
             this.actionParams = actionParams;
             this.deny = deny;
         }
-        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Edit');
+        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Update');
     }
 
     onCancel(): void {
@@ -192,7 +192,7 @@ export class ThresholdEditDialogComponent implements OnInit {
         if (this._currentEditType === EditType.New){
             return 'New';
         } else if (this._currentEditType === EditType.Update){
-            return 'Update';
+            return 'Edit';
         } else {
             return 'n.d.'
         }
