@@ -77,7 +77,7 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
     }
 
     private onDeleteItem(item: ThresholdInfoEntity){
-        alert("TODO!! Delete!");
+        this.deleteThreshold(item);
     }
 
     private onChangeStatusItem(item: ThresholdInfoEntity){
@@ -191,7 +191,7 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
             domain: null
         };
         this._subHandler.add(this.thresholdsService.updateThresholdInfo(item.name, thresholdInfo).subscribe( (data) => {
-            this.logger.debug(LOG_TAG , 'updateThreshold done: ', data);
+            this.logger.debug(LOG_TAG , 'toggleThresholdStatus done: ', data);
 
             this.notificationCenter.post({
                 name: 'UpdateThresholdSuccess',
@@ -203,12 +203,39 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
 
             this._thresholdsComponent.reloadData();
         }, (error) => {
-            this.logger.error(LOG_TAG , 'updateThreshold error: ', error);
+            this.logger.error(LOG_TAG , 'toggleThresholdStatus error: ', error);
 
             this.notificationCenter.post({
                 name: 'UpdateThresholdError',
                 title: 'Update Threshold',
                 message: 'Error updating the Threshold:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+        });
+        }));
+    }
+
+    private deleteThreshold(item: ThresholdInfoEntity) {
+        this._subHandler.add(this.thresholdsService.deleteThresholdInfo(item.name).subscribe( (data) => {
+            this.logger.debug(LOG_TAG , 'deleteThreshold done: ', data);
+
+            this.notificationCenter.post({
+                name: 'DeleteThresholdSuccess',
+                title: 'Delete Threshold',
+                message: 'The Threshold has been successfuly deleted.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._thresholdsComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'deleteThreshold error: ', error);
+
+            this.notificationCenter.post({
+                name: 'DeleteThresholdError',
+                title: 'Delete Threshold',
+                message: 'Error deleting the Threshold:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
