@@ -1,5 +1,6 @@
-import { EditEvent } from './../../../counter-infos/counter-infos-component';
-import { CounterInfoEditDialogComponent, EditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
+import { CountersAndThresholdUtils } from './../../../../commons/CountersAndThresholdUtils';
+import { EditEvent, EditType } from './../../../counter-infos/counter-infos-component';
+import { CounterInfoEditDialogComponent, EditType as DialogeditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
@@ -64,7 +65,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     
     onAddNewCounterInfoClicked(): void {
         this.logger.debug(LOG_TAG , 'onAddNewCounterInfoClicked ');
-        this._editDialog.show(EditType.New);
+        this._editDialog.show(DialogeditType.New);
     }
 
     onRefreshClicked(): void {
@@ -78,7 +79,37 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
     onGridEdit(event: EditEvent){
         this.logger.debug(LOG_TAG , 'onGridEdit:', event);
+        if (event.editType === EditType.Edit){
+            this.onEditItem(event.dataItem);
+        }
+        else if (event.editType === EditType.Delete ) {
+            this.onDeleteItem(event.dataItem);
+        } else if (event.editType === EditType.StatusChange ) {
+            this.onChaneStatusItem(event.dataItem);
+        }
     }
+
+    private onEditItem(item: CounterInfoEntity){
+        this._editDialog.show(DialogeditType.Update, item.name, 
+            item.description, 
+            item.enabled, 
+            this.buildPattern(item), 
+            item.fn, item. fnParams);
+    }
+
+    private onDeleteItem(item: CounterInfoEntity){
+        alert("TODO!! Delete!");
+    }
+
+    private onChaneStatusItem(item: CounterInfoEntity){
+        alert("TODO!! Toggle Status!");
+    }
+
+    private buildPattern(item: CounterInfoEntity): string {
+        return CountersAndThresholdUtils.buildServiceCatalogEntryPattern(item.channel, 
+            item.domain, item.application, item.service, item.operation);
+    }
+
 
     propagateChange: any = () => {};
 
