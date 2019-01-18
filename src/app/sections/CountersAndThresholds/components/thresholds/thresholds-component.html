@@ -22,28 +22,25 @@
       let-rowIndex="rowIndex"
       let-column="column"
     >
-      <wc-grid-editor
-        [question]="'Enable ?'"
-        [rowIndex]="rowIndex"
-        [columnIndex]="columnIndex"
-        [column]="column"
-        [value]="dataItem[column.field]"
-        [dataItem]="dataItem"
-        [buttonClass]="''"
-        [mainClass]="'wc-table-delete-command'"
-        (onConfirmation)="onStatusTogglePressed(dataItem)"  
-        >
-        <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
-          ENABLED
+    <wc-grid-editor-command
+    [rowIndex]="rowIndex" 
+    [hasConfirmation]="true"
+    [confirmationTitleProvider]="statusConfirmationTitleProvider"
+    [columnIndex]="columnIndex" 
+    [column]="column" 
+    [value]="dataItem[column.field]" 
+    [dataItem]="dataItem"
+    (onConfirmation)="onStatusTogglePressed(dataItem)"  
+    >
+    <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
+            ENABLED
         </span>
-        <span
-          *ngIf="!dataItem.enabled"
-          class="badge badge-status  badge-disabled"
-        >
-          DISABLED
+        <span *ngIf="!dataItem.enabled" class="badge badge-status  badge-disabled">
+                DISABLED
         </span>
-      </wc-grid-editor>
-    </ng-template>
+    </wc-grid-editor-command>
+
+  </ng-template>
   </kendo-grid-column>
 
   <kendo-grid-column media="(min-width: 80px)" title="Deny" width="80">
