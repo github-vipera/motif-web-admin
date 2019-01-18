@@ -78,6 +78,7 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
         this._subHandler.add(this.countersService.getCounterInfoList().subscribe( (data: CounterInfoEntityList) => {
             this.logger.debug(LOG_TAG, 'getCounterInfoList done: ', data);
             this.tableModel.loadData(data);
+            this.clearSelection();
             this.loading = false;
         }, (error) => {
             this.logger.error(LOG_TAG, 'getCounterInfoList error: ', error);
@@ -89,6 +90,7 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
                 error: error,
                 closable: true
             });
+            this.clearSelection();
             this.loading = false;
         }));
     }
@@ -105,6 +107,14 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
         this.selectionChange.emit({
             counterInfoName: this.selectedCounterInfo,
             data: data
+        });
+    }
+
+    private clearSelection(){
+        this.selectedCounterInfo = null;
+        this.selectionChange.emit({
+            counterInfoName: this.selectedCounterInfo,
+            data: null
         });
     }
 

@@ -68,6 +68,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
                 this.logger.debug(LOG_TAG, 'getThresholdInfoList done: ', data);
                 this.tableModel.loadData(data);
                 this.loading = false;
+                this._counterInfo = null;
             }, (error) => {
                 this.logger.error(LOG_TAG, 'getThresholdInfoList error: ', error);
                 this.notificationCenter.post({
@@ -82,6 +83,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
             }));
         } else {
             this.tableModel.close();
+            this._counterInfo = null;
             this.loading = false;
         }
 
