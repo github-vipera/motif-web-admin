@@ -99,7 +99,7 @@ export class CounterInfoEditDialogComponent implements OnInit {
             this.fn = fn;
             this.fnParams = fnParams;
         }
-        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Update');
+        this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Edit');
     }
 
     onCancel(): void {

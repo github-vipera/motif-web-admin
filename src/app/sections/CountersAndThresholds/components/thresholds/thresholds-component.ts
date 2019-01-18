@@ -58,12 +58,12 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
     commands: GridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-edit',
-            commandId: 'cmd1',
+            commandId: EditType.Edit,
             title: 'Edit'
         },
         { 
             commandIcon: 'assets/img/icons.svg#ico-no',
-            commandId: 'cmd2',
+            commandId: EditType.Delete,
             title: 'Delete',
             hasConfirmation: true,
             confirmationTitle: 'Delete ?' 

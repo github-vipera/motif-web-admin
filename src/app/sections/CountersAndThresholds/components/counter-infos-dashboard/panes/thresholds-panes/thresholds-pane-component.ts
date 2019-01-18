@@ -1,11 +1,11 @@
-import { EditEvent } from './../../../thresholds/thresholds-component';
-import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
+import { EditEvent, EditType } from './../../../thresholds/thresholds-component';
+import { CounterInfoEntity, ThresholdInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ThresholdsComponent } from '../../../thresholds/thresholds-component';
-import { ThresholdDialogResult, ThresholdEditDialogComponent, EditType } from '../../../dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
+import { ThresholdDialogResult, ThresholdEditDialogComponent, EditType as DialogEditType } from '../../../dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
 
 const LOG_TAG = '[ThresholdsPaneComponent]';
 
@@ -41,7 +41,7 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
 
     onAddNewThresholdClicked(): void {
         this.logger.debug(LOG_TAG , 'onAddNewThresholdClicked');
-        this._editDialog.show(EditType.New);
+        this._editDialog.show(DialogEditType.New);
     }
 
     onRefreshClicked(): void {
@@ -51,6 +51,33 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
 
     onGridEdit(event: EditEvent){
         this.logger.debug(LOG_TAG , 'onGridEdit:', event);
+        if (event.editType === EditType.Edit){
+            this.onEditItem(event.dataItem);
+        }
+        else if (event.editType === EditType.Delete ) {
+            this.onDeleteItem(event.dataItem);
+        } else if (event.editType === EditType.StatusChange ) {
+            this.onChaneStatusItem(event.dataItem);
+        }
+    }
+
+    private onEditItem(item: ThresholdInfoEntity){
+        this._editDialog.show(DialogEditType.Update, item.name, 
+            item.description, 
+            item.enabled, 
+            item.deny,
+            item.fn,
+            item.fnParams, 
+            item.action, 
+            item.actionParams);
+    }
+
+    private onDeleteItem(item: ThresholdInfoEntity){
+        alert("TODO!! Delete!");
+    }
+
+    private onChaneStatusItem(item: ThresholdInfoEntity){
+        alert("TODO!! Toggle Status!");
     }
 
     onEditConfirm(event: ThresholdDialogResult) {
