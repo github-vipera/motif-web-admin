@@ -1,3 +1,5 @@
+import { GridEditorCommandsConfig } from './../../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
+import { GridEditorCommandComponentEvent, ConfirmationTitleProvider } from './../../../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import * as _ from 'lodash';
@@ -41,6 +43,40 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     faBatteryHalf = faBatteryHalf;
     faCircleNotch = faCircleNotch;
     fas = fas;
+
+    publishConfirmationTitleProvider: ConfirmationTitleProvider = {
+        getTitle(rowData): string {
+            if (rowData.published){
+                return "Unpublish ?";
+            } else {
+                return "Publish ?";
+            }
+        }
+    }
+
+    commands: GridEditorCommandsConfig = [
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-publish',
+            commandId: 'cmdPublish',
+            title: 'Publish/Unpublish',
+            hasConfirmation: true,
+            confirmationTitle: 'Publish ?',
+            confirmationTitleProvider: this.publishConfirmationTitleProvider
+        },
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-download',
+            commandId: 'cmdDownload',
+            title: 'Download'
+        },
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-no',
+            commandId: 'cmdDelete',
+            title: 'Delete',
+            hasConfirmation: true,
+            confirmationTitle: 'Delete ?' 
+        }
+    ];
+
 
     public view: Observable<GridDataResult>;
     public gridState: State = {
@@ -384,8 +420,28 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         this.doDownloadAssetsBundle(dataItem);
     }
 
-    onDeleteCancelPressed (dataItem) {
-        // nop
+    private doDeleteAssetBundle(dataItem): void {
+        this._subHandler.add(this.assetsService.deleteAsset(this.domainSelector.selectedDomain.name, dataItem.name, dataItem.version).subscribe( (data)=> {
+
+            this.logger.debug(LOG_TAG, 'Asset deleted successfully: ', data);
+            this.notificationCenter.post({
+                name: 'DeleteAssetBundleSuccess',
+                title: 'Delete Asset Bundle',
+                message: 'The asset bundle has been successfully deleted.',
+                type: NotificationType.Success
+            });
+
+        }, (error) => {
+            this.logger.debug(LOG_TAG, 'Error deleting asset bundle: ', error);
+            this.notificationCenter.post({
+                name: 'DeleteAssetBundleError',
+                title: 'Delete Asset Bundle',
+                message: 'Error deleting asset bundle:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+        }));
     }
 
     private doDownloadAssetsBundle(dataItem): void {
@@ -499,4 +555,22 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
 
         }));
     }
+
+    onCommandConfirm(event: GridEditorCommandComponentEvent) {
+        this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
+        if (event.id==='cmdPublish'){
+            this.doPublishAssetsBundle(event.rowData.dataItem);
+        }
+    }
+
+    onCommandClick(event: GridEditorCommandComponentEvent){
+        this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
+        if (event.id==='cmdDownload'){
+            this.doDownloadAssetsBundle(event.rowData.dataItem);
+        }
+        else if (event.id==='cmdDelete'){
+            this.doDeleteAssetBundle(event.rowData.dataItem);
+        }
+    }
+
 }

@@ -251,6 +251,13 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
             item.domain, item.application, item.service, item.operation);
     }
 
+    onExportClicked(): void {
+        alert("TODO!! onExportClicked");
+    }
+
+    onImportClicked(): void {
+        alert("TODO!! onImportClicked");
+    }
 
     propagateChange: any = () => {};
 
