@@ -1,9 +1,9 @@
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { faFileImport, faDownload, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { SelectionEvent } from '../../../counter-infos/counter-infos-component'
+import { SelectionEvent, CounterInfosComponent } from '../../../counter-infos/counter-infos-component'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const LOG_TAG = '[CounterInfosPaneComponent]';
@@ -28,6 +28,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     faDownload = faDownload;
     faFileImport = faFileImport;
     private _selectedCounterInfo: CounterInfoEntity;
+    @ViewChild('counterInfosComponent') _counterInfosComponent: CounterInfosComponent;
 
     @Output() selectionChange:EventEmitter<CounterInfoEntity> = new EventEmitter<CounterInfoEntity>();
 
@@ -59,7 +60,12 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
     
     onAddNewCounterInfoClicked(): void {
-        alert("TODO!!");
+        alert("TODO!! onAddNewCounterInfoClicked");
+    }
+
+    onRefreshClicked(): void {
+        this.logger.debug(LOG_TAG , 'onRefreshClicked');
+        this._counterInfosComponent.reloadData(); 
     }
 
     propagateChange: any = () => {};

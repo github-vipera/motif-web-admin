@@ -21,7 +21,6 @@
           [toggleable]="false"
           [icon]="'refresh'"
           (click)="onRefreshClicked()"
-          [disabled]="!canRefresh"
         >
           Refresh
         </button>
@@ -30,6 +29,6 @@
     
   </div>
 
-<wa-threshols-component
+<wa-threshols-component #thresholdsComponent
   [counterInfo]="(counterInfo?counterInfo.name:null)"
 ></wa-threshols-component>

@@ -37,7 +37,6 @@
           [toggleable]="false"
           [icon]="'refresh'"
           (click)="onRefreshClicked()"
-          [disabled]="!canRefresh"
         >
           Refresh
         </button>
@@ -45,5 +44,5 @@
     </div>
   </div>
 
-  <wa-counter-infos-component
+  <wa-counter-infos-component #counterInfosComponent
     (selectionChange)="onCounterInfoSelectionChange($event)"></wa-counter-infos-component>
