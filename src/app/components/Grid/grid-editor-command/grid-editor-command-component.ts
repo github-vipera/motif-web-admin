@@ -23,6 +23,10 @@ export interface GridEditorCommandComponentEvent {
     }
 }
 
+export interface ConfirmationTitleProvider {
+    getTitle(rowData): string;
+}
+
 @Component({
     selector: 'wc-grid-editor-command',
     styleUrls: [ './grid-editor-command-component.scss' ],
@@ -34,6 +38,7 @@ export class GridEditorCommandComponent {
     @Input() title:string;
     @Input() hasConfirmation: boolean;
     @Input() confirmationTitle: string;
+    @Input() confirmationTitleProvider: ConfirmationTitleProvider;
     @Input() commandIcon: string;
     @Input() commandId: string;
     // row data
@@ -58,6 +63,9 @@ export class GridEditorCommandComponent {
     }
 
     onCheckChange(event){
+        if(this.confirmationTitleProvider){
+            this.confirmationTitle = this.confirmationTitleProvider.getTitle(this.dataItem);
+        }
         this._actionDisplayed = event.target.checked;
         this.actionStatusChange.emit({
             id: this.commandId,

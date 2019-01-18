@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { GridEditorCommandComponent, GridEditorCommandComponentEvent } from '../grid-editor-command/grid-editor-command-component';
+import { GridEditorCommandComponent, GridEditorCommandComponentEvent, ConfirmationTitleProvider } from '../grid-editor-command/grid-editor-command-component';
 
-export { GridEditorCommandComponentEvent } from '../grid-editor-command/grid-editor-command-component';
+export { GridEditorCommandComponentEvent, ConfirmationTitleProvider } from '../grid-editor-command/grid-editor-command-component';
 
 export interface GridEditorCommandConfig {
     commandId: string;
@@ -9,6 +9,7 @@ export interface GridEditorCommandConfig {
     title?: string;
     hasConfirmation?: boolean;
     confirmationTitle?: string;
+    confirmationTitleProvider?:ConfirmationTitleProvider;
 }
 
 export interface GridEditorCommandsConfig extends Array<GridEditorCommandConfig>{}

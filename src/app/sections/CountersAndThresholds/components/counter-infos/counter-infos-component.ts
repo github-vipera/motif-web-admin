@@ -1,4 +1,4 @@
-import { GridEditorCommandComponentEvent } from './../../../../components/Grid/grid-editor-command/grid-editor-command-component';
+import { GridEditorCommandComponentEvent, ConfirmationTitleProvider } from './../../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
@@ -50,6 +50,16 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
         mode: 'single',
         enabled: true,
         checkboxOnly: false
+    }   
+
+    statusConfirmationTitleProvider: ConfirmationTitleProvider = {
+        getTitle(rowData): string {
+            if (rowData.enabled){
+                return "Disable ?";
+            } else {
+                return "Enable ?";
+            }
+        }
     }
 
     commands: GridEditorCommandsConfig = [
@@ -159,3 +169,4 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
 
 
 }
+ 

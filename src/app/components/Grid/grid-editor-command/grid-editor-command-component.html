@@ -3,6 +3,7 @@
     <div *ngIf="hasConfirmation">
         <input type="checkbox" id="{{controlUID}}" [attr.disabled]="disabled ? 'disabled' : null" (change)="onCheckChange($event)">
         <label for="{{controlUID}}" class="grid-edit-command-button" title="{{title}}">
+            <ng-content></ng-content>
             <svg data-id="no1"><use [attr.xlink:href]="commandIcon"></use></svg>
         </label>
         <div class="actions">
