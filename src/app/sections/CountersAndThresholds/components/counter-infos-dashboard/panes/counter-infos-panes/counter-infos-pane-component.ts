@@ -138,7 +138,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
             this.notificationCenter.post({
                 name: 'UpdateCounterInfoSuccess',
                 title: 'Update Counter Info',
-                message: 'The new Counter Info has been successfuly updated.',
+                message: 'The Counter Info has been successfuly updated.',
                 type: NotificationType.Success,
                 closable: false
             });
@@ -150,7 +150,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
             this.notificationCenter.post({
                 name: 'UpdateCounterInfoError',
                 title: 'Update Counter Info',
-                message: 'Error updating the new Counter Info:',
+                message: 'Error updating the Counter Info:',
                 type: NotificationType.Error,
                 error: error,
                 closable: true
@@ -181,7 +181,32 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
 
     private onDeleteItem(item: CounterInfoEntity){
-        alert("TODO!! Delete!");
+        this.logger.debug(LOG_TAG , 'onDeleteItem:', event);
+        this._subHandler.add(this.countersService.deleteCounterInfo(item.name).subscribe( (data) => {
+            this.logger.debug(LOG_TAG , 'onDeleteItem done: ', data);
+
+            this.notificationCenter.post({
+                name: 'DeleteCounterInfoSuccess',
+                title: 'Delete Counter Info',
+                message: 'The Counter Info has been successfuly deleted.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._counterInfosComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'UpdateCounterInfoSuccess error: ', error);
+
+            this.notificationCenter.post({
+                name: 'DeleteCounterInfoError',
+                title: 'Delete Counter Info',
+                message: 'Error deleting the Counter Info:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+
+        }));
     }
 
     private onChaneStatusItem(item: CounterInfoEntity){
