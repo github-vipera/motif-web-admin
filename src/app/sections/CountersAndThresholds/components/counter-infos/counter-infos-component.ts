@@ -1,18 +1,32 @@
+import { GridEditorCommandComponentEvent } from './../../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from './../../../../components/Commons/notification-center';
-import { CountersService, CounterInfoEntityList } from '@wa-motif-open-api/counters-thresholds-service';
+import { CountersService, CounterInfoEntityList, CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import { CounterInfosModel } from './data/model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { SelectableSettings } from '@progress/kendo-angular-grid';
+
+export { CounterInfoEntity }  from '@wa-motif-open-api/counters-thresholds-service';
 
 const LOG_TAG = '[CounterInfosComponent]';
 
 export interface SelectionEvent {
     counterInfoName: string;
     data: any
+}
+
+export enum EditType {
+    Delete = 'Delete',
+    Edit = 'Edit',
+    StatusChange = 'StatusChange'
+}
+
+export interface EditEvent {
+    editType: EditType
+    dataItem: CounterInfoEntity;
 }
 
 @Component({
@@ -30,7 +44,8 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     selectedCounterInfo: string;
 
     @Output() selectionChange : EventEmitter<SelectionEvent> = new EventEmitter();
-    
+    @Output() edit: EventEmitter<EditEvent> = new EventEmitter<EditEvent>();
+
     public selectableSettings: SelectableSettings = {
         mode: 'single',
         enabled: true,
@@ -40,12 +55,12 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     commands: GridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-edit',
-            commandId: 'cmd1',
+            commandId: EditType.Edit,
             title: 'Edit'
         },
         { 
             commandIcon: 'assets/img/icons.svg#ico-no',
-            commandId: 'cmd2',
+            commandId: EditType.Delete,
             title: 'Delete',
             hasConfirmation: true,
             confirmationTitle: 'Delete ?' 
@@ -120,16 +135,26 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
 
     onStatusTogglePressed(dataItem): void {
         this.logger.debug(LOG_TAG, 'onStatusTogglePressed dataItem: ', dataItem);
-        // TODO!!
+        this.edit.emit({
+            editType: EditType.StatusChange,
+            dataItem: dataItem
+        })
     }
 
-    onCommandConfirm(event) {
+    onCommandConfirm(event: GridEditorCommandComponentEvent) {
         this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
-        
+        this.edit.emit({
+            editType: EditType[event.id],
+            dataItem: event.rowData.dataItem
+        })
     }
 
-    onCommandClick(event){
+    onCommandClick(event: GridEditorCommandComponentEvent){
         this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
+        this.edit.emit({
+            editType: EditType[event.id],
+            dataItem: event.rowData.dataItem
+        })
     }
 
 

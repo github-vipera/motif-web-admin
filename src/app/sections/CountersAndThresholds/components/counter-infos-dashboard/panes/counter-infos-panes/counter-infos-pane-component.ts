@@ -1,3 +1,5 @@
+import { EditEvent } from './../../../counter-infos/counter-infos-component';
+import { CounterInfoEditDialogComponent, EditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
@@ -29,6 +31,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     faFileImport = faFileImport;
     private _selectedCounterInfo: CounterInfoEntity;
     @ViewChild('counterInfosComponent') _counterInfosComponent: CounterInfosComponent;
+    @ViewChild('editDialog') _editDialog: CounterInfoEditDialogComponent;
 
     @Output() selectionChange:EventEmitter<CounterInfoEntity> = new EventEmitter<CounterInfoEntity>();
 
@@ -60,12 +63,21 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
     
     onAddNewCounterInfoClicked(): void {
-        alert("TODO!! onAddNewCounterInfoClicked");
+        this.logger.debug(LOG_TAG , 'onAddNewCounterInfoClicked ');
+        this._editDialog.show(EditType.New);
     }
 
     onRefreshClicked(): void {
         this.logger.debug(LOG_TAG , 'onRefreshClicked');
         this._counterInfosComponent.reloadData(); 
+    }
+
+    onEditConfirm(event: CounterInfoDialogResult) {
+        this.logger.debug(LOG_TAG , 'onEditConfirm:', event);
+    }
+
+    onGridEdit(event: EditEvent){
+        this.logger.debug(LOG_TAG , 'onGridEdit:', event);
     }
 
     propagateChange: any = () => {};

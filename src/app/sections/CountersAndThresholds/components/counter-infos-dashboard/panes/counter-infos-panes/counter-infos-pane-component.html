@@ -44,5 +44,7 @@
     </div>
   </div>
 
-  <wa-counter-infos-component #counterInfosComponent
+  <wa-counter-infos-component #counterInfosComponent (edit)="onGridEdit($event)"
     (selectionChange)="onCounterInfoSelectionChange($event)"></wa-counter-infos-component>
+
+  <wa-counters-thresholds-counterinfo-edit-dialog #editDialog (confirm)="onEditConfirm($event)"></wa-counters-thresholds-counterinfo-edit-dialog>
