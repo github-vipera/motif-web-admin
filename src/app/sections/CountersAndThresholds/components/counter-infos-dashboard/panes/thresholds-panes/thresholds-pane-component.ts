@@ -69,8 +69,8 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
             item.description, 
             item.enabled, 
             item.deny,
-            item.fn,
             item.type,
+            item.fn,
             item.fnParams, 
             item.action, 
             item.actionParams);
