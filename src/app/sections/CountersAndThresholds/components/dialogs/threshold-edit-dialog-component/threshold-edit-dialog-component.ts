@@ -20,6 +20,7 @@ export interface ThresholdDialogResult {
     action: string;
     actionParams: string;
     editType: EditType;
+    type: string;
 }
 
 @Component({
@@ -47,6 +48,9 @@ export class ThresholdEditDialogComponent implements OnInit {
     action: string;
     actionParams: string;
     deny: boolean;
+    type: string;
+
+    types:string[] = ["REQUEST", "SCHEDULED"];
 
     private _nameEditingWarningDisplay: boolean;
 
@@ -64,11 +68,12 @@ export class ThresholdEditDialogComponent implements OnInit {
                  description?: string, 
                  enabled?: boolean, 
                  deny?: boolean,
+                 type?:string,
                 fn?: string, 
                 fnParams?: string,
                 action?: string, 
                 actionParams?: string): void {
-        this.prepare(editType, name, description, enabled, deny, fn, fnParams, action, actionParams);
+        this.prepare(editType, name, description, enabled, deny, type, fn, fnParams, action, actionParams);
         this.display = true;
     }
 
@@ -85,6 +90,7 @@ export class ThresholdEditDialogComponent implements OnInit {
         description: string, 
         enabled: boolean, 
         deny: boolean,
+        type: string,
         fn: string, 
         fnParams: string,
         action: string, 
@@ -102,6 +108,7 @@ export class ThresholdEditDialogComponent implements OnInit {
             this.action = '';
             this.actionParams = '';
             this.deny = false;
+            this.type = '';
         } else {
             this.name = name;
             this.description = description;
@@ -111,6 +118,7 @@ export class ThresholdEditDialogComponent implements OnInit {
             this.action = action;
             this.actionParams = actionParams;
             this.deny = deny;
+            this.type = type;
         }
         this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Update');
     }
@@ -132,6 +140,7 @@ export class ThresholdEditDialogComponent implements OnInit {
             action: this.action,
             actionParams: this.actionParams,
             deny: this.deny,
+            type: this.type,
             fn: this.fn,
             fnParams: this.fnParams,
             editType: this._currentEditType 

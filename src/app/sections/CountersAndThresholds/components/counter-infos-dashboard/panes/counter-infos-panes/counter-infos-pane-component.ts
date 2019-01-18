@@ -53,6 +53,10 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
+        this._subHandler.unsubscribe();
+        this._selectedCounterInfo = null;
+        this._editDialog = null;
+        this._counterInfosComponent = null;
     }
 
     onCounterInfoSelectionChange(selectionEvent: SelectionEvent){
@@ -99,33 +103,32 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
             fnParams: event.fnParams
         }
         this._subHandler.add(this.countersService.createCounterInfo(counterInfo).subscribe( (data: CounterInfoEntity) => {
-            this.logger.debug(LOG_TAG , 'addNewCounterInfo done: ', data);
+                this.logger.debug(LOG_TAG , 'addNewCounterInfo done: ', data);
 
-            this.notificationCenter.post({
-                name: 'NewCounterInfoSuccess',
-                title: 'New Counter Info',
-                message: 'The new Counter Info has been successfuly create.',
-                type: NotificationType.Success,
-                closable: false
+                this.notificationCenter.post({
+                    name: 'NewCounterInfoSuccess',
+                    title: 'New Counter Info',
+                    message: 'The new Counter Info has been successfuly create.',
+                    type: NotificationType.Success,
+                    closable: false
+                });
+
+                this._counterInfosComponent.reloadData();
+            }, (error) => {
+                this.logger.error(LOG_TAG , 'addNewCounterInfo error: ', error);
+
+                this.notificationCenter.post({
+                    name: 'NewCounterInfoError',
+                    title: 'New Counter Info',
+                    message: 'Error creating the new Counter Info:',
+                    type: NotificationType.Error,
+                    error: error,
+                    closable: true
             });
-
-            this._counterInfosComponent.reloadData();
-        }, (error) => {
-            this.logger.error(LOG_TAG , 'addNewCounterInfo error: ', error);
-
-            this.notificationCenter.post({
-                name: 'NewCounterInfoError',
-                title: 'New Counter Info',
-                message: 'Error creating the new Counter Info:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-    }));
+        }));
     }
 
     private updateCounterInfo(event: CounterInfoDialogResult){
-        //counterInfoUpdatableFields?: CounterInfoUpdatableFields
         const fields: CounterInfoUpdatableFields = {
             description: event.description,
             enabled: event.enabled,
@@ -210,7 +213,37 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
 
     private onChaneStatusItem(item: CounterInfoEntity){
-        alert("TODO!! Toggle Status!");
+        const fields: CounterInfoUpdatableFields = {
+            description: item.description,
+            enabled: !item.enabled,
+            fn: item.fn,
+            fnParams: item.fnParams
+        };
+        this._subHandler.add(this.countersService.updateCounterInfo(item.name, fields).subscribe( (data) => {
+            this.logger.debug(LOG_TAG , 'updateCounterInfo done: ', data);
+
+            this.notificationCenter.post({
+                name: 'UpdateCounterInfoSuccess',
+                title: 'Update Counter Info',
+                message: 'The Counter Info has been successfuly updated.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._counterInfosComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'UpdateCounterInfoSuccess error: ', error);
+
+            this.notificationCenter.post({
+                name: 'UpdateCounterInfoError',
+                title: 'Update Counter Info',
+                message: 'Error updating the Counter Info:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+
+        }));
     }
 
     private buildPattern(item: CounterInfoEntity): string {

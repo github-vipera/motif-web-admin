@@ -11,7 +11,7 @@
   
   <div style="min-width: 350px;display:flex;flex-direction: column;">
     <kendo-textbox-container
-      floatingLabel="Counter Name"
+      floatingLabel="Threshold Name"
       style="width: 100%;"
     >
       <input kendoTextBox [(ngModel)]="name" required [attr.disabled]="currentEditType=== EditType.Update ? 'disabled' : null"/>
@@ -33,6 +33,11 @@
         Deny
     </label>
     <p-inputSwitch [(ngModel)]="deny"></p-inputSwitch>
+
+    <label class="switch-control-label"> 
+      Type
+    </label>
+    <kendo-dropdownlist [data]="types" [(ngModel)]="type" [valuePrimitive]="true"></kendo-dropdownlist>
 
     <kendo-textbox-container floatingLabel="Check Function" style="width: 100%;">
       <input kendoTextBox [(ngModel)]="fn" required />
