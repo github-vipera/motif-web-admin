@@ -35,7 +35,7 @@
 
 .k-grid td.k-state-selected, .k-grid tr.k-state-selected > td {
     color: white;
-    background-color: rgba(105, 148, 179, 0.25);
+    background-color: rgba(105, 148, 179, 0.19);
 }
 
 .k-grid td {

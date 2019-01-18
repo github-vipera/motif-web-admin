@@ -26,6 +26,15 @@
 
 }
 
+.grid-edit-command-action-button {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.grid-edit-command-action-button:hover {
+    opacity: 1;
+}
+
 .grid-edit-command-button:hover {
     color: #fff;
 }

@@ -58,6 +58,9 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
         return this._selectedCounterInfo;
     }
     
+    onAddNewCounterInfoClicked(): void {
+        alert("TODO!!");
+    }
 
     propagateChange: any = () => {};
 

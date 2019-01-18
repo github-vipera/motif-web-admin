@@ -28,7 +28,7 @@
                     [value]="dataItem[column.field]" 
                     [dataItem]="dataItem"
                     [buttonClass]="''" 
-                    (onConfirmation)="onDeleteOKPressed(dataItem)"
+                    (onConfirmation)="onStatusTogglePressed(dataItem)"
                     [mainClass]="'wc-table-delete-command'">
                     <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
                             ENABLED

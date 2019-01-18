@@ -21,11 +21,6 @@ export class GridEditorCommandsGroupComponent {
 
     @Input() commands: GridEditorCommandsConfig;
 
-    @ViewChild('cmd1') cmd1: GridEditorCommandComponent;
-    @ViewChild('cmd2') cmd2: GridEditorCommandComponent;
-    @ViewChild('cmd3') cmd3: GridEditorCommandComponent;
-    @ViewChild('cmd4') cmd4: GridEditorCommandComponent;
-
     @Input() public contentStyle: string;
     @Input() public alignMode = 'center';
 
@@ -33,34 +28,22 @@ export class GridEditorCommandsGroupComponent {
 
     onCommandClick(event: GridEditorCommandComponentEvent) {
         console.log(">>>>>> onCommandClick:", event);
+        // TODO!!! Emit
     }
 
     onCommandConfirm(event: GridEditorCommandComponentEvent) {
         console.log(">>>>>> onCommandConfirm:", event);
+        // TODO!!! Emit
     }
 
     onCommandCancel(event: GridEditorCommandComponentEvent) {
         console.log(">>>>>> onCommandCancel:", event);
+        // TODO!!! Emit
     }
 
     onActionStatusChange(event: GridEditorCommandComponentEvent) {
-        if (event.id === 'cmd1') {
-            this.cmd2.disabled = event.actionDisplay;
-            this.cmd3.disabled = event.actionDisplay;
-            this.cmd4.disabled = event.actionDisplay;
-        } else if (event.id === 'cmd2') {
-            this.cmd1.disabled = event.actionDisplay;
-            this.cmd3.disabled = event.actionDisplay;
-            this.cmd4.disabled = event.actionDisplay;
-        } else if (event.id === 'cmd3') {
-            this.cmd1.disabled = event.actionDisplay;
-            this.cmd2.disabled = event.actionDisplay;
-            this.cmd4.disabled = event.actionDisplay;
-        } else if (event.id === 'cmd4') {
-            this.cmd1.disabled = event.actionDisplay;
-            this.cmd2.disabled = event.actionDisplay;
-            this.cmd3.disabled = event.actionDisplay;
-        }
+        console.log(">>>>>> onActionStatusChange:", event);
+        // TODO!!! Emit
     }
 
 

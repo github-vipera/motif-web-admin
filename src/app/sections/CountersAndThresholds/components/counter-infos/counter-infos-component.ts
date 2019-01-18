@@ -108,4 +108,11 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
         });
     }
 
+    onStatusTogglePressed(dataItem): void {
+        this.logger.debug(LOG_TAG, 'onStatusTogglePressed dataItem: ', dataItem);
+        // TODO!!
+    }
+
+    
+
 }
