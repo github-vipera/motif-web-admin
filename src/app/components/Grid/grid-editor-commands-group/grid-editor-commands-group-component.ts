@@ -21,6 +21,12 @@ export interface GridEditorCommandsConfig extends Array<GridEditorCommandConfig>
 export class GridEditorCommandsGroupComponent {
 
     @Input() commands: GridEditorCommandsConfig;
+    // row data
+    @Input() dataItem:any;
+    @Input() rowIndex:number;
+    @Input() columnIndex:number;
+    @Input() column:number;
+    @Input() value:any;
 
     @Input() public contentStyle: string;
     @Input() public alignMode = 'center';

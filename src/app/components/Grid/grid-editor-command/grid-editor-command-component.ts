@@ -14,6 +14,13 @@ export interface GridEditorCommandComponentEvent {
     id: string;
     uid: string;
     actionDisplay?: boolean;
+    rowData: {
+        dataItem?: any;
+        rowIndex?: number;
+        columnIndex?: number;
+        column?: number;
+        value?: any;
+    }
 }
 
 @Component({
@@ -29,12 +36,19 @@ export class GridEditorCommandComponent {
     @Input() confirmationTitle: string;
     @Input() commandIcon: string;
     @Input() commandId: string;
+    // row data
+    @Input() dataItem:any;
+    @Input() rowIndex:number;
+    @Input() columnIndex:number;
+    @Input() column:number;
+    @Input() value:any;
     
     @Output() commandClick: EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter();
     @Output() commandConfirm: EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter();
     @Output() commandCancel: EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter();
     @Output() actionStatusChange: EventEmitter<GridEditorCommandComponentEvent> = new EventEmitter();
     
+
     controlUID: string;
     private _actionDisplayed: boolean;
     private _disabled: boolean;
@@ -48,7 +62,14 @@ export class GridEditorCommandComponent {
         this.actionStatusChange.emit({
             id: this.commandId,
             uid: this.controlUID,
-            actionDisplay: this._actionDisplayed
+            actionDisplay: this._actionDisplayed,
+            rowData: {
+                dataItem: this.dataItem,
+                rowIndex: this.rowIndex,
+                columnIndex: this.columnIndex,
+                column: this.column,
+                value: this.value
+            }
         })
     }
 
@@ -56,7 +77,14 @@ export class GridEditorCommandComponent {
         if (!this.disabled){
             this.commandClick.emit({
                 id: this.commandId,
-                uid: this.controlUID
+                uid: this.controlUID,
+                rowData: {
+                    dataItem: this.dataItem,
+                    rowIndex: this.rowIndex,
+                    columnIndex: this.columnIndex,
+                    column: this.column,
+                    value: this.value
+                }
             })
         }
     }
@@ -64,14 +92,28 @@ export class GridEditorCommandComponent {
     onConfirm(event){
         this.commandConfirm.emit({
             id: this.commandId,
-            uid: this.controlUID
+            uid: this.controlUID,
+            rowData: {
+                dataItem: this.dataItem,
+                rowIndex: this.rowIndex,
+                columnIndex: this.columnIndex,
+                column: this.column,
+                value: this.value
+            }
         })
     }
 
     onCancel(event) {
         this.commandCancel.emit({
             id: this.commandId,
-            uid: this.controlUID
+            uid: this.controlUID,
+            rowData: {
+                dataItem: this.dataItem,
+                rowIndex: this.rowIndex,
+                columnIndex: this.columnIndex,
+                column: this.column,
+                value: this.value
+            }
         })
     }
 
