@@ -82,6 +82,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
             }));
         } else {
             this.tableModel.close();
+            this.loading = false;
         }
 
     }
