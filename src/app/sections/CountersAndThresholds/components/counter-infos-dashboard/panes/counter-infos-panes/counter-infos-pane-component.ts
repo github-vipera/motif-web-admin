@@ -1,13 +1,14 @@
 import { CountersAndThresholdUtils } from './../../../../commons/CountersAndThresholdUtils';
 import { EditEvent, EditType } from './../../../counter-infos/counter-infos-component';
-import { CounterInfoEditDialogComponent, EditType as DialogeditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
-import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
+import { CounterInfoEditDialogComponent, EditType as DialogEditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
+import { CounterInfoEntity, CountersService, CounterInfo, CounterInfoUpdatableFields } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { faFileImport, faDownload, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SelectionEvent, CounterInfosComponent } from '../../../counter-infos/counter-infos-component'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 
 const LOG_TAG = '[CounterInfosPaneComponent]';
 
@@ -27,6 +28,7 @@ export const WC_COUNTER_INFO_PANE_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
+    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
     faPlusCircle = faPlusCircle;
     faDownload = faDownload;
     faFileImport = faFileImport;
@@ -38,7 +40,8 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
     constructor(
         private logger: NGXLogger,
-        private notificationCenter: NotificationCenter
+        private notificationCenter: NotificationCenter,
+        private countersService: CountersService
     ) {}
 
     ngOnInit() {
@@ -65,7 +68,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     
     onAddNewCounterInfoClicked(): void {
         this.logger.debug(LOG_TAG , 'onAddNewCounterInfoClicked ');
-        this._editDialog.show(DialogeditType.New);
+        this._editDialog.show(DialogEditType.New);
     }
 
     onRefreshClicked(): void {
@@ -75,7 +78,62 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
     onEditConfirm(event: CounterInfoDialogResult) {
         this.logger.debug(LOG_TAG , 'onEditConfirm:', event);
+        if (event.editType === DialogEditType.New) {
+            this.addNewCounterInfo(event);            
+        } else if (event.editType === DialogEditType.Update) {
+            this.updateCounterInfo(event);            
+        }
     }
+
+    private addNewCounterInfo(event: CounterInfoDialogResult){
+        const counterInfo: CounterInfo = {
+            name: event.name,
+            description: event.description,
+            enabled: event.enabled,
+            channel: event.channel,
+            domain: event.domain,
+            application: event.application,
+            operation: event.operation,
+            service: event.service,
+            fn: event.fn,
+            fnParams: event.fnParams
+        }
+        this._subHandler.add(this.countersService.createCounterInfo(counterInfo).subscribe( (data: CounterInfoEntity) => {
+            this.logger.debug(LOG_TAG , 'addNewCounterInfo done: ', data);
+
+            this.notificationCenter.post({
+                name: 'NewCounterInfoSuccess',
+                title: 'New Counter Info',
+                message: 'The new Counter Info has been successfuly create.',
+                type: NotificationType.Success,
+                closable: true
+            });
+
+            this._counterInfosComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'addNewCounterInfo error: ', error);
+
+            this.notificationCenter.post({
+                name: 'NewCounterInfoError',
+                title: 'New Counter Info',
+                message: 'Error creating the new Counter Info:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+    }));
+    }
+
+    private updateCounterInfo(event: CounterInfoDialogResult){
+        //counterInfoUpdatableFields?: CounterInfoUpdatableFields
+        const fields: CounterInfoUpdatableFields = null;
+        this._subHandler.add(this.countersService.updateCounterInfo(event.name, fields).subscribe( (data) => {
+            //TODO!!
+        }, (error) => {
+            //TODO!!
+        }));
+    }
+
 
     onGridEdit(event: EditEvent){
         this.logger.debug(LOG_TAG , 'onGridEdit:', event);
@@ -90,7 +148,7 @@ export class CounterInfosPaneComponent implements OnInit, OnDestroy {
     }
 
     private onEditItem(item: CounterInfoEntity){
-        this._editDialog.show(DialogeditType.Update, item.name, 
+        this._editDialog.show(DialogEditType.Update, item.name, 
             item.description, 
             item.enabled, 
             this.buildPattern(item), 

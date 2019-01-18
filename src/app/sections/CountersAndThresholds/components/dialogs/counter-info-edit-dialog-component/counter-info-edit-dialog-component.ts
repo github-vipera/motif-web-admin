@@ -18,6 +18,11 @@ export interface CounterInfoDialogResult {
     fn: string;
     fnParams: string;
     editType: EditType;
+    channel?: string;
+    domain?: string;
+    application?: string;
+    service?: string;
+    operation?: string;
 }
 
 
@@ -43,6 +48,11 @@ export class CounterInfoEditDialogComponent implements OnInit {
     pattern: string;
     fn: string;
     fnParams: string;
+    channel: string;
+    domain: string;
+    application: string;
+    service: string;
+    operation: string;
 
     private _nameEditingWarningDisplay: boolean;
 
@@ -91,6 +101,11 @@ export class CounterInfoEditDialogComponent implements OnInit {
             this.pattern = '';
             this.fn = '';
             this.fnParams = '';
+            this.domain = null;
+            this.application = null;
+            this.service = null;
+            this.operation = null;
+            this.channel = null;
         } else {
             this.name = name;
             this.description = description;
@@ -98,6 +113,11 @@ export class CounterInfoEditDialogComponent implements OnInit {
             this.pattern = pattern;
             this.fn = fn;
             this.fnParams = fnParams;
+            this.domain = null;
+            this.application = null;
+            this.service = null;
+            this.operation = null;
+            this.channel = null;
         }
         this.confirmButtonTitle = (editType === EditType.New ? 'Create' : 'Edit');
     }
@@ -119,7 +139,12 @@ export class CounterInfoEditDialogComponent implements OnInit {
             pattern: this.pattern,
             fn: this.fn,
             fnParams: this.fnParams,
-            editType: this._currentEditType 
+            editType: this._currentEditType,
+            channel: this.channel,
+            domain: this.domain,
+            application: this.application,
+            service: this.service,
+            operation: this.operation
 
         };
         this.confirm.emit(event);
@@ -172,7 +197,12 @@ export class CounterInfoEditDialogComponent implements OnInit {
             event.catalogEntry.service,
             event.catalogEntry.operation);
             this.logger.debug(LOG_TAG, 'Current pattern selected :', this.pattern);
-        }
+        this.domain = event.catalogEntry.domain;
+        this.application = event.catalogEntry.application;
+        this.service = event.catalogEntry.service;
+        this.operation = event.catalogEntry.operation;
+        this.channel = event.catalogEntry.channel;
+    }
 
     public get titlePart(): string {
         if (this._currentEditType === EditType.New){
