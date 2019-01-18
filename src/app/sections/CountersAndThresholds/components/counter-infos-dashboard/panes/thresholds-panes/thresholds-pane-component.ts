@@ -60,7 +60,7 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
         else if (event.editType === EditType.Delete ) {
             this.onDeleteItem(event.dataItem);
         } else if (event.editType === EditType.StatusChange ) {
-            this.onChaneStatusItem(event.dataItem);
+            this.onChangeStatusItem(event.dataItem);
         }
     }
 
@@ -80,8 +80,8 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
         alert("TODO!! Delete!");
     }
 
-    private onChaneStatusItem(item: ThresholdInfoEntity){
-        alert("TODO!! Toggle Status!");
+    private onChangeStatusItem(item: ThresholdInfoEntity){
+        this.toggleThresholdStatus(item);
     }
 
     onEditConfirm(event: ThresholdDialogResult) {
@@ -135,7 +135,84 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
     }
 
     private updateThreshold(event: ThresholdDialogResult) {
+        const thresholdInfo: ThresholdInfo = {
+            name: event.name,
+            description: event.description,
+            enabled: event.enabled,
+            deny: event.deny,
+            type: event.type,
+            counterInfoName: this.counterInfo.name,
+            fn: event.fn,
+            fnParams: event.fnParams,
+            action: event.action,
+            actionParams: event.actionParams,
+            userId: null,
+            domain: null
+        };
+        this._subHandler.add(this.thresholdsService.updateThresholdInfo(event.name, thresholdInfo).subscribe( (data) => {
+            this.logger.debug(LOG_TAG , 'updateThreshold done: ', data);
 
+            this.notificationCenter.post({
+                name: 'UpdateThresholdSuccess',
+                title: 'Update Threshold',
+                message: 'The Threshold has been successfuly updated.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._thresholdsComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'updateThreshold error: ', error);
+
+            this.notificationCenter.post({
+                name: 'UpdateThresholdError',
+                title: 'Update Threshold',
+                message: 'Error updating the Threshold:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+        });
+        }));
     }
 
+    private toggleThresholdStatus(item: ThresholdInfoEntity) {
+        const thresholdInfo: ThresholdInfo = {
+            name: item.name,
+            description: item.description,
+            enabled: !item.enabled,
+            deny: item.deny,
+            type: item.type,
+            counterInfoName: this.counterInfo.name,
+            fn: item.fn,
+            fnParams: item.fnParams,
+            action: item.action,
+            actionParams: item.actionParams,
+            userId: null,
+            domain: null
+        };
+        this._subHandler.add(this.thresholdsService.updateThresholdInfo(item.name, thresholdInfo).subscribe( (data) => {
+            this.logger.debug(LOG_TAG , 'updateThreshold done: ', data);
+
+            this.notificationCenter.post({
+                name: 'UpdateThresholdSuccess',
+                title: 'Update Threshold',
+                message: 'The Threshold has been successfuly updated.',
+                type: NotificationType.Success,
+                closable: false
+            });
+
+            this._thresholdsComponent.reloadData();
+        }, (error) => {
+            this.logger.error(LOG_TAG , 'updateThreshold error: ', error);
+
+            this.notificationCenter.post({
+                name: 'UpdateThresholdError',
+                title: 'Update Threshold',
+                message: 'Error updating the Threshold:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+        });
+        }));
+    }
 }

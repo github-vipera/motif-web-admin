@@ -30,7 +30,7 @@
     [column]="column" 
     [value]="dataItem[column.field]" 
     [dataItem]="dataItem"
-    (onConfirmation)="onStatusTogglePressed(dataItem)"  
+    (commandConfirm)="onStatusTogglePressed(dataItem)"  
     >
     <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
             ENABLED
