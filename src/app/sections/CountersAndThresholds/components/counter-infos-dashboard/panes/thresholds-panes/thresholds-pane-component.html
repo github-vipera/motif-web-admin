@@ -29,6 +29,6 @@
     
   </div>
 
-<wa-threshols-component #thresholdsComponent
+<wa-threshols-component #thresholdsComponent  (edit)="onGridEdit($event)"
   [counterInfo]="(counterInfo?counterInfo.name:null)"
 ></wa-threshols-component>

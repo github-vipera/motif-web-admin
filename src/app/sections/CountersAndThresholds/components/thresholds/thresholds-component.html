@@ -1,6 +1,6 @@
 <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
 
-<kendo-grid #datagrid [data]="tableModel.data">
+<kendo-grid #datagrid [data]="tableModel.data" (selectionChange)="onSelectionChange($event)">
   <kendo-grid-column field="name" title="Name" width="150"> </kendo-grid-column>
 
   <kendo-grid-column field="description" title="Description">

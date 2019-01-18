@@ -1,3 +1,4 @@
+import { EditEvent } from './../../../thresholds/thresholds-component';
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NotificationCenter, NotificationType } from './../../../../../../components/Commons/notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ViewChild } from '@angular/core';
@@ -5,7 +6,7 @@ import { NGXLogger} from 'web-console-core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ThresholdsComponent } from '../../../thresholds/thresholds-component';
 
-const LOG_TAG = '[CounterInfosDashboard]';
+const LOG_TAG = '[ThresholdsPaneComponent]';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -43,6 +44,10 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
     onRefreshClicked(): void {
         this.logger.debug(LOG_TAG , 'onRefreshClicked');
         this._thresholdsComponent.reloadData();
+    }
+
+    onGridEdit(event: EditEvent){
+        this.logger.debug(LOG_TAG , 'onGridEdit:', event);
     }
 
 }
