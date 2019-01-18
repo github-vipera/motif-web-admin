@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ViewChild } 
 import { NGXLogger} from 'web-console-core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ThresholdsComponent } from '../../../thresholds/thresholds-component';
+import { ThresholdDialogResult, ThresholdEditDialogComponent, EditType } from '../../../dialogs/threshold-edit-dialog-component/threshold-edit-dialog-component';
 
 const LOG_TAG = '[ThresholdsPaneComponent]';
 
@@ -18,6 +19,7 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
 
     faPlusCircle = faPlusCircle;    
     @ViewChild('thresholdsComponent') _thresholdsComponent: ThresholdsComponent;
+    @ViewChild('editDialog') _editDialog: ThresholdEditDialogComponent;
 
     @Input() counterInfo: CounterInfoEntity;
 
@@ -38,7 +40,8 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
     }
 
     onAddNewThresholdClicked(): void {
-        alert("TODO!! onAddNewThresholdClicked");
+        this.logger.debug(LOG_TAG , 'onAddNewThresholdClicked');
+        this._editDialog.show(EditType.New);
     }
 
     onRefreshClicked(): void {
@@ -48,6 +51,10 @@ export class ThresholdsPaneComponent implements OnInit, OnDestroy {
 
     onGridEdit(event: EditEvent){
         this.logger.debug(LOG_TAG , 'onGridEdit:', event);
+    }
+
+    onEditConfirm(event: ThresholdDialogResult) {
+        this.logger.debug(LOG_TAG , 'onEditConfirm:', event);
     }
 
 }

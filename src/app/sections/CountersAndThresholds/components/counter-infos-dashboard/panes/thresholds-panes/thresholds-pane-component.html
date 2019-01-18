@@ -32,3 +32,5 @@
 <wa-threshols-component #thresholdsComponent  (edit)="onGridEdit($event)"
   [counterInfo]="(counterInfo?counterInfo.name:null)"
 ></wa-threshols-component>
+
+<wa-counters-thresholds-threshold-edit-dialog #editDialog (confirm)="onEditConfirm($event)"></wa-counters-thresholds-threshold-edit-dialog>
