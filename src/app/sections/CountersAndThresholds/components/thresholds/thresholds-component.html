@@ -31,8 +31,8 @@
         [dataItem]="dataItem"
         [buttonClass]="''"
         [mainClass]="'wc-table-delete-command'"
-        (onConfirmation)="onDeleteOKPressed(dataItem)"
-      >
+        (onConfirmation)="onStatusTogglePressed(dataItem)"  
+        >
         <span *ngIf="dataItem.enabled" class="badge badge-status badge-enabled">
           ENABLED
         </span>
@@ -79,7 +79,9 @@
       [dataItem]="dataItem"
       [commands]="commands"
         [alignMode]="'end'"
-      ></wc-grid-editor-commands-group>
+        (commandConfirm)="onCommandConfirm($event)"
+        (commandClick)="onCommandClick($event)"
+></wc-grid-editor-commands-group>
     </ng-template>
   </kendo-grid-column>
 

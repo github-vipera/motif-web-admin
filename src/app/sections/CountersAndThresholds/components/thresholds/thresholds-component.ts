@@ -99,4 +99,18 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
         return this._counterInfo;
     }
 
+    onStatusTogglePressed(dataItem): void {
+        this.logger.debug(LOG_TAG, 'onStatusTogglePressed dataItem: ', dataItem);
+        // TODO!!
+    }
+
+    onCommandConfirm(event) {
+        this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
+        
+    }
+
+    onCommandClick(event){
+        this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
+    }
+
 }
