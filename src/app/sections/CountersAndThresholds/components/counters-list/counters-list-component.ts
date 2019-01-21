@@ -38,6 +38,7 @@ export class CountersListComponent implements OnInit, OnDestroy {
     public totalPages = 0;
     public totalRecords = 0;
     public sort: SortDescriptor[] = [];
+    public type: 'numeric' | 'input' = 'numeric';
 
     private _rows: CounterEntity[] = [];
 

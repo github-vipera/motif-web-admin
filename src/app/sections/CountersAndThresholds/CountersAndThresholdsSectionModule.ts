@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { CountersListComponent } from './components/counters-list/counters-list-component';
 import { CounterInfosPaneComponent } from './components/counter-infos-dashboard/panes/counter-infos-panes/counter-infos-pane-component';
 import { ThresholdsPaneComponent } from './components/counter-infos-dashboard/panes/thresholds-panes/thresholds-pane-component';
@@ -34,7 +35,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         FontAwesomeModule,
         DialogModule,
         ServiceCatalogSelectorModule,
-        GridEditorCommandsModule
+        GridEditorCommandsModule,
+        CommonSelectorsModule
     ],
     entryComponents: [
         CountersAndThresholdsSectionComponent

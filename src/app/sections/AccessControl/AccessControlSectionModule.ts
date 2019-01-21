@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'web-console-core'
@@ -18,7 +19,8 @@ import { UsersListComponent } from './components/users-list/users-list.component
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
-        CommonsUIModule
+        CommonsUIModule,
+        CommonSelectorsModule
     ],
     entryComponents:[
         AccessControlSectionComponent

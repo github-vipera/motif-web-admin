@@ -14,6 +14,7 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { DroppableModule } from '@ctrl/ngx-droppable';
+import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { DroppableModule } from '@ctrl/ngx-droppable';
         FontAwesomeModule,
         TooltipModule,
         DroppableModule,
-        GridEditorCommandsModule
+        GridEditorCommandsModule,
+        CommonSelectorsModule
     ],
     entryComponents: [
         AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent

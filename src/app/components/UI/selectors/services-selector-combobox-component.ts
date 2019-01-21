@@ -7,7 +7,7 @@ import { SubscriptionHandler } from '../../Commons/subscription-handler';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import { SettingsService, ServiceList, Service } from '@wa-motif-open-api/configuration-service';
 
-const LOG_TAG = '[DomainSelectorComboBoxComponent]';
+const LOG_TAG = '[ServicesSelectorComboBoxComponent]';
 
 export const WC_SERVICES_SELECTOR_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,

@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +26,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         CommonsUIModule,
         FontAwesomeModule,
         InputSwitchModule,
-        FormsModule
+        FormsModule,
+        CommonSelectorsModule
     ],
     entryComponents: [
         ConfigurationSectionComponent

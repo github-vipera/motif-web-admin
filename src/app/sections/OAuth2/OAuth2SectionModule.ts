@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'web-console-core'
@@ -17,7 +18,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule'
         WebConsoleUIKitCoreModule, 
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
-        CommonsUIModule
+        CommonsUIModule,
+        CommonSelectorsModule
     ],
     entryComponents:[
         OAuth2SectionComponent

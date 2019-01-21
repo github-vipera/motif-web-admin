@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
@@ -20,7 +21,8 @@ import { DialogModule } from 'primeng/dialog';
         WebConsoleUIKitKendoProviderModule,
         CommonsUIModule,
         FontAwesomeModule,
-        DialogModule
+        DialogModule,
+        CommonSelectorsModule
     ],
     entryComponents: [
         UtilitiesSectionComponent

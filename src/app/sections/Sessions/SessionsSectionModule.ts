@@ -1,3 +1,4 @@
+import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
@@ -15,7 +16,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
         WebConsoleUIKitCoreModule,
         WebConsoleUIKitDataModule,
         WebConsoleUIKitKendoProviderModule,
-        CommonsUIModule
+        CommonsUIModule,
+        CommonSelectorsModule
     ],
     entryComponents:[
         SessionsSectionComponent
