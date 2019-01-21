@@ -7,8 +7,8 @@ import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 import { NGXLogger, MotifQuerySort, MotifQueryResults} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
 import { User } from '@wa-motif-open-api/auth-access-control-service';
-import { UsersService } from '@wa-motif-open-api/counters-thresholds-service';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { UsersService, CounterEntity } from '@wa-motif-open-api/counters-thresholds-service';
+import { SortDescriptor, DataResult } from '@progress/kendo-data-query';
 
 const LOG_TAG = '[CountersListComponent]';
 
@@ -31,12 +31,15 @@ export class CountersListComponent implements OnInit, OnDestroy {
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     // Grid Management
+    public gridView: DataResult;
     public pageSize = 15;
     public skip = 0;
     public currentPage = 1;
     public totalPages = 0;
     public totalRecords = 0;
     public sort: SortDescriptor[] = [];
+
+    private _rows: CounterEntity[] = [];
 
     constructor(
         private logger: NGXLogger,
@@ -74,18 +77,21 @@ export class CountersListComponent implements OnInit, OnDestroy {
             this.logger.debug(LOG_TAG, 'loadUserCounters Query results:', results);
 
             /*
-            this._sessionRows = _.forEach(results.data, function (element) {
-                element.lastAccess = new Date(element.lastAccess);
+            this._rows = _.forEach(results.data, function (element: CounterEntity) {
+                element.created = new Date(element.created);
+                element.lastCountDate = new Data(element.lastCountDate);
             });
+            */
+            this._rows = results.data;
 
             this.totalPages = results.totalPages;
             this.totalRecords = results.totalRecords;
             this.currentPage = results.pageIndex;
             this.gridView = {
-                data: this._sessionRows,
+                data: this._rows,
                 total: results.totalRecords
             };
-            */
+        
             this.loading = false;
 
         }, error => {
