@@ -18,7 +18,7 @@ import { CommonModule } from "@angular/common";
     ]
 
   })
-  export class GridEditorCommandsGroupModule { }
+  export class GridEditorCommandsModule { }
 
 
 

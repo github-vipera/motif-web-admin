@@ -1,4 +1,4 @@
-import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
+import { GridEditorCommandsModule } from '../../components/GridEditorCommandsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
@@ -30,7 +30,7 @@ import { DroppableModule } from '@ctrl/ngx-droppable';
         FontAwesomeModule,
         TooltipModule,
         DroppableModule,
-        GridEditorCommandsGroupModule
+        GridEditorCommandsModule
     ],
     entryComponents: [
         AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent

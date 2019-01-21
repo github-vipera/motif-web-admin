@@ -6,7 +6,7 @@ import { ThresholdEditDialogComponent } from './components/dialogs/threshold-edi
 import { CounterInfoEditDialogComponent } from './components/dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { ThresholdDetailsComponent } from './components/thresholds/details/threshold-details-component';
 import { ThresholdsComponent } from './components/thresholds/thresholds-component';
-import { GridEditorCommandsGroupModule } from './../../components/GridEditorCommandsGroupModule';
+import { GridEditorCommandsModule } from '../../components/GridEditorCommandsModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -34,7 +34,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         FontAwesomeModule,
         DialogModule,
         ServiceCatalogSelectorModule,
-        GridEditorCommandsGroupModule
+        GridEditorCommandsModule
     ],
     entryComponents: [
         CountersAndThresholdsSectionComponent
