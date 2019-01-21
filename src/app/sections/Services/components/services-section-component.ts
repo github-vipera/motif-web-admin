@@ -614,9 +614,5 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
         return this.selectedNode.data.catalogEntry.channel;
     }
 
-    public get isBusy(): boolean {
-        return this._isBusy;
-    }
-
 
 }

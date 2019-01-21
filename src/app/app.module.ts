@@ -26,7 +26,7 @@ import { ServicesSectionModule } from './sections/Services/ServicesSectionModule
 import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
 import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
 import { CountersAndThresholdsSectionModule } from './sections/CountersAndThresholds/CountersAndThresholdsSectionModule';
-import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
+//import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -62,7 +62,7 @@ const appRoutes: Routes = [
     LayoutModule,
     UtilitiesSectionModule,
     CountersAndThresholdsSectionModule
-    ,MemoryLeakSectionModule
+    /*,MemoryLeakSectionModule*/
   ],
   providers: [
     { provide: WC_API_BASE_PATH, useValue: environment.API_BASE_PATH },
