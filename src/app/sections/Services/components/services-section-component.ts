@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Renderer2, OnDestroy } from '@angular/core';
+import { ServiceCatalogSelectorComponent, ServiceCatalogNodeSelectionEvent } from './../../../components/UI/selectors/service-catalog-selector/service-catalog-selector-component';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, Renderer2, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
 import { RegistryService } from '@wa-motif-open-api/plugin-registry-service';
 import { faGlobe, faArchive, faBoxOpen, faCompass, faDesktop, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
-import { ServiceCatalogTableModel, CatalogEntry } from '../data/model';
+import { CatalogEntry } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { MenuItem } from 'primeng/api';
@@ -43,22 +44,13 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     faCompass = faCompass;
     faDesktop = faDesktop;
 
-    // Loading status
-    private _isBusy = false;
-    faCircleNotch = faCircleNotch;
-
     deleteButtonCaption = 'Delete selected Domain ';
     deleteButtonEnabled: boolean;
-
-    @Input() tableModel: ServiceCatalogTableModel;
-
-    public loading: boolean;
-    private _currentRowElement: any;
-    _selectedNode: TreeNode;
 
     @ViewChild('servicesEditor') _servicesEditor: ServiceCataglogEditorComponent;
     @ViewChild('newItemDialog') _newItemDialog: NewItemDialogComponent;
     @ViewChild('newOperationDialog') _newOperationDialog: NewOperationDialogComponent;
+    @ViewChild('serviceCatalog') _serviceCatalog: ServiceCatalogSelectorComponent;
 
     // Menus
     private _deleteMenuItem: MenuItem;
@@ -130,8 +122,6 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.logger.debug(LOG_TAG, 'Initializing...');
 
-        this.tableModel = new ServiceCatalogTableModel();
-
         this.refreshData();
     }
 
@@ -141,15 +131,13 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        this._currentRowElement = null;
         this._deleteMenuItem = null;
         this._addDomainMenuItem = null;
         this._addApplicationMenuItem = null;
         this._addServiceMenuItem = null;
         this._addOperationMenuItem = null;
         this._addMenuItem = null;
-        this.tableModel.close();
-        this.tableModel = null;
+        this._serviceCatalog.freeMem();
         this._subHandler.unsubscribe();
         this._subHandler = null;
     }
@@ -160,33 +148,14 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     }
 
     public refreshData() {
-        this.loading = true;
-        this._isBusy = true;
-        this._subHandler.add(this.serviceCatalogService.getServiceCatalog().subscribe(data => {
-            this.logger.debug(LOG_TAG, 'getServiceCatalog done.');
-            this.logger.trace(LOG_TAG, 'getServiceCatalog services: ', data);
-            this.tableModel.loadData(data);
-            this.loading = false;
-            this._isBusy = false;
-        }, (error) => {
-            this.logger.error(LOG_TAG, 'getServiceCatalog error: ', error);
-            this.notificationCenter.post({
-                name: 'ConfigurationExportError',
-                title: 'Export Configuration',
-                message: 'Error exporting configuration:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-            this._isBusy = false;
-        }));
+        this._serviceCatalog.reloadData();
     }
 
-    nodeSelect(node: TreeNode) {
-        this.logger.debug(LOG_TAG, 'Node selected: ', node.data);
+    nodeSelect(nodeEvent: ServiceCatalogNodeSelectionEvent) {
+        this.logger.debug(LOG_TAG, 'Node selected: ', nodeEvent);
 
-        const catalogEntry = node.data.catalogEntry;
-        const nodeType = node.data.nodeType;
+        const catalogEntry = nodeEvent.node.data;
+        const nodeType = nodeEvent.node.nodeType;
 
         if (nodeType === 'Domain') {
             this._servicesEditor.startEditDomain(catalogEntry.domain);
@@ -239,11 +208,6 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
     }
 
-    nodeUnselect(event: any) {
-        this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
-        // nop
-    }
-
     public onFilterChange(event: any) {
         // TODO!!
     }
@@ -258,11 +222,11 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
         const description = event.model.items[0].value;
         let treeNode: TreeNode;
         if (event.context.editingType === EditingType.Domain) {
-            treeNode = this.tableModel.getDomainNode(event.context.domainName);
+            treeNode = this._serviceCatalog.tableModel.getDomainNode(event.context.domainName);
         } else if (event.context.editingType === EditingType.Application) {
-            treeNode = this.tableModel.getApplicationNode(event.context.domainName, event.context.applicationName);
+            treeNode = this._serviceCatalog.tableModel.getApplicationNode(event.context.domainName, event.context.applicationName);
         } else if (event.context.editingType === EditingType.Operation) {
-            treeNode = this.tableModel.getOperationNode(
+            treeNode = this._serviceCatalog.tableModel.getOperationNode(
                 event.context.channel,
                 event.context.domainName,
                 event.context.applicationName,
@@ -327,7 +291,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
                         this.logger.debug(LOG_TAG, 'Operation deleted: ', data);
 
-                        this.tableModel.removeOperationNode(catalogEntry.channel,
+                        this._serviceCatalog.tableModel.removeOperationNode(catalogEntry.channel,
                             catalogEntry.domain,
                             catalogEntry.application,
                             catalogEntry.service,
@@ -367,7 +331,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
                         this.logger.debug(LOG_TAG, 'Service deleted: ', data);
 
-                        this.tableModel.removeServiceNode(catalogEntry.channel,
+                        this._serviceCatalog.tableModel.removeServiceNode(catalogEntry.channel,
                              catalogEntry.domain,
                              catalogEntry.application,
                              catalogEntry.service);
@@ -406,7 +370,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
                         this.logger.debug(LOG_TAG, 'Application deleted: ', data);
 
-                        this.tableModel.removeApplicationNode(catalogEntry.domain, catalogEntry.application);
+                        this._serviceCatalog.tableModel.removeApplicationNode(catalogEntry.domain, catalogEntry.application);
 
                         this.notificationCenter.post({
                             name: 'DeleteApplication',
@@ -441,7 +405,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
                         this.logger.debug(LOG_TAG, 'Domain deleted: ', data);
 
-                        this.tableModel.removeDomainNode(catalogEntry.domain);
+                        this._serviceCatalog.tableModel.removeDomainNode(catalogEntry.domain);
 
                         this.notificationCenter.post({
                             name: 'DeleteDomain',
@@ -469,13 +433,8 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
    }
 
 
-    set selectedNode(node: TreeNode) {
-        this._selectedNode = node;
-        this.nodeSelect(node);
-    }
-
     get selectedNode(): TreeNode {
-        return this._selectedNode;
+        return this._serviceCatalog.selectedNode;
     }
 
     onNewItemConfirm(event: DialogResult): void {
@@ -511,7 +470,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
                 this.logger.debug(LOG_TAG, 'New Operation added: ', operation);
 
-                this.tableModel.addOperationNode(event.channel, event.domain, event.application, event.service, operation);
+                this._serviceCatalog.tableModel.addOperationNode(event.channel, event.domain, event.application, event.service, operation);
 
                 this.notificationCenter.post({
                     name: 'CreateNewOperation',
@@ -543,7 +502,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
             this.logger.debug(LOG_TAG, 'New domain added: ', newDomain);
 
-            this.tableModel.addDomainNode(newDomain);
+            this._serviceCatalog.tableModel.addDomainNode(newDomain);
 
             this.notificationCenter.post({
                 name: 'CreateNewDomain',
@@ -577,7 +536,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
             this.logger.debug(LOG_TAG, 'New application added: ', newApplication);
 
-            this.tableModel.addApplicationNode(domainName, newApplication);
+            this._serviceCatalog.tableModel.addApplicationNode(domainName, newApplication);
 
             this.notificationCenter.post({
                 name: 'CreateNewApplication',
@@ -614,7 +573,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
             this.logger.debug(LOG_TAG, 'New service added: ', newService);
 
-            this.tableModel.addServiceNode(domain, application, newService);
+            this._serviceCatalog.tableModel.addServiceNode(domain, application, newService);
 
             this.notificationCenter.post({
                 name: 'CreateNewService',
