@@ -77,7 +77,6 @@ export class CountersListComponent implements OnInit, OnDestroy {
 
             this.logger.debug(LOG_TAG, 'loadUserCounters Query results:', results);
 
-        
             this._rows = _.forEach(results.data, function (element: CounterEntity) {
                 element.created = new Date(element.created);
                 element.lastCountDate = new Date(element.lastCountDate);
