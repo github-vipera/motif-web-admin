@@ -25,7 +25,7 @@ export class CountersListComponent implements OnInit, OnDestroy {
     @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
     @Input() public selectedDomain: Domain;
-    @Input() public selectedUser: User;
+    private _selectedUser: User;
     public loading = false;
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
@@ -139,7 +139,9 @@ export class CountersListComponent implements OnInit, OnDestroy {
      * Reload the list of the current sessions
      */
     public refreshData(): void {
-        this.loadData(this.selectedDomain, this.userSelector.selectedUser, this.currentPage, this.pageSize);
+        if (this.canRefresh){
+            this.loadData(this.selectedDomain, this.userSelector.selectedUser, this.currentPage, this.pageSize);
+        }
     }
 
     public onRefreshClicked(): void {
@@ -149,5 +151,15 @@ export class CountersListComponent implements OnInit, OnDestroy {
     public get canRefresh(): boolean {
         return (this.domainSelector.selectedDomain != null && this.userSelector.selectedUser != null);
     }
+
+    @Input() public set selectedUser(user: User) {
+        this._selectedUser = user;
+        this.refreshData();
+    }
+
+    public get selectedUser(): User {
+        return this._selectedUser;
+    }
+
 
 }
