@@ -1,1 +1,6 @@
-<div>Foo Section A</div>
+<p-contextMenu #tableContextMenu [target]="servicetableContainer" [model]="menuItems" [styleClass]="'wc-context-menu'"></p-contextMenu>
+
+
+<div class="row fill" #servicetableContainer>
+    <wa-service-catalog-selector (nodeSelection)="nodeSelect($event)" #serviceCatalog></wa-service-catalog-selector>
+</div>

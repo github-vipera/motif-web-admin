@@ -52,7 +52,8 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     private _dataFilter: DataFilter;
 
     @Output() nodeSelection: EventEmitter<ServiceCatalogNodeSelectionEvent> = new EventEmitter();
-
+    @Input() contextMenu: any;
+    
     constructor(
         private logger: NGXLogger,
         private notificationCenter: NotificationCenter,

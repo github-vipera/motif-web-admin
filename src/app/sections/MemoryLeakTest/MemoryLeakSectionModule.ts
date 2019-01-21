@@ -11,6 +11,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { FooASectionComponent } from './components/a/foo-a-section-component';
 import { FooBSectionComponent } from './components/b/foo-b-section-component';
 import { FooCSectionComponent } from './components/c/foo-c-section-component';
+import { ServiceCatalogSelectorModule } from 'src/app/components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 @NgModule({
     imports: [
@@ -24,7 +26,9 @@ import { FooCSectionComponent } from './components/c/foo-c-section-component';
         DateInputsModule,
         FontAwesomeModule,
         PluginRegistryServiceModule,
-        CommonsUIModule
+        CommonsUIModule,
+        ServiceCatalogSelectorModule,
+        ContextMenuModule
     ],
     entryComponents:[
         FooASectionComponent, FooBSectionComponent, FooCSectionComponent

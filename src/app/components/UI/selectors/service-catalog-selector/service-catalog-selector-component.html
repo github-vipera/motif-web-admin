@@ -11,6 +11,7 @@
     scrollHeight="100%" 
     (onNodeUnselect)="nodeUnselect($event)"
     [(contextMenuSelection)]="selectedNode"
+    [contextMenu]="tableContextMenu"
     >
     <ng-template pTemplate="header" let-columns>
       <tr>
