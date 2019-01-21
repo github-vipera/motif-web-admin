@@ -36,20 +36,9 @@
         [scrollable]="'none'" (pageChange)="pageChange($event)">
         >
         
-        <!--
-        <kendo-grid-column field="userId" title="User">
-          </kendo-grid-column>
-          -->
-
         <kendo-grid-column field="counter" title="Counter">
           </kendo-grid-column>
  
-        <kendo-grid-column field="counterInfoName" title="Counter Info Name">
-          </kendo-grid-column>
-
-        <kendo-grid-column field="counterInfoPattern" title="Counter Info Pattern">
-          </kendo-grid-column>
-   
         <kendo-grid-column field="created" title="Created"  format="{0:dd/MM/yyyy HH:mm:ss}">
           </kendo-grid-column>
 
@@ -61,6 +50,13 @@
 
         <kendo-grid-column field="previousCounter" title="Previous Counter">
           </kendo-grid-column>
+
+        <kendo-grid-column field="counterInfoName" title="Counter Info Name">
+        </kendo-grid-column>
+
+        <kendo-grid-column field="counterInfoPattern" title="Counter Info Pattern">
+        </kendo-grid-column>
+    
   
     </kendo-grid>
 
