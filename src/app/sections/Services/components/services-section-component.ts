@@ -239,18 +239,6 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
 
     }
 
-    /*
-    private updateMenuItemStatus(itemId: string, enabled: boolean, label?: string): void {
-        const itemIndex = _.findIndex(this.menuItems, function(o: any) { return o.id === itemId; });
-        if (itemIndex >= 0 ) {
-            this.menuItems[itemIndex].disabled = !enabled;
-            if (label) {
-                this.menuItems[itemIndex].label = label;
-            }
-        }
-    }
-    */
-
     nodeUnselect(event: any) {
         this.logger.debug(LOG_TAG, 'Node unselected: ', event.node.data);
         // nop
