@@ -100,7 +100,7 @@ export class SessionsSectionComponent implements OnInit, OnDestroy {
 
             const results: MotifQueryResults = MotifQueryResults.fromHttpResponse(response);
 
-            this.logger.debug(LOG_TAG, 'Query results:', results);
+            this.logger.debug(LOG_TAG, 'Get session list query results:', results);
 
             this._sessionRows = _.forEach(results.data, function (element) {
                 element.lastAccess = new Date(element.lastAccess);
@@ -117,7 +117,7 @@ export class SessionsSectionComponent implements OnInit, OnDestroy {
             this.loading = false;
 
         }, error => {
-            this.logger.error(LOG_TAG, 'getRefreshTokenList failed: ', error);
+            this.logger.error(LOG_TAG, 'Get session list failed: ', error);
             this.loading = false;
 
             this.notificationCenter.post({
