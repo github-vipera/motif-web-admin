@@ -1,3 +1,4 @@
+import { DroppableModule } from '@ctrl/ngx-droppable';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
@@ -13,6 +14,7 @@ import { FooBSectionComponent } from './components/b/foo-b-section-component';
 import { FooCSectionComponent } from './components/c/foo-c-section-component';
 import { ServiceCatalogSelectorModule } from 'src/app/components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 @NgModule({
     imports: [
@@ -28,7 +30,8 @@ import { ContextMenuModule } from 'primeng/contextmenu';
         PluginRegistryServiceModule,
         CommonsUIModule,
         ServiceCatalogSelectorModule,
-        ContextMenuModule
+        ContextMenuModule,
+        DragDropModule
     ],
     entryComponents:[
         FooASectionComponent, FooBSectionComponent, FooCSectionComponent
