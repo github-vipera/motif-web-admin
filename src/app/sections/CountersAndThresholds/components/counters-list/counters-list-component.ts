@@ -9,6 +9,7 @@ import { NotificationCenter, NotificationType } from '../../../../components/Com
 import { User } from '@wa-motif-open-api/auth-access-control-service';
 import { UsersService, CounterEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { SortDescriptor, DataResult } from '@progress/kendo-data-query';
+import * as _ from 'lodash';
 
 const LOG_TAG = '[CountersListComponent]';
 
