@@ -26,6 +26,7 @@ import { ServicesSectionModule } from './sections/Services/ServicesSectionModule
 import { AccessControlSectionModule } from './sections/AccessControl/AccessControlSectionModule'
 import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
 import { CountersAndThresholdsSectionModule } from './sections/CountersAndThresholds/CountersAndThresholdsSectionModule';
+import { TopMenuComponentModule } from './components/TopMenu/TopMenuComponentModule';
 //import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
 const appRoutes: Routes = [
@@ -61,7 +62,8 @@ const appRoutes: Routes = [
     AccessControlSectionModule,
     LayoutModule,
     UtilitiesSectionModule,
-    CountersAndThresholdsSectionModule
+    CountersAndThresholdsSectionModule,
+    TopMenuComponentModule
     /*,MemoryLeakSectionModule*/
   ],
   providers: [

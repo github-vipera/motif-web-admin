@@ -58,6 +58,10 @@
 	background-color: #363F44;
 }
 
+.ui-menu .ui-menu-separator {
+    border-top: solid .5px #ffffff73;
+}
+
 /**
  * DIALOGS
  */

@@ -16,6 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { LocalesService } from './Commons/locales-service';
+import { SessionService } from './Commons/session-service';
 
 @NgModule({
     imports: [
@@ -47,7 +48,7 @@ import { LocalesService } from './Commons/locales-service';
         AfterValueChangedDirective
     ],
     providers: [
-        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesService
+        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesService, SessionService
     ]
 
   })
