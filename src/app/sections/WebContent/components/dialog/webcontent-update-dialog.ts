@@ -4,6 +4,11 @@ import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 
 const LOG_TAG = '[WebContentUpdateDialogComponent]';
 
+export interface UpdateDialogResult {
+    domain: string;
+    application: string;
+    context: string;
+}
 
 @Component({
     selector: 'wa-webcontent-update-dialog',
@@ -16,6 +21,9 @@ export class WebContentUpdateDialogComponent implements OnInit {
     domain: string;
     application: string;
     context: string;
+
+    @Output() confirm: EventEmitter<UpdateDialogResult> = new EventEmitter();
+    @Output() cancel: EventEmitter<void> = new EventEmitter();
 
     constructor(private logger: NGXLogger) {}
 
@@ -38,6 +46,11 @@ export class WebContentUpdateDialogComponent implements OnInit {
         this.domain = domain;
         this.application = application;
         this.context = context;
+    }
+
+    onCancel(): void {
+        this.display = false;
+        this.cancel.emit();
     }
 
 
