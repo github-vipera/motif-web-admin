@@ -79,11 +79,35 @@
                 <kendo-grid-column field="version" title="Version" width="160">
                 </kendo-grid-column>
 
+                <!--
                 <kendo-grid-column field="published" title="Published" width="160">
                         <ng-template kendoGridCellTemplate let-dataItem>
                                 <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.published}}"></label>
                             </ng-template>
                 </kendo-grid-column>
+                --> 
+
+                <kendo-grid-column field="published" title="Status">
+                        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                                <wc-grid-editor-command
+                                [rowIndex]="rowIndex" 
+                                [hasConfirmation]="true"
+                                [confirmationTitleProvider]="publishConfirmationTitleProvider"
+                                [columnIndex]="columnIndex" 
+                                [column]="column" 
+                                [value]="dataItem[column.field]" 
+                                [dataItem]="dataItem"
+                                (commandConfirm)="doPublishAssetsBundle(dataItem)"  
+                                >
+                                <span *ngIf="dataItem.published" class="badge badge-status badge-enabled">
+                                        PUBLISHED
+                                    </span>
+                                    <span *ngIf="!dataItem.published" class="badge badge-status  badge-disabled">
+                                            UNPUBLISHED
+                                    </span>
+                                </wc-grid-editor-command>
+                        </ng-template>
+                </kendo-grid-column>               
                     
                 <kendo-grid-column field="created" title="Created" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
                 </kendo-grid-column>
