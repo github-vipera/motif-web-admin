@@ -1,0 +1,62 @@
+<wc-loading-overlay [visible]="loading"></wc-loading-overlay>
+
+<wc-dashboard-header [title]="'Web Content'"></wc-dashboard-header>
+
+<div class="row spread">
+  <div class="flex-toolbar" style="display:flex;align-items: center;"></div>
+
+  <div class="flex-cmd">
+    <kendo-buttongroup look="flat">
+      <button
+        kendoButton
+        [toggleable]="false"
+        [icon]="'refresh'"
+        (click)="onRefreshClicked()"
+      >
+        Refresh
+      </button>
+    </kendo-buttongroup>
+  </div>
+</div>
+
+<div class="row fill">
+
+  <kendo-grid #datagrid [data]="gridData">
+   
+        <kendo-grid-column
+        field="info.name" title="Name" >
+    </kendo-grid-column>
+
+    <kendo-grid-column
+        field="info.version" title="Version" >
+    </kendo-grid-column>
+
+    <kendo-grid-column
+        field="info.context" title="Context" >
+    </kendo-grid-column>
+
+    <kendo-grid-column
+        field="status.status" title="Status" >
+    </kendo-grid-column>
+
+    <div *kendoGridDetailTemplate="let dataItem">
+            <kendo-grid #datagridDetails [data]="dataItem.status">
+                    <kendo-grid-column
+                        field="instance" title="Node" >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="status" title="Status">
+                            <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                                    <span *ngIf="dataItem.status==='PUBLISHED'" class="badge badge-status badge-enabled">
+                                            PUBLISHED
+                                    </span>
+                                    <span *ngIf="dataItem.status==='UNPUBLISHED'" class="badge badge-status  badge-disabled">
+                                            UNPUBLISHED
+                                    </span>
+                            </ng-template>
+                    </kendo-grid-column>   
+            </kendo-grid>
+    </div>
+
+  </kendo-grid>
+
+</div>

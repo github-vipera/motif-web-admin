@@ -1,3 +1,4 @@
+import { WebContentSectionModule } from './sections/WebContent/WebContentSectionModule';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -63,7 +64,8 @@ const appRoutes: Routes = [
     LayoutModule,
     UtilitiesSectionModule,
     CountersAndThresholdsSectionModule,
-    TopMenuComponentModule
+    TopMenuComponentModule,
+    WebContentSectionModule,
     /*,MemoryLeakSectionModule*/
   ],
   providers: [
