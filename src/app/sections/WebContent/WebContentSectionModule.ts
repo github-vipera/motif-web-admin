@@ -1,3 +1,4 @@
+import { WebContentUpdateDialogComponent } from './components/dialog/webcontent-update-dialog';
 import { GridEditorCommandsModule } from './../../components/GridEditorCommandsModule';
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
@@ -11,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { WebContentSectionComponent } from './components/webcontent-section-component';
 import { WebContentServiceModule } from '@wa-motif-open-api/web-content-service';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
     imports: [
@@ -25,13 +27,14 @@ import { WebContentServiceModule } from '@wa-motif-open-api/web-content-service'
         FormsModule,
         CommonSelectorsModule,
         WebContentServiceModule,
-        GridEditorCommandsModule
+        GridEditorCommandsModule,
+        DialogModule
     ],
     entryComponents: [
         WebContentSectionComponent
     ],
     declarations: [
-        WebContentSectionComponent
+        WebContentSectionComponent, WebContentUpdateDialogComponent
     ],
     exports: [ WebContentSectionComponent ],
     providers: [ 

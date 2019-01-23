@@ -1,3 +1,4 @@
+import { FileDropPanelComponent } from './../../../components/UI/file-drop-panel-component';
 import { ConfirmationTitleProvider, GridEditorCommandComponentEvent } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
@@ -9,6 +10,7 @@ import { SubscriptionHandler } from 'src/app/components/Commons/subscription-han
 import * as _ from 'lodash';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WebContentUpdateDialogComponent } from './dialog/webcontent-update-dialog';
 
 const LOG_TAG = '[WebContentSectionComponent]';
 
@@ -38,8 +40,9 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     gridData: BundleStatus[];
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
-
+    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
     @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
+    @ViewChild('updateDialog') _updateDialog: WebContentUpdateDialogComponent;
 
     // Data binding
     public loading = false;
@@ -227,6 +230,8 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         }
         else if (event.id===CommandType.Delete){
             this.doDeleteBundle(event.rowData.dataItem);
+        } else if (event.id===CommandType.Edit){
+                this._updateDialog.show('domain', 'app', 'context');
         }
     }
 
@@ -239,7 +244,69 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     }
 
     onBundleUploadConfirm(): void {
-        alert("TODO!! onBundleUploadConfirm");
+        if (this.fileDrop.file) {
+            this.doUploadNewBundle(this.fileDrop.file);
+            this._uploadSlideDownPanel.show(false);
+            this.fileDrop.reset();
+        }
+    }
+
+
+    doUploadNewBundle(file: File): void {
+        this.logger.debug(LOG_TAG, 'doUploadNewBundle : ', file);
+        const reader = new FileReader();
+        reader.onloadend = (data) => {
+            this.uploadAssetBundle(reader.result as ArrayBuffer, file.name);
+        };
+        reader.onerror = (error) => {
+            this.logger.error(LOG_TAG, 'doUploadNewBundle error: ', error);
+            this.notificationCenter.post({
+                name: 'ReadingAssetBundleError',
+                title: 'Asset Bundle Upload',
+                message: 'Error reading asset bundle file:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    uploadAssetBundle(blob: ArrayBuffer, fileName: string): void {
+        this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', blob);
+
+        const file =  new File([blob], fileName);
+
+        this.notificationCenter.post({
+            name: 'UploadAssetBundleProgress',
+            title: 'Upload Asset Bundle',
+            message: 'Uploading the asset bundle...',
+            type: NotificationType.Info
+        });
+
+        this._subHandler.add(this.webContentService.uploadBundle(file).subscribe((event) => {
+            this.refreshData();
+            this.logger.debug(LOG_TAG, 'Bundle uploaded successfully: ', event);
+
+            this.notificationCenter.post({
+                name: 'UploadBundleSuccess',
+                title: 'Upload Bundle',
+                message: 'The bundle has been successfully uploaded.',
+                type: NotificationType.Success
+            });
+
+        }, (error) => {
+            this.logger.debug(LOG_TAG, 'Error uploading bundle: ', error);
+
+            this.notificationCenter.post({
+                name: 'UploadBundleError',
+                title: 'Upload Bundle',
+                message: 'Error uploading bundle:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+        }));
     }
 
 }
