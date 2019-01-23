@@ -37,7 +37,7 @@
 
   <div>
 
-    <wc-slide-panel #uploadSlideDownPanel>
+    <wc-slide-panel #uploadSlideDownPanel (close)="onSlideEditorClose()">
         <div class="wc-slide-down-editor-pane" style="display:flex;height: 45px;">
             <div style="width:350px;height: 100%;">
                     <wc-file-drop-panel #fileDrop></wc-file-drop-panel>

@@ -251,6 +251,12 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         }
     }
 
+    onSlideEditorClose():void {
+        if (this.fileDrop.file) {
+            this.fileDrop.reset();
+        }
+    }
+
 
     doUploadNewBundle(file: File): void {
         this.logger.debug(LOG_TAG, 'doUploadNewBundle : ', file);
