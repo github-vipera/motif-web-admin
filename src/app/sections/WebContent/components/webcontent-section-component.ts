@@ -1,3 +1,4 @@
+import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, ViewChild, Input, ElementRef, Renderer } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
@@ -23,6 +24,19 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
     // Data binding
     public loading = false;
+
+
+    commands: GridEditorCommandsConfig = [
+
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-no',
+            commandId: 'cmdDelete',
+            title: 'Delete',
+            hasConfirmation: true,
+            confirmationTitle: 'Delete ?' 
+        }
+    ];
+
 
     constructor(private logger: NGXLogger,
         private notificationCenter: NotificationCenter,

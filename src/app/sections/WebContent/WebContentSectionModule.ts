@@ -1,3 +1,4 @@
+import { GridEditorCommandsModule } from './../../components/GridEditorCommandsModule';
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +24,8 @@ import { WebContentServiceModule } from '@wa-motif-open-api/web-content-service'
         InputSwitchModule,
         FormsModule,
         CommonSelectorsModule,
-        WebContentServiceModule
+        WebContentServiceModule,
+        GridEditorCommandsModule
     ],
     entryComponents: [
         WebContentSectionComponent
