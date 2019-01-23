@@ -36,8 +36,19 @@
     </kendo-grid-column>
 
     <kendo-grid-column
-        field="status.status" title="Status" >
-    </kendo-grid-column>
+        field="info.syntheticStatus" title="Status" >
+        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                        <span *ngIf="dataItem.info.syntheticStatus==='PUBLISHED'" class="badge badge-status badge-enabled">
+                                PUBLISHED
+                        </span>
+                        <span *ngIf="dataItem.info.syntheticStatus==='UNPUBLISHED'" class="badge badge-status  badge-disabled">
+                                UNPUBLISHED
+                        </span>
+                        <span *ngIf="dataItem.info.syntheticStatus==='IN ERROR'" class="badge badge-status  badge-error">
+                                        IN ERROR
+                        </span>
+                        </ng-template>
+   </kendo-grid-column>
 
     <kendo-grid-column title="">
             <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
