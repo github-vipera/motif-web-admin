@@ -3,7 +3,20 @@
 <wc-dashboard-header [title]="'Web Content'"></wc-dashboard-header>
 
 <div class="row spread">
-  <div class="flex-toolbar" style="display:flex;align-items: center;"></div>
+  <div class="flex-toolbar" style="display:flex;align-items: center;">
+    <div>
+      <label>&nbsp;</label>
+      <kendo-buttongroup look="flat">
+        <button
+          kendoButton
+          [toggleable]="false"
+          (click)="onUploadBundleClicked($event)"
+        >
+          <fa-icon [icon]="faUpload"></fa-icon>Add Bundle
+        </button>
+      </kendo-buttongroup>
+    </div>
+  </div>
 
   <div class="flex-cmd">
     <kendo-buttongroup look="flat">
@@ -21,80 +34,110 @@
 
 <div class="row fill">
 
-  <kendo-grid #datagrid [data]="gridData">
-   
-        <kendo-grid-column
-        field="info.name" title="Name" >
-    </kendo-grid-column>
+  <div>
 
-    <kendo-grid-column
-        field="info.version" title="Version" >
-    </kendo-grid-column>
+    <wc-slide-panel #uploadSlideDownPanel>Hello World!</wc-slide-panel>
 
-    <kendo-grid-column
-        field="info.context" title="Context" >
-    </kendo-grid-column>
+    <kendo-grid #datagrid [data]="gridData">
+      <kendo-grid-column field="info.name" title="Name"> </kendo-grid-column>
 
-    <kendo-grid-column
-        field="info.syntheticStatus" title="Status" >
-        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                <wc-grid-editor-command
-                [rowIndex]="rowIndex" 
-                [hasConfirmation]="true"
-                [confirmationTitleProvider]="publishConfirmationTitleProvider"
-                [columnIndex]="columnIndex" 
-                [column]="column" 
-                [value]="dataItem[column.field]" 
-                [dataItem]="dataItem"
-                (commandConfirm)="doTogglePublishBundle(dataItem)"  
-                >
-                <span *ngIf="dataItem.info.syntheticStatus==='PUBLISHED'" class="badge badge-status badge-enabled">
-                                PUBLISHED
-                        </span>
-                        <span *ngIf="dataItem.info.syntheticStatus==='UNPUBLISHED'" class="badge badge-status  badge-disabled">
-                                UNPUBLISHED
-                        </span>
-                        <span *ngIf="dataItem.info.syntheticStatus==='IN ERROR'" class="badge badge-status  badge-error">
-                                        IN ERROR
-                        </span>
-                </wc-grid-editor-command>
+      <kendo-grid-column field="info.version" title="Version">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="info.context" title="Context">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="info.syntheticStatus" title="Status">
+        <ng-template
+          kendoGridCellTemplate
+          let-dataItem
+          let-columnIndex="columnIndex"
+          let-rowIndex="rowIndex"
+          let-column="column"
+        >
+          <wc-grid-editor-command
+            [rowIndex]="rowIndex"
+            [hasConfirmation]="true"
+            [confirmationTitleProvider]="publishConfirmationTitleProvider"
+            [columnIndex]="columnIndex"
+            [column]="column"
+            [value]="dataItem[column.field]"
+            [dataItem]="dataItem"
+            (commandConfirm)="doTogglePublishBundle(dataItem)"
+          >
+            <span
+              *ngIf="dataItem.info.syntheticStatus === 'PUBLISHED'"
+              class="badge badge-status badge-enabled"
+            >
+              PUBLISHED
+            </span>
+            <span
+              *ngIf="dataItem.info.syntheticStatus === 'UNPUBLISHED'"
+              class="badge badge-status  badge-disabled"
+            >
+              UNPUBLISHED
+            </span>
+            <span
+              *ngIf="dataItem.info.syntheticStatus === 'IN ERROR'"
+              class="badge badge-status  badge-error"
+            >
+              IN ERROR
+            </span>
+          </wc-grid-editor-command>
         </ng-template>
-   </kendo-grid-column>
+      </kendo-grid-column>
 
-    <kendo-grid-column title="">
-            <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                    <wc-grid-editor-commands-group 
-                            [commands]="commands" 
-                            [alignMode]="'end'" 
-                            [rowIndex]="rowIndex"
-                            [columnIndex]="columnIndex" 
-                            [column]="column" 
-                            [value]="dataItem[column.field]" 
-                            [dataItem]="dataItem"
-                            (commandConfirm)="onCommandConfirm($event)"
-                            (commandClick)="onCommandClick($event)"
-                            ></wc-grid-editor-commands-group>
+      <kendo-grid-column title="">
+        <ng-template
+          kendoGridCellTemplate
+          let-dataItem
+          let-columnIndex="columnIndex"
+          let-rowIndex="rowIndex"
+          let-column="column"
+        >
+          <wc-grid-editor-commands-group
+            [commands]="commands"
+            [alignMode]="'end'"
+            [rowIndex]="rowIndex"
+            [columnIndex]="columnIndex"
+            [column]="column"
+            [value]="dataItem[column.field]"
+            [dataItem]="dataItem"
+            (commandConfirm)="onCommandConfirm($event)"
+            (commandClick)="onCommandClick($event)"
+          ></wc-grid-editor-commands-group>
+        </ng-template>
+      </kendo-grid-column>
+
+      <div *kendoGridDetailTemplate="let dataItem">
+        <kendo-grid #datagridDetails [data]="dataItem.status">
+          <kendo-grid-column field="instance" title="Node"> </kendo-grid-column>
+          <kendo-grid-column field="status" title="Status">
+            <ng-template
+              kendoGridCellTemplate
+              let-dataItem
+              let-columnIndex="columnIndex"
+              let-rowIndex="rowIndex"
+              let-column="column"
+            >
+              <span
+                *ngIf="dataItem.status === 'PUBLISHED'"
+                class="badge badge-status badge-enabled"
+              >
+                PUBLISHED
+              </span>
+              <span
+                *ngIf="dataItem.status === 'UNPUBLISHED'"
+                class="badge badge-status  badge-disabled"
+              >
+                UNPUBLISHED
+              </span>
             </ng-template>
-    </kendo-grid-column>    
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </kendo-grid>
 
-    <div *kendoGridDetailTemplate="let dataItem">
-            <kendo-grid #datagridDetails [data]="dataItem.status">
-                    <kendo-grid-column
-                        field="instance" title="Node" >
-                    </kendo-grid-column>
-                    <kendo-grid-column field="status" title="Status">
-                            <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                                    <span *ngIf="dataItem.status==='PUBLISHED'" class="badge badge-status badge-enabled">
-                                            PUBLISHED
-                                    </span>
-                                    <span *ngIf="dataItem.status==='UNPUBLISHED'" class="badge badge-status  badge-disabled">
-                                            UNPUBLISHED
-                                    </span>
-                            </ng-template>
-                    </kendo-grid-column>   
-            </kendo-grid>
-    </div>
-
-  </kendo-grid>
+  </div>
 
 </div>

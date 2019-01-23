@@ -1,12 +1,14 @@
 import { ConfirmationTitleProvider, GridEditorCommandComponentEvent } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { WebcontentService, BundleStatusList, BundleStatus, ClusterBundleStatus } from '@wa-motif-open-api/web-content-service';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import * as _ from 'lodash';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
 
 const LOG_TAG = '[WebContentSectionComponent]';
 
@@ -26,9 +28,12 @@ export enum PublishingStatus {
   })
 export class WebContentSectionComponent implements OnInit, OnDestroy {
 
+    faUpload = faUpload;
     gridData: BundleStatus[];
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+
+    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
 
     // Data binding
     public loading = false;
@@ -214,4 +219,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         }
     }
 
+    onUploadBundleClicked(): void {
+        this._uploadSlideDownPanel.toggle();
+    }
 }
