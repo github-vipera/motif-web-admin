@@ -18,6 +18,12 @@ export enum PublishingStatus {
     Error = 'IN ERROR'
 }
 
+enum CommandType {
+    Edit = 'cmdEdit',
+    Download = 'cmdDowload',
+    Delete = 'cmdDelete',
+    Publish = 'cmdPublish'
+}
 @Component({
     selector: 'wa-web-content-section',
     styleUrls: [ './webcontent-section-component.scss' ],
@@ -53,13 +59,18 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
     commands: GridEditorCommandsConfig = [
         { 
+            commandIcon: 'assets/img/icons.svg#ico-edit',
+            commandId: CommandType.Edit,
+            title: 'Edit'
+        },
+        { 
             commandIcon: 'assets/img/icons.svg#ico-download',
-            commandId: 'cmdDownload',
+            commandId: CommandType.Download,
             title: 'Download'
         },
         { 
             commandIcon: 'assets/img/icons.svg#ico-no',
-            commandId: 'cmdDelete',
+            commandId: CommandType.Delete,
             title: 'Delete',
             hasConfirmation: true,
             confirmationTitle: 'Delete ?' 
@@ -201,20 +212,20 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
     onCommandConfirm(event: GridEditorCommandComponentEvent) {
         this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
-        if (event.id==='cmdPublish'){
+        if (event.id===CommandType.Publish){
             this.doTogglePublishBundle(event.rowData.dataItem);
         }
-        else if (event.id==='cmdDelete'){
+        else if (event.id===CommandType.Delete){
             this.doDeleteBundle(event.rowData.dataItem);
         }
     }
 
     onCommandClick(event: GridEditorCommandComponentEvent){
         this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
-        if (event.id==='cmdDownload'){
+        if (event.id===CommandType.Download){
             this.doDownloadBundle(event.rowData.dataItem);
         }
-        else if (event.id==='cmdDelete'){
+        else if (event.id===CommandType.Delete){
             this.doDeleteBundle(event.rowData.dataItem);
         }
     }
@@ -222,4 +233,13 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     onUploadBundleClicked(): void {
         this._uploadSlideDownPanel.toggle();
     }
+
+    onBundleUploadCancel(): void {
+        this._uploadSlideDownPanel.show(false);
+    }
+
+    onBundleUploadConfirm(): void {
+        alert("TODO!! onBundleUploadConfirm");
+    }
+
 }
