@@ -1,4 +1,4 @@
-import { ConfirmationTitleProvider } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
+import { ConfirmationTitleProvider, GridEditorCommandComponentEvent } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core';
@@ -47,7 +47,11 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
 
     commands: GridEditorCommandsConfig = [
-
+        { 
+            commandIcon: 'assets/img/icons.svg#ico-download',
+            commandId: 'cmdDownload',
+            title: 'Download'
+        },
         { 
             commandIcon: 'assets/img/icons.svg#ico-no',
             commandId: 'cmdDelete',
@@ -143,8 +147,71 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     }
 
     doTogglePublishBundle(item: BundleStatus):void {
-        this.logger.debug(LOG_TAG, 'doPublishBundle: ', item);
-        alert("TODO!! doPublishBundle")
+        this.logger.debug(LOG_TAG, 'doTogglePublishBundle: ', item);
+        alert("TODO!! doTogglePublishBundle")
+    }
+
+    doDownloadBundle(item: BundleStatus):void {
+
+        this.notificationCenter.post({
+            name: 'DownloadBundleProgress',
+            title: 'Download Bundle',
+            message: 'Downloading bundle...',
+            type: NotificationType.Info
+        });
+
+        this.logger.debug(LOG_TAG, 'doDownloadBundle: ', item);
+        this._subHandler.add(this.webContentService.downloadBundle(item.info.name, item.info.version).subscribe( (data :Blob)=> {
+
+            this.logger.debug(LOG_TAG, 'Bundle downloaded successfully: ', data);
+
+            const blob = new Blob([data], { type: 'application/zip' });
+
+            const fileName = item.info.name + '_' + item.info.version + '.zip';
+            saveAs(blob, fileName);
+            // FileSaver.saveAs(blob, fileName);
+            this.logger.debug(LOG_TAG, 'Bundle saved: ', fileName);
+
+
+        }, (error)=>{
+
+            this.logger.error(LOG_TAG, 'Download Bundle failed: ', error);
+            this.loading = false;
+
+            this.notificationCenter.post({
+                name: 'DownloadBundleError',
+                title: 'Download Bundle',
+                message: 'Error downloading bundle:',
+                type: NotificationType.Error,
+                error: error,
+                closable: true
+            });
+        }));
+    }
+
+    doDeleteBundle(item: BundleStatus):void {
+        this.logger.debug(LOG_TAG, 'doDeleteBundle: ', item);
+        alert("TODO!! doDeleteBundle")
+    }
+
+    onCommandConfirm(event: GridEditorCommandComponentEvent) {
+        this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
+        if (event.id==='cmdPublish'){
+            this.doTogglePublishBundle(event.rowData.dataItem);
+        }
+        else if (event.id==='cmdDelete'){
+            this.doDeleteBundle(event.rowData.dataItem);
+        }
+    }
+
+    onCommandClick(event: GridEditorCommandComponentEvent){
+        this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
+        if (event.id==='cmdDownload'){
+            this.doDownloadBundle(event.rowData.dataItem);
+        }
+        else if (event.id==='cmdDelete'){
+            this.doDeleteBundle(event.rowData.dataItem);
+        }
     }
 
 }

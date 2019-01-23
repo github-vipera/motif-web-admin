@@ -561,6 +561,9 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         if (event.id==='cmdPublish'){
             this.doPublishAssetsBundle(event.rowData.dataItem);
         }
+        else if (event.id==='cmdDelete'){
+            this.doDeleteAssetBundle(event.rowData.dataItem);
+        }
     }
 
     onCommandClick(event: GridEditorCommandComponentEvent){
