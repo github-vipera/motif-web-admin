@@ -38,7 +38,17 @@
     <kendo-grid-column
         field="info.syntheticStatus" title="Status" >
         <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
-                        <span *ngIf="dataItem.info.syntheticStatus==='PUBLISHED'" class="badge badge-status badge-enabled">
+                <wc-grid-editor-command
+                [rowIndex]="rowIndex" 
+                [hasConfirmation]="true"
+                [confirmationTitleProvider]="publishConfirmationTitleProvider"
+                [columnIndex]="columnIndex" 
+                [column]="column" 
+                [value]="dataItem[column.field]" 
+                [dataItem]="dataItem"
+                (commandConfirm)="doTogglePublishBundle(dataItem)"  
+                >
+                <span *ngIf="dataItem.info.syntheticStatus==='PUBLISHED'" class="badge badge-status badge-enabled">
                                 PUBLISHED
                         </span>
                         <span *ngIf="dataItem.info.syntheticStatus==='UNPUBLISHED'" class="badge badge-status  badge-disabled">
@@ -47,7 +57,8 @@
                         <span *ngIf="dataItem.info.syntheticStatus==='IN ERROR'" class="badge badge-status  badge-error">
                                         IN ERROR
                         </span>
-                        </ng-template>
+                </wc-grid-editor-command>
+        </ng-template>
    </kendo-grid-column>
 
     <kendo-grid-column title="">

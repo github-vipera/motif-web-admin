@@ -1,3 +1,4 @@
+import { ConfirmationTitleProvider } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
 import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { PluginView } from 'web-console-core';
@@ -31,6 +32,18 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
     // Data binding
     public loading = false;
+
+    publishConfirmationTitleProvider: ConfirmationTitleProvider = {
+        getTitle(rowData): string {
+            if (rowData.info.syntheticStatus === PublishingStatus.Published){
+                return "Unpublish ?";
+            } else if (rowData.info.syntheticStatus === PublishingStatus.Error){
+                return "Unpublish ?";
+            } else {
+                return "Publish ?";
+            }
+        }
+    }
 
 
     commands: GridEditorCommandsConfig = [
@@ -126,8 +139,12 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     
 
     private buildSyntheticStatusXXX(statusInfo: BundleStatus): string {
-        return PublishingStatus.Error;
+        return PublishingStatus.Unpublished;
     }
 
+    doTogglePublishBundle(item: BundleStatus):void {
+        this.logger.debug(LOG_TAG, 'doPublishBundle: ', item);
+        alert("TODO!! doPublishBundle")
+    }
 
 }
