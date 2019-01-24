@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { DomainSelectorComboBoxComponent } from './UI/selectors/domain-selector-combobox-component';
 import { ApplicationSelectorComboBoxComponent } from './UI/selectors/application-selector-combobox-component';

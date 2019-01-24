@@ -53,5 +53,8 @@ export class WebContentUpdateDialogComponent implements OnInit {
         this.cancel.emit();
     }
 
+    onConfirm(): void {
+        //TODO !!       
+    }
 
 }

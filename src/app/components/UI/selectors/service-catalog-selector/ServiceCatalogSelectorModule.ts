@@ -1,6 +1,6 @@
 import { CommonsUIModule } from './../../../CommonsUIModule';
 import { WebAdminCommonServicesModule } from './../../../../services/WebAdminCommonServicesModule';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { NgModule } from '@angular/core';
 import { ServiceCatalogSelectorComponent } from './service-catalog-selector-component'
 import { TreeTableModule } from 'primeng/treetable';

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
-import { LoggerModule } from 'web-console-core'
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { EditService } from '../../components/Grid/edit.service';
 import { CommonsUIModule } from '../../components/CommonsUIModule'

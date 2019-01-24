@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponent } from './MessageCategories/index';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from './CommonsUIModule';

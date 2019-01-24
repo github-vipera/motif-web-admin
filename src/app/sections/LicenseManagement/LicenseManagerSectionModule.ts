@@ -3,7 +3,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LicenseManagementServiceModule } from '@wa-motif-open-api/license-management-service';
 import { LicenseManagerSectionComponent } from './components/license-manager-section-component';
 import { LicenseDetailsComponent } from './components/details/license-details-components';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { EditService } from '../../components/Grid/edit.service';
 import { ClipboardModule } from 'ngx-clipboard';

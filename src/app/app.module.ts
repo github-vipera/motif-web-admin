@@ -1,3 +1,11 @@
+import { enableProdMode } from '@angular/core';
+
+if (environment.production) {
+  // ADD enableProdMode(); BEFORE BOOTSTRAP
+  enableProdMode();
+  window.console.log=function(){};
+}
+
 import { WebContentSectionModule } from './sections/WebContent/WebContentSectionModule';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -8,7 +16,7 @@ import { WebConsoleComponent, AuthGuard, WebConsoleCoreModule } from 'web-consol
 import { WebConsoleLoginComponent } from 'web-console-login'
 import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'web-console-core'
+import { NGXLogger, NgxLoggerLevel, LoggerModule } from 'ngx-logger';
 import { environment } from '../environments/environment';
 import { WC_API_BASE_PATH, WC_OAUTH_BASE_PATH } from 'web-console-core'
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -30,6 +38,15 @@ import { CountersAndThresholdsSectionModule } from './sections/CountersAndThresh
 import { TopMenuComponentModule } from './components/TopMenu/TopMenuComponentModule';
 //import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
+
+
+const LoggerModuleConfigured = LoggerModule.forRoot({ 
+  level: (environment.production ? NgxLoggerLevel.OFF : NgxLoggerLevel.DEBUG),
+  serverLoggingUrl: '/api/logs', 
+  serverLogLevel: NgxLoggerLevel.OFF 
+});
+
+
 const appRoutes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: WebConsoleLoginComponent },
@@ -44,12 +61,12 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     ),
-    LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.OFF}),
+    LoggerModuleConfigured,
     WebAdminModulesProvider, 
     ToolBarModule, 
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,    
     WebConsoleCoreModule,
     DateInputsModule,
     ConfigurationSectionModule,
@@ -81,6 +98,7 @@ export class AppModule {
 
   constructor(private logger: NGXLogger){
     this.logger.info('AppModule' , 'Starting application');
+    this.logger.debug('AppModule' , 'Starting application DEBUG message');
   }
 
 }

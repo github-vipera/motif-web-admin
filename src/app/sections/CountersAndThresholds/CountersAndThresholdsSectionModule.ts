@@ -11,7 +11,7 @@ import { GridEditorCommandsModule } from '../../components/GridEditorCommandsMod
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { CountersAndThresholdsSectionComponent } from './components/counters-and-thresholds-section-component';

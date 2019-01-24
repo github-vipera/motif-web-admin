@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { ToasterUtilsService } from './UI/toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';

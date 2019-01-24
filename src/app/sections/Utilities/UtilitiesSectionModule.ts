@@ -2,7 +2,7 @@ import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { UtilitiesSectionComponent } from './components/utilities-section-component';

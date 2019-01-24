@@ -4,7 +4,7 @@ import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { LoggerModule } from 'web-console-core'
+import { LoggerModule } from 'ngx-logger'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { EditService } from '../../components/Grid/edit.service';
 import { CommonsUIModule } from '../../components/CommonsUIModule'

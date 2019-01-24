@@ -1,7 +1,7 @@
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { LoggerModule } from 'web-console-core'
+import { LoggerModule } from 'ngx-logger'
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
 import { AuthAccessControlServiceModule } from '@wa-motif-open-api/auth-access-control-service'
 import { AccessControlSectionComponent } from './components/access-control-section.component'

@@ -2,7 +2,7 @@ import { GridEditorCommandsModule } from '../../components/GridEditorCommandsMod
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
-import { LoggerModule } from 'web-console-core';
+import { LoggerModule } from 'ngx-logger';
 import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { AppContentSectionComponent } from './components/appcontent-section-component';
 import { ClipboardModule } from 'ngx-clipboard';

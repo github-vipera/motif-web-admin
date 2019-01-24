@@ -15,7 +15,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {  
     this.topBarService.registerItem(new WCTopBarItem('mainMenu', TopMenuComponent));
-    console.log(">>>>> authService:", this.authService);
   }
 
   ngOnDestroy() {
