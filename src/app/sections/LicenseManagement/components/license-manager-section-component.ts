@@ -1,3 +1,4 @@
+import { FileDropPanelComponent } from './../../../components/UI/file-drop-panel-component';
 import { Component, OnInit, ViewChild, Renderer, ElementRef, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
@@ -6,6 +7,7 @@ import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
 
 const LOG_TAG = '[LicenseManagerSection]';
 
@@ -25,6 +27,9 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
     public _licenses: LicenseList = [];
     public loading: boolean;
     @ViewChild('xmlFileImport') xmlFileImportEl: ElementRef;
+    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
+    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
+
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
@@ -119,23 +124,35 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
      * Button event
      */
     onImportClicked(event): void {
-        this.logger.debug(LOG_TAG , 'Import clicked:', this.xmlFileImportEl);
-        // trigger mouse click
-        // const event = new MouseEvent('click', { bubbles: true });
-        // this.xmlFileImportEl.nativeElement.dispatchEvent(event);
-        this.xmlFileImportEl.nativeElement.click();
+        this.logger.debug(LOG_TAG , 'Import clicked');
+        this._uploadSlideDownPanel.toggle();
+    }
+
+    onSlideEditorClose():void {
+        if (this.fileDrop.file) {
+            this.fileDrop.reset();
+        }
+    }
+
+    onLicenseUploadCancel(): void {
+        this._uploadSlideDownPanel.show(false);
+    }
+
+    onLicenseUploadConfirm(): void {
+        if (this.fileDrop.file) {
+            this.onUploadFileSelected(this.fileDrop.file);
+            this._uploadSlideDownPanel.show(false);
+            this.fileDrop.reset();
+        }
     }
 
     /**
      * Triggered by the input tag
      * @param event
      */
-    onUploadFileSelected(event): void {
+    onUploadFileSelected(file: File): void {
         this.logger.debug(LOG_TAG , 'onUploadFileSelected:', event);
         const reader = new FileReader();
-        if (event.target.files && event.target.files.length > 0) {
-          const file = event.target.files[0];
-
           reader.onloadend = () => {
             this.logger.debug(LOG_TAG , 'onloadend');
             this.uploadLicense(reader.result);
@@ -157,7 +174,6 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
           reader.readAsText(file);
           // reset current input value
           this.xmlFileImportEl.nativeElement.value = null;
-        }
     }
 
     /**
