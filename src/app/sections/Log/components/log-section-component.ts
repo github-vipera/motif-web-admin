@@ -12,6 +12,7 @@ import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 import { formatDate } from '@angular/common';
+import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
 
 const LOG_TAG = '[LogSection]';
 
@@ -43,7 +44,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     loading: boolean;
 
     @ViewChild('logPane') logPane: ElementRef;
-    @ViewChild('exportSlideDown') exportSlideDown: ElementRef;
+    @ViewChild('exportSlideDownPanel') exportSlideDownPanel: WCSlidePanelComponent;
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
@@ -208,24 +209,20 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     }
 
     public onExportClicked(): void {
-        this.slideDownExportPanel(true);
+        this.exportSlideDownPanel.toggle();
     }
 
     public onExportConfirm(): void {
         this.exportDataRecords();
-        this.slideDownExportPanel(false);
+        this.exportSlideDownPanel.show(false);
     }
 
     public onExportCancel(): void {
-        this.slideDownExportPanel(false);
+        this.exportSlideDownPanel.show(false);
     }
 
-    private slideDownExportPanel(show: boolean): void {
-        if (show) {
-            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
-        } else {
-            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
-        }
+    onSlidePanelClose(){
+        //TODO reset fields
     }
 
     private convertDate(date: Date): string {

@@ -38,6 +38,7 @@
     <div>
 
         <!-- Sliding Editor Panel for Export -->
+        <!--
         <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
             <div>
                 <label>Data Record Type</label>
@@ -71,6 +72,41 @@
             </div>
 
         </div>
+        -->
+        <wc-slide-panel #exportSlideDownPanel (close)="onSlidePanelClose()">
+            <div class="wc-slide-down-editor-pane editor" style="display:flex;">
+                <div>
+                    <label>Data Record Type</label>
+                    <kendo-dropdownlist [data]="dataRecordTypes" [(ngModel)]="dataRecordType" [valuePrimitive]="true"></kendo-dropdownlist>
+                </div>
+                <div>
+                    <kendo-daterange style="display:flex;">
+                        <div>
+                            <label>Start</label>
+                            <kendo-dateinput kendoDateRangeStartInput [(value)]="range.start"></kendo-dateinput>
+                        </div>
+                        <div>
+                            <label>End</label>
+                            <kendo-dateinput kendoDateRangeEndInput [(value)]="range.end"></kendo-dateinput>
+                        </div>
+                    </kendo-daterange>
+                </div>
+            </div>
+    
+            <div class="cmd" style="align-items: center;">
+                <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Export?</label>
+                <a (click)="onExportConfirm()">
+                    <svg class="ok" data-id="ok">
+                        <use xlink:href="assets/img/icons.svg#ico-ok"></use>
+                    </svg>
+                </a>
+                <a (click)="onExportCancel()" data-slideup="#user-add">
+                    <svg class="ko" data-id="ko">
+                        <use xlink:href="assets/img/icons.svg#ico-ko"></use>
+                    </svg>
+                </a>
+            </div>
+        </wc-slide-panel>
 
         <!-- Log Pane -->
         <label>Log <div class="cmd"><button class="small small-copy-button" data-copy="#output" (click)="onCopyToClipboardClicked()">

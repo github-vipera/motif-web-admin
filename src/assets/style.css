@@ -200,7 +200,7 @@ section .header h1 {margin:0; font-family:montserrat; font-size:1.5rem;}
 section .header h1 label {all:inherit; cursor:pointer;}
 section .header p {margin:0; color:#999; font-size:.8rem;}
 
-.editor {color:#aaa; background:rgba(255,255,255,.1); padding:1rem;} 
+.editor {color:#aaa; background:rgba(255,255,255,.1); padding: 0.5rem;} 
 .editor > *+* {margin-left:.5rem;}
 .editor svg {width:1.5rem; height:1.5rem; fill:currentColor;}
 .editor img {width:1.25rem; height:1.25rem;}
