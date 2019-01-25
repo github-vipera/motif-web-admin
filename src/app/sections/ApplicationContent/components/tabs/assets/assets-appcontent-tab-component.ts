@@ -22,6 +22,7 @@ import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
 
 const LOG_TAG = '[AssetsAppContentSection]';
@@ -329,30 +330,8 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         }
     }
 
-    doUploadNewAssetBundle(file: File): void {
-        this.logger.debug(LOG_TAG, 'doUploadNewAssetBundle : ', file);
-        const reader = new FileReader();
-        reader.onloadend = (data) => {
-            this.uploadAssetBundle(reader.result as ArrayBuffer, file.name);
-        };
-        reader.onerror = (error) => {
-            this.logger.error(LOG_TAG, 'doUploadNewAssetBundle error: ', error);
-            this.notificationCenter.post({
-                name: 'ReadingAssetBundleError',
-                title: 'Asset Bundle Upload',
-                message: 'Error reading asset bundle file:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    uploadAssetBundle(blob: ArrayBuffer, fileName: string): void {
-        this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', blob);
-
-        const file =  new File([blob], fileName);
+    uploadAssetBundle(event: WCUploadPanelEvent): void {
+        this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', event);
 
         this.notificationCenter.post({
             name: 'UploadAssetBundleProgress',
@@ -361,7 +340,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
             type: NotificationType.Info
         });
 
-        this._subHandler.add(this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, file).subscribe((event) => {
+        this._subHandler.add(this.assetsService.uploadAsset(this.domainSelector.selectedDomain.name, event.file).subscribe((event) => {
             this.refreshData();
             this.logger.debug(LOG_TAG, 'Asset Bundle uploaded successfully: ', event);
 
@@ -405,6 +384,8 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
                 message: 'The asset bundle has been successfully deleted.',
                 type: NotificationType.Success
             });
+
+            this.refreshData();
 
         }, (error) => {
             this.logger.debug(LOG_TAG, 'Error deleting asset bundle: ', error);

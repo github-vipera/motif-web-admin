@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
-import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
 const LOG_TAG = '[LicenseManagerSection]';
 
@@ -27,8 +27,6 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
     public _licenses: LicenseList = [];
     public loading: boolean;
     @ViewChild('xmlFileImport') xmlFileImportEl: ElementRef;
-    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
-    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
 
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
@@ -120,67 +118,23 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
         }));
     }
 
-    /**
-     * Button event
-     */
-    onImportClicked(event): void {
-        this.logger.debug(LOG_TAG , 'Import clicked');
-        this._uploadSlideDownPanel.toggle();
+    onUploadError(error){
+        this.notificationCenter.post({
+            name: 'UploadLicenseError',
+            title: 'License Upload',
+            message: 'Error uploading license:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
     }
 
-    onSlideEditorClose():void {
-        if (this.fileDrop.file) {
-            this.fileDrop.reset();
-        }
-    }
-
-    onLicenseUploadCancel(): void {
-        this._uploadSlideDownPanel.show(false);
-    }
-
-    onLicenseUploadConfirm(): void {
-        if (this.fileDrop.file) {
-            this.onUploadFileSelected(this.fileDrop.file);
-            this._uploadSlideDownPanel.show(false);
-            this.fileDrop.reset();
-        }
-    }
-
-    /**
-     * Triggered by the input tag
-     * @param event
-     */
-    onUploadFileSelected(file: File): void {
-        this.logger.debug(LOG_TAG , 'onUploadFileSelected:', event);
-        const reader = new FileReader();
-          reader.onloadend = () => {
-            this.logger.debug(LOG_TAG , 'onloadend');
-            this.uploadLicense(reader.result);
-          };
-
-          reader.onerror = (error) => {
-            this.logger.error(LOG_TAG , 'onUploadFileSelected error: ', error);
-            this.notificationCenter.post({
-                name: 'UploadLicenseError',
-                title: 'License Upload',
-                message: 'Error uploading licenses:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-          };
-
-          this.logger.debug(LOG_TAG , 'readAsText: ', file);
-          reader.readAsText(file);
-          // reset current input value
-          this.xmlFileImportEl.nativeElement.value = null;
-    }
 
     /**
      * Upload the blob file to server
      * @param blob
      */
-    uploadLicense(blob): void {
+    uploadLicense(event: WCUploadPanelEvent): void {
         this.logger.debug(LOG_TAG , 'uploadLicense called');
         this.notificationCenter.post({
             name: 'UploadLicense',
@@ -188,7 +142,7 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
             message: 'Uploading license...',
             type: NotificationType.Info
         });
-        this._subHandler.add(this.licenseManager.uploadLicense(blob).subscribe((data) => {
+        this._subHandler.add(this.licenseManager.uploadLicense(event.file).subscribe((data) => {
             this.logger.info(LOG_TAG , 'Import license done:', data);
             this.notificationCenter.post({
                 name: 'UploadLicense',

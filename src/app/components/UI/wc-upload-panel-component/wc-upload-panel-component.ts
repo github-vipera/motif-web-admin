@@ -7,7 +7,12 @@ import { SubscriptionHandler } from '../../Commons/subscription-handler';
 
 const LOG_TAG = '[WCUploadPanelComponent]';
 
- @Component({
+export interface WCUploadPanelEvent {
+    file: File;
+    fileName: string;
+}
+
+@Component({
    selector: 'wc-upload-panel',
    templateUrl: './wc-upload-panel-component.html',
    styleUrls: [ './wc-upload-panel-component.scss' ]
@@ -21,7 +26,7 @@ const LOG_TAG = '[WCUploadPanelComponent]';
 
     @Output() close: EventEmitter<WCUploadPanelComponent> = new EventEmitter<WCUploadPanelComponent>();
     @Output() open: EventEmitter<WCUploadPanelComponent> = new EventEmitter<WCUploadPanelComponent>();
-    @Output() upload: EventEmitter<File> = new EventEmitter<File>();
+    @Output() upload: EventEmitter<WCUploadPanelEvent> = new EventEmitter<WCUploadPanelEvent>();
     @Output() uploadError: EventEmitter<any> = new EventEmitter<any>();
 
    constructor(private renderer2: Renderer2, 
@@ -84,7 +89,7 @@ const LOG_TAG = '[WCUploadPanelComponent]';
     private uploadAssetBundle(blob: ArrayBuffer, fileName: string): void {
         this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', blob);
         const file =  new File([blob], fileName);
-        this.upload.emit(file);
+        this.upload.emit({ file: file, fileName: fileName});
     }
 
  }

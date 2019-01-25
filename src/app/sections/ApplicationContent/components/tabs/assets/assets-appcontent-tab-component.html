@@ -39,7 +39,7 @@
 
         <div>
             <!-- Sliding Editor Panel -->
-            <wc-upload-panel #uploadSlideDownPanelEx (upload)="doUploadNewAssetBundle($event)" (uploadError)="onUploadError($event)"></wc-upload-panel>
+            <wc-upload-panel #uploadSlideDownPanelEx (upload)="uploadAssetBundle($event)" (uploadError)="onUploadError($event)"></wc-upload-panel>
 
             <!-- Grid -->
             <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [scrollable]="true"

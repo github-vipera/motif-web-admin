@@ -1,3 +1,4 @@
+import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
 import { WebContentUpdateDialogComponent } from './components/dialog/webcontent-update-dialog';
 import { GridEditorCommandsModule } from './../../components/GridEditorCommandsModule';
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
@@ -28,7 +29,8 @@ import { DialogModule } from 'primeng/dialog';
         CommonSelectorsModule,
         WebContentServiceModule,
         GridEditorCommandsModule,
-        DialogModule
+        DialogModule,
+        UploadPanelModule
     ],
     entryComponents: [
         WebContentSectionComponent

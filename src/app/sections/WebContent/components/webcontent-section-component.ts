@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
 import { WebContentUpdateDialogComponent } from './dialog/webcontent-update-dialog';
+import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
 const LOG_TAG = '[WebContentSectionComponent]';
 
@@ -40,8 +41,6 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     gridData: BundleStatus[];
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
-    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
-    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
     @ViewChild('updateDialog') _updateDialog: WebContentUpdateDialogComponent;
 
     // Data binding
@@ -239,53 +238,20 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         this._updateDialog.show('domain', 'app', event.rowData.dataItem.info.context);
     }
 
-    onUploadBundleClicked(): void {
-        this._uploadSlideDownPanel.toggle();
-    }
-
-    onBundleUploadCancel(): void {
-        this._uploadSlideDownPanel.show(false);
-    }
-
-    onBundleUploadConfirm(): void {
-        if (this.fileDrop.file) {
-            this.doUploadNewBundle(this.fileDrop.file);
-            this._uploadSlideDownPanel.show(false);
-            this.fileDrop.reset();
-        }
-    }
-
-    onSlideEditorClose():void {
-        if (this.fileDrop.file) {
-            this.fileDrop.reset();
-        }
+    onUploadError(error){
+        this.notificationCenter.post({
+            name: 'UploadBundleError',
+            title: 'Upload Bundle',
+            message: 'Error uploading bundle:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
     }
 
 
-    doUploadNewBundle(file: File): void {
-        this.logger.debug(LOG_TAG, 'doUploadNewBundle : ', file);
-        const reader = new FileReader();
-        reader.onloadend = (data) => {
-            this.uploadAssetBundle(reader.result as ArrayBuffer, file.name);
-        };
-        reader.onerror = (error) => {
-            this.logger.error(LOG_TAG, 'doUploadNewBundle error: ', error);
-            this.notificationCenter.post({
-                name: 'ReadingAssetBundleError',
-                title: 'Asset Bundle Upload',
-                message: 'Error reading asset bundle file:',
-                type: NotificationType.Error,
-                error: error,
-                closable: true
-            });
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    uploadAssetBundle(blob: ArrayBuffer, fileName: string): void {
-        this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', blob);
-
-        const file =  new File([blob], fileName);
+    uploadAssetBundle(event: WCUploadPanelEvent): void {
+        this.logger.debug(LOG_TAG, 'uploadAssetBundle : ', event);
 
         this.notificationCenter.post({
             name: 'UploadAssetBundleProgress',
@@ -294,7 +260,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
             type: NotificationType.Info
         });
 
-        this._subHandler.add(this.webContentService.uploadBundle(file).subscribe((event) => {
+        this._subHandler.add(this.webContentService.uploadBundle(event.file).subscribe((event) => {
             this.refreshData();
             this.logger.debug(LOG_TAG, 'Bundle uploaded successfully: ', event);
 

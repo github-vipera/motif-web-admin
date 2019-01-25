@@ -9,6 +9,7 @@ import { EditService } from '../../components/Grid/edit.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
+import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
         WebConsoleUIKitKendoProviderModule,
         ClipboardModule,
         FontAwesomeModule,
-        CommonsUIModule
+        CommonsUIModule,
+        UploadPanelModule
     ],
     entryComponents: [
         LicenseManagerSectionComponent
