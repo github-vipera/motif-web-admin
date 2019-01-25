@@ -21,6 +21,7 @@ import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-p
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
 
 
 const LOG_TAG = '[AssetsAppContentSection]';
@@ -43,6 +44,8 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     faBatteryHalf = faBatteryHalf;
     faCircleNotch = faCircleNotch;
     fas = fas;
+
+    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
 
     publishConfirmationTitleProvider: ConfirmationTitleProvider = {
         getTitle(rowData): string {
@@ -91,7 +94,6 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     public loading: boolean;
 
     @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
-    @ViewChild('uploadAssetsSlideDown') uploadAssetsSlideDown: ElementRef;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
     @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
 
@@ -339,18 +341,24 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
  * Show the new App panel
  */
     onAddAssetsBundleClicked(): void {
-        this.slideDownUploadAssets(true);
+        this._uploadSlideDownPanel.toggle();
     }
 
-    /**
-     *
-     * @param show Show/Hide the new Slide down panel
-     */
-    private slideDownUploadAssets(show: boolean): void {
-        if (show) {
-            this.renderer2.removeClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
-        } else {
-            this.renderer2.addClass(this.uploadAssetsSlideDown.nativeElement, 'closed');
+    onBundleUploadCancel(): void {
+        this._uploadSlideDownPanel.show(false);
+    }
+
+    onBundleUploadConfirm(): void {
+        if (this.fileDrop.file) {
+            this.doUploadNewAssetBundle(this.fileDrop.file);
+            this._uploadSlideDownPanel.show(false);
+            this.fileDrop.reset();
+        }
+    }
+
+    onSlideEditorClose():void {
+        if (this.fileDrop.file) {
+            this.fileDrop.reset();
         }
     }
 
