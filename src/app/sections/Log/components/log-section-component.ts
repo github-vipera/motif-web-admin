@@ -13,6 +13,7 @@ import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 import { formatDate } from '@angular/common';
 import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { DateRangePopupComponent } from '@progress/kendo-angular-dateinputs';
 
 const LOG_TAG = '[LogSection]';
 
@@ -45,6 +46,8 @@ export class LogSectionComponent implements OnInit, OnDestroy {
 
     @ViewChild('logPane') logPane: ElementRef;
     @ViewChild('exportSlideDownPanel') exportSlideDownPanel: WCSlidePanelComponent;
+    @ViewChild('dateRangePopup') dateRangePopup: DateRangePopupComponent;
+    
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
@@ -213,8 +216,9 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     }
 
     public onExportConfirm(): void {
-        this.exportDataRecords();
-        this.exportSlideDownPanel.show(false);
+        if (this.exportDataRecords()) {
+            this.exportSlideDownPanel.show(false);
+        }
     }
 
     public onExportCancel(): void {
@@ -231,8 +235,20 @@ export class LogSectionComponent implements OnInit, OnDestroy {
         return formatDate(date, 'yyyy/MM/dd HH:mm:ss', 'en-US');
     }
 
-    private exportDataRecords(): void {
+    private exportDataRecords(): boolean {
         this.logger.debug(LOG_TAG , 'exportDataRecords: ', this.dataRecordType, this.range.start, this.range.end);
+
+        if ((this.dataRecordType==null) || (this.range.start==null) || (this.range.end==null)){
+            this.notificationCenter.post({
+                name: 'ExportDataRecordsProgress',
+                title: 'DataRecords Export',
+                message: 'Ivalid export parameters.',
+                type: NotificationType.Warning,
+                closable: false
+            });
+            return false;
+        }
+
         this.notificationCenter.post({
             name: 'ExportDataRecordsProgress',
             title: 'DataRecords Export',
@@ -275,6 +291,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
             });
 
         }));
+        return true;
     }
 
     private loadDatarecordsTypes(): void {
@@ -294,6 +311,10 @@ export class LogSectionComponent implements OnInit, OnDestroy {
             });
 
         }));
+    }
+
+    onDateRangePopupOpen() {
+
     }
 
 }

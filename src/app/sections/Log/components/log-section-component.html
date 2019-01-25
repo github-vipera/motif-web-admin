@@ -54,6 +54,7 @@
                             <label>End</label>
                             <kendo-dateinput kendoDateRangeEndInput [(value)]="range.end"></kendo-dateinput>
                         </div>
+                        <kendo-daterange-popup (open)="onDateRangePopupOpen()" #dateRangePopup></kendo-daterange-popup>
                     </kendo-daterange>
                 </div>
             </div>
