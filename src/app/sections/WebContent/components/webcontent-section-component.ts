@@ -231,8 +231,12 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         else if (event.id===CommandType.Delete){
             this.doDeleteBundle(event.rowData.dataItem);
         } else if (event.id===CommandType.Edit){
-                this._updateDialog.show('domain', 'app', 'context');
+            this.doEditBundle(event);
         }
+    }
+
+    doEditBundle(event: GridEditorCommandComponentEvent) {
+        this._updateDialog.show('domain', 'app', event.rowData.dataItem.info.context);
     }
 
     onUploadBundleClicked(): void {

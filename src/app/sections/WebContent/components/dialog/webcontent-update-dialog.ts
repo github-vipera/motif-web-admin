@@ -22,6 +22,9 @@ export class WebContentUpdateDialogComponent implements OnInit {
     application: string;
     context: string;
 
+    selectedDomain: any;
+    selectedApplication: any;
+
     @Output() confirm: EventEmitter<UpdateDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
 
@@ -32,6 +35,7 @@ export class WebContentUpdateDialogComponent implements OnInit {
     }
 
     public show(domain: string, application: string, context: string): void {
+        this.logger.debug(LOG_TAG, 'show called for: ', domain, application, context);
         this.prepare(domain, application, context);
         this.display = true;
     }
@@ -41,8 +45,8 @@ export class WebContentUpdateDialogComponent implements OnInit {
     }
 
     private prepare(domain: string, application: string, context: string): void {
-        this.logger.debug(LOG_TAG, 'prepare called');
-        // empty the fields
+        this.logger.debug(LOG_TAG, 'show called for: ', domain, application, context);
+        // fill the fields
         this.domain = domain;
         this.application = application;
         this.context = context;

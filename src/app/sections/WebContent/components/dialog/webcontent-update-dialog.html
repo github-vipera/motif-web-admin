@@ -9,6 +9,23 @@
 >
   <p-header> New Configuration Parameter </p-header>
 
+  <label class="switch-control-label"> 
+    Domain
+</label>
+  <wc-domain-selector-combobox [(ngModel)]="selectedDomain"></wc-domain-selector-combobox>
+
+  <label class="switch-control-label"> 
+    Application
+  </label>
+  <wc-application-selector-combobox [domain]="(selectedDomain ? selectedDomain.name : null)" [(ngModel)]="selectedApplication"></wc-application-selector-combobox>
+
+<kendo-textbox-container
+floatingLabel="Context"
+style="width: 100%;"
+>
+<input kendoTextBox [(ngModel)]="context" required />
+</kendo-textbox-container>
+<label class="warning-label" *ngIf="contextEditingWarningDisplay">Invalid Context</label>
 
 <p-footer>
   <kendo-buttongroup look="flat">
