@@ -222,7 +222,9 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     }
 
     onSlidePanelClose(){
-        //TODO reset fields
+        this.range.start = null;
+        this.range.end = null;
+        this.dataRecordType = null;
     }
 
     private convertDate(date: Date): string {
