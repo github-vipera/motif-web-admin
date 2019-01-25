@@ -39,7 +39,7 @@
 
         <!-- Sliding Editor Panel for Export -->
         <wc-slide-panel #exportSlideDownPanel (close)="onSlidePanelClose()">
-            <div class="wc-slide-down-editor-pane editor" style="display:flex;">
+            <div class="wc-slide-down-editor-pane" style="display:flex;">
                 <div>
                     <label>Data Record Type</label>
                     <kendo-dropdownlist [data]="dataRecordTypes" [(ngModel)]="dataRecordType" [valuePrimitive]="true"></kendo-dropdownlist>
