@@ -1,3 +1,4 @@
+import { UploadPanelModule } from './../../components/UI/wc-upload-panel-component/UploadPanelModule';
 import { GridEditorCommandsModule } from '../../components/GridEditorCommandsModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -32,7 +33,8 @@ import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule
         TooltipModule,
         DroppableModule,
         GridEditorCommandsModule,
-        CommonSelectorsModule
+        CommonSelectorsModule,
+        UploadPanelModule
     ],
     entryComponents: [
         AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent

@@ -25,6 +25,8 @@ export class WebContentUpdateDialogComponent implements OnInit {
     selectedDomain: any;
     selectedApplication: any;
 
+    contextEditingWarningDisplay = false;
+    
     @Output() confirm: EventEmitter<UpdateDialogResult> = new EventEmitter();
     @Output() cancel: EventEmitter<void> = new EventEmitter();
 

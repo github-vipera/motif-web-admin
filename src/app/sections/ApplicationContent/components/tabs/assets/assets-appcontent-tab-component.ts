@@ -45,8 +45,6 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     faCircleNotch = faCircleNotch;
     fas = fas;
 
-    @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
-
     publishConfirmationTitleProvider: ConfirmationTitleProvider = {
         getTitle(rowData): string {
             if (rowData.published){
@@ -229,27 +227,21 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         this.editService.remove(assetBundle);
     }
 
-    public onAssetBundleAddConfirm(): void {
-        if (this.fileDrop.file) {
-            this.doUploadNewAssetBundle(this.fileDrop.file);
-            this.slideDownUploadAssets(false);
-            this.fileDrop.reset();
-        }
-    }
-
-    public onAssetBundleAddCancel(): void {
-        this.slideDownUploadAssets(false);
-        this.fileDrop.reset();
-    }
-
-    onConfirmationCancel(event): void {
-        // nop
+    onUploadError(error){
+        this.notificationCenter.post({
+            name: 'UploadBundleErorr',
+            title: 'Upload Bundle',
+            message: 'Error uploading bundle:',
+            type: NotificationType.Error,
+            error: error,
+            closable: true
+        });
     }
 
     /**
- * Event emitted by the confirmation dialog
- * @param userData
- */
+     * Event emitted by the confirmation dialog
+     * @param userData
+     */
     onConfirmationOK(userData): void {
         this.logger.debug(LOG_TAG, 'onConfirmationOK for:', userData);
 
@@ -334,31 +326,6 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
                 { 'action': 'discardChanges' });
         } else {
             this.refreshData();
-        }
-    }
-
-    /**
- * Show the new App panel
- */
-    onAddAssetsBundleClicked(): void {
-        this._uploadSlideDownPanel.toggle();
-    }
-
-    onBundleUploadCancel(): void {
-        this._uploadSlideDownPanel.show(false);
-    }
-
-    onBundleUploadConfirm(): void {
-        if (this.fileDrop.file) {
-            this.doUploadNewAssetBundle(this.fileDrop.file);
-            this._uploadSlideDownPanel.show(false);
-            this.fileDrop.reset();
-        }
-    }
-
-    onSlideEditorClose():void {
-        if (this.fileDrop.file) {
-            this.fileDrop.reset();
         }
     }
 
@@ -584,4 +551,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         }
     }
 
+    onConfirmationCancel(event){
+        //nop
+    }
 }

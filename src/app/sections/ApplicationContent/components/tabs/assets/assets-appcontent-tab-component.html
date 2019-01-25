@@ -19,7 +19,7 @@
                     <button kendoButton [toggleable]="false" [icon]="'save'" (click)="onSaveClicked()" [disabled]="!editService.hasChanges()">Save</button>
                     <button kendoButton [toggleable]="false" [icon]="'track-changes-reject'" (click)="onDiscardClicked()"
                         [disabled]="!editService.hasChanges()">Discard Changes</button>
-                    <button kendoButton [toggleable]="false" (click)="onAddAssetsBundleClicked()" [disabled]="!canAddBundle">
+                    <button kendoButton [toggleable]="false" (click)="uploadSlideDownPanelEx.toggle()" [disabled]="!canAddBundle">
                         <fa-icon [icon]="faMobileAlt"></fa-icon>Add Assets Bundle
                     </button>
                 </kendo-buttongroup>
@@ -39,27 +39,7 @@
 
         <div>
             <!-- Sliding Editor Panel -->
-            <wc-slide-panel #uploadSlideDownPanel (close)="onSlideEditorClose()">
-                <div class="wc-slide-down-editor-pane" style="display:flex;height: 45px;">
-                    <div style="width:350px;height: 100%;">
-                            <wc-file-drop-panel #fileDrop></wc-file-drop-panel>
-                    </div>
-                </div>
-        
-                <div class="cmd" style="align-items: center;">
-                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Upload?</label>
-                    <a (click)="onBundleUploadConfirm()">
-                        <svg class="ok" data-id="ok">
-                            <use xlink:href="assets/img/icons.svg#ico-ok"></use>
-                        </svg>
-                    </a>
-                    <a (click)="onBundleUploadCancel()" data-slideup="#user-add">
-                        <svg class="ko" data-id="ko">
-                            <use xlink:href="assets/img/icons.svg#ico-ko"></use>
-                        </svg>
-                    </a>
-                </div>
-            </wc-slide-panel>
+            <wc-upload-panel #uploadSlideDownPanelEx (upload)="doUploadNewAssetBundle($event)" (uploadError)="onUploadError($event)"></wc-upload-panel>
 
             <!-- Grid -->
             <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [scrollable]="true"
@@ -77,14 +57,6 @@
 
                 <kendo-grid-column field="version" title="Version" width="160">
                 </kendo-grid-column>
-
-                <!--
-                <kendo-grid-column field="published" title="Published" width="160">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                                <label class="k-icon grid-cell-checkbox grid-cell-checkbox-{{dataItem.published}}"></label>
-                            </ng-template>
-                </kendo-grid-column>
-                --> 
 
                 <kendo-grid-column field="published" title="Status">
                         <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
