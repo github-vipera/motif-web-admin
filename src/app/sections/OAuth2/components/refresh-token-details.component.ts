@@ -2,7 +2,6 @@ import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
 import { WCGridConfiguration, WCGridColumnType, WCToasterService } from 'web-console-ui-kit'
 import { DataResult } from '@progress/kendo-data-query';
-import { WCOverlayPaneService } from 'web-console-ui-kit'
 import { Oauth2Service, AccessTokenList, RefreshToken } from '@wa-motif-open-api/oauth2-service'
 
 const LOG_TAG = "[OAuth2Section] [RefreshTokenDetailsComponent]";
@@ -27,8 +26,7 @@ export class RefreshTokenDetailsComponent implements OnInit {
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,  
-    private toaster: WCToasterService, 
-    private overlayPaneService: WCOverlayPaneService) {
+    private toaster: WCToasterService) {
 
     this.gridConfiguration = {
       columns: [

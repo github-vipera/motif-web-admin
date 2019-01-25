@@ -26,8 +26,6 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
 
     public _licenses: LicenseList = [];
     public loading: boolean;
-    @ViewChild('xmlFileImport') xmlFileImportEl: ElementRef;
-
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 

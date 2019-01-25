@@ -7,7 +7,6 @@ import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@
 import { PageChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { MotifQueryFilter, MotifQuerySort, MotifQueryResults, MotifQueryService, MotifPagedQuery } from 'web-console-core';
 import { WCSlideDownPanelComponent } from 'web-console-ui-kit'
-import { WCOverlayPaneService } from 'web-console-ui-kit'
 import { SelectableSettings, SelectionEvent, RowArgs } from '@progress/kendo-angular-grid';
 import { DomainsService, DomainsList, Domain, UsersService, UsersList } from '@wa-motif-open-api/platform-service'
 import { String, StringBuilder } from 'typescript-string-operations'
@@ -83,8 +82,7 @@ export class UsersListComponent implements OnInit {
   constructor(private usersService: UsersService,  
     private domainsService:DomainsService,
     private motifQueryService: MotifQueryService,
-    private toaster: WCToasterService, 
-    private overlayPaneService: WCOverlayPaneService) {
+    private toaster: WCToasterService) {
     console.log("usersService=", usersService);
 
     this.gridConfiguration = {
