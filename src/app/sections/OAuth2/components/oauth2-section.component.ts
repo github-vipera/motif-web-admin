@@ -223,5 +223,12 @@ freeMem() {
 
   }
 
+  onRefreshClicked() {
+    this.refreshData();
+  }
+
+  public get canRefresh(): boolean {
+    return (this.domainSelector.selectedDomain!=null);
+  }
 
 }
