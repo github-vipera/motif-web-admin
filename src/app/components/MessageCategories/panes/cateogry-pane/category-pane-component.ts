@@ -11,9 +11,9 @@ import { NGXLogger } from 'web-console-core';
 import { SystemService, SystemCategoryCreate, SystemCategoriesList, SystemCategory } from '@wa-motif-open-api/platform-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-  EditService,
-  EditServiceConfiguration
-} from '../../../Grid/edit.service';
+  WCEditService,
+  WCEditServiceConfiguration
+} from 'web-console-ui-kit';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { ConfirmationService } from 'primeng/api';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
@@ -36,8 +36,8 @@ export class CategoryPaneComponent implements OnInit, OnDestroy {
   private _domain: string = null;
   private _selectedCategory: SystemCategory = null;
 
-  private editService: EditService = new EditService();
-  private editServiceConfiguration: EditServiceConfiguration = {
+  private editService: WCEditService = new WCEditService();
+  private editServiceConfiguration: WCEditServiceConfiguration = {
     idField: 'name',
     dirtyField: 'isDirty',
     isNewField: 'isNew'

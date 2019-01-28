@@ -32,7 +32,15 @@ body {
     justify-content: center; 
 }
 
+.user-status-ACTIVE {
+    background-color: green !important;
+	color: white;
+}
 
+.user-status-PREACTIVE {
+	background-color: rgb(105, 202, 60) !important;
+	color: black;
+}
 
 /*
 .paperino {

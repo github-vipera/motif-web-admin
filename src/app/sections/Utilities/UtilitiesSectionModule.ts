@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { UtilitiesSectionComponent } from './components/utilities-section-component';
 import { OTPUtilityComponent } from './components/tabs/otp/utilities-otp-tab-component';
@@ -22,7 +22,8 @@ import { DialogModule } from 'primeng/dialog';
         CommonsUIModule,
         FontAwesomeModule,
         DialogModule,
-        CommonSelectorsModule
+        CommonSelectorsModule,
+        WCGridModule
     ],
     entryComponents: [
         UtilitiesSectionComponent

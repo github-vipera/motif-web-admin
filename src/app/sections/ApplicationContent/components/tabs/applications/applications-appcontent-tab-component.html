@@ -67,17 +67,20 @@
                 <kendo-grid-column field="created" title="Created" width="160" format="{0:dd/MM/yyyy HH:mm:ss}">
                 </kendo-grid-column>
 
-                <kendo-grid-column title="" width="150" minResizableWidth="100">
-                    <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex"
-                        let-column="column">
-                        <wc-grid-editor [question]="'Delete ?'" [rowIndex]="rowIndex" [columnIndex]="columnIndex"
-                            [column]="column" [value]="dataItem[column.field]" [dataItem]="dataItem" [buttonClass]="''"
-                            [mainClass]="'wc-table-delete-command'" (onConfirmation)="onDeleteOKPressed(dataItem)"
-                            (onCancel)="onDeleteCancelPressed(dataItem)">
-                            <svg data-id="no">
-                                <use xlink:href="assets/img/icons.svg#ico-no"></use>
-                            </svg>
-                        </wc-grid-editor>
+                <kendo-grid-column title="" width="150" minResizableWidth="140">
+                    <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex" let-column="column">
+                            <wc-grid-editor-command 
+                                [alignMode]="'end'"
+                                [hasConfirmation]="true"
+                                [confirmationTitle]="'Delete ?'"
+                                [rowIndex]="rowIndex" 
+                                [columnIndex]="columnIndex" 
+                                [column]="column" 
+                                [commandIcon]="'assets/img/icons.svg#ico-no'"
+                                [dataItem]="dataItem"
+                                (commandConfirm)="onDeleteOKPressed(dataItem)"  
+                                >
+                            </wc-grid-editor-command>
                     </ng-template>
                 </kendo-grid-column>
 

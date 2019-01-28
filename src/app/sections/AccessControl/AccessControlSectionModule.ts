@@ -2,7 +2,7 @@ import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger'
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit'
 import { AuthAccessControlServiceModule } from '@wa-motif-open-api/auth-access-control-service'
 import { AccessControlSectionComponent } from './components/access-control-section.component'
 import { PlatformServiceModule } from '@wa-motif-open-api/platform-service'
@@ -20,7 +20,8 @@ import { UsersListComponent } from './components/users-list/users-list.component
         WebConsoleUIKitDataModule, 
         WebConsoleUIKitKendoProviderModule,
         CommonsUIModule,
-        CommonSelectorsModule
+        CommonSelectorsModule,
+        WCGridModule
     ],
     entryComponents:[
         AccessControlSectionComponent

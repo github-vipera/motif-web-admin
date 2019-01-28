@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
 import { PluginView } from 'web-console-core'
 //import { UsersService, User } from '../../services/Platform/UsersService';
 //import { DomainsService, Domain } from '../../services/Platform/DomainsService';
-import { WCGridConfiguration, WCGridColumnType, WCToasterService } from 'web-console-ui-kit'
+import { WCToasterService, WCConfirmationTitleProvider } from 'web-console-ui-kit'
 import { SortDescriptor, orderBy, GroupDescriptor, process, DataResult } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { MotifQueryFilter, MotifQuerySort, MotifQueryResults, MotifQueryService, MotifPagedQuery } from 'web-console-core';
@@ -43,7 +43,6 @@ export class UsersListComponent implements OnInit {
   selectedKeys:Array<string> = [];
 
   //Grid Options
-  public gridConfiguration:WCGridConfiguration;
   public sort: SortDescriptor[] = [];
   public groups: GroupDescriptor[] = [];
   public gridView: DataResult;
@@ -79,20 +78,23 @@ export class UsersListComponent implements OnInit {
   @Input('newUserId') newUserId:string = "";
   @Input('newUserModel') newUserModel:NewUserModel={};
 
+  statusConfirmationTitleProvider: WCConfirmationTitleProvider= {
+    getTitle(rowData): string {
+      if (rowData.state && rowData.state.toUpperCase()==="ACTIVE"){
+        return "Suspend?";
+      } else if (rowData.state && rowData.state.toUpperCase()==="PREACTIVE"){
+        return "Activate?";
+      } else {
+        return "";
+      }
+    }
+}
+
   constructor(private usersService: UsersService,  
     private domainsService:DomainsService,
     private motifQueryService: MotifQueryService,
     private toaster: WCToasterService) {
     console.log("usersService=", usersService);
-
-    this.gridConfiguration = {
-      columns: [
-        { label: "Domain", name:"domain", sortable:false },
-        { label: "User ID", name:"userId", sortable:true },
-        { label: "State", name:"state", sortable:true },
-        { label: "", name:"", sortable:true, type: WCGridColumnType.Command },
-      ]
-    }
   }
 
   ngOnInit() {

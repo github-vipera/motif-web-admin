@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger } from 'web-console-core';
-import { WCGridConfiguration, WCGridColumnType } from 'web-console-ui-kit';
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
@@ -36,7 +35,6 @@ export class OAuth2SectionComponent implements OnInit, OnDestroy {
   public accessTokenList: AccessTokenList = [];
 
   //Grid Options
-  public gridConfiguration: WCGridConfiguration;
   public sort: SortDescriptor[] = [];
   public groups: GroupDescriptor[] = [];
   public gridView: DataResult;
@@ -57,15 +55,6 @@ export class OAuth2SectionComponent implements OnInit, OnDestroy {
     private notificationCenter: NotificationCenter
         ) {
 
-    this.gridConfiguration = {
-      columns: [
-        { label: 'Domain', name: 'domain', sortable: false },
-        { label: 'Token', name: 'token', sortable: true },
-        { label: 'Type', name: 'tokenType', sortable: true },
-        { label: 'User ID', name: 'userId', sortable: true },
-        { label: '', name: '', sortable: true, type: WCGridColumnType.Command },
-      ]
-    };
     this.logger.debug(LOG_TAG, 'Opening...');
   }
 
@@ -81,7 +70,6 @@ export class OAuth2SectionComponent implements OnInit, OnDestroy {
 freeMem() {
   this.refreshTokenList = null;
   this.accessTokenList = null;
-  this.gridConfiguration = null;
   this.sort = null;
   this.groups = null;
   this.gridView = null;

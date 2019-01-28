@@ -4,8 +4,7 @@ import { LicenseManagementServiceModule } from '@wa-motif-open-api/license-manag
 import { LicenseManagerSectionComponent } from './components/license-manager-section-component';
 import { LicenseDetailsComponent } from './components/details/license-details-components';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
-import { EditService } from '../../components/Grid/edit.service';
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit';
 import { ClipboardModule } from 'ngx-clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
@@ -22,7 +21,8 @@ import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-compone
         ClipboardModule,
         FontAwesomeModule,
         CommonsUIModule,
-        UploadPanelModule
+        UploadPanelModule,
+        WCGridModule
     ],
     entryComponents: [
         LicenseManagerSectionComponent
@@ -32,7 +32,6 @@ import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-compone
     ],
     exports: [ LicenseManagerSectionComponent ],
     providers: [
-        EditService
     ]
 
   })

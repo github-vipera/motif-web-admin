@@ -1,6 +1,6 @@
 import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
-import { WCGridConfiguration, WCGridColumnType, WCToasterService } from 'web-console-ui-kit'
+import { WCToasterService } from 'web-console-ui-kit'
 import { DataResult } from '@progress/kendo-data-query';
 import { Oauth2Service, AccessTokenList, RefreshToken } from '@wa-motif-open-api/oauth2-service'
 
@@ -20,21 +20,12 @@ export class RefreshTokenDetailsComponent implements OnInit {
   public accessTokenList: AccessTokenList = [];
 
   //Grid Options
-  public gridConfiguration:WCGridConfiguration;
   public gridView: DataResult;
   public type: 'numeric' | 'input' = 'numeric';
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,  
     private toaster: WCToasterService) {
-
-    this.gridConfiguration = {
-      columns: [
-        { label: "Token", name:"token", sortable:true },
-        { label: "Type", name:"tokenType", sortable:true },
-        { label: "", name:"", sortable:true, type: WCGridColumnType.Command },
-      ]
-    }
   }
 
   ngOnInit() {

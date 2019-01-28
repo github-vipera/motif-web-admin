@@ -1,5 +1,4 @@
-import { GridEditorCommandComponentEvent, ConfirmationTitleProvider } from './../../../../components/Grid/grid-editor-command/grid-editor-command-component';
-import { GridEditorCommandsConfig } from '../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
+import { WCGridEditorCommandsConfig, WCGridEditorCommandComponentEvent, WCConfirmationTitleProvider  } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
@@ -45,7 +44,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
     @Output() selectionChange : EventEmitter<SelectionEvent> = new EventEmitter();
     @Output() edit: EventEmitter<EditEvent> = new EventEmitter<EditEvent>();
 
-    statusConfirmationTitleProvider: ConfirmationTitleProvider = {
+    statusConfirmationTitleProvider: WCConfirmationTitleProvider = {
         getTitle(rowData): string {
             if (rowData.enabled){
                 return "Disable ?";
@@ -55,7 +54,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
         }
     }
     
-    commands: GridEditorCommandsConfig = [
+    commands: WCGridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-edit',
             commandId: EditType.Edit,
@@ -147,7 +146,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
         })
     }
 
-    onCommandConfirm(event: GridEditorCommandComponentEvent) {
+    onCommandConfirm(event: WCGridEditorCommandComponentEvent) {
         this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
         this.edit.emit({
             editType: EditType[event.id],
@@ -155,7 +154,7 @@ export class ThresholdsComponent implements OnInit, OnDestroy {
         })
     }
 
-    onCommandClick(event: GridEditorCommandComponentEvent){
+    onCommandClick(event: WCGridEditorCommandComponentEvent){
         this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
         this.edit.emit({
             editType: EditType[event.id],

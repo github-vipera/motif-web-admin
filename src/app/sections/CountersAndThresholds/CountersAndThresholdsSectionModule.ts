@@ -7,12 +7,11 @@ import { ThresholdEditDialogComponent } from './components/dialogs/threshold-edi
 import { CounterInfoEditDialogComponent } from './components/dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { ThresholdDetailsComponent } from './components/thresholds/details/threshold-details-component';
 import { ThresholdsComponent } from './components/thresholds/thresholds-component';
-import { GridEditorCommandsModule } from '../../components/GridEditorCommandsModule';
 import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/service-catalog-selector/ServiceCatalogSelectorModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { CountersAndThresholdsSectionComponent } from './components/counters-and-thresholds-section-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -35,8 +34,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         FontAwesomeModule,
         DialogModule,
         ServiceCatalogSelectorModule,
-        GridEditorCommandsModule,
-        CommonSelectorsModule
+        CommonSelectorsModule,
+        WCGridModule
     ],
     entryComponents: [
         CountersAndThresholdsSectionComponent

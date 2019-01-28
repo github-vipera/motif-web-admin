@@ -4,7 +4,6 @@ import { NGXLogger } from 'web-console-core'
 import { SecurityService } from '@wa-motif-open-api/security-service'
 import { SessionRow } from '../data/model'
 import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { WCGridConfiguration } from 'web-console-ui-kit'
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
 import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-motif-open-api/platform-service'
@@ -32,7 +31,6 @@ export class SessionsSectionComponent implements OnInit, OnDestroy {
     @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
     // Grid Options
-    public gridConfiguration: WCGridConfiguration;
     public sort: SortDescriptor[] = [];
     public groups: GroupDescriptor[] = [];
     public gridView: DataResult;
@@ -73,7 +71,6 @@ export class SessionsSectionComponent implements OnInit, OnDestroy {
     }
 
     freeMem() {
-        this.gridConfiguration = null;
         this.sort = null;
         this.groups = null;
         this.gridView = null;

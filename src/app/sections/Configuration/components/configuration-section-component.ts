@@ -6,7 +6,7 @@ import { MotifService, MotifServicesList, ConfigurationRow } from '../data/model
 import { ConfirmationDialogComponent } from 'src/app/components/ConfirmationDialog/confirmation-dialog-component';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as FileSaver from 'file-saver';
-import { EditService, EditServiceConfiguration } from '../../../components/Grid/edit.service';
+import { WCEditService, WCEditServiceConfiguration } from 'web-console-ui-kit';
 import { GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { map } from 'rxjs/operators/map';
@@ -60,13 +60,13 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
 
     // internal
     private _selectedService: MotifService; // the combobox selection
-    private _editServiceConfig: EditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew'};
+    private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew'};
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private settingsService: SettingsService,
         private configurationService: ConfigurationsService,
-        public editService: EditService,
+        public editService: WCEditService,
         private formBuilder: FormBuilder,
         private renderer: Renderer,
         private notificationCenter: NotificationCenter,

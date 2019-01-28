@@ -6,8 +6,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
-import { EditService } from '../../components/Grid/edit.service';
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
@@ -27,7 +26,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         FontAwesomeModule,
         InputSwitchModule,
         FormsModule,
-        CommonSelectorsModule
+        CommonSelectorsModule,
+        WCGridModule
     ],
     entryComponents: [
         ConfigurationSectionComponent
@@ -37,7 +37,6 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ],
     exports: [ ConfigurationSectionComponent ],
     providers: [ 
-        EditService
     ]
     
   })

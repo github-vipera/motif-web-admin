@@ -1,13 +1,11 @@
 import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
 import { WebContentUpdateDialogComponent } from './components/dialog/webcontent-update-dialog';
-import { GridEditorCommandsModule } from './../../components/GridEditorCommandsModule';
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger'
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit'
-import { EditService } from '../../components/Grid/edit.service';
+import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -28,9 +26,9 @@ import { DialogModule } from 'primeng/dialog';
         FormsModule,
         CommonSelectorsModule,
         WebContentServiceModule,
-        GridEditorCommandsModule,
         DialogModule,
-        UploadPanelModule
+        UploadPanelModule,
+        WCGridModule
     ],
     entryComponents: [
         WebContentSectionComponent
@@ -40,7 +38,6 @@ import { DialogModule } from 'primeng/dialog';
     ],
     exports: [ WebContentSectionComponent ],
     providers: [ 
-        EditService
     ]
     
   })

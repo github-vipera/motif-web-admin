@@ -1,5 +1,4 @@
-import { GridEditorCommandsConfig } from './../../../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
-import { GridEditorCommandComponentEvent, ConfirmationTitleProvider } from './../../../../../components/Grid/grid-editor-command/grid-editor-command-component';
+import { WCGridEditorCommandComponentEvent, WCConfirmationTitleProvider, WCGridEditorCommandsConfig } from 'web-console-ui-kit';
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import * as _ from 'lodash';
@@ -12,7 +11,7 @@ import { State, process } from '@progress/kendo-data-query';
 import { Observable } from 'rxjs/Observable';
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/selectors/domain-selector-combobox-component';
-import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
+import { WCEditService, WCEditServiceConfiguration } from 'web-console-ui-kit';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { map } from 'rxjs/operators/map';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
@@ -46,7 +45,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     faCircleNotch = faCircleNotch;
     fas = fas;
 
-    publishConfirmationTitleProvider: ConfirmationTitleProvider = {
+    publishConfirmationTitleProvider: WCConfirmationTitleProvider = {
         getTitle(rowData): string {
             if (rowData.published){
                 return "Unpublish ?";
@@ -56,7 +55,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         }
     }
 
-    commands: GridEditorCommandsConfig = [
+    commands: WCGridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-publish',
             commandId: 'cmdPublish',
@@ -96,8 +95,8 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
     @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
 
-    private _editServiceConfig: EditServiceConfiguration = { idField: 'name', dirtyField: 'dirty', isNewField: 'isNew' };
-    public editService: EditService;
+    private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name', dirtyField: 'dirty', isNewField: 'isNew' };
+    public editService: WCEditService;
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     // Buttons
@@ -109,7 +108,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         private assetsService: AssetsService,
         private renderer2: Renderer2) {
         this.logger.debug(LOG_TAG, 'Opening...');
-        this.editService = new EditService();
+        this.editService = new WCEditService();
         this.editService.init();
         this.logger.debug(LOG_TAG, 'Opening...');
     }
@@ -512,7 +511,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         }));
     }
 
-    onCommandConfirm(event: GridEditorCommandComponentEvent) {
+    onCommandConfirm(event: WCGridEditorCommandComponentEvent) {
         this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
         if (event.id==='cmdPublish'){
             this.doPublishAssetsBundle(event.rowData.dataItem);
@@ -522,7 +521,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
         }
     }
 
-    onCommandClick(event: GridEditorCommandComponentEvent){
+    onCommandClick(event: WCGridEditorCommandComponentEvent){
         this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
         if (event.id==='cmdDownload'){
             this.doDownloadAssetsBundle(event.rowData.dataItem);

@@ -22,9 +22,9 @@ import {
 } from '../../../../components/Commons/notification-center';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
-  EditService,
-  EditServiceConfiguration
-} from '../../../Grid/edit.service';
+  WCEditService,
+  WCEditServiceConfiguration
+} from 'web-console-ui-kit';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { LocalesService, Locale } from '../../../../components/Commons/locales-service';
 import * as _ from 'lodash';
@@ -54,8 +54,8 @@ export class MessagesPaneComponent implements OnInit, OnDestroy {
   locales: string[];
   availableLocales: string[];
 
-  private editService: EditService = new EditService();
-  private editServiceConfiguration: EditServiceConfiguration = {
+  private editService: WCEditService = new WCEditService();
+  private editServiceConfiguration: WCEditServiceConfiguration = {
     idField: 'locale',
     dirtyField: 'isDirty',
     isNewField: 'isNew'

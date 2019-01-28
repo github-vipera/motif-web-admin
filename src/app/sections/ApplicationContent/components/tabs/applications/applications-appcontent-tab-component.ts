@@ -5,7 +5,7 @@ import { DomainsService, Domain } from '@wa-motif-open-api/platform-service';
 import { EnginesService , EngineCreate, EngineUpdate } from '@wa-motif-open-api/app-content-service';
 import { DataResult } from '@progress/kendo-data-query';
 import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/selectors/domain-selector-combobox-component';
-import { EditService, EditServiceConfiguration } from '../../../../../components/Grid/edit.service';
+import { WCEditService, WCEditServiceConfiguration } from 'web-console-ui-kit';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
@@ -62,14 +62,14 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
 
-    private _editServiceConfig: EditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew' };
+    private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew' };
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private domainsService: DomainsService,
         private engineService: EnginesService,
         private formBuilder: FormBuilder,
-        public editService: EditService,
+        public editService: WCEditService,
         private renderer2: Renderer2,
         private notificationCenter: NotificationCenter
         ) {

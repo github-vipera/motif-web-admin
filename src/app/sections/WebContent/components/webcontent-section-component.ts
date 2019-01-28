@@ -1,6 +1,5 @@
 import { FileDropPanelComponent } from './../../../components/UI/file-drop-panel-component';
-import { ConfirmationTitleProvider, GridEditorCommandComponentEvent } from './../../../components/Grid/grid-editor-command/grid-editor-command-component';
-import { GridEditorCommandsConfig } from './../../../components/Grid/grid-editor-commands-group/grid-editor-commands-group-component';
+import { WCGridEditorCommandsConfig, WCConfirmationTitleProvider, WCGridEditorCommandComponentEvent } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
@@ -46,7 +45,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     // Data binding
     public loading = false;
 
-    publishConfirmationTitleProvider: ConfirmationTitleProvider = {
+    publishConfirmationTitleProvider: WCConfirmationTitleProvider = {
         getTitle(rowData): string {
             if (rowData.info.syntheticStatus === PublishingStatus.Published){
                 return "Unpublish ?";
@@ -59,7 +58,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     }
 
 
-    commands: GridEditorCommandsConfig = [
+    commands: WCGridEditorCommandsConfig = [
         { 
             commandIcon: 'assets/img/icons.svg#ico-edit',
             commandId: CommandType.Edit,
@@ -212,7 +211,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         alert("TODO!! doDeleteBundle")
     }
 
-    onCommandConfirm(event: GridEditorCommandComponentEvent) {
+    onCommandConfirm(event: WCGridEditorCommandComponentEvent) {
         this.logger.debug(LOG_TAG, 'onCommandConfirm event: ', event);
         if (event.id===CommandType.Publish){
             this.doTogglePublishBundle(event.rowData.dataItem);
@@ -222,7 +221,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         }
     }
 
-    onCommandClick(event: GridEditorCommandComponentEvent){
+    onCommandClick(event: WCGridEditorCommandComponentEvent){
         this.logger.debug(LOG_TAG, 'onCommandClick event: ', event);
         if (event.id===CommandType.Download){
             this.doDownloadBundle(event.rowData.dataItem);
@@ -234,7 +233,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
         }
     }
 
-    doEditBundle(event: GridEditorCommandComponentEvent) {
+    doEditBundle(event: WCGridEditorCommandComponentEvent) {
         this._updateDialog.show('domain', 'app', event.rowData.dataItem.info.context);
     }
 
