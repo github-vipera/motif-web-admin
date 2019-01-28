@@ -17,6 +17,7 @@ import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-ico
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { NewAppDialogComponent, NewAppDialogResult } from './dialog/new-app-dialog';
 
 
 const LOG_TAG = '[ApplicationsAppContentSection]';
@@ -57,10 +58,9 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
         name: null
     };
 
-
+    @ViewChild('newAppDialog') newAppDialog: NewAppDialogComponent;
     @ViewChild ('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
-    @ViewChild('exportSlideDown') exportSlideDown: ElementRef;
 
     private _editServiceConfig: EditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew' };
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
@@ -378,35 +378,16 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
             latestVersion: null,
             name: null
         };
-        this.slideDownAddMobileAppPanel(true);
+        this.newAppDialog.show();
     }
 
-    /**
-     *
-     * @param show Show/Hide the new Application Pane
-     */
-    private slideDownAddMobileAppPanel(show: boolean): void {
-        if (show) {
-            this.renderer2.removeClass(this.exportSlideDown.nativeElement, 'closed');
-        } else {
-            this.renderer2.addClass(this.exportSlideDown.nativeElement, 'closed');
-        }
-    }
-
-    /**
-     * New app cancelled
-     */
-    onMobileApplicationAddCancel(): void {
-        this.slideDownAddMobileAppPanel(false);
-    }
 
     /**
      * New app creation confirmed
      */
-    onMobileApplicationAddConfirm(): void {
+    onMobileApplicationAddConfirm(dialogresul: NewAppDialogResult): void {
         this.logger.debug(LOG_TAG , 'onEditCommit new row:', this.newMobileApp);
-        this.editService.create(this.newMobileApp);
-        this.slideDownAddMobileAppPanel(false);
+        this.editService.create(dialogresul);
     }
 
 

@@ -1,3 +1,4 @@
+import { NewAppDialogComponent } from './components/tabs/applications/dialog/new-app-dialog';
 import { UploadPanelModule } from './../../components/UI/wc-upload-panel-component/UploadPanelModule';
 import { GridEditorCommandsModule } from '../../components/GridEditorCommandsModule';
 import { NgModule } from '@angular/core';
@@ -16,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { DroppableModule } from '@ctrl/ngx-droppable';
 import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
     imports: [
@@ -34,13 +36,14 @@ import { CommonSelectorsModule } from 'src/app/components/CommonsSelectorsModule
         DroppableModule,
         GridEditorCommandsModule,
         CommonSelectorsModule,
-        UploadPanelModule
+        UploadPanelModule,
+        DialogModule
     ],
     entryComponents: [
         AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent
     ],
     declarations: [
-        AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent
+        AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent, NewAppDialogComponent
     ],
     exports: [ AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent ],
     providers: [

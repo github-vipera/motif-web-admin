@@ -1,4 +1,5 @@
 <wc-loading-overlay [visible]='loading'></wc-loading-overlay>
+<wa-appcontent-applications-new-app-dialog #newAppDialog (confirm)="onMobileApplicationAddConfirm($event)"></wa-appcontent-applications-new-app-dialog>
 
 <div>
     <wc-confirmation-dialog (cancel)="onConfirmationCancel($event)" (confirm)="onConfirmationOK($event)"></wc-confirmation-dialog>
@@ -36,47 +37,6 @@
 
     <div class="row fill">
         <div>
-            <!-- Sliding Editor Panel -->
-            <div style="display:flex;margin-bottom: 10px;" class="editor slidedown closed" #exportSlideDown>
-                <div class="wc-slide-down-editor-pane">
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Application Name">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.name" />
-                        </kendo-textbox-container>
-                    </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Application Version">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.latestVersion" />
-                        </kendo-textbox-container>
-                    </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="App Store URL">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.downloadUrl" />
-                        </kendo-textbox-container>
-                    </div>
-                    <div class="wc-slide-down-editor-item">
-                        <kendo-textbox-container floatingLabel="Forbidden Versions">
-                            <input kendoTextBox [(ngModel)]="newMobileApp.forbiddenVersion" />
-                        </kendo-textbox-container>
-                    </div>
-                </div>
-
-                <div class="cmd" style="padding-top: 11px;align-items: center;">
-                    <label style="padding-bottom: 0px;padding-left: 10px;padding-right: 10px;">Do Create?</label>
-                    <a (click)="onMobileApplicationAddConfirm()">
-                        <svg class="ok" data-id="ok">
-                            <use xlink:href="assets/img/icons.svg#ico-ok"></use>
-                        </svg>
-                    </a>
-                    <a (click)="onMobileApplicationAddCancel()" data-slideup="#user-add">
-                        <svg class="ko" data-id="ko">
-                            <use xlink:href="assets/img/icons.svg#ico-ko"></use>
-                        </svg>
-                    </a>
-                </div>
-
-            </div>
-
             <!-- Grid -->
 
             <kendo-grid #datagrid [data]="view | async" [columnMenu]="true" [scrollable]="true"
