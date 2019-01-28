@@ -11,7 +11,6 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
 import { FileDropPanelComponent } from './UI/file-drop-panel-component';
 import { DroppableModule } from '@ctrl/ngx-droppable';
 import { AfterValueChangedDirective } from './UI/after-value-change-directive';
-import { LoadingOverlayComponent } from './Grid/loading-overlay/loading-overlay-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -40,13 +39,11 @@ import { WCSlidePanelComponent } from './UI/slide-panel/slide-panel-component';
         ConfirmationDialogComponent,
         FileDropPanelComponent,
         AfterValueChangedDirective,
-        LoadingOverlayComponent,
         WCSlidePanelComponent
     ],
     exports: [ 
         ConfirmationDialogComponent,
         FileDropPanelComponent,
-        LoadingOverlayComponent,
         AfterValueChangedDirective,
         WCSlidePanelComponent
     ],
