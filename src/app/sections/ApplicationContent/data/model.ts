@@ -1,7 +1,7 @@
 export interface MobileApplicaton {
     created : Date,
     latestVersion : string,
-    forbiddenVersions : string,
+    forbiddenVersion : string,
     downloadUrl : string,
     lastAppCheck : Date,
     name: string,

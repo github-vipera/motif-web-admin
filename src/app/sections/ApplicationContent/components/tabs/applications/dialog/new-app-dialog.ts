@@ -25,7 +25,7 @@ export class NewAppDialogComponent implements OnInit {
     appVersion: string;
     _appVersionEditingWarningDisplay: boolean;
     appStoreUrl: string;
-    forbiddenVersions: string;
+    forbiddenVersion: string;
 
     @Input('domain') domain: string;
     @Output() confirm: EventEmitter<NewAppDialogResult> = new EventEmitter();
@@ -52,7 +52,7 @@ export class NewAppDialogComponent implements OnInit {
         this.appName = null;
         this.appVersion = null;
         this.appStoreUrl = '';
-        this.forbiddenVersions = '';
+        this.forbiddenVersion = '';
      }
 
     onCancel(): void {
@@ -69,7 +69,7 @@ export class NewAppDialogComponent implements OnInit {
             name: this.appName,
             latestVersion : this.appVersion,
             downloadUrl: this.appStoreUrl,
-            forbiddenVersion: this.forbiddenVersions
+            forbiddenVersion: this.forbiddenVersion
         };
         this.confirm.emit(event);
     }

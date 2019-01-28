@@ -217,7 +217,7 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
             'name': mobileApp.name,
             'downloadUrl': mobileApp.downloadUrl,
             'latestVersion': mobileApp.latestVersion,
-            'forbiddenVersions': mobileApp.forbiddenVersions
+            'forbiddenVersion': mobileApp.forbiddenVersion
         });
     }
 
