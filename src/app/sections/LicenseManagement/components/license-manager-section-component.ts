@@ -5,7 +5,7 @@ import { NGXLogger} from 'web-console-core';
 import { LicenseService, LicenseList, License } from '@wa-motif-open-api/license-management-service';
 import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
@@ -32,7 +32,7 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
     constructor(private logger: NGXLogger,
         private licenseManager: LicenseService,
         private renderer: Renderer,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: WCNotificationCenter) {
         this.logger.debug(LOG_TAG , 'Opening...');
     }
 

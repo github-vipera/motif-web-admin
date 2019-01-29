@@ -3,10 +3,10 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'ngx-logger';
 import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule } from 'web-console-ui-kit';
-import { ToasterUtilsService } from './UI/toaster-utils-service';
+import { WCToasterUtilsService } from './UI/wc-toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service';
-import { NotificationCenter } from './Commons/notification-center';
+import { WCNotificationCenter } from './Commons/wc-notification-center';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { FileDropPanelComponent } from './UI/file-drop-panel-component';
 import { DroppableModule } from '@ctrl/ngx-droppable';
@@ -45,7 +45,7 @@ import { SessionService } from './Commons/session-service';
         AfterValueChangedDirective
     ],
     providers: [
-        ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesService, SessionService
+        WCToasterUtilsService, ErrorMessageBuilderService, WCNotificationCenter, LocalesService, SessionService
     ]
 
   })

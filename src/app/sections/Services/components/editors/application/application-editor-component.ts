@@ -4,7 +4,7 @@ import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem, 
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { ApplicationsService, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
@@ -200,7 +200,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
 
     constructor(public logger: NGXLogger,
       public applicationService: ApplicationsService,
-      public notificationCenter: NotificationCenter,
+      public notificationCenter: WCNotificationCenter,
       private systemService: SystemService) {
         super(logger, notificationCenter);
         this.setModel(this.applicationModel);

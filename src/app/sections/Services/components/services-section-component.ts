@@ -8,7 +8,7 @@ import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { CatalogEntry } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/generic/new-item-dialog';
@@ -65,7 +65,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,
         private serviceCatalogService: ServiceCatalogService,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private renderer2: Renderer2,
         private changeDetector: ChangeDetectorRef,
         private confirmationService: ConfirmationService

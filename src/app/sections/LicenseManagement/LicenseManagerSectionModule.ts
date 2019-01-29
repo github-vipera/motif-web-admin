@@ -8,7 +8,7 @@ import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIK
 import { ClipboardModule } from 'ngx-clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
-import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
+import { WCUploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
 
 @NgModule({
     imports: [
@@ -21,7 +21,7 @@ import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-compone
         ClipboardModule,
         FontAwesomeModule,
         CommonsUIModule,
-        UploadPanelModule,
+        WCUploadPanelModule,
         WCUIKitGridModule
     ],
     entryComponents: [

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ErrorMessageBuilderService } from './error-message-builder-service';
-import { ToasterUtilsService } from '../UI/toaster-utils-service';
+import { WCToasterUtilsService } from '../UI/wc-toaster-utils-service';
 import { NotificationService, Type } from '@progress/kendo-angular-notification';
 
 export enum NotificationType {
@@ -23,10 +23,10 @@ export interface Notification {
 
 
 @Injectable()
-export class NotificationCenter {
+export class WCNotificationCenter {
 
     constructor(private errorMessageBuilderService: ErrorMessageBuilderService,
-        private toasterService: ToasterUtilsService,
+        private toasterService: WCToasterUtilsService,
         private notificationService: NotificationService) {
     }
 

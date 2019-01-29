@@ -1,4 +1,4 @@
-import { NotificationCenter, NotificationType } from './../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
@@ -15,7 +15,7 @@ export class CounterInfoDetailsComponent implements OnInit {
   @Input() dataItem: CounterInfoEntity;
 
   constructor(private logger: NGXLogger,
-    private notificationCenter: NotificationCenter) {
+    private notificationCenter: WCNotificationCenter) {
   }
 
   ngOnInit() {

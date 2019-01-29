@@ -4,7 +4,7 @@ import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem, 
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
@@ -74,7 +74,7 @@ export class ServiceEditorComponent extends BaseEditorComponent implements OnIni
 
       constructor(public logger: NGXLogger,
         private servicesService: ServicesService,
-        public notificationCenter: NotificationCenter,
+        public notificationCenter: WCNotificationCenter,
         private systemService: SystemService) {
           super(logger, notificationCenter);
           this.setModel(this.serviceModel);

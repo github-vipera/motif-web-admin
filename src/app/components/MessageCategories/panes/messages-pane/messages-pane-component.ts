@@ -17,9 +17,9 @@ import {
 } from '@wa-motif-open-api/platform-service';
 import { ConfirmationService } from 'primeng/api';
 import {
-  NotificationCenter,
+  WCNotificationCenter,
   NotificationType
-} from '../../../../components/Commons/notification-center';
+} from '../../../Commons/wc-notification-center';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   WCEditService,
@@ -71,7 +71,7 @@ export class MessagesPaneComponent implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private systemService: SystemService,
     private confirmationService: ConfirmationService,
-    private notificationCenter: NotificationCenter,
+    private notificationCenter: WCNotificationCenter,
     private formBuilder: FormBuilder,
     private localesService: LocalesService
   ) {}

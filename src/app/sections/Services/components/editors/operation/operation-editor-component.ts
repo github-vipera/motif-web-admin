@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
@@ -75,7 +75,7 @@ export class OperationEditorComponent extends BaseEditorComponent implements OnI
 
     constructor(public logger: NGXLogger,
       public operationsService: OperationsService,
-      public notificationCenter: NotificationCenter) {
+      public notificationCenter: WCNotificationCenter) {
           super(logger, notificationCenter);
           this.setModel(this.operationModel);
     }

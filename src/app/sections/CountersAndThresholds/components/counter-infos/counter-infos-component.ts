@@ -1,7 +1,7 @@
 import { WCGridEditorCommandsConfig, WCGridEditorCommandComponentEvent, WCConfirmationTitleProvider } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from './../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../components/Commons/wc-notification-center';
 import { CountersService, CounterInfoEntityList, CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import { CounterInfosModel } from './data/model';
@@ -78,7 +78,7 @@ export class CounterInfosComponent implements OnInit, OnDestroy {
     
     constructor(
         private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private countersService: CountersService
     ) {}
 

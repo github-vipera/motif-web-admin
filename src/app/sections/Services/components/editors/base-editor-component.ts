@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
-import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../components/Commons/wc-notification-center';
 import { EditorContext, ServiceCatalogEditorChangesEvent } from './service-catalog-editor-context';
 
 const LOG_TAG = '[BaseEditorComponent]';
@@ -21,7 +21,7 @@ export abstract class BaseEditorComponent  {
     @Output() public endSavingWithError: EventEmitter<any> = new EventEmitter();
 
     constructor(public logger: NGXLogger,
-        public notificationCenter: NotificationCenter) {
+        public notificationCenter: WCNotificationCenter) {
     }
 
     protected setModel(model: WCPropertyEditorModel) {

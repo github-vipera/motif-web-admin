@@ -2,7 +2,7 @@ import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
 import { License } from '@wa-motif-open-api/license-management-service';
 import { ClipboardService } from 'ngx-clipboard'
-import { NotificationCenter, NotificationType } from 'src/app/components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from 'src/app/components/Commons/wc-notification-center';
 
 const LOG_TAG = "[OAuth2Section] [RefreshTokenDetailsComponent]";
 const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/refreshTokens/{0}/accessTokens"
@@ -18,7 +18,7 @@ export class LicenseDetailsComponent implements OnInit {
 
   constructor(private logger: NGXLogger,
     private clipboardService: ClipboardService,
-    private notificationCenter: NotificationCenter) {
+    private notificationCenter: WCNotificationCenter) {
   }
 
   ngOnInit() {

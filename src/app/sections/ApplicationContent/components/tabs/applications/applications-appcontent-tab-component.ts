@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 import { NewAppDialogComponent, NewAppDialogResult } from './dialog/new-app-dialog';
 
@@ -71,7 +71,7 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         public editService: WCEditService,
         private renderer2: Renderer2,
-        private notificationCenter: NotificationCenter
+        private notificationCenter: WCNotificationCenter
         ) {
             this.editService.init();
         this.logger.debug(LOG_TAG, 'Opening...');

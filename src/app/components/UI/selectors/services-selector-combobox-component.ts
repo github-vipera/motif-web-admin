@@ -1,7 +1,7 @@
 import { LogLevel } from '@wa-motif-open-api/log-service';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from '../../Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../Commons/wc-notification-center';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SubscriptionHandler } from '../../Commons/subscription-handler';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
@@ -39,7 +39,7 @@ export class ServicesSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     constructor(private logger: NGXLogger,
         private settingsService: SettingsService,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: WCNotificationCenter) {
             this.logger.debug(LOG_TAG, 'Creating...');
     }
 

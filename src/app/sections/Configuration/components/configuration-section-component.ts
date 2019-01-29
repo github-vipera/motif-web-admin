@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { NewConfigurationParamDialogComponent, NewParamDialogResult } from './dialog/new-configuration-param-dialog';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
@@ -69,7 +69,7 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
         public editService: WCEditService,
         private formBuilder: FormBuilder,
         private renderer: Renderer,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private elem: ElementRef) {
             this.editService.init();
             this.logger.debug(LOG_TAG , 'Opening...');

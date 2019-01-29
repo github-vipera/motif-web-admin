@@ -5,9 +5,9 @@ import { faCube, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { OTPDataSourceComponent } from './otp-data-source-component';
 import { OtpService, Otp, OtpCreate, OtpEntity } from '@wa-motif-open-api/otp-service';
 import {
-  NotificationCenter,
+  WCNotificationCenter,
   NotificationType
-} from '../../../../../components/Commons/notification-center';
+} from '../../../../../components/Commons/wc-notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 import { NewOtpDialogComponent, NewOtpDialogResult } from './dialog/new-otp-dialog';
 
@@ -30,7 +30,7 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
   constructor(
     private logger: NGXLogger,
     private otpService: OtpService,
-    private notificationCenter: NotificationCenter,
+    private notificationCenter: WCNotificationCenter,
     private renderer2: Renderer2
     ) {
     this.dataSource = new OTPDataSourceComponent(logger, otpService);

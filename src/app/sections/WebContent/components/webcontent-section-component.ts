@@ -3,7 +3,7 @@ import { WCGridEditorCommandsConfig, WCConfirmationTitleProvider, WCGridEditorCo
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { WebcontentService, BundleStatusList, BundleStatus, ClusterBundleStatus } from '@wa-motif-open-api/web-content-service';
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import * as _ from 'lodash';
@@ -80,7 +80,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
 
 
     constructor(private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private elem: ElementRef,
         private webContentService: WebcontentService) {
             this.logger.debug(LOG_TAG , 'Opening...');

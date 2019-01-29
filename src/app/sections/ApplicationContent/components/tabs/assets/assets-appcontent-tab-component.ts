@@ -14,7 +14,7 @@ import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/se
 import { WCEditService, WCEditServiceConfiguration } from 'web-console-ui-kit';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { map } from 'rxjs/operators/map';
-import { NotificationCenter, NotificationType } from '../../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -104,7 +104,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
     public canAddBundle = false;
 
     constructor(private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private assetsService: AssetsService,
         private renderer2: Renderer2) {
         this.logger.debug(LOG_TAG, 'Opening...');

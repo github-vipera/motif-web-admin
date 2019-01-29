@@ -16,7 +16,7 @@ import {
 } from 'web-console-ui-kit';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { ConfirmationService } from 'primeng/api';
-import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../Commons/wc-notification-center';
 import { SubscriptionHandler } from '../../../Commons/subscription-handler';
 
 const LOG_TAG = '[CategoryPaneComponent]';
@@ -54,7 +54,7 @@ export class CategoryPaneComponent implements OnInit, OnDestroy {
     private systemService: SystemService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService,
-    private notificationCenter: NotificationCenter
+    private notificationCenter: WCNotificationCenter
   ) {}
 
   ngOnInit() {

@@ -7,7 +7,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import * as FileSaver from 'file-saver';
 import { faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-solid-svg-icons';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
@@ -52,7 +52,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
     constructor(private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private logService: LogService,
         private renderer2: Renderer2,
         private clipboardService: ClipboardService,

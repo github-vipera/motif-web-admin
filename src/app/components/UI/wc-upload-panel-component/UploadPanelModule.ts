@@ -19,7 +19,7 @@ import { WCUIKitCoreModule } from 'web-console-ui-kit';
     ]
 
   })
-  export class UploadPanelModule { }
+  export class WCUploadPanelModule { }
 
 
 

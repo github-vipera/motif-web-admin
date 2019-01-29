@@ -5,7 +5,7 @@ import { WCToasterService } from 'web-console-ui-kit'
 @Injectable({
     providedIn: 'root'
   })
-export class ToasterUtilsService  {
+export class WCToasterUtilsService  {
 
     constructor(private toaster: WCToasterService) {
     }

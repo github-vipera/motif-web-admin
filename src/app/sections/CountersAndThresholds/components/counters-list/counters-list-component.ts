@@ -5,7 +5,7 @@ import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 import { NGXLogger, MotifQuerySort, MotifQueryResults} from 'web-console-core';
-import { NotificationCenter, NotificationType } from '../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../components/Commons/wc-notification-center';
 import { User } from '@wa-motif-open-api/auth-access-control-service';
 import { UsersService, CounterEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { SortDescriptor, DataResult } from '@progress/kendo-data-query';
@@ -45,7 +45,7 @@ export class CountersListComponent implements OnInit, OnDestroy {
 
     constructor(
         private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private usersService: UsersService
     ) {}
 

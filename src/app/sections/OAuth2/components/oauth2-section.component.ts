@@ -9,7 +9,7 @@ import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component';
 import { Domain } from '@wa-motif-open-api/platform-service';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = "[OAuth2Section]";
@@ -49,7 +49,7 @@ export class OAuth2SectionComponent implements OnInit, OnDestroy {
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,
-    private notificationCenter: NotificationCenter
+    private notificationCenter: WCNotificationCenter
         ) {
 
     this.logger.debug(LOG_TAG, 'Opening...');

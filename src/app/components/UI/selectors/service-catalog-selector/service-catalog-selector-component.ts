@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from './../../../Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../Commons/wc-notification-center';
 import { ServiceCatalogService } from './../../../../services/ServiceCatalogService';
 import { ServiceCatalogTableModel, DataFilter, CatalogEntry } from './data/model';
 import { TreeNode } from 'primeng/api';
@@ -56,7 +56,7 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     
     constructor(
         private logger: NGXLogger,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private serviceCatalogService: ServiceCatalogService
     ) {}
 

@@ -1,7 +1,7 @@
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
-import { NotificationCenter, NotificationType } from '../../Commons/notification-center'
+import { WCNotificationCenter, NotificationType } from '../../Commons/wc-notification-center'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UsersService, User, UsersList } from '@wa-motif-open-api/platform-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
@@ -39,7 +39,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
 
     constructor(private logger: NGXLogger,
         private usersService: UsersService,
-        private notificationCenter: NotificationCenter) {
+        private notificationCenter: WCNotificationCenter) {
             this.logger.debug(LOG_TAG, 'Creating...');
     }
 

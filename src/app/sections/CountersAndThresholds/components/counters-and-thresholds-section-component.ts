@@ -1,5 +1,5 @@
 import { CounterInfoEditDialogComponent, EditType } from './dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
-import { NotificationCenter } from './../../../components/Commons/notification-center';
+import { WCNotificationCenter } from '../../../components/Commons/wc-notification-center';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';
@@ -25,7 +25,7 @@ export class CountersAndThresholdsSectionComponent implements OnInit {
     selectedCounterInfo: string;
 
     constructor(private logger: NGXLogger, 
-        private notificationCenter: NotificationCenter) {}
+        private notificationCenter: WCNotificationCenter) {}
 
     @ViewChild('entitySelector') _entitySelector: ServiceCatalogSelectorDialogComponent;
 

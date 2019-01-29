@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { NotificationCenter, NotificationType } from './../../../../components/Commons/notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../components/Commons/wc-notification-center';
 import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { SelectionEvent as CounterInfoSelectionEvent } from '../counter-infos/counter-infos-component'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ export class CounterInfosDashboardComponent implements OnInit, OnDestroy {
 
     constructor(
         private logger: NGXLogger,
-        private notificationCenter: NotificationCenter
+        private notificationCenter: WCNotificationCenter
     ) {}
 
     ngOnInit() {

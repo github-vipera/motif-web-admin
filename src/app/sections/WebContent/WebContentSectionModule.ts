@@ -1,4 +1,4 @@
-import { UploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
+import { WCUploadPanelModule } from 'src/app/components/UI/wc-upload-panel-component/UploadPanelModule';
 import { WebContentUpdateDialogComponent } from './components/dialog/webcontent-update-dialog';
 import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule';
 import { NgModule } from '@angular/core';
@@ -27,7 +27,7 @@ import { DialogModule } from 'primeng/dialog';
         CommonSelectorsModule,
         WebContentServiceModule,
         DialogModule,
-        UploadPanelModule,
+        WCUploadPanelModule,
         WCUIKitGridModule
     ],
     entryComponents: [

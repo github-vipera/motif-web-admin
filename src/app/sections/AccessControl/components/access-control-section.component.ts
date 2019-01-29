@@ -8,7 +8,7 @@ import {
   User, AdminUser, ClientUser, Domain, ClientsService, UsersList
 } from '@wa-motif-open-api/platform-service'
 import * as _ from 'lodash';
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center'
 import { GridsterPreviewComponent } from 'angular-gridster2/lib/gridsterPreview.component';
 
 const LOG_TAG = "[AccessControlSection]";
@@ -75,7 +75,7 @@ export class AccessControlSectionComponent implements OnInit {
     private rolesService: RolesService,
     private actionsService: ActionsService,
     private permissionsService: PermissionsService,
-    private notificationCenter: NotificationCenter
+    private notificationCenter: WCNotificationCenter
   ) {
 
     this.logger.debug(LOG_TAG, "Opening...");

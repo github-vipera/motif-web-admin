@@ -10,7 +10,7 @@ import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component'
-import { NotificationCenter, NotificationType } from '../../../components/Commons/notification-center'
+import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center'
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 
@@ -53,7 +53,7 @@ export class SessionsSectionComponent implements OnInit, OnDestroy {
 
     constructor(private logger: NGXLogger,
         private securityService: SecurityService,
-        private notificationCenter: NotificationCenter,
+        private notificationCenter: WCNotificationCenter,
         private applicationsService: ApplicationsService) {
         this.logger.debug(LOG_TAG, 'Opening...');
     }
