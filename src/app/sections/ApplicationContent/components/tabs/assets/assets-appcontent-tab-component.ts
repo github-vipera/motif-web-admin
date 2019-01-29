@@ -16,7 +16,6 @@ import { Domain } from '@wa-motif-open-api/platform-service';
 import { map } from 'rxjs/operators/map';
 import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
-import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-panel-component';
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
@@ -93,7 +92,6 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
 
     @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
-    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
 
     private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name', dirtyField: 'dirty', isNewField: 'isNew' };
     public editService: WCEditService;

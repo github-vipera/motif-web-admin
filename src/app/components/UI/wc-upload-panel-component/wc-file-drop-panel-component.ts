@@ -1,8 +1,6 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
-// import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
-// import { DateFilterMenuInputComponent } from '@progress/kendo-angular-grid/dist/es2015/filtering/menu/date-filter-menu-input.component';
 
 
 const LOG_TAG = "[FileDropComponent]";
@@ -27,7 +25,7 @@ const LOG_TAG = "[FileDropComponent]";
         </div>
     `
 })
-export class FileDropPanelComponent implements OnInit {
+export class WCFileDropPanelComponent implements OnInit {
 
     //@Input() caption:string = "Drop files here or click";
     @Input() altCaption:string = "Drop the file";

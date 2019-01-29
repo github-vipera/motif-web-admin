@@ -1,4 +1,3 @@
-import { FileDropPanelComponent } from './../../../components/UI/file-drop-panel-component';
 import { Component, OnInit, ViewChild, Renderer, ElementRef, OnDestroy } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';

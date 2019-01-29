@@ -1,4 +1,4 @@
-import { FileDropPanelComponent } from './../file-drop-panel-component';
+import { WCFileDropPanelComponent } from './wc-file-drop-panel-component';
  
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter,Output } from '@angular/core';
 import { WCSlidePanelComponent } from 'web-console-ui-kit';
@@ -21,7 +21,7 @@ export interface WCUploadPanelEvent {
 
     private _subHandler: SubscriptionHandler = new SubscriptionHandler();
 
-    @ViewChild('fileDrop') fileDrop: FileDropPanelComponent;
+    @ViewChild('fileDrop') fileDrop: WCFileDropPanelComponent;
     @ViewChild('uploadSlideDownPanel') _uploadSlideDownPanel: WCSlidePanelComponent;
 
     @Output() close: EventEmitter<WCUploadPanelComponent> = new EventEmitter<WCUploadPanelComponent>();

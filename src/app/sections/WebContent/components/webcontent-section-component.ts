@@ -1,4 +1,3 @@
-import { FileDropPanelComponent } from './../../../components/UI/file-drop-panel-component';
 import { WCGridEditorCommandsConfig, WCConfirmationTitleProvider, WCGridEditorCommandComponentEvent } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';

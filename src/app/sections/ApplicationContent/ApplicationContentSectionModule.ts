@@ -1,5 +1,5 @@
 import { NewAppDialogComponent } from './components/tabs/applications/dialog/new-app-dialog';
-import { WCUploadPanelModule } from './../../components/UI/wc-upload-panel-component/UploadPanelModule';
+import { WCUploadPanelModule } from '../../components/UI/wc-upload-panel-component/WCUploadPanelModule';
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';

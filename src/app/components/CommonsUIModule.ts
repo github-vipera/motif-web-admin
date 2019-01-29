@@ -8,8 +8,6 @@ import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-d
 import { WCErrorMessageBuilderService } from './Commons/wc-error-message-builder-service';
 import { WCNotificationCenter } from './Commons/wc-notification-center';
 import { NotificationModule } from '@progress/kendo-angular-notification';
-import { FileDropPanelComponent } from './UI/file-drop-panel-component';
-import { DroppableModule } from '@ctrl/ngx-droppable';
 import { AfterValueChangedDirective } from './UI/after-value-change-directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
@@ -27,21 +25,18 @@ import { SessionService } from './Commons/session-service';
         WCUIKitDataModule,
         WCUIKitKendoProviderModule,
         NotificationModule,
-        DroppableModule,
         FontAwesomeModule,
         LayoutModule
     ],
     entryComponents: [
-        ConfirmationDialogComponent, FileDropPanelComponent
+        ConfirmationDialogComponent
     ],
     declarations: [
         ConfirmationDialogComponent,
-        FileDropPanelComponent,
         AfterValueChangedDirective
     ],
     exports: [ 
         ConfirmationDialogComponent,
-        FileDropPanelComponent,
         AfterValueChangedDirective
     ],
     providers: [
