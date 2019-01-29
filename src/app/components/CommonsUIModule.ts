@@ -5,7 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { WCToasterUtilsService } from './UI/wc-toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';
-import { ErrorMessageBuilderService } from './Commons/error-message-builder-service';
+import { WCErrorMessageBuilderService } from './Commons/wc-error-message-builder-service';
 import { WCNotificationCenter } from './Commons/wc-notification-center';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { FileDropPanelComponent } from './UI/file-drop-panel-component';
@@ -45,7 +45,7 @@ import { SessionService } from './Commons/session-service';
         AfterValueChangedDirective
     ],
     providers: [
-        WCToasterUtilsService, ErrorMessageBuilderService, WCNotificationCenter, LocalesService, SessionService
+        WCToasterUtilsService, WCErrorMessageBuilderService, WCNotificationCenter, LocalesService, SessionService
     ]
 
   })

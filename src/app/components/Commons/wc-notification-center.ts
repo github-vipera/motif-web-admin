@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ErrorMessageBuilderService } from './error-message-builder-service';
+import { WCErrorMessageBuilderService } from './wc-error-message-builder-service';
 import { WCToasterUtilsService } from '../UI/wc-toaster-utils-service';
 import { NotificationService, Type } from '@progress/kendo-angular-notification';
 
@@ -25,7 +25,7 @@ export interface Notification {
 @Injectable()
 export class WCNotificationCenter {
 
-    constructor(private errorMessageBuilderService: ErrorMessageBuilderService,
+    constructor(private errorMessageBuilderService: WCErrorMessageBuilderService,
         private toasterService: WCToasterUtilsService,
         private notificationService: NotificationService) {
     }
