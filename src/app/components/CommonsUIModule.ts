@@ -8,7 +8,7 @@ import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-d
 import { WCErrorMessageBuilderService } from './UI/wc-notification-center/wc-error-message-builder-service';
 import { WCNotificationCenter } from './UI/wc-notification-center/wc-notification-center';
 import { NotificationModule } from '@progress/kendo-angular-notification';
-import { AfterValueChangedDirective } from './UI/after-value-change-directive';
+import { WCAfterValueChangedDirective } from './Commons/wc-after-value-change-directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -33,11 +33,11 @@ import { SessionService } from './Commons/session-service';
     ],
     declarations: [
         ConfirmationDialogComponent,
-        AfterValueChangedDirective
+        WCAfterValueChangedDirective
     ],
     exports: [ 
         ConfirmationDialogComponent,
-        AfterValueChangedDirective
+        WCAfterValueChangedDirective
     ],
     providers: [
         WCToasterUtilsService, WCErrorMessageBuilderService, WCNotificationCenter, LocalesService, SessionService

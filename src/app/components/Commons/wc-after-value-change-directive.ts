@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators/debounceTime';
 @Directive({
   selector: '[afterValueChanged]'
 })
-export class AfterValueChangedDirective implements OnInit, OnDestroy {
+export class WCAfterValueChangedDirective implements OnInit, OnDestroy {
   @Output()
   public afterValueChanged: EventEmitter<any> = new EventEmitter<any>();
 
