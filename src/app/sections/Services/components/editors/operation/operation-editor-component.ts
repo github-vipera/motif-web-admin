@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NGXLogger } from 'web-console-core';
 import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
-import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
 import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';

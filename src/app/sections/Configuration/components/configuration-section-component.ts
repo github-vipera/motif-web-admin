@@ -14,7 +14,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
 import { NewConfigurationParamDialogComponent, NewParamDialogResult } from './dialog/new-configuration-param-dialog';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 

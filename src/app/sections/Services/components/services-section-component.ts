@@ -8,7 +8,7 @@ import { ServiceCatalogService } from '../../../services/ServiceCatalogService';
 import { TreeNode } from 'primeng/api';
 import { CatalogEntry } from '../data/model';
 import { ServiceCataglogEditorComponent } from './editors/service-catalog-editor-component';
-import { WCNotificationCenter, NotificationType } from '../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
 import { MenuItem } from 'primeng/api';
 import * as _ from 'lodash';
 import { NewItemDialogComponent, DialogResult } from './dialogs/generic/new-item-dialog';

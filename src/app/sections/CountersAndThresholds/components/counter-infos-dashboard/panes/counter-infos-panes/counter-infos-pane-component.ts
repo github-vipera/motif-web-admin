@@ -2,7 +2,7 @@ import { CountersAndThresholdUtils } from './../../../../commons/CountersAndThre
 import { EditEvent, EditType } from './../../../counter-infos/counter-infos-component';
 import { CounterInfoEditDialogComponent, EditType as DialogEditType, CounterInfoDialogResult } from './../../../dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
 import { CounterInfoEntity, CountersService, CounterInfo, CounterInfoUpdatableFields } from '@wa-motif-open-api/counters-thresholds-service';
-import { WCNotificationCenter, NotificationType } from '../../../../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../../components/UI/wc-notification-center/wc-notification-center';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { faFileImport, faDownload, faPlusCircle, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';

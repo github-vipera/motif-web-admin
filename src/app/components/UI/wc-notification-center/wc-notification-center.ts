@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WCErrorMessageBuilderService } from './wc-error-message-builder-service';
-import { WCToasterUtilsService } from '../UI/wc-toaster-utils-service';
+import { WCToasterUtilsService } from './wc-toaster-utils-service';
 import { NotificationService, Type } from '@progress/kendo-angular-notification';
 
 export enum NotificationType {

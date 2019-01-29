@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { WCNotificationCenter, NotificationType } from '../../../Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../wc-notification-center/wc-notification-center';
 import { ServiceCatalogService } from './../../../../services/ServiceCatalogService';
 import { ServiceCatalogTableModel, DataFilter, CatalogEntry } from './data/model';
 import { TreeNode } from 'primeng/api';

@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 import { NewAppDialogComponent, NewAppDialogResult } from './dialog/new-app-dialog';
 

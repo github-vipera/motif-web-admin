@@ -2,7 +2,7 @@ import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
 import { License } from '@wa-motif-open-api/license-management-service';
 import { ClipboardService } from 'ngx-clipboard'
-import { WCNotificationCenter, NotificationType } from 'src/app/components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'src/app/components/UI/wc-notification-center/wc-notification-center';
 
 const LOG_TAG = "[OAuth2Section] [RefreshTokenDetailsComponent]";
 const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/refreshTokens/{0}/accessTokens"

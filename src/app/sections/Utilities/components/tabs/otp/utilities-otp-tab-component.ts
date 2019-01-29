@@ -7,7 +7,7 @@ import { OtpService, Otp, OtpCreate, OtpEntity } from '@wa-motif-open-api/otp-se
 import {
   WCNotificationCenter,
   NotificationType
-} from '../../../../../components/Commons/wc-notification-center';
+} from '../../../../../components/UI/wc-notification-center/wc-notification-center';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
 import { NewOtpDialogComponent, NewOtpDialogResult } from './dialog/new-otp-dialog';
 

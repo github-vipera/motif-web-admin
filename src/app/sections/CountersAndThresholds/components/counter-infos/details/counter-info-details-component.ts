@@ -1,4 +1,4 @@
-import { WCNotificationCenter, NotificationType } from '../../../../../components/Commons/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
 import { CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { NGXLogger} from 'web-console-core'
 import { Component, OnInit, Input } from '@angular/core';
