@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { DomainSelectorComboBoxComponent } from './UI/selectors/domain-selector-combobox-component';
 import { ApplicationSelectorComboBoxComponent } from './UI/selectors/application-selector-combobox-component';
 import { UsersSelectorComboBoxComponent } from './UI/selectors/users-selector-combobox-component';
@@ -13,9 +13,9 @@ import { DialogModule } from 'primeng/dialog';
         DialogModule,
         LogServiceModule,
         LoggerModule,
-        WebConsoleUIKitCoreModule,
-        WebConsoleUIKitDataModule,
-        WebConsoleUIKitKendoProviderModule,
+        WCUIKitCoreModule,
+        WCUIKitDataModule,
+        WCUIKitKendoProviderModule,
     ],
     entryComponents: [
     ],

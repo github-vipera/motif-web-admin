@@ -11,7 +11,7 @@ import { ServiceCatalogSelectorModule } from './../../components/UI/selectors/se
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 import { CountersAndThresholdsSectionComponent } from './components/counters-and-thresholds-section-component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -27,15 +27,15 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         InputSwitchModule,
         GridModule,
         LoggerModule,
-        WebConsoleUIKitCoreModule,
-        WebConsoleUIKitDataModule,
-        WebConsoleUIKitKendoProviderModule,
+        WCUIKitCoreModule,
+        WCUIKitDataModule,
+        WCUIKitKendoProviderModule,
         CommonsUIModule,
         FontAwesomeModule,
         DialogModule,
         ServiceCatalogSelectorModule,
         CommonSelectorsModule,
-        WCGridModule
+        WCUIKitGridModule
     ],
     entryComponents: [
         CountersAndThresholdsSectionComponent

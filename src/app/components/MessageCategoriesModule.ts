@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CategoryPaneComponent, MessageCategoriesComponent, MessagesPaneComponent } from './MessageCategories/index';
 import { LoggerModule } from 'ngx-logger';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from './CommonsUIModule';
 import { LocaleNamePipe } from './MessageCategories/data/model';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -12,7 +12,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         LoggerModule,
         LayoutModule,
         ConfirmDialogModule,
-        WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, CommonsUIModule
+        WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, CommonsUIModule
     ],
     entryComponents: [
     ],

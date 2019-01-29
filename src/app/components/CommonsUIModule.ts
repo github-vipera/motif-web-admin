@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule } from 'web-console-ui-kit';
 import { ToasterUtilsService } from './UI/toaster-utils-service';
 import { ConfirmationDialogComponent } from './ConfirmationDialog/confirmation-dialog-component';
 import { ErrorMessageBuilderService } from './Commons/error-message-builder-service';
@@ -23,9 +23,9 @@ import { SessionService } from './Commons/session-service';
         LogServiceModule,
         GridModule,
         LoggerModule,
-        WebConsoleUIKitCoreModule,
-        WebConsoleUIKitDataModule,
-        WebConsoleUIKitKendoProviderModule,
+        WCUIKitCoreModule,
+        WCUIKitDataModule,
+        WCUIKitKendoProviderModule,
         NotificationModule,
         DroppableModule,
         FontAwesomeModule,

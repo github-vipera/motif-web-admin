@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'ngx-logger';
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit';
 import { AppContentSectionComponent } from './components/appcontent-section-component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -23,9 +23,9 @@ import { DialogModule } from 'primeng/dialog';
         LogServiceModule,
         GridModule,
         LoggerModule,
-        WebConsoleUIKitCoreModule,
-        WebConsoleUIKitDataModule,
-        WebConsoleUIKitKendoProviderModule,
+        WCUIKitCoreModule,
+        WCUIKitDataModule,
+        WCUIKitKendoProviderModule,
         ClipboardModule,
         DateInputsModule,
         AppContentServiceModule,
@@ -36,7 +36,7 @@ import { DialogModule } from 'primeng/dialog';
         CommonSelectorsModule,
         UploadPanelModule,
         DialogModule,
-        WCGridModule
+        WCUIKitGridModule
     ],
     entryComponents: [
         AppContentSectionComponent, ApplicationsTabComponent, AssetsTabComponent

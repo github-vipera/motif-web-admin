@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger'
-import { WebConsoleUIKitCoreModule, WebConsoleUIKitDataModule, WebConsoleUIKitKendoProviderModule, WCGridModule } from 'web-console-ui-kit'
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -17,9 +17,9 @@ import { DialogModule } from 'primeng/dialog';
     imports: [
         GridModule, 
         LoggerModule, 
-        WebConsoleUIKitCoreModule, 
-        WebConsoleUIKitDataModule, 
-        WebConsoleUIKitKendoProviderModule,
+        WCUIKitCoreModule, 
+        WCUIKitDataModule, 
+        WCUIKitKendoProviderModule,
         CommonsUIModule,
         FontAwesomeModule,
         InputSwitchModule,
@@ -28,7 +28,7 @@ import { DialogModule } from 'primeng/dialog';
         WebContentServiceModule,
         DialogModule,
         UploadPanelModule,
-        WCGridModule
+        WCUIKitGridModule
     ],
     entryComponents: [
         WebContentSectionComponent

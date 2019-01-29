@@ -2,11 +2,11 @@ import { CommonsUIModule } from './../../CommonsUIModule';
 import { WCUploadPanelComponent } from './wc-upload-panel-component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { WebConsoleUIKitCoreModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule } from 'web-console-ui-kit';
 
 @NgModule({
     imports: [
-        CommonModule, CommonsUIModule, WebConsoleUIKitCoreModule
+        CommonModule, CommonsUIModule, WCUIKitCoreModule
     ],
     entryComponents: [
     ],
