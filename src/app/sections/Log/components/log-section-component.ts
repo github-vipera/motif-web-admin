@@ -12,7 +12,7 @@ import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 import { formatDate } from '@angular/common';
-import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { DateRangePopupComponent } from '@progress/kendo-angular-dateinputs';
 
 const LOG_TAG = '[LogSection]';

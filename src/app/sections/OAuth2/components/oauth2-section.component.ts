@@ -4,7 +4,6 @@ import { NGXLogger } from 'web-console-core';
 import { SortDescriptor, GroupDescriptor, DataResult } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { MotifQuerySort, MotifQueryResults } from 'web-console-core';
-import { WCSlideDownPanelComponent } from 'web-console-ui-kit';
 import { Oauth2Service, OAuthRequest, RefreshTokenList, AccessTokenList } from '@wa-motif-open-api/oauth2-service';
 import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
@@ -14,7 +13,6 @@ import { NotificationCenter, NotificationType } from '../../../components/Common
 import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
 
 const LOG_TAG = "[OAuth2Section]";
-const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/domains/{0}/refreshTokens"
 
 @Component({
   selector: 'wa-oauth2-section',
@@ -27,7 +25,6 @@ const REFRESH_TOKENS_LIST_ENDPOINT = "/oauth2/domains/{0}/refreshTokens"
 export class OAuth2SectionComponent implements OnInit, OnDestroy {
 
   @ViewChild(GridComponent) _grid: GridComponent;
-  @ViewChild(WCSlideDownPanelComponent) _slideDownEditor: WCSlideDownPanelComponent;
   @ViewChild('domainSelector') domainSelector: DomainSelectorComboBoxComponent;
 
   //Data

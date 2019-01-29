@@ -8,7 +8,7 @@ import { WebcontentService, BundleStatusList, BundleStatus, ClusterBundleStatus 
 import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
 import * as _ from 'lodash';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { WebContentUpdateDialogComponent } from './dialog/webcontent-update-dialog';
 import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 

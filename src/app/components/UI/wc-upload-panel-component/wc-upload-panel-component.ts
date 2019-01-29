@@ -1,7 +1,7 @@
 import { FileDropPanelComponent } from './../file-drop-panel-component';
  
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter,Output } from '@angular/core';
-import { WCSlidePanelComponent } from '../slide-panel/slide-panel-component';
+import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { NGXLogger } from 'ngx-logger';
 import { SubscriptionHandler } from '../../Commons/subscription-handler';
 

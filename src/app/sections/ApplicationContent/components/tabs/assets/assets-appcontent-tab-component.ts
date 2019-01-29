@@ -20,7 +20,7 @@ import { FileDropPanelComponent } from '../../../../../components/UI/file-drop-p
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
-import { WCSlidePanelComponent } from 'src/app/components/UI/slide-panel/slide-panel-component';
+import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
 

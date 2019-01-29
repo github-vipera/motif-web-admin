@@ -16,7 +16,6 @@ import { DialogModule } from 'primeng/dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { LocalesService } from './Commons/locales-service';
 import { SessionService } from './Commons/session-service';
-import { WCSlidePanelComponent } from './UI/slide-panel/slide-panel-component';
 
 @NgModule({
     imports: [
@@ -38,14 +37,12 @@ import { WCSlidePanelComponent } from './UI/slide-panel/slide-panel-component';
     declarations: [
         ConfirmationDialogComponent,
         FileDropPanelComponent,
-        AfterValueChangedDirective,
-        WCSlidePanelComponent
+        AfterValueChangedDirective
     ],
     exports: [ 
         ConfirmationDialogComponent,
         FileDropPanelComponent,
-        AfterValueChangedDirective,
-        WCSlidePanelComponent
+        AfterValueChangedDirective
     ],
     providers: [
         ToasterUtilsService, ErrorMessageBuilderService, NotificationCenter, LocalesService, SessionService
