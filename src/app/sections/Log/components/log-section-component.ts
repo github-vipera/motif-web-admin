@@ -7,7 +7,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import * as FileSaver from 'file-saver';
 import { faExternalLinkSquareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-solid-svg-icons';
-import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
 import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { WCNotificationCenter, NotificationType } from '../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { ServiceCatalogSelectorDialogComponent, SelectionEvent } from 'src/app/components/UI/selectors/service-catalog-selector/service-catalog-selector-dialog';
 import { SelectionEvent as CounterInfoSelectionEvent } from '../counter-infos/counter-infos-component'
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';

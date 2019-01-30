@@ -9,7 +9,7 @@ import { HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component';
 import { Domain } from '@wa-motif-open-api/platform-service';
-import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = "[OAuth2Section]";

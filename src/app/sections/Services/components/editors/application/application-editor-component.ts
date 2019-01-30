@@ -4,7 +4,7 @@ import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem, 
 import { EditorPropertyChangeEvent } from '../commons/editors-events';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
-import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { ApplicationsService, Application, ApplicationUpdate, Property } from '@wa-motif-open-api/platform-service';
 import { EditorContext } from '../service-catalog-editor-context';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'

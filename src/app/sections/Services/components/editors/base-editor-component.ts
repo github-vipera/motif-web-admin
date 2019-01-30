@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NGXLogger } from 'web-console-core';
-import { WCPropertyEditorModel, WCPropertyEditorItemType, WCPropertyEditorItem } from 'web-console-ui-kit';
-import { WCNotificationCenter, NotificationType } from '../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCPropertyEditorModel, WCPropertyEditorItem } from 'web-console-ui-kit';
+import { WCNotificationCenter } from 'web-console-ui-kit';
 import { EditorContext, ServiceCatalogEditorChangesEvent } from './service-catalog-editor-context';
 
 const LOG_TAG = '[BaseEditorComponent]';

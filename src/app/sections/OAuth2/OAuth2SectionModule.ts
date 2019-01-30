@@ -2,7 +2,7 @@ import { CommonSelectorsModule } from './../../components/CommonsSelectorsModule
 import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LoggerModule } from 'ngx-logger'
-import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit'
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule, WCNotificationCenterModule } from 'web-console-ui-kit'
 import { OAuth2ServiceModule } from '@wa-motif-open-api/oauth2-service'
 import { OAuth2SectionComponent } from './components/oauth2-section.component'
 import { RefreshTokenDetailsComponent } from './components/refresh-token-details.component'
@@ -20,7 +20,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule'
         WCUIKitKendoProviderModule,
         CommonsUIModule,
         CommonSelectorsModule,
-        WCUIKitGridModule
+        WCUIKitGridModule,
+        WCNotificationCenterModule
     ],
     entryComponents:[
         OAuth2SectionComponent

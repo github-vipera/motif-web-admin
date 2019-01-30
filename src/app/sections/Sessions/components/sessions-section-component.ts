@@ -10,7 +10,7 @@ import { Domain, ApplicationsService, ApplicationsList, Application } from '@wa-
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component'
-import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center'
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit'
 import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 

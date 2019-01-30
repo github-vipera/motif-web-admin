@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LogServiceModule } from '@wa-motif-open-api/log-service';
 import { LoggerModule } from 'ngx-logger';
-import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule, WCNotificationCenterModule } from 'web-console-ui-kit';
 import { LogSectionComponent } from './components/log-section-component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
@@ -21,7 +21,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
         DateInputsModule,
         FontAwesomeModule,
         CommonsUIModule,
-        WCUIKitGridModule
+        WCUIKitGridModule,
+        WCNotificationCenterModule
     ],
     entryComponents: [
         LogSectionComponent

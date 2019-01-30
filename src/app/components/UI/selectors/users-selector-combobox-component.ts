@@ -1,7 +1,7 @@
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core'
-import { WCNotificationCenter, NotificationType } from '../wc-notification-center/wc-notification-center'
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UsersService, User, UsersList } from '@wa-motif-open-api/platform-service';
 import { WCSubscriptionHandler } from '../../Commons/wc-subscription-handler';

@@ -1,7 +1,7 @@
 import { WCGridEditorCommandsConfig, WCGridEditorCommandComponentEvent, WCConfirmationTitleProvider } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
-import { WCNotificationCenter, NotificationType } from '../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { CountersService, CounterInfoEntityList, CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
 import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 import { CounterInfosModel } from './data/model';

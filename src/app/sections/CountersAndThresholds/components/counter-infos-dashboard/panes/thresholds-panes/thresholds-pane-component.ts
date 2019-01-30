@@ -1,6 +1,6 @@
 import { EditEvent, EditType } from './../../../thresholds/thresholds-component';
 import { CounterInfoEntity, ThresholdInfoEntity, ThresholdsService, ThresholdInfo } from '@wa-motif-open-api/counters-thresholds-service';
-import { WCNotificationCenter, NotificationType } from '../../../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { Component, OnInit, OnDestroy, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';

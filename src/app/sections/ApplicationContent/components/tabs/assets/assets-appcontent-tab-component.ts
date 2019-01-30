@@ -14,7 +14,7 @@ import { DomainSelectorComboBoxComponent } from '../../../../../components/UI/se
 import { WCEditService, WCEditServiceConfiguration } from 'web-console-ui-kit';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { map } from 'rxjs/operators/map';
-import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';

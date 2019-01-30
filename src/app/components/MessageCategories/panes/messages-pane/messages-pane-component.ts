@@ -19,7 +19,7 @@ import { ConfirmationService } from 'primeng/api';
 import {
   WCNotificationCenter,
   NotificationType
-} from '../../../UI/wc-notification-center/wc-notification-center';
+} from 'web-console-ui-kit';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   WCEditService,

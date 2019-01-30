@@ -4,7 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { NgModule } from '@angular/core';
 import { ServiceCatalogSelectorComponent } from './service-catalog-selector-component'
 import { TreeTableModule } from 'primeng/treetable';
-import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule, WCNotificationCenterModule } from 'web-console-ui-kit';
 import { ServiceCatalogSelectorDialogComponent } from './service-catalog-selector-dialog';
 import { DialogModule } from 'primeng/dialog';
 
@@ -16,7 +16,8 @@ import { DialogModule } from 'primeng/dialog';
       WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule,
       WebAdminCommonServicesModule,
       DialogModule,
-      WCUIKitGridModule
+      WCUIKitGridModule,
+      WCNotificationCenterModule
     ],
     entryComponents: [
     ],

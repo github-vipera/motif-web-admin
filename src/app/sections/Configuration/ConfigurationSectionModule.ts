@@ -6,7 +6,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { ConfigurationServiceModule } from '@wa-motif-open-api/configuration-service'
 import { ConfigurationSectionComponent } from './components/configuration-section-component'
 import { LoggerModule } from 'ngx-logger';
-import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit'
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule, WCNotificationCenterModule } from 'web-console-ui-kit'
 import { CommonsUIModule } from '../../components/CommonsUIModule'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { DialogModule } from 'primeng/dialog';
@@ -27,7 +27,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
         InputSwitchModule,
         FormsModule,
         CommonSelectorsModule,
-        WCUIKitGridModule
+        WCUIKitGridModule,
+        WCNotificationCenterModule
     ],
     entryComponents: [
         ConfigurationSectionComponent

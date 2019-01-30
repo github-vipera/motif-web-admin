@@ -16,7 +16,7 @@ import {
 } from 'web-console-ui-kit';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { ConfirmationService } from 'primeng/api';
-import { WCNotificationCenter, NotificationType } from '../../../UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { WCSubscriptionHandler } from '../../../Commons/wc-subscription-handler';
 
 const LOG_TAG = '[CategoryPaneComponent]';

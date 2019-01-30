@@ -8,7 +8,7 @@ import {
   User, AdminUser, ClientUser, Domain, ClientsService, UsersList
 } from '@wa-motif-open-api/platform-service'
 import * as _ from 'lodash';
-import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center'
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit'
 import { GridsterPreviewComponent } from 'angular-gridster2/lib/gridsterPreview.component';
 
 const LOG_TAG = "[AccessControlSection]";

@@ -1,5 +1,5 @@
 import { CounterInfoEditDialogComponent, EditType } from './dialogs/counter-info-edit-dialog-component/counter-info-edit-dialog-component';
-import { WCNotificationCenter } from '../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter } from 'web-console-ui-kit';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NGXLogger} from 'web-console-core';
 import { PluginView } from 'web-console-core';

@@ -15,7 +15,7 @@ import { DialogModule } from 'primeng/dialog';
         LoggerModule,
         WCUIKitCoreModule,
         WCUIKitDataModule,
-        WCUIKitKendoProviderModule,
+        WCUIKitKendoProviderModule
     ],
     entryComponents: [
     ],

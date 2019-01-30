@@ -4,7 +4,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { SecurityServiceModule } from '@wa-motif-open-api/security-service';
 import { SessionsSectionComponent } from './components/sessions-section-component';
 import { LoggerModule } from 'ngx-logger';
-import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule } from 'web-console-ui-kit';
+import { WCUIKitCoreModule, WCUIKitDataModule, WCUIKitKendoProviderModule, WCUIKitGridModule, WCNotificationCenterModule } from 'web-console-ui-kit';
 import { CommonsUIModule } from '../../components/CommonsUIModule';
 
 @NgModule({
@@ -17,7 +17,8 @@ import { CommonsUIModule } from '../../components/CommonsUIModule';
         WCUIKitKendoProviderModule,
         CommonsUIModule,
         CommonSelectorsModule,
-        WCUIKitGridModule
+        WCUIKitGridModule,
+        WCNotificationCenterModule
     ],
     entryComponents:[
         SessionsSectionComponent

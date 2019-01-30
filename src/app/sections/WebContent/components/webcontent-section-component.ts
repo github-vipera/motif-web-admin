@@ -2,7 +2,7 @@ import { WCGridEditorCommandsConfig, WCConfirmationTitleProvider, WCGridEditorCo
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
-import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
+import { WCNotificationCenter, NotificationType } from 'web-console-ui-kit';
 import { WebcontentService, BundleStatusList, BundleStatus, ClusterBundleStatus } from '@wa-motif-open-api/web-content-service';
 import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 import * as _ from 'lodash';
