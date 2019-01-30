@@ -8,7 +8,7 @@ import { NGXLogger} from 'web-console-core';
 import { faFileImport, faDownload, faPlusCircle, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 import { SelectionEvent, CounterInfosComponent } from '../../../counter-infos/counter-infos-component'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[CounterInfosPaneComponent]';
 
@@ -28,7 +28,7 @@ export const WC_COUNTER_INFO_PANE_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class CounterInfosPaneComponent implements OnInit, OnDestroy {
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     faPlusCircle = faPlusCircle;
     faDownload = faDownload;
     faFileImport = faFileImport;

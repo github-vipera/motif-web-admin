@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import { DomainSelectorComboBoxComponent } from '../../../components/UI/selectors/domain-selector-combobox-component';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = "[OAuth2Section]";
 
@@ -45,7 +45,7 @@ export class OAuth2SectionComponent implements OnInit, OnDestroy {
 
   loading: boolean;
 
-  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
   constructor(private logger: NGXLogger,
     private oauth2Service: Oauth2Service,

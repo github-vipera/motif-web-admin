@@ -5,7 +5,7 @@ import { LicenseService, LicenseList, License } from '@wa-motif-open-api/license
 import * as _ from 'lodash';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
 const LOG_TAG = '[LicenseManagerSection]';
@@ -26,7 +26,7 @@ export class LicenseManagerSectionComponent implements OnInit, OnDestroy {
     public _licenses: LicenseList = [];
     public loading: boolean;
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private licenseManager: LicenseService,

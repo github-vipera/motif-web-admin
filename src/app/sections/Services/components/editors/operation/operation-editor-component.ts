@@ -6,7 +6,7 @@ import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
 import { OperationsService, ServiceOperation, ServiceOperationProperties } from '@wa-motif-open-api/catalog-service';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[OperationSectionServiceEditor]';
 
@@ -18,7 +18,7 @@ const LOG_TAG = '[OperationSectionServiceEditor]';
 })
 export class OperationEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
 
-  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     public operationModel: WCPropertyEditorModel = {
         items: [

@@ -17,7 +17,7 @@ import {
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { ConfirmationService } from 'primeng/api';
 import { WCNotificationCenter, NotificationType } from '../../../UI/wc-notification-center/wc-notification-center';
-import { SubscriptionHandler } from '../../../Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../Commons/wc-subscription-handler';
 
 const LOG_TAG = '[CategoryPaneComponent]';
 
@@ -47,7 +47,7 @@ export class CategoryPaneComponent implements OnInit, OnDestroy {
 
   @ViewChild('grid') _grid: GridComponent;
 
-  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
   constructor(
     private logger: NGXLogger,

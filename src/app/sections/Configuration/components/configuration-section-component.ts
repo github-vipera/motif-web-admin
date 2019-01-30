@@ -16,7 +16,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { faFileImport, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
 import { NewConfigurationParamDialogComponent, NewParamDialogResult } from './dialog/new-configuration-param-dialog';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[ConfigurationSection]';
 
@@ -61,7 +61,7 @@ export class ConfigurationSectionComponent implements OnInit, OnDestroy {
     // internal
     private _selectedService: MotifService; // the combobox selection
     private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew'};
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private settingsService: SettingsService,

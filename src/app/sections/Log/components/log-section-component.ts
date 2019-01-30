@@ -10,7 +10,7 @@ import { faFileImport, faDownload, faCopy, faPaste } from '@fortawesome/free-sol
 import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
 import { saveAs } from '@progress/kendo-file-saver';
 import { DatarecordsService } from '@wa-motif-open-api/datarecords-service';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 import { formatDate } from '@angular/common';
 import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { DateRangePopupComponent } from '@progress/kendo-angular-dateinputs';
@@ -49,7 +49,7 @@ export class LogSectionComponent implements OnInit, OnDestroy {
     @ViewChild('dateRangePopup') dateRangePopup: DateRangePopupComponent;
     
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private notificationCenter: WCNotificationCenter,

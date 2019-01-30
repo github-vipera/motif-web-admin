@@ -4,7 +4,7 @@ import { WCNotificationCenter, NotificationType } from '../../wc-notification-ce
 import { ServiceCatalogService } from './../../../../services/ServiceCatalogService';
 import { ServiceCatalogTableModel, DataFilter, CatalogEntry } from './data/model';
 import { TreeNode } from 'primeng/api';
-import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 export { DataFilter, CatalogEntry } from './data/model';
 
 const LOG_TAG = '[ServiceCatalogSelectorComponent]';
@@ -48,7 +48,7 @@ export class ServiceCatalogSelectorComponent implements OnInit, OnDestroy {
     tableModel: ServiceCatalogTableModel;
     _selectedNode: TreeNode;
     loading = false;
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     private _dataFilter: DataFilter;
 
     @Output() nodeSelection: EventEmitter<ServiceCatalogNodeSelectionEvent> = new EventEmitter();

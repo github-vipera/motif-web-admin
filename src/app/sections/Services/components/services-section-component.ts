@@ -18,7 +18,7 @@ import { Domain, Application } from '@wa-motif-open-api/platform-service';
 import { Service, ServiceOperation } from '@wa-motif-open-api/catalog-service';
 import { ConfirmationService } from 'primeng/api';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[ServicesSection]';
 
@@ -60,7 +60,7 @@ export class ServicesSectionComponent implements OnInit, OnDestroy {
     private _addOperationMenuItem: MenuItem;
     private _addMenuItem: MenuItem;
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private registryService: RegistryService,

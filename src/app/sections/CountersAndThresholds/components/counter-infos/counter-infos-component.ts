@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angu
 import { NGXLogger} from 'web-console-core';
 import { WCNotificationCenter, NotificationType } from '../../../../components/UI/wc-notification-center/wc-notification-center';
 import { CountersService, CounterInfoEntityList, CounterInfoEntity } from '@wa-motif-open-api/counters-thresholds-service';
-import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 import { CounterInfosModel } from './data/model';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { SelectableSettings } from '@progress/kendo-angular-grid';
@@ -37,7 +37,7 @@ export interface EditEvent {
 export class CounterInfosComponent implements OnInit, OnDestroy {
 
     loading = false;
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     public tableModel: CounterInfosModel;
     faEdit = faEdit;
     selectedCounterInfo: string;

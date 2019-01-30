@@ -1,6 +1,6 @@
 import { DomainSelectorComboBoxComponent } from './../../../../components/UI/selectors/domain-selector-combobox-component';
 import { UsersSelectorComboBoxComponent } from './../../../../components/UI/selectors/users-selector-combobox-component';
-import { SubscriptionHandler } from './../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../components/Commons/wc-subscription-handler';
 import { GridComponent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Domain } from '@wa-motif-open-api/platform-service';
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
@@ -29,7 +29,7 @@ export class CountersListComponent implements OnInit, OnDestroy {
     private _selectedUser: User;
     public loading = false;
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     // Grid Management
     public gridView: DataResult;

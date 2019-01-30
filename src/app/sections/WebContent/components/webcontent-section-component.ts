@@ -4,7 +4,7 @@ import { PluginView } from 'web-console-core';
 import { NGXLogger} from 'web-console-core';
 import { WCNotificationCenter, NotificationType } from '../../../components/UI/wc-notification-center/wc-notification-center';
 import { WebcontentService, BundleStatusList, BundleStatus, ClusterBundleStatus } from '@wa-motif-open-api/web-content-service';
-import { SubscriptionHandler } from 'src/app/components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from 'src/app/components/Commons/wc-subscription-handler';
 import * as _ from 'lodash';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { WCSlidePanelComponent } from 'web-console-ui-kit';
@@ -38,7 +38,7 @@ export class WebContentSectionComponent implements OnInit, OnDestroy {
     faUpload = faUpload;
     gridData: BundleStatus[];
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     @ViewChild('updateDialog') _updateDialog: WebContentUpdateDialogComponent;
 
     // Data binding

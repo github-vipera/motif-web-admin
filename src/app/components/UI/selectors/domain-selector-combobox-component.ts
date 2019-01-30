@@ -3,7 +3,7 @@ import { DomainsService, DomainsList, Domain } from '@wa-motif-open-api/platform
 import { NGXLogger} from 'web-console-core';
 import { WCNotificationCenter, NotificationType } from '../wc-notification-center/wc-notification-center';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../Commons/wc-subscription-handler';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 const LOG_TAG = '[DomainSelectorComboBoxComponent]';
@@ -33,7 +33,7 @@ export class DomainSelectorComboBoxComponent implements OnInit, OnDestroy {
     public _selectedDomain: Domain; // combo box selection
     @Output() domainSelected: EventEmitter<Domain> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     @ViewChild('combo') combo: ComboBoxComponent;
 
     constructor(private logger: NGXLogger,

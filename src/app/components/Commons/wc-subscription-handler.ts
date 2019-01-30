@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs/Subscription';
 
-export class SubscriptionHandler {
+export class WCSubscriptionHandler {
     private _subscriptions: Subscription[] = [];
 
     constructor() {}

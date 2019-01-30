@@ -16,7 +16,7 @@ import { ConfirmationDialogComponent } from '../../../../../components/Confirmat
 import { faCoffee, faMobile, faMobileAlt } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { WCNotificationCenter, NotificationType } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 import { NewAppDialogComponent, NewAppDialogResult } from './dialog/new-app-dialog';
 
 
@@ -63,7 +63,7 @@ export class ApplicationsTabComponent implements OnInit, OnDestroy {
     @ViewChild(ConfirmationDialogComponent) confirmationDialog: ConfirmationDialogComponent;
 
     private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name' , dirtyField: 'dirty', isNewField: 'isNew' };
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private domainsService: DomainsService,

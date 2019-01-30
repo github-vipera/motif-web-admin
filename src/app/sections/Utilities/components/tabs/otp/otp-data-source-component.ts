@@ -3,7 +3,7 @@ import { NGXLogger} from 'web-console-core';
 import { OtpService, OtpList, OtpEntity } from '@wa-motif-open-api/otp-service';
 import { Domain, User } from '@wa-motif-open-api/platform-service';
 import * as _ from 'lodash';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[OTPdataSourceComponent]';
 
@@ -16,7 +16,7 @@ export class OTPDataSourceComponent implements OnInit {
     public dataChanged: EventEmitter<OTPDataSourceComponent> =  new EventEmitter<OTPDataSourceComponent>();
     public error: EventEmitter<any> =  new EventEmitter();
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     constructor(private logger: NGXLogger,
         private otpService: OtpService) {}

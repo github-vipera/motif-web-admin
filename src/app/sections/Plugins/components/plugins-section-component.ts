@@ -4,7 +4,7 @@ import { NGXLogger} from 'web-console-core';
 import { RegistryService, PluginList, Plugin } from '@wa-motif-open-api/plugin-registry-service';
 import { SafeStyle } from '@angular/platform-browser';
 import { process, State } from '@progress/kendo-data-query';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../components/Commons/wc-subscription-handler';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
@@ -31,7 +31,7 @@ export class PluginsSectionComponent implements OnInit, OnDestroy {
     public gridData: GridDataResult; // = process(sampleProducts, this.state);
     public loading: boolean;
     private filterValue: string;
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     public state: State = {
     };

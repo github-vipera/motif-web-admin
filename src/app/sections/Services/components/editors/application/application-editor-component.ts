@@ -9,7 +9,7 @@ import { ApplicationsService, Application, ApplicationUpdate, Property } from '@
 import { EditorContext } from '../service-catalog-editor-context';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[ServicesSectionApplicationEditor]';
 
@@ -26,7 +26,7 @@ export class ApplicationEditorComponent  extends BaseEditorComponent implements 
     @Output() propertyChange: EventEmitter<EditorPropertyChangeEvent> = new EventEmitter();
 
     private _currentApplication: Application;
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     public offlineMessages: string[] = [];
 

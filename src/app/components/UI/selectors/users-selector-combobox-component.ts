@@ -4,7 +4,7 @@ import { NGXLogger} from 'web-console-core'
 import { WCNotificationCenter, NotificationType } from '../wc-notification-center/wc-notification-center'
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UsersService, User, UsersList } from '@wa-motif-open-api/platform-service';
-import { SubscriptionHandler } from '../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../Commons/wc-subscription-handler';
 
 const LOG_TAG = '[UsersSelectorComboBoxComponent]';
 
@@ -34,7 +34,7 @@ export class UsersSelectorComboBoxComponent implements OnInit, OnDestroy {
     private _domain: string = null;
     @Output() userSelected: EventEmitter<User> = new EventEmitter();
     @Output() selectionCancelled: EventEmitter<any> = new EventEmitter();
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
     @ViewChild('combo') combo: ComboBoxComponent;
 
     constructor(private logger: NGXLogger,

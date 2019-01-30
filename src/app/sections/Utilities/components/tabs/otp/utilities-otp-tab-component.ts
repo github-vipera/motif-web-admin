@@ -8,7 +8,7 @@ import {
   WCNotificationCenter,
   NotificationType
 } from '../../../../../components/UI/wc-notification-center/wc-notification-center';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 import { NewOtpDialogComponent, NewOtpDialogResult } from './dialog/new-otp-dialog';
 
 const LOG_TAG = '[OTPUtilityComponent]';
@@ -24,7 +24,7 @@ export class OTPUtilityComponent implements OnInit, OnDestroy {
   public faPlusCircle = faPlusCircle;
   public application: Application;
   public dataSource: OTPDataSourceComponent;
-  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
   @ViewChild('newOtpDialog') newOtpDialog: NewOtpDialogComponent;
 
   constructor(

@@ -9,7 +9,7 @@ import { EditorContext } from '../service-catalog-editor-context';
 import { ServicesService, Service, ServiceUpdate } from '@wa-motif-open-api/catalog-service';
 import { MessageCategoriesDialogComponent } from '../../dialogs/message-categories/message-categories-dialog'
 import { SystemService, SystemCategoriesList } from '@wa-motif-open-api/platform-service';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[ServicesSectionServiceEditor]';
 
@@ -20,7 +20,7 @@ const LOG_TAG = '[ServicesSectionServiceEditor]';
 })
 export class ServiceEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     @ViewChild('offlineMessagesDialog') offlineMessagesDialog: MessageCategoriesDialogComponent;
 

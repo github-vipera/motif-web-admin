@@ -28,7 +28,7 @@ import {
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { LocalesService, Locale } from '../../../../components/Commons/locales-service';
 import * as _ from 'lodash';
-import { SubscriptionHandler } from '../../../Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../Commons/wc-subscription-handler';
 
 const LOG_TAG = '[MessagesPaneComponent]';
 
@@ -65,7 +65,7 @@ export class MessagesPaneComponent implements OnInit, OnDestroy {
 
   @ViewChild('grid') _grid: GridComponent;
 
-  private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+  private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
   constructor(
     private logger: NGXLogger,

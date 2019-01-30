@@ -6,7 +6,7 @@ import { WCNotificationCenter, NotificationType } from '../../../../../component
 import { EditorContext } from '../service-catalog-editor-context';
 import { BaseEditorComponent } from '../base-editor-component';
 import { Observable } from 'rxjs';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 
 const LOG_TAG = '[ServicesSectionDomainEditor]';
 
@@ -17,7 +17,7 @@ const LOG_TAG = '[ServicesSectionDomainEditor]';
 })
 export class DomainEditorComponent extends BaseEditorComponent implements OnInit, OnDestroy {
 
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     public domainModel: WCPropertyEditorModel = {
         items: [

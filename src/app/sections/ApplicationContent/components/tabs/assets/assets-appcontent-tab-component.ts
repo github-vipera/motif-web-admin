@@ -18,7 +18,7 @@ import { WCNotificationCenter, NotificationType } from '../../../../../component
 import { ConfirmationDialogComponent } from '../../../../../components/ConfirmationDialog/confirmation-dialog-component';
 import { saveAs } from '@progress/kendo-file-saver';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { SubscriptionHandler } from '../../../../../components/Commons/subscription-handler';
+import { WCSubscriptionHandler } from '../../../../../components/Commons/wc-subscription-handler';
 import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { WCUploadPanelEvent } from 'src/app/components/UI/wc-upload-panel-component/wc-upload-panel-component';
 
@@ -95,7 +95,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
 
     private _editServiceConfig: WCEditServiceConfiguration = { idField: 'name', dirtyField: 'dirty', isNewField: 'isNew' };
     public editService: WCEditService;
-    private _subHandler: SubscriptionHandler = new SubscriptionHandler();
+    private _subHandler: WCSubscriptionHandler = new WCSubscriptionHandler();
 
     // Buttons
     public canRefresh = false;
