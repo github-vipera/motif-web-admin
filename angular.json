@@ -35,7 +35,8 @@
               "src/assets/wc-uikit-grid.css",
               "src/assets/wc-uikit-toast.css",
               "src/assets/wc-uikit-dashboard.css",
-              "src/assets/wc-uikit-primeng.css"
+              "src/assets/wc-uikit-primeng.css",
+              "src/assets/motif_webadmin_iconfont.css"
             ],
             "scripts": []
           },

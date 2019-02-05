@@ -31,7 +31,7 @@ enum CommandType {
     templateUrl: './webcontent-section-component.html'
   })
   @PluginView('WebContent', {
-    iconName: 'ico-web',
+    iconName: 'wa-ico-web',
   })
 export class WebContentSectionComponent implements OnInit, OnDestroy {
 
