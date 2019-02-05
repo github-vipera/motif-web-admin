@@ -1,3 +1,4 @@
+import { WAThemeDesignerService } from './services/ThemeDesigner/WAThemeDesignerService';
 import { enableProdMode } from '@angular/core';
 
 if (environment.production) {
@@ -36,6 +37,7 @@ import { AccessControlSectionModule } from './sections/AccessControl/AccessContr
 import { UtilitiesSectionModule } from './sections/Utilities/UtilitiesSectionModule';
 import { CountersAndThresholdsSectionModule } from './sections/CountersAndThresholds/CountersAndThresholdsSectionModule';
 import { TopMenuComponentModule } from './components/TopMenu/TopMenuComponentModule';
+import { WAThemeDesignerModule } from './services/ThemeDesigner/WAThemeDesignerModule';
 //import { MemoryLeakSectionModule } from './sections/MemoryLeakTest/MemoryLeakSectionModule';
 
 
@@ -83,6 +85,7 @@ const appRoutes: Routes = [
     CountersAndThresholdsSectionModule,
     TopMenuComponentModule,
     WebContentSectionModule,
+    WAThemeDesignerModule
     /*,MemoryLeakSectionModule*/
   ],
   providers: [
@@ -96,9 +99,11 @@ const appRoutes: Routes = [
 })
 export class AppModule {
 
-  constructor(private logger: NGXLogger){
+  constructor(private logger: NGXLogger, private themeEditorService: WAThemeDesignerService){
     this.logger.info('AppModule' , 'Starting application');
     this.logger.debug('AppModule' , 'Starting application DEBUG message');
+
+    this.themeEditorService.show();
   }
 
 }

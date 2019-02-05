@@ -25,17 +25,19 @@
             "styles": [
               {
                 "input": "node_modules/@progress/kendo-theme-default/scss/all.scss"
-              },
+              },              
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/primeng.min.css",
               "src/styles.css",
+              "src/assets/style.css",
               "src/assets/wc-uikit-kendo.css",
               "src/assets/wc-uikit-form.css",
               "src/assets/wc-uikit-grid.css",
               "src/assets/wc-uikit-toast.css",
               "src/assets/wc-uikit-dashboard.css",
-              "src/assets/wc-uikit-primeng.css"
+              "src/assets/wc-uikit-primeng.css",
+              "node_modules/dat.gui/build/dat.gui.css"
             ],
             "scripts": []
           },
