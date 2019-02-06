@@ -1,6 +1,6 @@
 import { WCFileDropPanelComponent } from './wc-file-drop-panel-component';
  
-import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter,Output } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter,Output, Input } from '@angular/core';
 import { WCSlidePanelComponent } from 'web-console-ui-kit';
 import { NGXLogger } from 'ngx-logger';
 import { WCSubscriptionHandler } from '../../Commons/wc-subscription-handler';
@@ -28,6 +28,9 @@ export interface WCUploadPanelEvent {
     @Output() open: EventEmitter<WCUploadPanelComponent> = new EventEmitter<WCUploadPanelComponent>();
     @Output() upload: EventEmitter<WCUploadPanelEvent> = new EventEmitter<WCUploadPanelEvent>();
     @Output() uploadError: EventEmitter<any> = new EventEmitter<any>();
+
+    @Input() question:string = "Do Upload?";
+    @Input() caption:string = "Drop files here or click";
 
    constructor(private renderer2: Renderer2, 
     private element: ElementRef,
