@@ -166,8 +166,8 @@ nav a.current svg {opacity:1;}
 .tabs {margin-top:-1rem; margin-left:-1rem; margin-right:-1rem; display:flex; align-items:center; justify-content:center;}
 .tabs label {background:#191c1f; opacity:.4; flex:1; display:flex; justify-content:center; align-items:center; padding:.5rem; cursor:pointer;}
 .tabs label span {font-size:0;}
-.tabs label:hover {opacity:.6;}
-.tabs label:hover span {font-size:.9rem;}
+.tabs label:hover {opacity:.8;}
+.tabs label:hover span {font-size:.6rem;}
 .tabs label svg {fill:currentColor; width:1.5rem; height:1.5rem; margin-right:.5rem;}
 #tab-1-cmd:checked ~ .tabs [for="tab-1-cmd"],
 #tab-2-cmd:checked ~ .tabs [for="tab-2-cmd"],
@@ -616,3 +616,6 @@ nav a:hover .main-menu-icon-container  {
 
 nav { transition:all .1s; }
 
+.button-icon {
+	padding-right: 4px;
+}
