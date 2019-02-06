@@ -56,7 +56,7 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
 
     commands: WCGridEditorCommandsConfig = [
         { 
-            commandIcon: 'assets/img/icons.svg#ico-publish',
+            commandIcon: 'wa-ico-publish',
             commandId: 'cmdPublish',
             title: 'Publish/Unpublish',
             hasConfirmation: true,
@@ -64,12 +64,12 @@ export class AssetsTabComponent implements OnInit, OnDestroy {
             confirmationTitleProvider: this.publishConfirmationTitleProvider
         },
         { 
-            commandIcon: 'assets/img/icons.svg#ico-download',
+            commandIcon: 'wa-ico-download',
             commandId: 'cmdDownload',
             title: 'Download'
         },
         { 
-            commandIcon: 'assets/img/icons.svg#ico-no',
+            commandIcon: 'wa-ico-no',
             commandId: 'cmdDelete',
             title: 'Delete',
             hasConfirmation: true,
