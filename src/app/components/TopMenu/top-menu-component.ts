@@ -2,7 +2,8 @@ import { SessionService } from './../Commons/session-service';
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AuthService, StatusBarService, NGXLogger } from 'web-console-core';
-import * as dateFormat from 'dateformat'
+//import * as dateFormat from 'dateformat'
+import * as moment from 'moment'
 
 const LOG_TAG = '[TopMenuComponent]';
 
@@ -26,7 +27,7 @@ export class TopMenuComponent implements OnInit {
     ngOnInit(): void {
         this.logger.debug(LOG_TAG, 'Initializing...', this.sessionService.currentUser);
         this._mainMenuLabel = this.sessionService.currentUser.userAbbr;
-        const lastAccessStr = this.getLastAccessStr();
+        const lastAccessStr = "Last Login: " + this.getLastAccessStr();
         const currentUserDesc = this.getCurrentUserDesc();
         this.items = [
             {label: currentUserDesc, disabled: true }, 
@@ -44,7 +45,8 @@ export class TopMenuComponent implements OnInit {
     private getLastAccessStr(): string {
         this.logger.debug(LOG_TAG, 'getLastAccessStr for:', this.sessionService.currentUser.lastAccess);
         try {
-            return dateFormat(this.sessionService.currentUser.lastAccess, "mm/dd/yyyy h:MM:ss TT");
+            return moment(this.sessionService.currentUser.lastAccess).format('ddd, h:mm A');
+            //return dateFormat(this.sessionService.currentUser.lastAccess, "mm/dd/yyyy h:MM:ss TT");
         } catch (err) {
             this.logger.error(LOG_TAG, 'getLastAccessStr error:', err);
             return 'n.a.'

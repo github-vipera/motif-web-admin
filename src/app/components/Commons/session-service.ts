@@ -40,6 +40,9 @@ export class SessionService  {
         this.logger.debug(LOG_TAG, 'loadCurrentUserInformations invoked');
         this.adminsService.getAdminUser('Default', this._currentUser.userName).subscribe( (data: AdminUser) => {
             this._currentUser.details = data;
+            this._currentUser.lastAccess =this.authService.logonInfo.accessTime;
+            this._currentUser.userName = this.authService.logonInfo.userName;
+            this._currentUser.userAbbr = this.buildAbbr(this.authService.currentUserName);
         }, (error) => {
             this.logger.error(LOG_TAG, 'loadCurrentUserInformations error:', error);
         });
